@@ -1,0 +1,40 @@
+// Belle Biens data model. Entities follow SRS section 5.1 (DR-01 to DR-21) and design diagram 2.
+// Models are added sprint by sprint (see docs/plan/mobile-and-backend-plan.md, section 7).
+// Conventions:
+//   - Table names are snake_case via @@map; ids are UUIDs.
+//   - Every timestamp is timestamptz; business logic and display use Asia/Damascus (FR-LOC-03).
+//   - Money is an integer in minor units plus a currency code (Int/BigInt), never a float.
+//   - Orders and stock carry branchId (NFR-FLX-03).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// One shop location. v1.0 has a single branch (Abu Rummaneh), kept for later growth (NFR-FLX-03).
+model Branch {
+  id        String   @id @default(uuid()) @db.Uuid
+  code      String   @unique
+  nameAr    String   @map("name_ar")
+  nameEn    String   @map("name_en")
+  timezone  String   @default("Asia/Damascus")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("branch")
+}
+
+/// DR-21: exchange rate, working hours, closed days, shop mode, limits, enabled payment methods.
+/// Every change is written to the audit log (FR-ADM-09).
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  updatedBy String?  @map("updated_by") @db.Uuid
+
+  @@map("setting")
+}

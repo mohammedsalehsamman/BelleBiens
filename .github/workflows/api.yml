@@ -1,0 +1,62 @@
+name: api
+
+on:
+  pull_request:
+    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".github/workflows/api.yml"]
+  push:
+    branches: [main]
+    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".github/workflows/api.yml"]
+
+concurrency:
+  group: api-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: belle
+          POSTGRES_PASSWORD: belle
+          POSTGRES_DB: belle
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U belle -d belle"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    env:
+      DATABASE_URL: postgresql://belle:belle@localhost:5432/belle?schema=public
+      REDIS_URL: redis://localhost:6379
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm --filter @belle/api lint
+      - name: Typecheck
+        run: pnpm --filter @belle/api typecheck
+      - name: Unit tests with coverage (NFR-MNT-01)
+        run: pnpm --filter @belle/api test:cov
+      - name: Migrations apply cleanly
+        run: pnpm --filter @belle/api exec prisma migrate deploy
+      - name: e2e tests
+        run: pnpm --filter @belle/api test:e2e
+      - name: Build
+        run: pnpm --filter @belle/api build
+      - name: OpenAPI matches the code (NFR-MNT-04)
+        run: |
+          pnpm --filter @belle/api openapi:export
+          git diff --exit-code packages/contracts/openapi.yaml \
+            || (echo "::error::openapi.yaml is out of date. Run: pnpm --filter @belle/api openapi:export" && exit 1)
+
+  # Staging deploy is added once the hosting provider is chosen (OI-04).

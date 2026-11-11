@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>المتجر · Belle Biens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFE6E2}
+.scr,.scr *{box-sizing:border-box}
+.scr{width:390px;font-family:'IBM Plex Sans Arabic','IBM Plex Sans',system-ui,sans-serif;color:#2C2422;background:#FFF8F6;display:flex;flex-direction:column;overflow:hidden;position:relative;direction:rtl;font-size:15px;line-height:1.6}
+.scr h1,.scr h2,.scr h3,.scr h4,.scr p{margin:0}
+.scr a{color:#872341}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#FFF8F6;border-bottom:1px solid #EFE8E1}
+.bar .t{flex:1;font-weight:600;font-size:17px;text-align:center}
+.ib{width:44px;height:44px;border-radius:999px;border:1px solid #EFE8E1;background:#fff;display:inline-flex;align-items:center;justify-content:center;color:#2C2422;padding:0;cursor:pointer;flex:none;text-decoration:none;position:relative}
+.ib .dot{position:absolute;top:6px;left:8px;min-width:18px;height:18px;border-radius:999px;background:#872341;color:#fff;font-size:11px;line-height:18px;text-align:center;font-weight:600}
+.body{padding:16px;display:flex;flex-direction:column;gap:20px}
+.card{background:#fff;border:1px solid #EFE8E1;border-radius:16px;padding:16px;box-shadow:0 4px 20px -2px rgba(135,35,65,.04)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:999px;font:600 15px/1.2 'IBM Plex Sans Arabic',sans-serif;border:none;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn-p{background:#872341;color:#fff !important}
+.btn-s{background:#fff;color:#872341 !important;border:1.5px solid #872341}
+.btn-g{background:#FCEAEB;color:#7A1E3A !important}
+.btn-w{background:#1F6E43;color:#fff !important}
+.btn-sm{min-height:44px;padding:0 16px;font-size:14px}
+.full{width:100%}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #E2D6D0;background:#fff;color:#2C2422;font:500 14px 'IBM Plex Sans Arabic',sans-serif;white-space:nowrap;cursor:pointer}
+.chip.on{background:#872341;border-color:#872341;color:#fff}
+.chips{display:flex;gap:8px;overflow:hidden;flex-wrap:nowrap}
+.chips.wrap{flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;line-height:20px;white-space:nowrap}
+.b-sage{background:#E4ECE1;color:#3D5238}
+.b-blush{background:#FCEAEB;color:#7A1E3A}
+.b-amber{background:#FDF3E3;color:#7E5210}
+.b-green{background:#E6F4ED;color:#22603F}
+.b-red{background:#FBE7E8;color:#8E2229}
+.b-gray{background:#F0EFEB;color:#514A48}
+.b-dark{background:rgba(44,36,34,.78);color:#fff}
+.muted{color:#605856}
+.small{font-size:13px;line-height:1.55}
+.xs{font-size:12px;line-height:1.5}
+.b{font-weight:600}
+.price{font-weight:700;color:#872341;font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+.h1{font-size:26px;font-weight:700;line-height:1.35}
+.h2{font-size:20px;font-weight:600;line-height:1.4}
+.h3{font-size:17px;font-weight:600;line-height:1.45}
+.row{display:flex;align-items:center;gap:12px}
+.rowt{display:flex;align-items:flex-start;gap:12px}
+.between{justify-content:space-between}
+.col{display:flex;flex-direction:column}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}
+.grow{flex:1;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ph{background:#F4E5E1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#6E5A5D;font-size:12px;line-height:1.4;text-align:center;padding:8px;width:100%;overflow:hidden}
+.phimg{width:100%;object-fit:cover;display:block;border-radius:12px}
+.notice{display:flex;gap:10px;align-items:flex-start;background:#FFF1ED;border:1px solid #F2DCD6;border-radius:12px;padding:12px;font-size:13px;line-height:1.55;color:#554245}
+.notice.ok{background:#EEF6F1;border-color:#CFE6D8;color:#22603F}
+.notice.warn{background:#FDF6EA;border-color:#F1DDB8;color:#6B4A0F}
+.notice.err{background:#FDF0F0;border-color:#F3CDCF;color:#8E2229}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.lbl{font-weight:600;font-size:14px}
+.inp{width:100%;min-height:48px;border:1px solid #E2D6D0;border-radius:10px;background:#fff;padding:0 14px;font:400 15px 'IBM Plex Sans Arabic',sans-serif;color:#2C2422}
+textarea.inp{padding:12px 14px;min-height:96px;resize:none;line-height:1.6}
+.hint{font-size:12px;color:#605856}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #EFE8E1;border-radius:14px;background:#fff;width:100%;text-align:right;font:inherit;color:inherit;cursor:pointer}
+.opt.on{border:2px solid #872341;background:#FFF5F6;padding:13px}
+.radio{width:22px;height:22px;border-radius:999px;border:2px solid #887175;flex:none;margin-top:2px;background:#fff}
+.opt.on .radio{border-color:#872341;background:#872341;box-shadow:inset 0 0 0 4px #fff}
+.box{width:22px;height:22px;border-radius:6px;border:2px solid #887175;flex:none;background:#fff;display:inline-flex;align-items:center;justify-content:center;color:#fff}
+.box.on{background:#872341;border-color:#872341}
+.qty{display:inline-flex;align-items:center;gap:2px;border:1px solid #E2D6D0;border-radius:999px;padding:2px;background:#fff}
+.qty button{width:40px;height:40px;border-radius:999px;border:none;background:#FFF1ED;color:#872341;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.qty span{min-width:28px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.divider{height:1px;background:#EFE8E1;width:100%}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.kv.total{font-size:17px;font-weight:700}
+.sec{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.link{color:#872341;font-weight:600;font-size:14px;text-decoration:none}
+.pc{background:#fff;border:1px solid #EFE8E1;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.pc .in{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px}
+.pc .nm{font-weight:600;font-size:14px;line-height:1.45}
+.pc .media{position:relative}
+.pc .tagpos{position:absolute;top:8px;right:8px}
+.pc .fav{position:absolute;top:8px;left:8px;width:36px;height:36px;border-radius:999px;background:rgba(255,255,255,.92);border:none;display:inline-flex;align-items:center;justify-content:center;color:#872341;padding:0}
+.add{width:40px;height:40px;border-radius:999px;background:#872341;color:#fff;border:none;display:inline-flex;align-items:center;justify-content:center;padding:0;flex:none}
+.nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;background:rgba(255,252,250,.97);border-top:1px solid #EFE8E1;padding:6px 4px 10px}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:#605856;text-decoration:none;min-height:48px;justify-content:flex-end}
+.nav a.on{color:#872341;font-weight:600}
+.nav .mid{width:56px;height:56px;border-radius:999px;background:#872341;color:#fff;display:flex;align-items:center;justify-content:center;margin-top:-26px;box-shadow:0 8px 20px -6px rgba(135,35,65,.5);border:4px solid #FFF8F6}
+.cap{margin:0 12px 10px;background:#872341;color:#fff;border-radius:999px;padding:8px 8px 8px 8px;display:flex;align-items:center;gap:10px;text-decoration:none;box-shadow:0 12px 32px -4px rgba(44,36,34,.18)}
+.cap .ico{width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;flex:none}
+.cap .go{background:#fff;color:#872341;border-radius:999px;padding:0 14px;min-height:40px;display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:14px}
+.cta{background:#fff;border-top:1px solid #EFE8E1;padding:12px 16px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 -8px 24px -12px rgba(44,36,34,.12)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.steps div{height:4px;border-radius:999px;background:#EEDFDC}
+.steps div.on{background:#872341}
+.thumb{width:72px;height:72px;border-radius:12px;flex:none}
+.tl{display:flex;gap:12px}
+.tl .dotc{width:28px;display:flex;flex-direction:column;align-items:center;flex:none}
+.tl .d{width:24px;height:24px;border-radius:999px;border:2px solid #DCC0C3;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff}
+.tl .d.done{background:#2D7A58;border-color:#2D7A58}
+.tl .d.now{background:#872341;border-color:#872341}
+.tl .ln{width:2px;flex:1;background:#E2D6D0;min-height:20px}
+.tl .ln.done{background:#2D7A58}
+.icobox{width:44px;height:44px;border-radius:12px;background:#FCEAEB;color:#872341;display:flex;align-items:center;justify-content:center;flex:none}
+.icobox.sage{background:#E4ECE1;color:#3D5238}
+.list{background:#fff;border:1px solid #EFE8E1;border-radius:16px;overflow:hidden}
+.li{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #EFE8E1;text-decoration:none;color:inherit;min-height:56px}
+.li:last-child{border-bottom:none}
+.sw{width:28px;height:28px;border-radius:999px;border:2px solid #fff;box-shadow:0 0 0 1px #DCC0C3;flex:none}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);background:#F4E5E1;border-radius:999px;padding:4px;gap:4px}
+.seg button{min-height:40px;border-radius:999px;border:none;background:transparent;font:600 14px 'IBM Plex Sans Arabic',sans-serif;color:#554245;cursor:pointer}
+.seg button.on{background:#fff;color:#872341;box-shadow:0 2px 6px rgba(44,36,34,.08)}
+.toggle{width:48px;height:28px;border-radius:999px;background:#DCC0C3;position:relative;flex:none;border:none;padding:0}
+.toggle::after{content:'';position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:999px;background:#fff}
+.toggle.on{background:#872341}
+.toggle.on::after{right:auto;left:3px}
+.otp{width:64px;height:68px;border-radius:14px;border:1px solid #E2D6D0;background:#fff;text-align:center;font:600 26px 'IBM Plex Sans Arabic',sans-serif;color:#872341}
+.otp.on{border:2px solid #872341}
+.center{text-align:center}
+.hero-ic{width:88px;height:88px;border-radius:999px;background:#FCEAEB;color:#872341;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.sheet{background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -12px 32px -4px rgba(44,36,34,.16)}
+.scrim{background:rgba(44,36,34,.35)}
+.map{background:#EFE9E1;position:relative;overflow:hidden}
+
+.scr{margin:0 auto;min-height:100vh}
+</style>
+</head>
+<body>
+<div class="scr" dir="rtl" lang="ar">
+<header style="padding:12px 16px;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid #EFE8E1">
+  <div class="row between"><h1 class="h2">المتجر</h1><div class="row g8"><div class="seg" style="width:104px;padding:3px"><button class="on" style="min-height:36px">ل.س</button><button style="min-height:36px">$</button></div><a href="../20_cart/code.html" class="ib" aria-label="السلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"></path><path d="M9 8V6.5a3 3 0 0 1 6 0V8"></path></svg><span class="dot">4</span></a></div></div>
+  <a href="../08_search/code.html" class="inp row g8" style="text-decoration:none;color:#605856"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg>ابحث في المتجر</a>
+  <div class="chips"><a href="../09_filters/code.html" class="chip on"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"></path><path d="M18 7h2"></path><circle cx="16" cy="7" r="2"></circle><path d="M4 17h2"></path><path d="M10 17h10"></path><circle cx="8" cy="17" r="2"></circle></svg>الفلاتر · 2</a><button class="chip">الكل</button><button class="chip">ورد وباقات</button><button class="chip">كيك</button><button class="chip">قهوة</button></div>
+</header>
+<main class="body">
+  <div class="row between small"><span class="muted">18 منتجاً · مرتبة حسب: الأكثر طلباً</span><span class="row g4" style="color:#22603F"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>مفتوح للطلب</span></div>
+  <div class="grid2">
+    <article class="pc"><div class="media"><img class="phimg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjv1VO1kamW1yeCLj_OpJQd_8MoI_6vWuNAXvjfxnAHQmSRFmV51-WpvurDTJZlxLqvjK5sIQsQI_yDkaEZce-5nOEgKfxWjoFoXgFR7BydaK0iNaouSqvF7ULT8JaiwA_zkZJgfb_iMOuSlUGX6AOXppd5DS3pyQv95hYBhlXTdF8myL21PgKsjhqqX3rNuxg6DDlkYiWtfj_1-1cMWnqTutHeGY9u_5V4sz7XM8" alt="صورة: باقة جوري أحمر" style="height:170px;border-radius:0px"><span class="badge b-blush tagpos">الأكثر طلباً</span><button class="fav" aria-label="أضف للمفضلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg></button></div><div class="in"><a href="../12_pbouquet/code.html" class="nm" style="color:#2C2422;text-decoration:none">باقة الجوري الأحمر</a><p class="xs muted">ورد وباقات</p><div class="row between" style="margin-top:4px"><div class="col" style="line-height:1.3"><span class="price">2,400 ل.س</span><span class="xs muted num">$20.00</span></div><button class="add" aria-label="أضف باقة الجوري الأحمر للسلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button></div></div></article>
+    <article class="pc"><div class="media"><img class="phimg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuxjm7UoCvrM1NWIADJKq7nVQXdi4lLOOFvNZXHIejbrNjUS-3DQMpnQHkeuzPXuRj_o6WvTFhCv95_A6OGP-JycjNjHEkdr9bMPX0h-T1AQu4tMQBahVA6FPSLSWycPxyEHR6frdQciUk_EGpnVwiHuMyhNZJrPC9FWDn5bTuFhBs39F1c4VLU3W8m2c9QiPIpCczpMn9SGbagDEeY5I0EGn8jfb45pMKjdwVOJA" alt="صورة: كيكة الورد والفستق" style="height:170px;border-radius:0px"><button class="fav" aria-label="أضف للمفضلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg></button></div><div class="in"><a href="../13_pcake/code.html" class="nm" style="color:#2C2422;text-decoration:none">كيكة الورد والفستق</a><p class="xs muted">كيك · قبل 24 ساعة</p><div class="row between" style="margin-top:4px"><div class="col" style="line-height:1.3"><span class="price">من 2,280 ل.س</span><span class="xs muted num">$19.00</span></div><button class="add" aria-label="أضف كيكة الورد والفستق للسلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button></div></div></article>
+    <article class="pc"><div class="media"><img class="phimg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNC6Wc5bmYXBBLL8FO64KarkoK3VOtXzJ47keSyYK0E97EEChCHUMpQmM_rQGQRwv6NYwurPC9CctmhUMCceaupZTr-u6xPm3hqnXl_7V42glNkXi99m0r_4IdiC9NtcKpnv6PKkCWLWe5EDibqBrdEv-0TVL5bST1tvzEY0jtfuq8GWChTVABuKLMKDIWrEprVIV55w3lSuYE3T7k_Px_CjVHEWjr4nPHwj_v_Hs" alt="صورة: بوكس شوكولا" style="height:170px;border-radius:0px"><button class="fav" aria-label="أضف للمفضلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg></button></div><div class="in"><a href="../12_pbouquet/code.html" class="nm" style="color:#2C2422;text-decoration:none">بوكس شوكولا 16 قطعة</a><p class="xs muted">هدايا</p><div class="row between" style="margin-top:4px"><div class="col" style="line-height:1.3"><span class="price">1,920 ل.س</span><span class="xs muted num">$16.00</span></div><button class="add" aria-label="أضف بوكس شوكولا 16 قطعة للسلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button></div></div></article>
+    <article class="pc"><div class="media"><img class="phimg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrVyryawy_m53--3IAde0UeInlN2WnV9NzqQLXDa0KPPydmOe44BZe-b1XS5vwNAwzErJYsb81arzknPxg4wXnf52UjHTui5DJnR7hit63dOOdmKxdfLV7jc0wMyR0TzorJ1jMJQsfWinQwsESmCkTX7tZ90pmY_5zQT6abtB2cPylCDdBd5VyitDP5Z_X3tpYoHIHslQBA7SI5RuJprNNEwzLufIRVyXBqUL2GF0" alt="صورة: باقة بيوني" style="height:170px;border-radius:0px"><span class="badge b-sage tagpos">موسمي</span><button class="fav" aria-label="أضف للمفضلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg></button></div><div class="in"><a href="../12_pbouquet/code.html" class="nm" style="color:#2C2422;text-decoration:none">باقة البيوني الربيعية</a><p class="xs muted">ورد موسمي</p><div class="row between" style="margin-top:4px"><div class="col" style="line-height:1.3"><span class="price">2,760 ل.س</span><span class="xs muted num">$23.00</span></div><button class="add" aria-label="أضف باقة البيوني الربيعية للسلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button></div></div></article>
+    <article class="pc"><div class="media"><img class="phimg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-KoG2kJH9_y-6WJ1W17QgyQykSNQjN45cr34i2KDMK5szz7nfnY5iEq9AAT_MlNtdmfdAFMgoSJZhXq-7HLKH_yIMHoQzV2DCMP73kpu4jrPdJmmT--YQa5AspqTWRjg-2riWWHa-_mkdy4NVBcL5iaySIZ8-Xd5tXzSO0wQRCnd7EvhzMxc0P72ECohtAEzdIfsPwHdWHaYBA5Y-icGe0ESP2bBCGyEBzN3Uris" alt="صورة: فازة زجاجية" style="height:170px;border-radius:0px"><button class="fav" aria-label="أضف للمفضلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg></button></div><div class="in"><a href="../12_pbouquet/code.html" class="nm" style="color:#2C2422;text-decoration:none">فازة زجاجية</a><p class="xs muted">هدايا</p><div class="row between" style="margin-top:4px"><div class="col" style="line-height:1.3"><span class="price">2,160 ل.س</span><span class="xs muted num">$18.00</span></div><button class="add" aria-label="أضف فازة زجاجية للسلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button></div></div></article>
+    <article class="pc"><div class="media"><img class="phimg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3NdoEEMLLgqVzfLdxNVdPAhNsx4LLgQ4rJaPrIRIUQqS6jnY64QqcJ30UOzu-Nxms3fBjrzuQ9tS7yQoTyL4oez03Z7WLgUh0-VSPPuU1Y8Pmwj6YiwYGWBtg_h8dR6RWbpbKHijSyO4DZ5KYwRFFmWZklNzY4FAZ6QdFfDyQr0ySnj1o45XcUjFT4CVWbz9zEb7zsN8CxdD4pO-W-KgdheIMWd0BQtmbRmlXtko" alt="صورة: لاتيه الورد بالماتشا" style="height:170px;border-radius:0px"><button class="fav" aria-label="أضف للمفضلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg></button></div><div class="in"><a href="../14_pdrink/code.html" class="nm" style="color:#2C2422;text-decoration:none">لاتيه الورد بالماتشا</a><p class="xs muted">قهوة وماتشا</p><div class="row between" style="margin-top:4px"><div class="col" style="line-height:1.3"><span class="price">540 ل.س</span><span class="xs muted num">$4.50</span></div><button class="add" aria-label="أضف لاتيه الورد بالماتشا للسلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button></div></div></article>
+  </div>
+  <button class="btn btn-s full">عرض المزيد</button>
+</main>
+<div style="margin-top:auto"><a href="../20_cart/code.html" class="cap" aria-label="السلة: 4 قطع، 7,116 ليرة"><span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"></path><path d="M9 8V6.5a3 3 0 0 1 6 0V8"></path></svg></span><span class="grow col" style="line-height:1.3"><span class="b" style="font-size:14px">السلة · 4 قطع</span><span class="num" style="font-size:13px;opacity:.9">7,116 ل.س</span></span><span class="go">إتمام الطلب<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></span></a><nav class="nav" aria-label="التنقل الرئيسي"><a href="../06_home/code.html" class=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg><span>الرئيسية</span></a><a href="../07_shop/code.html" class="on"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg><span>المتجر</span></a><a href="../15_dsg1/code.html" class=""><span class="mid"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"></circle><path d="M12 9.5C10 6 10.5 3.5 12 3c1.5.5 2 3 0 6.5z"></path><path d="M12 14.5c2 3.5 1.5 6 0 6.5-1.5-.5-2-3 0-6.5z"></path><path d="M9.5 12C6 14 3.5 13.5 3 12c.5-1.5 3-2 6.5 0z"></path><path d="M14.5 12c3.5-2 6-1.5 6.5 0-.5 1.5-3 2-6.5 0z"></path></svg></span><span>صمّم باقتك</span></a><a href="../26_orders/code.html" class=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6"></path><path d="M9 12h6"></path><path d="M9 16h3"></path></svg><span>طلباتي</span></a><a href="../28_account/code.html" class=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path></svg><span>حسابي</span></a></nav></div>
+</div>
+</body>
+</html>

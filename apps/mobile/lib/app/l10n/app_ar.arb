@@ -1,0 +1,19 @@
+{
+  "@@locale": "ar",
+  "appTitle": "Belle Biens",
+  "@appTitle": { "description": "Brand name, not translated" },
+  "navHome": "الرئيسية",
+  "navShop": "المتجر",
+  "navDesigner": "صمّم باقتك",
+  "navOrders": "طلباتي",
+  "navAccount": "حسابي",
+  "comingSoon": "قيد البناء",
+  "comingSoonBody": "هذه الشاشة تُبنى في سبرنت {sprint}.",
+  "@comingSoonBody": {
+    "placeholders": { "sprint": { "type": "String", "example": "S2" } }
+  },
+  "environmentBadge": "بيئة: {name}",
+  "@environmentBadge": {
+    "placeholders": { "name": { "type": "String", "example": "dev" } }
+  }
+}

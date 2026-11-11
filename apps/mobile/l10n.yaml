@@ -1,0 +1,8 @@
+# Arabic is the template and the default locale (FR-LOC-01); English must cover every key (EI-UI-01).
+arb-dir: lib/app/l10n
+template-arb-file: app_ar.arb
+output-dir: lib/app/l10n/gen
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
+required-resource-attributes: false

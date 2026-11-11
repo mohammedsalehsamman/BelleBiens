@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.bellebiens.local/schemas/box-spec.v1.json",
+  "title": "BoxSpec v1",
+  "description": "Split box (FR-BOX-01 to 04). Same rules as the bouquet spec (FR-BOX-03): choices only, no prices. The server checks that each compartment index exists in the box type, that every item is of a kind the compartment accepts, and that quantities fit the compartment capacity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "boxType", "compartments"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "boxType": { "$ref": "#/$defs/id" },
+    "compartments": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "items"],
+        "properties": {
+          "index": { "type": "integer", "minimum": 0, "maximum": 11 },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": { "$ref": "#/$defs/line" }
+          }
+        }
+      }
+    },
+    "wrap": { "$ref": "#/$defs/id" },
+    "ribbon": { "$ref": "#/$defs/id" },
+    "cardMessage": { "type": "string", "maxLength": 200 },
+    "previewMode": { "enum": ["2d", "3d", "ai"] }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "line": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "qty"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "qty": { "type": "integer", "minimum": 1, "maximum": 200 }
+      }
+    }
+  }
+}

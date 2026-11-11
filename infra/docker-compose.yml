@@ -1,0 +1,59 @@
+# Local development services (plan 3.8). Start with: pnpm infra:up
+# Credentials below are for local use only; staging and production use a secret store.
+name: belle-biens
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: belle
+      POSTGRES_PASSWORD: belle
+      POSTGRES_DB: belle
+      TZ: UTC
+    ports:
+      # Host port 5433: a local PostgreSQL install often already uses 5432.
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U belle -d belle"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # S3-compatible media store standing in for Cloudinary/S3 (DC-06, EI-SW-10).
+  # SeaweedFS replaces MinIO, whose images are no longer published on Docker Hub.
+  # Local only: the S3 API at http://localhost:8333 accepts anonymous requests;
+  # access keys are configured when the media module arrives (S2).
+  s3:
+    image: chrislusf/seaweedfs:latest
+    command: ["server", "-dir=/data", "-s3", "-s3.port=8333"]
+    ports:
+      - "8333:8333"
+    volumes:
+      - s3-data:/data
+
+  # Catches outgoing email (password reset, FR-ACC-02) in development: http://localhost:8025
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  postgres-data:
+  redis-data:
+  s3-data:

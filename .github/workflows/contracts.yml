@@ -1,0 +1,23 @@
+name: contracts
+
+on:
+  pull_request:
+    paths: ["packages/contracts/**", ".github/workflows/contracts.yml"]
+  push:
+    branches: [main]
+    paths: ["packages/contracts/**", ".github/workflows/contracts.yml"]
+
+jobs:
+  vectors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Schemas compile, examples validate, every vector is self-consistent
+        run: pnpm --filter @belle/contracts test

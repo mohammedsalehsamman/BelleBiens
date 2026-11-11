@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "description": "Phone validation and normalization to E.164 (FR-CRT-09). Syrian mobile numbers are accepted as 09XXXXXXXX and +9639XXXXXXXX; customers abroad may enter any valid international number in + form. The API uses libphonenumber-js and the app must agree on every case below.",
+  "rules": [
+    "Before parsing: map Arabic-Indic digits to 0..9, remove spaces, dashes, dots and parentheses, and turn a leading 00 into +.",
+    "A number without + is parsed with Syria (SY) as the default region.",
+    "Syrian numbers must be mobile numbers: +9639 followed by 8 digits.",
+    "Output is E.164, or null when invalid."
+  ],
+  "cases": [
+    { "in": "0933000000", "out": "+963933000000" },
+    { "in": "+963933000000", "out": "+963933000000" },
+    { "in": "0933 000 000", "out": "+963933000000" },
+    { "in": "0933-000-000", "out": "+963933000000" },
+    { "in": "00963933000000", "out": "+963933000000" },
+    { "in": "٠٩٣٣٠٠٠٠٠٠", "out": "+963933000000" },
+    { "in": "+963 944 123 456", "out": "+963944123456" },
+    { "in": "+4915112345678", "out": "+4915112345678" },
+    { "in": "+971501234567", "out": "+971501234567" },
+    { "in": "", "out": null },
+    { "in": "abc", "out": null },
+    { "in": "0933", "out": null },
+    { "in": "09330000001", "out": null },
+    { "in": "+96393300000", "out": null },
+    { "in": "0113334444", "out": null }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@belle/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared contracts: OpenAPI, JSON Schemas and test vectors for the API, the website and the app",
+  "type": "module",
+  "files": [
+    "schemas",
+    "vectors",
+    "examples",
+    "openapi.yaml"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "vectors:update": "node scripts/update-vectors.mjs",
+    "lint": "node --test"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "libphonenumber-js": "^1.13.16"
+  }
+}

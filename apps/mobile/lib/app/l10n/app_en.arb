@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "appTitle": "Belle Biens",
+  "navHome": "Home",
+  "navShop": "Shop",
+  "navDesigner": "Design",
+  "navOrders": "My orders",
+  "navAccount": "Account",
+  "comingSoon": "Under construction",
+  "comingSoonBody": "This screen is built in sprint {sprint}.",
+  "environmentBadge": "Environment: {name}"
+}

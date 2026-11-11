@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.bellebiens.local/schemas/bouquet-spec.v1.json",
+  "title": "BouquetSpec v1",
+  "description": "SRS Appendix B. Records what the customer chose, never how it is drawn or what it costs (D-07). Business rules that a schema cannot express (unique ids, stem limits per size, stock, incompatible flowers, item types) are checked by the server (NFR-SEC-07, FR-DSG-14). cardMessage length is counted in Unicode code points.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "occasion", "size", "flowers", "wrap", "ribbon"],
+  "properties": {
+    "schemaVersion": {
+      "description": "The server rejects unknown versions.",
+      "const": 1
+    },
+    "occasion": {
+      "description": "One of the occasions defined by the admin.",
+      "$ref": "#/$defs/id"
+    },
+    "size": {
+      "description": "Stem count (sum of flowers[].qty) must stay inside the admin limits for this size (FR-DSG-04).",
+      "enum": ["small", "medium", "large", "luxury"]
+    },
+    "palette": {
+      "description": "Optional (FR-DSG-05).",
+      "enum": ["pastel", "romantic_red", "luxury_white", "mixed"]
+    },
+    "flowers": {
+      "description": "Main and secondary flowers. At least one.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": { "$ref": "#/$defs/line" }
+    },
+    "greens": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/line" }
+    },
+    "wrap": { "$ref": "#/$defs/id" },
+    "ribbon": { "$ref": "#/$defs/id" },
+    "extras": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/line" }
+    },
+    "cardMessage": {
+      "description": "Up to 200 characters. Never sent to the AI provider (FR-DAI-02) and excluded from the spec hash.",
+      "type": "string",
+      "maxLength": 200
+    },
+    "previewMode": {
+      "description": "Display only; never affects the price. Excluded from the spec hash.",
+      "enum": ["2d", "3d", "ai"]
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "line": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "qty"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "qty": { "type": "integer", "minimum": 1, "maximum": 200 }
+      }
+    }
+  }
+}

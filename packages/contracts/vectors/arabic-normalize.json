@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "description": "Search text normalization (FR-CAT-04). The API applies it to the stored search column and to the query; the app applies it to local (offline) search. Both must give these exact outputs.",
+  "rules": [
+    "1. Remove Arabic diacritics U+064B..U+065F and U+0670, and tatweel U+0640.",
+    "2. Map أ U+0623, إ U+0625, آ U+0622, ٱ U+0671 to ا U+0627.",
+    "3. Map ة U+0629 to ه U+0647.",
+    "4. Map ى U+0649 to ي U+064A.",
+    "5. Map Arabic-Indic digits U+0660..U+0669 and Extended Arabic-Indic digits U+06F0..U+06F9 to 0..9.",
+    "6. Lowercase Latin letters.",
+    "7. Collapse runs of whitespace to one space and trim."
+  ],
+  "cases": [
+    { "in": "باقةُ الجوريّ الأحمر", "out": "باقه الجوري الاحمر" },
+    { "in": "إهداء", "out": "اهداء" },
+    { "in": "آلاء", "out": "الاء" },
+    { "in": "ٱلورد", "out": "الورد" },
+    { "in": "حلوى", "out": "حلوي" },
+    { "in": "كيكة دمشق", "out": "كيكه دمشق" },
+    { "in": "جـــوري", "out": "جوري" },
+    { "in": "مُصَمِّم الباقات", "out": "مصمم الباقات" },
+    { "in": "باقة ٢٥ وردة", "out": "باقه 25 ورده" },
+    { "in": "۱۲ وردة", "out": "12 ورده" },
+    { "in": "  Red   Rose ", "out": "red rose" },
+    { "in": "Rose MATCHA لاتيه", "out": "rose matcha لاتيه" },
+    { "in": "", "out": "" }
+  ]
+}

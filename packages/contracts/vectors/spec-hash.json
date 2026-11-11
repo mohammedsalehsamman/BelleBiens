@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "description": "SHA-256 (hex) of the RFC 8785 canonical JSON of a bouquet spec without cardMessage and previewMode (FR-DAI-06). Arrays keep their order. Regenerate with UPDATE_VECTORS=1 node --test.",
+  "cases": [
+    {
+      "name": "appendix-b-example",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "birthday",
+        "size": "medium",
+        "palette": "romantic_red",
+        "flowers": [
+          {
+            "id": "red_rose",
+            "qty": 12
+          },
+          {
+            "id": "white_gypsophila",
+            "qty": 6
+          }
+        ],
+        "greens": [
+          {
+            "id": "eucalyptus",
+            "qty": 3
+          }
+        ],
+        "wrap": "kraft_beige",
+        "ribbon": "satin_pink",
+        "extras": [
+          {
+            "id": "teddy_bear_small",
+            "qty": 1
+          },
+          {
+            "id": "chocolate_box",
+            "qty": 1
+          }
+        ],
+        "cardMessage": "كل عام وأنتِ أجمل",
+        "previewMode": "3d"
+      },
+      "canonical": "{\"extras\":[{\"id\":\"teddy_bear_small\",\"qty\":1},{\"id\":\"chocolate_box\",\"qty\":1}],\"flowers\":[{\"id\":\"red_rose\",\"qty\":12},{\"id\":\"white_gypsophila\",\"qty\":6}],\"greens\":[{\"id\":\"eucalyptus\",\"qty\":3}],\"occasion\":\"birthday\",\"palette\":\"romantic_red\",\"ribbon\":\"satin_pink\",\"schemaVersion\":1,\"size\":\"medium\",\"wrap\":\"kraft_beige\"}",
+      "sha256": "e7a3bf7d9b7f8d88b2f2712adecbee462e97aa69e4093b29e7347fc865549079"
+    },
+    {
+      "name": "readme-designed-bouquet",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "birthday",
+        "size": "medium",
+        "flowers": [
+          {
+            "id": "red_rose",
+            "qty": 12
+          },
+          {
+            "id": "white_gypsophila",
+            "qty": 6
+          }
+        ],
+        "greens": [
+          {
+            "id": "eucalyptus",
+            "qty": 3
+          }
+        ],
+        "wrap": "satin_bordeaux",
+        "ribbon": "satin_pink",
+        "extras": [
+          {
+            "id": "teddy_bear_small",
+            "qty": 1
+          }
+        ],
+        "cardMessage": "كل عام وأنتِ أجمل يا لين",
+        "previewMode": "2d"
+      },
+      "canonical": "{\"extras\":[{\"id\":\"teddy_bear_small\",\"qty\":1}],\"flowers\":[{\"id\":\"red_rose\",\"qty\":12},{\"id\":\"white_gypsophila\",\"qty\":6}],\"greens\":[{\"id\":\"eucalyptus\",\"qty\":3}],\"occasion\":\"birthday\",\"ribbon\":\"satin_pink\",\"schemaVersion\":1,\"size\":\"medium\",\"wrap\":\"satin_bordeaux\"}",
+      "sha256": "76651d79b558d732c8353b20aead75d4cea142415241ac283d39ee7bbae1d6c7"
+    },
+    {
+      "name": "minimal",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "none",
+        "size": "small",
+        "flowers": [
+          {
+            "id": "red_rose",
+            "qty": 8
+          }
+        ],
+        "wrap": "transparent",
+        "ribbon": "satin_white"
+      },
+      "canonical": "{\"flowers\":[{\"id\":\"red_rose\",\"qty\":8}],\"occasion\":\"none\",\"ribbon\":\"satin_white\",\"schemaVersion\":1,\"size\":\"small\",\"wrap\":\"transparent\"}",
+      "sha256": "6aadbfd81c7e98dd5b5525a5c11092754dd64fa46b6f4702c0974c9fc3227626"
+    }
+  ]
+}

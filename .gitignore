@@ -1,0 +1,38 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.iml
+*.swp
+
+# Node / pnpm
+node_modules/
+.pnpm-store/
+dist/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+pnpm-debug.log*
+
+# Environment and secrets (NFR-SEC-05: never commit keys)
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+key.properties
+*.p12
+*.mobileprovision
+GoogleService-Info.plist
+google-services.json
+
+# Flutter / Dart (apps/mobile has its own .gitignore too)
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+
+# Local infra data
+infra/.data/

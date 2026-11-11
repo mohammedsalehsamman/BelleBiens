@@ -1,0 +1,153 @@
+# Codemagic builds the app for the stores (plan section 6). Pull request checks run on GitHub Actions.
+# Before the first run, set up in the Codemagic UI (never in git):
+#   - App Store Connect API key integration named "belle_asc"      (iOS signing and TestFlight)
+#   - Environment group "android_signing": CM_KEYSTORE (base64), CM_KEYSTORE_PASSWORD, CM_KEY_ALIAS, CM_KEY_PASSWORD
+#   - Environment group "google_play": GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+#   - Environment group "sentry": SENTRY_DSN
+# iOS has no flavors yet: staging and production both build com.bellebiens.app and differ only by
+# their env file (docs/adr/0009-ios-build-on-codemagic.md).
+
+definitions:
+  flutter: &flutter 3.47.9
+  working_directory: &workdir apps/mobile
+  scripts:
+    - &get
+      name: Get packages and generate code
+      script: |
+        flutter pub get
+        dart run build_runner build -d
+    - &test
+      name: Analyze and test
+      script: |
+        flutter analyze
+        flutter test
+    - &android_keystore
+      name: Write Android signing config
+      script: |
+        echo $CM_KEYSTORE | base64 --decode > $CM_BUILD_DIR/apps/mobile/android/app/upload.jks
+        cat > $CM_BUILD_DIR/apps/mobile/android/key.properties <<EOF
+        storeFile=upload.jks
+        storePassword=$CM_KEYSTORE_PASSWORD
+        keyAlias=$CM_KEY_ALIAS
+        keyPassword=$CM_KEY_PASSWORD
+        EOF
+
+workflows:
+  android-staging:
+    name: Android staging (Play internal track)
+    working_directory: *workdir
+    instance_type: linux_x2
+    max_build_duration: 45
+    triggering:
+      events: [push]
+      branch_patterns:
+        - pattern: main
+    environment:
+      flutter: *flutter
+      groups: [android_signing, google_play, sentry]
+    scripts:
+      - *get
+      - *test
+      - *android_keystore
+      - name: Build app bundle
+        script: |
+          flutter build appbundle --flavor stg \
+            --dart-define-from-file=env/stg.json \
+            --dart-define=SENTRY_DSN=$SENTRY_DSN \
+            --build-number=$BUILD_NUMBER
+    artifacts:
+      - build/app/outputs/bundle/**/*.aab
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true
+
+  ios-staging:
+    name: iOS staging (TestFlight)
+    working_directory: *workdir
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: belle_asc
+    triggering:
+      events: [push]
+      branch_patterns:
+        - pattern: main
+    environment:
+      flutter: *flutter
+      xcode: latest
+      cocoapods: default
+      groups: [sentry]
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.bellebiens.app
+    scripts:
+      - *get
+      - *test
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          flutter build ipa --release \
+            --dart-define-from-file=env/stg.json \
+            --dart-define=SENTRY_DSN=$SENTRY_DSN \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+
+  release:
+    name: Release (tag v*) to Play and App Store
+    working_directory: *workdir
+    instance_type: mac_mini_m2
+    max_build_duration: 90
+    integrations:
+      app_store_connect: belle_asc
+    triggering:
+      events: [tag]
+      tag_patterns:
+        - pattern: v*
+    environment:
+      flutter: *flutter
+      xcode: latest
+      cocoapods: default
+      groups: [android_signing, google_play, sentry]
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.bellebiens.app
+    scripts:
+      - *get
+      - *test
+      - *android_keystore
+      - name: Build Android (prod)
+        script: |
+          flutter build appbundle --flavor prod \
+            --dart-define-from-file=env/prod.json \
+            --dart-define=SENTRY_DSN=$SENTRY_DSN \
+            --build-number=$BUILD_NUMBER
+      - name: Set up iOS code signing
+        script: xcode-project use-profiles
+      - name: Build iOS (prod)
+        script: |
+          flutter build ipa --release \
+            --dart-define-from-file=env/prod.json \
+            --dart-define=SENTRY_DSN=$SENTRY_DSN \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/app/outputs/bundle/**/*.aab
+      - build/ios/ipa/*.ipa
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: production
+        rollout_fraction: 0.1 # staged rollout (plan S9)
+        submit_as_draft: true
+      app_store_connect:
+        auth: integration
+        submit_to_app_store: false # submitted by hand after store review notes are ready

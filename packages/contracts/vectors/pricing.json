@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "description": "Price pipeline test vectors (design diagram 9; FR-DSG-08, FR-CRT-07/08, FR-DLV-02, FR-PAY-05; NFR-FUN-01, NFR-MNT-03). The API (Jest) and the app (flutter_test) must produce these exact outputs.",
+  "rules": [
+    "All amounts are integers in minor units: SYP minor = 1/100 pound, USD minor = cent. Prices in the database are stored in the base currency (SYP).",
+    "Unit prices come from the server's data, never from the client (NFR-SEC-06). In these vectors they are given as inputs because the vectors test the arithmetic only.",
+    "lineTotal = (unitPriceMinor + sum(options[].priceChangeMinor) + sum(components[].unitPriceMinor * components[].qty)) * qty.",
+    "itemsMinor = sum(lineTotal).",
+    "assemblyFeeMinor = settings.assemblyFeeMinor * (number of design lines * their qty). Default 0 (rule to confirm).",
+    "subtotalMinor = itemsMinor + assemblyFeeMinor.",
+    "Coupon applies to subtotalMinor, before the delivery fee (proposal to confirm). Percent: round_half_up(subtotal * percent / 100). Fixed: valueMinor. Not applied when subtotal < minOrderMinor. Discount never exceeds subtotal.",
+    "deliveryFeeMinor is the zone fee (0 for pickup).",
+    "Conversion to USD: each breakdown amount (items, assemblyFee, discount, deliveryFee) is converted separately with round_half_up(amountSYPminor / usdRate), and the total is the sum of the converted amounts. usdRate is SYP per 1 USD, given as a decimal string.",
+    "totalBeforeRounding = items + assemblyFee - discount + deliveryFee (in the display currency).",
+    "Rounding: mode none, or mode nearest with stepMinor (half up), applied to the total only. roundingAdjustmentMinor = total - totalBeforeRounding.",
+    "round_half_up rounds .5 away from zero; all inputs here are non-negative."
+  ],
+  "cases": [
+    {
+      "id": "readme-designed-bouquet",
+      "note": "Screen 18: 12 red rose x 90 + 6 gypsophila x 60 + 3 eucalyptus x 40 + satin bordeaux wrap 120 + satin pink ribbon 36 + small teddy 960 = 2,676 SYP",
+      "input": {
+        "lines": [
+          {
+            "kind": "design",
+            "qty": 1,
+            "unitPriceMinor": 0,
+            "components": [
+              { "id": "red_rose", "unitPriceMinor": 9000, "qty": 12 },
+              { "id": "white_gypsophila", "unitPriceMinor": 6000, "qty": 6 },
+              { "id": "eucalyptus", "unitPriceMinor": 4000, "qty": 3 },
+              { "id": "satin_bordeaux", "unitPriceMinor": 12000, "qty": 1 },
+              { "id": "satin_pink", "unitPriceMinor": 3600, "qty": 1 },
+              { "id": "teddy_bear_small", "unitPriceMinor": 96000, "qty": 1 }
+            ]
+          }
+        ],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": null,
+        "deliveryFeeMinor": 0,
+        "displayCurrency": "SYP"
+      },
+      "expected": { "currency": "SYP", "itemsMinor": 267600, "assemblyFeeMinor": 0, "discountMinor": 0, "deliveryFeeMinor": 0, "roundingAdjustmentMinor": 0, "totalMinor": 267600 }
+    },
+    {
+      "id": "readme-cart-syp",
+      "note": "README sample cart: designed bouquet 2,676 + rose matcha latte x2 1,080 + 22 cm cake 3,120 with candle +240 = 7,116, Abu Rummaneh delivery 150, total 7,266 SYP",
+      "input": {
+        "lines": [
+          {
+            "kind": "design",
+            "qty": 1,
+            "unitPriceMinor": 0,
+            "components": [
+              { "id": "red_rose", "unitPriceMinor": 9000, "qty": 12 },
+              { "id": "white_gypsophila", "unitPriceMinor": 6000, "qty": 6 },
+              { "id": "eucalyptus", "unitPriceMinor": 4000, "qty": 3 },
+              { "id": "satin_bordeaux", "unitPriceMinor": 12000, "qty": 1 },
+              { "id": "satin_pink", "unitPriceMinor": 3600, "qty": 1 },
+              { "id": "teddy_bear_small", "unitPriceMinor": 96000, "qty": 1 }
+            ]
+          },
+          { "kind": "product", "id": "rose_matcha_latte", "qty": 2, "unitPriceMinor": 54000, "options": [] },
+          {
+            "kind": "product",
+            "id": "rose_pistachio_cake",
+            "qty": 1,
+            "unitPriceMinor": 0,
+            "options": [
+              { "id": "size_22cm", "priceChangeMinor": 312000 },
+              { "id": "birthday_candle", "priceChangeMinor": 24000 }
+            ]
+          }
+        ],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": null,
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "SYP"
+      },
+      "expected": { "currency": "SYP", "itemsMinor": 711600, "assemblyFeeMinor": 0, "discountMinor": 0, "deliveryFeeMinor": 15000, "roundingAdjustmentMinor": 0, "totalMinor": 726600 }
+    },
+    {
+      "id": "readme-cart-usd",
+      "note": "Same cart shown in USD at 120 SYP per USD: 59.30 + 1.25 = 60.55",
+      "input": {
+        "lines": [
+          { "kind": "product", "id": "designed_bouquet_as_fixed", "qty": 1, "unitPriceMinor": 267600, "options": [] },
+          { "kind": "product", "id": "rose_matcha_latte", "qty": 2, "unitPriceMinor": 54000, "options": [] },
+          { "kind": "product", "id": "rose_pistachio_cake", "qty": 1, "unitPriceMinor": 312000, "options": [{ "id": "birthday_candle", "priceChangeMinor": 24000 }] }
+        ],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": null,
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "USD"
+      },
+      "expected": { "currency": "USD", "itemsMinor": 5930, "assemblyFeeMinor": 0, "discountMinor": 0, "deliveryFeeMinor": 125, "roundingAdjustmentMinor": 0, "totalMinor": 6055 }
+    },
+    {
+      "id": "coupon-percent-before-delivery",
+      "note": "10% coupon on the 7,116 subtotal = 711.60 off, then delivery 150: 6,554.40",
+      "input": {
+        "lines": [{ "kind": "product", "id": "cart_as_fixed", "qty": 1, "unitPriceMinor": 711600, "options": [] }],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": { "code": "WELCOME10", "type": "percent", "value": 10, "minOrderMinor": 0 },
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "SYP"
+      },
+      "expected": { "currency": "SYP", "itemsMinor": 711600, "assemblyFeeMinor": 0, "discountMinor": 71160, "deliveryFeeMinor": 15000, "roundingAdjustmentMinor": 0, "totalMinor": 655440 }
+    },
+    {
+      "id": "coupon-percent-usd",
+      "note": "Same as above in USD: 59.30 - 5.93 + 1.25 = 54.62",
+      "input": {
+        "lines": [{ "kind": "product", "id": "cart_as_fixed", "qty": 1, "unitPriceMinor": 711600, "options": [] }],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": { "code": "WELCOME10", "type": "percent", "value": 10, "minOrderMinor": 0 },
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "USD"
+      },
+      "expected": { "currency": "USD", "itemsMinor": 5930, "assemblyFeeMinor": 0, "discountMinor": 593, "deliveryFeeMinor": 125, "roundingAdjustmentMinor": 0, "totalMinor": 5462 }
+    },
+    {
+      "id": "rounding-nearest-10-syp",
+      "note": "Rounding setting to the nearest 10 SYP (stepMinor 1000): 6,554.40 becomes 6,550.00",
+      "input": {
+        "lines": [{ "kind": "product", "id": "cart_as_fixed", "qty": 1, "unitPriceMinor": 711600, "options": [] }],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "nearest", "stepMinor": 1000 }, "usdRate": "120" },
+        "coupon": { "code": "WELCOME10", "type": "percent", "value": 10, "minOrderMinor": 0 },
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "SYP"
+      },
+      "expected": { "currency": "SYP", "itemsMinor": 711600, "assemblyFeeMinor": 0, "discountMinor": 71160, "deliveryFeeMinor": 15000, "roundingAdjustmentMinor": -440, "totalMinor": 655000 }
+    },
+    {
+      "id": "assembly-fee-per-design",
+      "note": "Assembly fee setting 100 SYP per designed bouquet, two bouquets",
+      "input": {
+        "lines": [
+          {
+            "kind": "design",
+            "qty": 2,
+            "unitPriceMinor": 0,
+            "components": [
+              { "id": "red_rose", "unitPriceMinor": 9000, "qty": 10 },
+              { "id": "kraft_beige", "unitPriceMinor": 6000, "qty": 1 },
+              { "id": "satin_pink", "unitPriceMinor": 3600, "qty": 1 }
+            ]
+          }
+        ],
+        "settings": { "assemblyFeeMinor": 10000, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": null,
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "SYP"
+      },
+      "expected": { "currency": "SYP", "itemsMinor": 199200, "assemblyFeeMinor": 20000, "discountMinor": 0, "deliveryFeeMinor": 15000, "roundingAdjustmentMinor": 0, "totalMinor": 234200 }
+    },
+    {
+      "id": "coupon-min-order-not-met",
+      "note": "Fixed 500 SYP coupon needs a 10,000 SYP order; the 7,116 cart gets no discount",
+      "input": {
+        "lines": [{ "kind": "product", "id": "cart_as_fixed", "qty": 1, "unitPriceMinor": 711600, "options": [] }],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": { "code": "BIG500", "type": "fixed", "valueMinor": 50000, "minOrderMinor": 1000000 },
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "SYP"
+      },
+      "expected": { "currency": "SYP", "itemsMinor": 711600, "assemblyFeeMinor": 0, "discountMinor": 0, "deliveryFeeMinor": 15000, "roundingAdjustmentMinor": 0, "totalMinor": 726600 }
+    },
+    {
+      "id": "fixed-coupon-capped-at-subtotal",
+      "note": "1,000 SYP coupon on a 480 SYP berry tart: discount is capped at 480; only delivery is paid",
+      "input": {
+        "lines": [{ "kind": "product", "id": "berry_tart", "qty": 1, "unitPriceMinor": 48000, "options": [] }],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": { "code": "GIFT1000", "type": "fixed", "valueMinor": 100000, "minOrderMinor": 0 },
+        "deliveryFeeMinor": 15000,
+        "displayCurrency": "SYP"
+      },
+      "expected": { "currency": "SYP", "itemsMinor": 48000, "assemblyFeeMinor": 0, "discountMinor": 48000, "deliveryFeeMinor": 15000, "roundingAdjustmentMinor": 0, "totalMinor": 15000 }
+    },
+    {
+      "id": "pickup-no-delivery-fee",
+      "note": "Pickup from the branch (FR-DLV-08): no fee",
+      "input": {
+        "lines": [{ "kind": "product", "id": "red_rose_bouquet_25", "qty": 1, "unitPriceMinor": 240000, "options": [] }],
+        "settings": { "assemblyFeeMinor": 0, "rounding": { "mode": "none" }, "usdRate": "120" },
+        "coupon": null,
+        "deliveryFeeMinor": 0,
+        "displayCurrency": "USD"
+      },
+      "expected": { "currency": "USD", "itemsMinor": 2000, "assemblyFeeMinor": 0, "discountMinor": 0, "deliveryFeeMinor": 0, "roundingAdjustmentMinor": 0, "totalMinor": 2000 }
+    }
+  ]
+}

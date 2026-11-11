@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>عناويني · Belle Biens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFE6E2}
+.scr,.scr *{box-sizing:border-box}
+.scr{width:390px;font-family:'IBM Plex Sans Arabic','IBM Plex Sans',system-ui,sans-serif;color:#2C2422;background:#FFF8F6;display:flex;flex-direction:column;overflow:hidden;position:relative;direction:rtl;font-size:15px;line-height:1.6}
+.scr h1,.scr h2,.scr h3,.scr h4,.scr p{margin:0}
+.scr a{color:#872341}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#FFF8F6;border-bottom:1px solid #EFE8E1}
+.bar .t{flex:1;font-weight:600;font-size:17px;text-align:center}
+.ib{width:44px;height:44px;border-radius:999px;border:1px solid #EFE8E1;background:#fff;display:inline-flex;align-items:center;justify-content:center;color:#2C2422;padding:0;cursor:pointer;flex:none;text-decoration:none;position:relative}
+.ib .dot{position:absolute;top:6px;left:8px;min-width:18px;height:18px;border-radius:999px;background:#872341;color:#fff;font-size:11px;line-height:18px;text-align:center;font-weight:600}
+.body{padding:16px;display:flex;flex-direction:column;gap:20px}
+.card{background:#fff;border:1px solid #EFE8E1;border-radius:16px;padding:16px;box-shadow:0 4px 20px -2px rgba(135,35,65,.04)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:999px;font:600 15px/1.2 'IBM Plex Sans Arabic',sans-serif;border:none;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn-p{background:#872341;color:#fff !important}
+.btn-s{background:#fff;color:#872341 !important;border:1.5px solid #872341}
+.btn-g{background:#FCEAEB;color:#7A1E3A !important}
+.btn-w{background:#1F6E43;color:#fff !important}
+.btn-sm{min-height:44px;padding:0 16px;font-size:14px}
+.full{width:100%}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #E2D6D0;background:#fff;color:#2C2422;font:500 14px 'IBM Plex Sans Arabic',sans-serif;white-space:nowrap;cursor:pointer}
+.chip.on{background:#872341;border-color:#872341;color:#fff}
+.chips{display:flex;gap:8px;overflow:hidden;flex-wrap:nowrap}
+.chips.wrap{flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;line-height:20px;white-space:nowrap}
+.b-sage{background:#E4ECE1;color:#3D5238}
+.b-blush{background:#FCEAEB;color:#7A1E3A}
+.b-amber{background:#FDF3E3;color:#7E5210}
+.b-green{background:#E6F4ED;color:#22603F}
+.b-red{background:#FBE7E8;color:#8E2229}
+.b-gray{background:#F0EFEB;color:#514A48}
+.b-dark{background:rgba(44,36,34,.78);color:#fff}
+.muted{color:#605856}
+.small{font-size:13px;line-height:1.55}
+.xs{font-size:12px;line-height:1.5}
+.b{font-weight:600}
+.price{font-weight:700;color:#872341;font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+.h1{font-size:26px;font-weight:700;line-height:1.35}
+.h2{font-size:20px;font-weight:600;line-height:1.4}
+.h3{font-size:17px;font-weight:600;line-height:1.45}
+.row{display:flex;align-items:center;gap:12px}
+.rowt{display:flex;align-items:flex-start;gap:12px}
+.between{justify-content:space-between}
+.col{display:flex;flex-direction:column}
+.g4{gap:4px}.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}
+.grow{flex:1;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ph{background:#F4E5E1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#6E5A5D;font-size:12px;line-height:1.4;text-align:center;padding:8px;width:100%;overflow:hidden}
+.phimg{width:100%;object-fit:cover;display:block;border-radius:12px}
+.notice{display:flex;gap:10px;align-items:flex-start;background:#FFF1ED;border:1px solid #F2DCD6;border-radius:12px;padding:12px;font-size:13px;line-height:1.55;color:#554245}
+.notice.ok{background:#EEF6F1;border-color:#CFE6D8;color:#22603F}
+.notice.warn{background:#FDF6EA;border-color:#F1DDB8;color:#6B4A0F}
+.notice.err{background:#FDF0F0;border-color:#F3CDCF;color:#8E2229}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.lbl{font-weight:600;font-size:14px}
+.inp{width:100%;min-height:48px;border:1px solid #E2D6D0;border-radius:10px;background:#fff;padding:0 14px;font:400 15px 'IBM Plex Sans Arabic',sans-serif;color:#2C2422}
+textarea.inp{padding:12px 14px;min-height:96px;resize:none;line-height:1.6}
+.hint{font-size:12px;color:#605856}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #EFE8E1;border-radius:14px;background:#fff;width:100%;text-align:right;font:inherit;color:inherit;cursor:pointer}
+.opt.on{border:2px solid #872341;background:#FFF5F6;padding:13px}
+.radio{width:22px;height:22px;border-radius:999px;border:2px solid #887175;flex:none;margin-top:2px;background:#fff}
+.opt.on .radio{border-color:#872341;background:#872341;box-shadow:inset 0 0 0 4px #fff}
+.box{width:22px;height:22px;border-radius:6px;border:2px solid #887175;flex:none;background:#fff;display:inline-flex;align-items:center;justify-content:center;color:#fff}
+.box.on{background:#872341;border-color:#872341}
+.qty{display:inline-flex;align-items:center;gap:2px;border:1px solid #E2D6D0;border-radius:999px;padding:2px;background:#fff}
+.qty button{width:40px;height:40px;border-radius:999px;border:none;background:#FFF1ED;color:#872341;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.qty span{min-width:28px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.divider{height:1px;background:#EFE8E1;width:100%}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.kv.total{font-size:17px;font-weight:700}
+.sec{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.link{color:#872341;font-weight:600;font-size:14px;text-decoration:none}
+.pc{background:#fff;border:1px solid #EFE8E1;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.pc .in{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px}
+.pc .nm{font-weight:600;font-size:14px;line-height:1.45}
+.pc .media{position:relative}
+.pc .tagpos{position:absolute;top:8px;right:8px}
+.pc .fav{position:absolute;top:8px;left:8px;width:36px;height:36px;border-radius:999px;background:rgba(255,255,255,.92);border:none;display:inline-flex;align-items:center;justify-content:center;color:#872341;padding:0}
+.add{width:40px;height:40px;border-radius:999px;background:#872341;color:#fff;border:none;display:inline-flex;align-items:center;justify-content:center;padding:0;flex:none}
+.nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;background:rgba(255,252,250,.97);border-top:1px solid #EFE8E1;padding:6px 4px 10px}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:#605856;text-decoration:none;min-height:48px;justify-content:flex-end}
+.nav a.on{color:#872341;font-weight:600}
+.nav .mid{width:56px;height:56px;border-radius:999px;background:#872341;color:#fff;display:flex;align-items:center;justify-content:center;margin-top:-26px;box-shadow:0 8px 20px -6px rgba(135,35,65,.5);border:4px solid #FFF8F6}
+.cap{margin:0 12px 10px;background:#872341;color:#fff;border-radius:999px;padding:8px 8px 8px 8px;display:flex;align-items:center;gap:10px;text-decoration:none;box-shadow:0 12px 32px -4px rgba(44,36,34,.18)}
+.cap .ico{width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;flex:none}
+.cap .go{background:#fff;color:#872341;border-radius:999px;padding:0 14px;min-height:40px;display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:14px}
+.cta{background:#fff;border-top:1px solid #EFE8E1;padding:12px 16px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 -8px 24px -12px rgba(44,36,34,.12)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.steps div{height:4px;border-radius:999px;background:#EEDFDC}
+.steps div.on{background:#872341}
+.thumb{width:72px;height:72px;border-radius:12px;flex:none}
+.tl{display:flex;gap:12px}
+.tl .dotc{width:28px;display:flex;flex-direction:column;align-items:center;flex:none}
+.tl .d{width:24px;height:24px;border-radius:999px;border:2px solid #DCC0C3;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff}
+.tl .d.done{background:#2D7A58;border-color:#2D7A58}
+.tl .d.now{background:#872341;border-color:#872341}
+.tl .ln{width:2px;flex:1;background:#E2D6D0;min-height:20px}
+.tl .ln.done{background:#2D7A58}
+.icobox{width:44px;height:44px;border-radius:12px;background:#FCEAEB;color:#872341;display:flex;align-items:center;justify-content:center;flex:none}
+.icobox.sage{background:#E4ECE1;color:#3D5238}
+.list{background:#fff;border:1px solid #EFE8E1;border-radius:16px;overflow:hidden}
+.li{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #EFE8E1;text-decoration:none;color:inherit;min-height:56px}
+.li:last-child{border-bottom:none}
+.sw{width:28px;height:28px;border-radius:999px;border:2px solid #fff;box-shadow:0 0 0 1px #DCC0C3;flex:none}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);background:#F4E5E1;border-radius:999px;padding:4px;gap:4px}
+.seg button{min-height:40px;border-radius:999px;border:none;background:transparent;font:600 14px 'IBM Plex Sans Arabic',sans-serif;color:#554245;cursor:pointer}
+.seg button.on{background:#fff;color:#872341;box-shadow:0 2px 6px rgba(44,36,34,.08)}
+.toggle{width:48px;height:28px;border-radius:999px;background:#DCC0C3;position:relative;flex:none;border:none;padding:0}
+.toggle::after{content:'';position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:999px;background:#fff}
+.toggle.on{background:#872341}
+.toggle.on::after{right:auto;left:3px}
+.otp{width:64px;height:68px;border-radius:14px;border:1px solid #E2D6D0;background:#fff;text-align:center;font:600 26px 'IBM Plex Sans Arabic',sans-serif;color:#872341}
+.otp.on{border:2px solid #872341}
+.center{text-align:center}
+.hero-ic{width:88px;height:88px;border-radius:999px;background:#FCEAEB;color:#872341;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.sheet{background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -12px 32px -4px rgba(44,36,34,.16)}
+.scrim{background:rgba(44,36,34,.35)}
+.map{background:#EFE9E1;position:relative;overflow:hidden}
+
+.scr{margin:0 auto;min-height:100vh}
+</style>
+</head>
+<body>
+<div class="scr" dir="rtl" lang="ar">
+<header class="bar"><a href="../28_account/code.html" class="ib" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><h1 class="t">عناويني</h1><span style="width:44px"></span></header>
+<main class="body">
+  <section class="card rowt" style="border:2px solid #872341">
+    <span class="icobox"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg></span>
+    <div class="grow col g4"><div class="row g8"><span class="b">البيت</span><span class="badge b-blush">افتراضي</span></div><span class="small muted">أبو رمانة · [الشارع والبناء والطابق]</span><span class="xs muted">قرب [معلم] · اتصل قبل الوصول</span></div>
+    <button class="ib" aria-label="تعديل"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4l10.5-10.5-4-4L4 16z"></path><path d="M13 7l4 4"></path></svg></button>
+  </section>
+  <section class="card rowt">
+    <span class="icobox sage"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5V20h15v-9.5"></path><path d="M3 7.5L5 4h14l2 3.5c0 1.7-1.3 3-3 3s-3-1.3-3-3c0 1.7-1.3 3-3 3s-3-1.3-3-3c0 1.7-1.3 3-3 3s-3-1.3-3-3z"></path><path d="M10 20v-5h4v5"></path></svg></span>
+    <div class="grow col g4"><span class="b">العمل</span><span class="small muted">المالكي · [الشارع والبناء والطابق]</span></div>
+    <button class="ib" aria-label="تعديل"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4l10.5-10.5-4-4L4 16z"></path><path d="M13 7l4 4"></path></svg></button>
+  </section>
+  <a href="../22_address/code.html" class="btn btn-s full"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>إضافة عنوان جديد</a>
+  <p class="hint center">العناوين خارج مناطق التوصيل تُحفظ لكنها لا تظهر عند الدفع.</p>
+</main>
+</div>
+</body>
+</html>

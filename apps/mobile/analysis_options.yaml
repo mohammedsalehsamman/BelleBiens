@@ -1,0 +1,19 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
+    - lib/app/l10n/gen/**
+    - lib/core/api/generated/**
+    - build/**
+    - android/**
+    - ios/**
+  errors:
+    # Riverpod codegen and freezed need these patterns.
+    invalid_annotation_target: ignore
+
+linter:
+  rules:
+    # This is an app, not a published package.
+    public_member_api_docs: false
