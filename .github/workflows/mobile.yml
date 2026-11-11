@@ -39,8 +39,13 @@ jobs:
       - name: Analyze
         run: flutter analyze
       - name: Tests with coverage (unit, widget, golden)
-        # The github reporter turns each failure into an annotation on the run.
-        run: flutter test --coverage --reporter github
+        # Failures become annotations on the run (tool/annotate_test_failures.dart).
+        run: |
+          set +e
+          flutter test --coverage --reporter json > test-results.json
+          status=$?
+          dart run tool/annotate_test_failures.dart test-results.json
+          exit $status
       - name: Keep golden diffs when tests fail
         if: failure()
         uses: actions/upload-artifact@v4
