@@ -16,7 +16,9 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.bellebiens.belle_biens"
-    compileSdk = flutter.compileSdkVersion
+    // permission_handler compiles against API 37. Only the build SDK changes;
+    // devices still need Android 9+ (minSdk below).
+    compileSdk = maxOf(37, flutter.compileSdkVersion)
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

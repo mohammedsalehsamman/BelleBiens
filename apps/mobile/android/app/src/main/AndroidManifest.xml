@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Release builds talk to the API over HTTPS (EI-CM-01). -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Android 13+: order status and occasion reminders (screen 05, FR-NTF-04). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:label="@string/app_name"
         android:name="${applicationName}"

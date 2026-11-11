@@ -1,4 +1,4 @@
 {
   "FLAVOR": "stg",
-  "API_BASE_URL": "https://api-staging.bellebiens.example/v1"
+  "API_BASE_URL": "https://api-staging.bellebiens.example"
 }

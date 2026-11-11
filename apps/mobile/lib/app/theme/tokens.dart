@@ -49,6 +49,57 @@ abstract final class BBColors {
   static const whatsapp = Color(0xFF1F6E43);
   static const error = Color(0xFFBA1A1A);
   static const scrim = Color(0x592C2422); // rgba(44,36,34,.35)
+
+  // Selection states
+  static const optionSelected = Color(0xFFFFF5F6);
+  static const toggleOff = Color(0xFFDCC0C3);
+
+  // Notices: background, border, text (CSS .notice and its ok / warn / err)
+  static const noticeInfoBg = Color(0xFFFFF1ED);
+  static const noticeInfoBorder = Color(0xFFF2DCD6);
+  static const noticeInfoText = Color(0xFF554245);
+  static const noticeOkBg = Color(0xFFEEF6F1);
+  static const noticeOkBorder = Color(0xFFCFE6D8);
+  static const noticeOkText = Color(0xFF22603F);
+  static const noticeWarnBg = Color(0xFFFDF6EA);
+  static const noticeWarnBorder = Color(0xFFF1DDB8);
+  static const noticeWarnText = Color(0xFF6B4A0F);
+  static const noticeErrBg = Color(0xFFFDF0F0);
+  static const noticeErrBorder = Color(0xFFF3CDCF);
+  static const noticeErrText = Color(0xFF8E2229);
+}
+
+/// Shadows from DESIGN.md "Elevation & Depth".
+abstract final class BBShadows {
+  /// Tier 1: resting cards.
+  static const card = [
+    BoxShadow(
+      color: Color(0x0A872341),
+      blurRadius: 20,
+      offset: Offset(0, 4),
+      spreadRadius: -2,
+    ),
+  ];
+
+  /// Tier 2: bottom bars and floating controls.
+  static const bar = [
+    BoxShadow(
+      color: Color(0x1F2C2422),
+      blurRadius: 24,
+      offset: Offset(0, -8),
+      spreadRadius: -12,
+    ),
+  ];
+
+  /// The floating cart capsule.
+  static const capsule = [
+    BoxShadow(
+      color: Color(0x2E2C2422),
+      blurRadius: 32,
+      offset: Offset(0, 12),
+      spreadRadius: -4,
+    ),
+  ];
 }
 
 abstract final class BBRadius {

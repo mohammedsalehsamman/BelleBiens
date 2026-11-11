@@ -36,6 +36,8 @@ export class OtpService {
   private readonly resendSeconds: number;
   private readonly maxPerWindow: number;
   private readonly pepper: string;
+  /** Development and test only (see env.schema.ts). */
+  private readonly fixedCode: string | undefined;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -48,6 +50,7 @@ export class OtpService {
     this.maxAttempts = config.get('OTP_MAX_ATTEMPTS', { infer: true });
     this.resendSeconds = config.get('OTP_RESEND_SECONDS', { infer: true });
     this.maxPerWindow = config.get('OTP_MAX_PER_WINDOW', { infer: true });
+    this.fixedCode = config.get('OTP_FIXED_CODE', { infer: true });
     this.pepper =
       config.get('OTP_PEPPER', { infer: true }) ??
       config.get('JWT_ACCESS_SECRET', { infer: true });
@@ -86,7 +89,7 @@ export class OtpService {
     if (recent.length >= this.maxPerWindow)
       throw new AppError('OTP_RATE_LIMITED');
 
-    const code = numericCode(this.length);
+    const code = this.fixedCode ?? numericCode(this.length);
     await this.prisma.$transaction([
       // Older codes stop working as soon as a new one is sent.
       this.prisma.otpCode.updateMany({

@@ -20,7 +20,8 @@ lib/
   app/                 app widget, env, router (5-tab shell), theme tokens, l10n (ar is the template)
   core/                shared code: a11y helpers, design-system widgets; later network, storage, money
   features/<feature>/  data / domain / presentation, added sprint by sprint
-test/                  unit and widget tests (golden tests start in S1)
+test/                  unit, widget and golden tests (goldens: flutter test --update-goldens --tags golden)
+integration_test/      end-to-end on a device against the local API
 env/                   non-secret build settings per flavor
 ```
 
@@ -30,6 +31,20 @@ env/                   non-secret build settings per flavor
 - Colors, radii and spacing come from `lib/app/theme/tokens.dart`. Text pairs must stay at 4.5:1 or more; `test/app/theme_test.dart` checks this.
 - Touch targets are at least 48 dp, and layouts must fit 360 dp without overflow. The widget tests check both.
 - Directional icons mirror in Arabic; universal icons (search, cart, camera) do not (FR-LOC-01).
+
+## End-to-end on an emulator
+
+Runs the real sign-in against the local API (`integration_test/sign_in_flow_test.dart`):
+
+```bash
+# terminal 1 (apps/api): every code becomes 4827, development only
+OTP_FIXED_CODE=4827 pnpm start:dev
+# terminal 2 (apps/mobile)
+flutter emulators --launch flutter_emulator
+flutter test integration_test/sign_in_flow_test.dart --flavor dev --dart-define-from-file=env/dev.json
+```
+
+The test build replaces the installed app; run `flutter run` again afterwards.
 
 ## Checks
 

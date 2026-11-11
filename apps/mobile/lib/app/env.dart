@@ -14,7 +14,7 @@ class AppEnv {
     // 10.0.2.2 is the host machine from the Android emulator.
     const api = String.fromEnvironment(
       'API_BASE_URL',
-      defaultValue: 'http://10.0.2.2:3000/v1',
+      defaultValue: 'http://10.0.2.2:3000',
     );
     const dsn = String.fromEnvironment('SENTRY_DSN');
     return AppEnv(

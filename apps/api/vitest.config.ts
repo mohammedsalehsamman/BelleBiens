@@ -13,7 +13,12 @@ export default defineConfig({
     projects: [
       {
         extends: true,
-        test: { name: 'unit', include: ['src/**/*.spec.ts'] },
+        // Some unit tests build a Nest module; slow CI machines need headroom.
+        test: {
+          name: 'unit',
+          include: ['src/**/*.spec.ts'],
+          testTimeout: 15_000,
+        },
       },
       {
         extends: true,

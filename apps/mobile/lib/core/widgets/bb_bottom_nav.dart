@@ -1,17 +1,17 @@
 import 'package:belle_biens/app/theme/bb_theme.dart';
 import 'package:belle_biens/app/theme/tokens.dart';
+import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:flutter/material.dart';
 
 class BBNavItem {
   const new({required this.icon, required this.label});
 
-  final IconData icon;
+  final BBIcons icon;
   final String label;
 }
 
 /// Bottom navigation from the HTML screens: five tabs, with "Design your
 /// bouquet" raised in the middle as a primary circle (DESIGN.md, component 6).
-/// Material icons stand in until the SVG icon set lands in S1.
 class BBBottomNav extends StatelessWidget {
   const new({
     required this.items,
@@ -103,10 +103,10 @@ class _NavButton extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Icon(item.icon, color: BBColors.onPrimary, size: 26),
+              child: BBIcon(item.icon, color: BBColors.onPrimary, size: 26),
             ),
           )
-        : Icon(item.icon, color: color, size: 24);
+        : BBIcon(item.icon, color: color, size: 24);
 
     return Semantics(
       button: true,

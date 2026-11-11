@@ -85,7 +85,8 @@ export const ERROR_CATALOG = {
   // Accounts and sign-in (S1)
   PHONE_INVALID: {
     status: 400,
-    ar: 'رقم الهاتف غير صحيح. اكتبه بالشكل 09XXXXXXXX أو +9639XXXXXXXX، أو رقماً دولياً يبدأ بـ +.',
+    // U+2066 / U+2069 keep the number formats left to right inside the Arabic sentence.
+    ar: 'رقم الهاتف غير صحيح. اكتبه بالشكل \u206609XXXXXXXX\u2069 أو \u2066+9639XXXXXXXX\u2069، أو رقماً دولياً يبدأ بـ \u2066+\u2069.',
     en: 'This phone number is not valid. Use 09XXXXXXXX, +9639XXXXXXXX or an international number starting with +.',
   },
   OTP_RATE_LIMITED: {

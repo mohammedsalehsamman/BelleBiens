@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:belle_biens/app/app.dart';
+import 'package:belle_biens/app/bootstrap.dart';
 import 'package:belle_biens/app/env.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,13 +12,11 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final env = AppEnv.fromDefines();
+  registerFontLicenses();
+  final overrides = await appOverrides(env);
 
-  void run() => runApp(
-    ProviderScope(
-      overrides: [appEnvProvider.overrideWithValue(env)],
-      child: const BelleApp(),
-    ),
-  );
+  void run() =>
+      runApp(ProviderScope(overrides: overrides, child: const BelleApp()));
 
   final dsn = env.sentryDsn;
   if (dsn == null) {

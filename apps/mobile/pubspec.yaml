@@ -28,24 +28,42 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  dio: ^5.11.1
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^3.5.0
+  flutter_secure_storage: ^11.2.0
+  flutter_svg: ^2.3.2
+  freezed_annotation: ^3.1.0
   go_router: ^18.1.4
   intl: ^0.20.3
+  json_annotation: ^4.12.0
+  package_info_plus: ^10.2.2
+  permission_handler: ^13.0.2
+  phone_numbers_parser: ^9.0.29
+  retrofit: ^4.10.0
   riverpod_annotation: ^4.0.8
   sentry_flutter: ^10.3.0
+  shared_preferences: ^2.5.6
+  url_launcher: ^6.3.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
 dev_dependencies:
+  alchemist: ^0.14.1
   build_runner: ^2.17.1
   flutter_test:
     sdk: flutter
+  freezed: ^4.0.3
+  integration_test:
+    sdk: flutter
+  json_serializable: ^6.15.2
   mocktail: ^1.0.5
+  retrofit_generator: ^10.3.3
   riverpod_generator: ^4.0.10
+  swagger_parser: ^2.0.1
   very_good_analysis: ^11.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -55,39 +73,26 @@ dev_dependencies:
   # rules and activating additional ones.
 flutter:
   generate: true
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icons/
+    - assets/fonts/ibm_plex_sans_arabic/OFL.txt
+    - assets/fonts/playfair_display/OFL.txt
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/to/asset-from-package
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+  # Bundled, not downloaded at run time: networks in Syria are often slow (2.4).
+  # Both families are under the SIL Open Font License (LEG-04); see main.dart.
+  fonts:
+    - family: IBMPlexSansArabic
+      fonts:
+        - asset: assets/fonts/ibm_plex_sans_arabic/IBMPlexSansArabic-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/ibm_plex_sans_arabic/IBMPlexSansArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/ibm_plex_sans_arabic/IBMPlexSansArabic-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/ibm_plex_sans_arabic/IBMPlexSansArabic-Bold.ttf
+          weight: 700
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/playfair_display/PlayfairDisplay-Variable.ttf

@@ -55,6 +55,22 @@ describe('validateEnv', () => {
     ).toThrow(/APP_MIN_SUPPORTED_VERSION/);
   });
 
+  it('allows a fixed OTP code only in development and test, with the right length', () => {
+    expect(
+      validateEnv({ ...minimal, NODE_ENV: 'test', OTP_FIXED_CODE: '4827' })
+        .OTP_FIXED_CODE,
+    ).toBe('4827');
+    expect(() =>
+      validateEnv({ ...minimal, NODE_ENV: 'staging', OTP_FIXED_CODE: '4827' }),
+    ).toThrow(/only allowed in development and test/);
+    expect(() =>
+      validateEnv({ ...minimal, NODE_ENV: 'test', OTP_FIXED_CODE: '482799' }),
+    ).toThrow(/OTP_LENGTH digits/);
+    expect(() =>
+      validateEnv({ ...minimal, NODE_ENV: 'test', OTP_FIXED_CODE: 'abcd' }),
+    ).toThrow(/4 to 8 digits/);
+  });
+
   it('refuses to print sign-in codes in production (console messaging provider)', () => {
     expect(() => validateEnv({ ...minimal, NODE_ENV: 'production' })).toThrow(
       /MESSAGING_PROVIDER/,

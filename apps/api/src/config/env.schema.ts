@@ -50,6 +50,14 @@ export const envSchema = z
     OTP_RESEND_SECONDS: z.coerce.number().int().min(0).default(60),
     /** Codes one phone may request per 10 minutes (NFR-SEC-03). */
     OTP_MAX_PER_WINDOW: z.coerce.number().int().min(1).default(3),
+    /**
+     * Development and test only: every code is this value, so automated end-to-end
+     * tests on a device can sign in. Refused in staging and production.
+     */
+    OTP_FIXED_CODE: z
+      .string()
+      .regex(/^\d{4,8}$/, 'OTP_FIXED_CODE must be 4 to 8 digits')
+      .optional(),
     /** Requests per minute per IP on sign-in endpoints (NFR-SEC-03). */
     AUTH_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(1).default(10),
     /** Comma-separated OAuth client ids allowed to sign in with Google (EI-SW-06). Empty disables it. */
@@ -64,6 +72,26 @@ export const envSchema = z
     PUBLIC_WEB_URL: z.url().default('http://localhost:3001'),
   })
   .superRefine((env, ctx) => {
+    if (
+      env.OTP_FIXED_CODE !== undefined &&
+      !['development', 'test'].includes(env.NODE_ENV)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['OTP_FIXED_CODE'],
+        message: 'OTP_FIXED_CODE is only allowed in development and test',
+      });
+    }
+    if (
+      env.OTP_FIXED_CODE !== undefined &&
+      env.OTP_FIXED_CODE.length !== env.OTP_LENGTH
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['OTP_FIXED_CODE'],
+        message: 'OTP_FIXED_CODE must have OTP_LENGTH digits',
+      });
+    }
     // The console provider prints sign-in codes to the log: never in production.
     if (env.NODE_ENV === 'production' && env.MESSAGING_PROVIDER === 'console') {
       ctx.addIssue({

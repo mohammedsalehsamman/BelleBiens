@@ -27,13 +27,18 @@ jobs:
           flutter-version: 3.47.9
           cache: true
       - run: flutter pub get
-      - name: Generate code (Riverpod, l10n)
+      - name: API client matches the contract (ADR 0004, NFR-MNT-04)
+        run: |
+          dart run swagger_parser
+          git diff --exit-code -- lib/core/api/generated \
+            || (echo "::error::The Dart API client is out of date. Run: dart run swagger_parser && dart run build_runner build -d" && exit 1)
+      - name: Generate code (Riverpod, freezed, l10n)
         run: dart run build_runner build -d
       - name: Format
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Analyze
         run: flutter analyze
-      - name: Tests with coverage
+      - name: Tests with coverage (unit, widget, golden)
         run: flutter test --coverage
       - uses: actions/setup-java@v6
         with:

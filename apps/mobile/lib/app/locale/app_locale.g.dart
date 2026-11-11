@@ -8,20 +8,20 @@ part of 'app_locale.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// The customer's chosen language. Switching it must keep the cart and the
-/// bouquet in progress (EI-UI-01): both live in their own providers, so only the
-/// widgets that read text rebuild. Persisted with the other settings in S1.
+/// The customer's chosen language, kept on the device. Switching it keeps the
+/// cart and the bouquet in progress (EI-UI-01): both live in their own
+/// providers, so only the widgets that read text rebuild.
 
 @ProviderFor(AppLocale)
 final appLocaleProvider = AppLocaleProvider._();
 
-/// The customer's chosen language. Switching it must keep the cart and the
-/// bouquet in progress (EI-UI-01): both live in their own providers, so only the
-/// widgets that read text rebuild. Persisted with the other settings in S1.
+/// The customer's chosen language, kept on the device. Switching it keeps the
+/// cart and the bouquet in progress (EI-UI-01): both live in their own
+/// providers, so only the widgets that read text rebuild.
 final class AppLocaleProvider extends $NotifierProvider<AppLocale, Locale> {
-  /// The customer's chosen language. Switching it must keep the cart and the
-  /// bouquet in progress (EI-UI-01): both live in their own providers, so only the
-  /// widgets that read text rebuild. Persisted with the other settings in S1.
+  /// The customer's chosen language, kept on the device. Switching it keeps the
+  /// cart and the bouquet in progress (EI-UI-01): both live in their own
+  /// providers, so only the widgets that read text rebuild.
   AppLocaleProvider._()
     : super(
         from: null,
@@ -49,11 +49,11 @@ final class AppLocaleProvider extends $NotifierProvider<AppLocale, Locale> {
   }
 }
 
-String _$appLocaleHash() => r'1e9a162a1e11cb0f9a59bf2dc05756f01620f813';
+String _$appLocaleHash() => r'8ed2258ce8e0ec3e20a89d9e675d78b6f01c15d9';
 
-/// The customer's chosen language. Switching it must keep the cart and the
-/// bouquet in progress (EI-UI-01): both live in their own providers, so only the
-/// widgets that read text rebuild. Persisted with the other settings in S1.
+/// The customer's chosen language, kept on the device. Switching it keeps the
+/// cart and the bouquet in progress (EI-UI-01): both live in their own
+/// providers, so only the widgets that read text rebuild.
 
 abstract class _$AppLocale extends $Notifier<Locale> {
   Locale build();

@@ -13,5 +13,6 @@
 | [0009](0009-ios-build-on-codemagic.md) | بناء iOS على Codemagic |
 | [0010](0010-maps-without-google.md) | الخرائط بدون Google Maps |
 | [0011](0011-money-minor-units.md) | المال بأصغر وحدة |
+| [0012](0012-testing-approach-s1.md) | طريقة اختبار تسجيل الدخول والواجهات |
 
 قرار جديد = ملف جديد برقم تالٍ. لا نعدّل قراراً قديماً؛ نكتب قراراً يحلّ محله.

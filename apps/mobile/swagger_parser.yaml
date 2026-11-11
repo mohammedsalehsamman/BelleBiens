@@ -1,0 +1,12 @@
+# Generates the API client from the shared contract (ADR 0004, NFR-MNT-04).
+# Regenerate after the API changes:  dart run swagger_parser && dart run build_runner build -d
+swagger_parser:
+  schema_path: ../../packages/contracts/openapi.yaml
+  output_directory: lib/core/api/generated
+  generation:
+    root_api_class_name: BelleApi
+    http_client: retrofit
+    serializer: freezed
+    response_mode: first_success
+    generate_docs: true
+    page_width: 80
