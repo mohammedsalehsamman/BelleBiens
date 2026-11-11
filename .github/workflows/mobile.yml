@@ -39,7 +39,15 @@ jobs:
       - name: Analyze
         run: flutter analyze
       - name: Tests with coverage (unit, widget, golden)
-        run: flutter test --coverage
+        # The github reporter turns each failure into an annotation on the run.
+        run: flutter test --coverage --reporter github
+      - name: Keep golden diffs when tests fail
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-failures
+          path: apps/mobile/test/**/failures/
+          if-no-files-found: ignore
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
