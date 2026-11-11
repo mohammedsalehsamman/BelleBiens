@@ -76,6 +76,93 @@ export const ERROR_CATALOG = {
     ar: 'المحل لا يستقبل طلبات جديدة الآن. حاول لاحقاً أو راسلنا على واتساب.',
     en: 'The shop is not taking new orders right now. Try later or message us on WhatsApp.',
   },
+  SERVICE_UNAVAILABLE: {
+    status: 503,
+    ar: 'الخدمة غير متاحة مؤقتاً. حاول مرة أخرى بعد قليل.',
+    en: 'The service is temporarily unavailable. Please try again shortly.',
+  },
+
+  // Accounts and sign-in (S1)
+  PHONE_INVALID: {
+    status: 400,
+    ar: 'رقم الهاتف غير صحيح. اكتبه بالشكل 09XXXXXXXX أو +9639XXXXXXXX، أو رقماً دولياً يبدأ بـ +.',
+    en: 'This phone number is not valid. Use 09XXXXXXXX, +9639XXXXXXXX or an international number starting with +.',
+  },
+  OTP_RATE_LIMITED: {
+    status: 429,
+    ar: 'طلبت رموزاً كثيرة. انتظر بضع دقائق ثم اطلب رمزاً جديداً.',
+    en: 'Too many codes requested. Wait a few minutes, then ask for a new one.',
+  },
+  OTP_RESEND_TOO_SOON: {
+    status: 429,
+    ar: 'انتظر قليلاً قبل طلب رمز جديد.',
+    en: 'Please wait a moment before asking for a new code.',
+  },
+  OTP_INVALID: {
+    status: 400,
+    ar: 'الرمز غير صحيح. تأكد منه وحاول مرة أخرى.',
+    en: 'That code is not correct. Check it and try again.',
+  },
+  OTP_EXPIRED: {
+    status: 400,
+    ar: 'انتهت صلاحية الرمز. اطلب رمزاً جديداً.',
+    en: 'This code has expired. Ask for a new one.',
+  },
+  OTP_TOO_MANY_ATTEMPTS: {
+    status: 429,
+    ar: 'استنفدت المحاولات لهذا الرمز. اطلب رمزاً جديداً.',
+    en: 'Too many attempts for this code. Ask for a new one.',
+  },
+  INVALID_CREDENTIALS: {
+    status: 401,
+    ar: 'البريد أو كلمة المرور غير صحيحة.',
+    en: 'The email or password is not correct.',
+  },
+  EMAIL_TAKEN: {
+    status: 409,
+    ar: 'هذا البريد مسجّل بحساب آخر. سجّل الدخول أو استخدم بريداً آخر.',
+    en: 'This email belongs to another account. Sign in or use another email.',
+  },
+  PHONE_TAKEN: {
+    status: 409,
+    ar: 'هذا الرقم مسجّل بحساب آخر. سجّل الدخول برمز التحقق.',
+    en: 'This phone number belongs to another account. Sign in with a code instead.',
+  },
+  PASSWORD_TOO_WEAK: {
+    status: 400,
+    ar: 'كلمة المرور قصيرة. استخدم 8 أحرف على الأقل.',
+    en: 'The password is too short. Use at least 8 characters.',
+  },
+  TERMS_NOT_ACCEPTED: {
+    status: 400,
+    ar: 'يجب الموافقة على شروط الاستخدام وسياسة الخصوصية لإنشاء حساب.',
+    en: 'Please accept the terms of use and the privacy policy to create an account.',
+  },
+  TOKEN_INVALID: {
+    status: 401,
+    ar: 'انتهت جلستك. سجّل الدخول مرة أخرى.',
+    en: 'Your session has ended. Please sign in again.',
+  },
+  RESET_TOKEN_INVALID: {
+    status: 400,
+    ar: 'رابط استعادة كلمة المرور غير صالح أو انتهت صلاحيته. اطلب رابطاً جديداً.',
+    en: 'This password reset link is invalid or has expired. Ask for a new one.',
+  },
+  ACCOUNT_DISABLED: {
+    status: 403,
+    ar: 'هذا الحساب موقوف. تواصل مع المحل على واتساب.',
+    en: 'This account is disabled. Please contact the shop on WhatsApp.',
+  },
+  GOOGLE_SIGN_IN_UNAVAILABLE: {
+    status: 503,
+    ar: 'الدخول بحساب Google غير متاح الآن. استخدم رقم الهاتف.',
+    en: 'Google sign-in is not available right now. Use your phone number instead.',
+  },
+  GOOGLE_TOKEN_INVALID: {
+    status: 401,
+    ar: 'تعذّر التحقق من حساب Google. حاول مرة أخرى.',
+    en: 'We could not verify your Google account. Please try again.',
+  },
 } as const satisfies Record<string, { status: number; ar: string; en: string }>;
 
 export type ErrorCode = keyof typeof ERROR_CATALOG;
@@ -110,6 +197,8 @@ export function codeForStatus(status: number): ErrorCode {
       return 'UPGRADE_REQUIRED';
     case 429:
       return 'RATE_LIMITED';
+    case 503:
+      return 'SERVICE_UNAVAILABLE';
     default:
       return 'INTERNAL';
   }

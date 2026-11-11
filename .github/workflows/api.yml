@@ -33,10 +33,13 @@ jobs:
       DATABASE_URL: postgresql://belle:belle@localhost:5432/belle?schema=public
       REDIS_URL: redis://localhost:6379
       NODE_ENV: test
+      # e2e tests create and migrate this database themselves (test/support/global-setup.ts).
+      TEST_DATABASE_URL: postgresql://belle:belle@localhost:5432/belle_test?schema=public
+      JWT_ACCESS_SECRET: ci-only-secret-ci-only-secret-ci-only-0000
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -45,12 +48,10 @@ jobs:
         run: pnpm --filter @belle/api lint
       - name: Typecheck
         run: pnpm --filter @belle/api typecheck
-      - name: Unit tests with coverage (NFR-MNT-01)
-        run: pnpm --filter @belle/api test:cov
       - name: Migrations apply cleanly
         run: pnpm --filter @belle/api exec prisma migrate deploy
-      - name: e2e tests
-        run: pnpm --filter @belle/api test:e2e
+      - name: Unit and e2e tests with coverage (NFR-MNT-01)
+        run: pnpm --filter @belle/api test:cov
       - name: Build
         run: pnpm --filter @belle/api build
       - name: OpenAPI matches the code (NFR-MNT-04)

@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 // Set before AppModule is imported, because ConfigModule validates at import time.
 process.env['DATABASE_URL'] ??=
   'postgresql://openapi:openapi@localhost:5432/openapi';
+process.env['JWT_ACCESS_SECRET'] ??= 'openapi-export-placeholder-not-a-secret';
 process.env['LOG_LEVEL'] = 'silent';
 
 const { NestFactory } = await import('@nestjs/core');

@@ -38,7 +38,8 @@ export class ProblemDetailsFilter implements ExceptionFilter {
     const response = http.getResponse<Response>();
     const problem = this.toProblem(exception, request);
 
-    if (problem.status >= 500) {
+    // Business errors (AppError), even 503 ones such as SHOP_CLOSED, are expected answers.
+    if (problem.status >= 500 && !(exception instanceof AppError)) {
       this.logger.error(
         { err: exception, path: request.originalUrl },
         'Unhandled error while serving request',

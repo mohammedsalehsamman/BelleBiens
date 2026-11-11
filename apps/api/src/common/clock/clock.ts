@@ -42,7 +42,12 @@ export class FixedClock extends Clock {
     this.current = FixedClock.parse(iso);
   }
 
-  advance(duration: { minutes?: number; hours?: number; days?: number }): void {
+  advance(duration: {
+    seconds?: number;
+    minutes?: number;
+    hours?: number;
+    days?: number;
+  }): void {
     this.current = DateTime.fromJSDate(this.current).plus(duration).toJSDate();
   }
 

@@ -38,3 +38,160 @@ model Setting {
 
   @@map("setting")
 }
+
+// ---------------------------------------------------------------------------
+// Accounts (S1): DR-01, FR-ACC-01..03, FR-ADM-01, NFR-SEC-02/10/12
+// ---------------------------------------------------------------------------
+
+/// FR-ADM-01 staff roles plus customers. Who may do what is enforced on every call (NFR-SEC-01).
+enum Role {
+  CUSTOMER
+  OWNER
+  MANAGER
+  FLORIST
+  DELIVERY_COORDINATOR
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+  DELETION_REQUESTED
+}
+
+enum Language {
+  ar
+  en
+}
+
+/// FR-LOC-02: Western digits by default, Arabic-Indic as a user setting.
+enum Numerals {
+  western
+  arabic
+}
+
+enum OtpPurpose {
+  LOGIN
+}
+
+enum OtpChannel {
+  sms
+  whatsapp
+}
+
+enum DevicePlatform {
+  android
+  ios
+}
+
+/// DR-01. Phone is unique per account and stored in E.164 (FR-CRT-09); email is stored lowercased.
+model User {
+  id              String     @id @default(uuid()) @db.Uuid
+  name            String     @default("")
+  phone           String?    @unique
+  email           String?    @unique
+  passwordHash    String?    @map("password_hash")
+  googleSub       String?    @unique @map("google_sub")
+  role            Role       @default(CUSTOMER)
+  status          UserStatus @default(ACTIVE)
+  language        Language   @default(ar)
+  numerals        Numerals   @default(western)
+  /// FR-NTF-05: marketing and reminder messages need opt-in; order messages do not.
+  marketingOptIn  Boolean    @default(false) @map("marketing_opt_in")
+  /// Free-text area picked at sign-up to suggest delivery (screen 03). Becomes a zone id in S5.
+  homeArea        String?    @map("home_area")
+  phoneVerifiedAt DateTime?  @map("phone_verified_at") @db.Timestamptz(3)
+  termsAcceptedAt DateTime?  @map("terms_accepted_at") @db.Timestamptz(3)
+  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
+  devices             Device[]
+
+  @@map("app_user")
+}
+
+/// Opaque refresh tokens, stored only as a SHA-256 hash. Each use rotates the token;
+/// reusing an old one revokes its whole family (stolen-token detection).
+model RefreshToken {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @map("user_id") @db.Uuid
+  familyId     String    @map("family_id") @db.Uuid
+  tokenHash    String    @unique @map("token_hash")
+  expiresAt    DateTime  @map("expires_at") @db.Timestamptz(3)
+  revokedAt    DateTime? @map("revoked_at") @db.Timestamptz(3)
+  replacedById String?   @map("replaced_by_id") @db.Uuid
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([familyId])
+  @@map("refresh_token")
+}
+
+/// NFR-SEC-10: a code lives 5 minutes and allows 5 attempts. Only an HMAC of the code is stored.
+model OtpCode {
+  id         String     @id @default(uuid()) @db.Uuid
+  phone      String
+  codeHash   String     @map("code_hash")
+  purpose    OtpPurpose @default(LOGIN)
+  channel    OtpChannel @default(sms)
+  attempts   Int        @default(0)
+  expiresAt  DateTime   @map("expires_at") @db.Timestamptz(3)
+  consumedAt DateTime?  @map("consumed_at") @db.Timestamptz(3)
+  createdAt  DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([phone, createdAt])
+  @@map("otp_code")
+}
+
+/// FR-ACC-02: password reset by email. Single use, stored as a hash.
+model PasswordResetToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz(3)
+  usedAt    DateTime? @map("used_at") @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_token")
+}
+
+/// Push targets (EI-SW-09). A device may belong to no user yet (guest).
+model Device {
+  id         String         @id @default(uuid()) @db.Uuid
+  userId     String?        @map("user_id") @db.Uuid
+  platform   DevicePlatform
+  pushToken  String         @unique @map("push_token")
+  appVersion String?        @map("app_version")
+  locale     Language       @default(ar)
+  lastSeenAt DateTime       @default(now()) @map("last_seen_at") @db.Timestamptz(3)
+  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@map("device")
+}
+
+/// DR-20 / FR-ADM-09: who changed what and when. Append-only for everyone, enforced by
+/// database triggers (NFR-SEC-12). No foreign key to users: entries outlive accounts.
+model AuditLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  actorId   String?  @map("actor_id") @db.Uuid
+  actorRole Role?    @map("actor_role")
+  action    String
+  entity    String
+  entityId  String?  @map("entity_id")
+  before    Json?
+  after     Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+  @@map("audit_log")
+}

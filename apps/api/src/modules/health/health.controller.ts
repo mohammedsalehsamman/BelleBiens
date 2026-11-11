@@ -7,6 +7,7 @@ import {
 } from '@nestjs/swagger';
 import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
 import { Clock } from '../../common/clock/clock.js';
+import { Public } from '../accounts/auth/auth.decorators.js';
 import { DatabaseHealthIndicator } from './database.health.js';
 
 export class LivenessDto {
@@ -21,6 +22,7 @@ export class LivenessDto {
 }
 
 @ApiTags('health')
+@Public()
 @Controller('health')
 export class HealthController {
   constructor(

@@ -120,7 +120,7 @@ describe('codeForStatus', () => {
     [426, 'UPGRADE_REQUIRED'],
     [429, 'RATE_LIMITED'],
     [500, 'INTERNAL'],
-    [503, 'INTERNAL'],
+    [503, 'SERVICE_UNAVAILABLE'],
   ])('%i -> %s', (status, code) => {
     expect(codeForStatus(status)).toBe(code);
   });
