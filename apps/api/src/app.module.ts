@@ -9,6 +9,7 @@ import { AppVersionGuard } from './common/version/app-version.guard.js';
 import { type Env, validateEnv } from './config/env.schema.js';
 import { PrismaModule } from './infra/prisma/prisma.module.js';
 import { AccountsModule } from './modules/accounts/accounts.module.js';
+import { CatalogModule } from './modules/catalog/catalog.module.js';
 import { AUTH_RATE_LIMITED } from './modules/accounts/auth/auth.decorators.js';
 import {
   JwtAuthGuard,
@@ -79,6 +80,7 @@ function isAuthRateLimited(context: ExecutionContext): boolean {
     AuditModule,
     SettingsModule,
     AccountsModule,
+    CatalogModule,
     HealthModule,
   ],
   // Order matters: rate limit, then app version, then identity, then role.

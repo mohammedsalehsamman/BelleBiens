@@ -10,6 +10,7 @@ import {
   type OtpMessage,
   OtpSender,
 } from '../../src/adapters/messaging/otp-sender.js';
+import { MediaStorage } from '../../src/adapters/storage/media-storage.js';
 import { AppError } from '../../src/common/errors/app-error.js';
 
 /** Keeps every code "sent", so tests can type it like a customer would. */
@@ -48,5 +49,16 @@ export class FakeGoogleVerifier extends GoogleIdentityVerifier {
     const identity = this.identities.get(idToken);
     if (!identity) throw new AppError('GOOGLE_TOKEN_INVALID');
     return identity;
+  }
+}
+
+/** Keeps uploads in memory instead of the S3 store. */
+export class MemoryMediaStorage extends MediaStorage {
+  readonly files = new Map<string, { bytes: Buffer; contentType: string }>();
+
+  async put(key: string, bytes: Buffer, contentType: string): Promise<string> {
+    this.files.set(key, { bytes, contentType });
+    await Promise.resolve();
+    return `https://media.test/${key}`;
   }
 }

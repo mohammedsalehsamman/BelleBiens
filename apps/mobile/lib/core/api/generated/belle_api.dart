@@ -4,7 +4,13 @@ import 'package:dio/dio.dart' as transport;
 
 import 'exports.dart'
     as clients
-    show AdminClient, AppClient, AuthClient, HealthClient, MeClient;
+    show
+        AdminClient,
+        AppClient,
+        AuthClient,
+        CatalogClient,
+        HealthClient,
+        MeClient;
 
 export 'exports.dart';
 
@@ -24,6 +30,7 @@ final class BelleApi {
   late final clients.AdminClient admin = clients.AdminClient(_client);
   late final clients.AppClient app = clients.AppClient(_client);
   late final clients.AuthClient auth = clients.AuthClient(_client);
+  late final clients.CatalogClient catalog = clients.CatalogClient(_client);
   late final clients.HealthClient health = clients.HealthClient(_client);
   late final clients.MeClient me = clients.MeClient(_client);
 }

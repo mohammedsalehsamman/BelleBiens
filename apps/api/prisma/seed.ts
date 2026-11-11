@@ -3,17 +3,16 @@
 import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../src/generated/prisma/client.js';
+import { shopDate } from '../src/modules/catalog/domain/product-rules.js';
+import { seedCatalog } from './seed-data/catalog.js';
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env['DATABASE_URL'] }),
 });
 
 async function main(): Promise<void> {
-  await prisma.branch.upsert({
-    where: { code: 'abu-rummaneh' },
-    update: {},
-    create: { code: 'abu-rummaneh', nameAr: 'فرع أبو رمانة', nameEn: 'Abu Rummaneh branch' },
-  });
+  // Today's list gets today's date, so re-run the seed on a new day for fresh demo data.
+  await seedCatalog(prisma, shopDate(new Date()));
 
   const settings: Record<string, unknown> = {
     // OI-12: base currency and rate owner still open; README examples use 120 SYP per USD.

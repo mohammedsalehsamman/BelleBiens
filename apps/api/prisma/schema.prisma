@@ -22,6 +22,16 @@ model Branch {
   nameAr    String   @map("name_ar")
   nameEn    String   @map("name_en")
   timezone  String   @default("Asia/Damascus")
+  /// Screen 34 / FR-CON-03.
+  addressAr String   @default("") @map("address_ar")
+  addressEn String   @default("") @map("address_en")
+  phone     String?
+  whatsapp  String?
+  instagram String?
+  latitude  Float?
+  longitude Float?
+  /// Other places customers can order from, e.g. ["Movo", "BeeOrder"].
+  partners  String[] @default([])
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
@@ -107,6 +117,7 @@ model User {
   refreshTokens       RefreshToken[]
   passwordResetTokens PasswordResetToken[]
   devices             Device[]
+  favorites           Favorite[]
 
   @@map("app_user")
 }
@@ -194,4 +205,271 @@ model AuditLog {
   @@index([entity, entityId])
   @@index([createdAt])
   @@map("audit_log")
+}
+
+// ---------------------------------------------------------------------------
+// Catalog (S2): DR-03..05, DR-12, DR-13, FR-CAT-*, FR-DLY-*, FR-INV-01/05/06
+// ---------------------------------------------------------------------------
+
+enum ProductKind {
+  BOUQUET
+  CAKE
+  SWEET
+  DRINK
+  GIFT
+}
+
+enum PublishStatus {
+  ACTIVE
+  HIDDEN
+}
+
+enum OptionSelection {
+  SINGLE
+  MULTIPLE
+}
+
+enum DesignerItemType {
+  FLOWER
+  GREEN
+  WRAP
+  RIBBON
+  EXTRA
+}
+
+/// FR-CAT-01: flowers and bouquets, cakes and sweets, coffee and matcha, gifts.
+model Category {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique
+  nameAr    String   @map("name_ar")
+  nameEn    String   @map("name_en")
+  /// BBIcons name shown on the home screen.
+  icon      String?
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  products Product[]
+
+  @@map("category")
+}
+
+/// FR-CAT-11: birthday, love, graduation, newborn... Products list occasion slugs.
+model Occasion {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique
+  nameAr    String   @map("name_ar")
+  nameEn    String   @map("name_en")
+  titleAr   String   @default("") @map("title_ar")
+  titleEn   String   @default("") @map("title_en")
+  heroImage String?  @map("hero_image")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("occasion")
+}
+
+/// DR-03. Prices are SYP minor units (1/100 pound, ADR 0011). The shown price is the
+/// base price plus the default option of each group.
+model Product {
+  id                String        @id @default(uuid()) @db.Uuid
+  slug              String        @unique
+  categoryId        String        @map("category_id") @db.Uuid
+  kind              ProductKind
+  nameAr            String        @map("name_ar")
+  nameEn            String        @map("name_en")
+  subtitleAr        String        @default("") @map("subtitle_ar")
+  subtitleEn        String        @default("") @map("subtitle_en")
+  descriptionAr     String        @default("") @map("description_ar")
+  descriptionEn     String        @default("") @map("description_en")
+  basePriceMinor    Int           @map("base_price_minor")
+  /// Derived on every write: base plus the default options, so lists can filter and
+  /// sort by the price customers see. "From" when the default is the cheapest choice.
+  displayPriceMinor Int           @default(0) @map("display_price_minor")
+  priceFrom         Boolean       @default(false) @map("price_from")
+  /// "Add to your gift" suggestions on the product page (screens 12, 14), as slugs.
+  pairings          String[]      @default([])
+  /// FR-DLV-05: the earliest delivery is now plus the longest lead time in the cart.
+  leadTimeHours     Int           @default(0) @map("lead_time_hours")
+  /// FR-CKE-05, e.g. ["nuts", "milk", "eggs", "gluten"].
+  allergens         String[]      @default([])
+  /// FR-CAT-02 filters (slugs).
+  occasions         String[]      @default([])
+  colors            String[]      @default([])
+  flowerTypes       String[]      @default([]) @map("flower_types")
+  /// FR-INV-01: null means made to order, so there is no count to run out of.
+  stockQuantity     Int?          @map("stock_quantity")
+  status            PublishStatus @default(ACTIVE)
+  /// FR-DLY-02/03: staff put a product on today's list. It only counts on that date
+  /// (Damascus), so it expires at midnight by itself (FR-DLY-05).
+  dailyDate         DateTime?     @map("daily_date") @db.Date
+  /// "Available today only": outside its daily date the product cannot be ordered.
+  dailyOnly         Boolean       @default(false) @map("daily_only")
+  limited           Boolean       @default(false)
+  seasonal          Boolean       @default(false)
+  bestSeller        Boolean       @default(false) @map("best_seller")
+  /// Higher sorts first under "most ordered" until real order counts exist (S5).
+  popularity        Int           @default(0)
+  /// The bouquet spec this ready-made bouquet starts from in the designer (FR-CAT-07, S3).
+  designerTemplate  Json?         @map("designer_template")
+  /// Normalized names, subtitles and tags in both languages (FR-CAT-04).
+  searchText        String        @default("") @map("search_text")
+  branchId          String?       @map("branch_id") @db.Uuid
+  createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  category     Category             @relation(fields: [categoryId], references: [id])
+  images       ProductImage[]
+  optionGroups ProductOptionGroup[]
+  favorites    Favorite[]
+  movements    StockMovement[]
+
+  @@index([categoryId, status])
+  @@index([dailyDate])
+  @@map("product")
+}
+
+model ProductImage {
+  id        String @id @default(uuid()) @db.Uuid
+  productId String @map("product_id") @db.Uuid
+  url       String
+  altAr     String @default("") @map("alt_ar")
+  altEn     String @default("") @map("alt_en")
+  sortOrder Int    @default(0) @map("sort_order")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_image")
+}
+
+/// DR-04: size, wrap, milk, sweetness, ice, gift card... (screens 12-14).
+model ProductOptionGroup {
+  id        String          @id @default(uuid()) @db.Uuid
+  productId String          @map("product_id") @db.Uuid
+  key       String
+  nameAr    String          @map("name_ar")
+  nameEn    String          @map("name_en")
+  selection OptionSelection @default(SINGLE)
+  required  Boolean         @default(true)
+  sortOrder Int             @default(0) @map("sort_order")
+
+  product Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  options ProductOption[]
+
+  @@unique([productId, key])
+  @@map("product_option_group")
+}
+
+model ProductOption {
+  id               String  @id @default(uuid()) @db.Uuid
+  groupId          String  @map("group_id") @db.Uuid
+  key              String
+  nameAr           String  @map("name_ar")
+  nameEn           String  @map("name_en")
+  /// "15 roses", "8 - 10 people".
+  detailAr         String  @default("") @map("detail_ar")
+  detailEn         String  @default("") @map("detail_en")
+  /// A swatch for wrap colors, e.g. "#7A1F3D".
+  swatch           String?
+  priceChangeMinor Int     @default(0) @map("price_change_minor")
+  isDefault        Boolean @default(false) @map("is_default")
+  sortOrder        Int     @default(0) @map("sort_order")
+
+  group ProductOptionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, key])
+  @@map("product_option")
+}
+
+/// DR-05: what the bouquet designer offers. The slug is the id used in bouquet specs.
+model DesignerItem {
+  id             String           @id @default(uuid()) @db.Uuid
+  slug           String           @unique
+  type           DesignerItemType
+  nameAr         String           @map("name_ar")
+  nameEn         String           @map("name_en")
+  unitPriceMinor Int              @map("unit_price_minor")
+  swatch         String?
+  colorTags      String[]         @default([]) @map("color_tags")
+  occasionTags   String[]         @default([]) @map("occasion_tags")
+  cutoutUrl      String?          @map("cutout_url")
+  modelUrl       String?          @map("model_url")
+  /// FR-INV-01 for wraps, ribbons and extras. Flowers and greens use DailyAvailability.
+  stockQuantity  Int?             @map("stock_quantity")
+  /// FR-INV-06: "MM-DD" window. Outside it the item is hidden.
+  seasonFrom     String?          @map("season_from")
+  seasonTo       String?          @map("season_to")
+  status         PublishStatus    @default(ACTIVE)
+  sortOrder      Int              @default(0) @map("sort_order")
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime         @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  daily     DailyAvailability[]
+  movements StockMovement[]
+
+  @@map("designer_item")
+}
+
+/// DR-13 / FR-DLY-01: stems available today. A row only counts on its own date
+/// (Damascus), so "available today" expires at midnight by itself (FR-DLY-05).
+model DailyAvailability {
+  id             String   @id @default(uuid()) @db.Uuid
+  designerItemId String   @map("designer_item_id") @db.Uuid
+  date           DateTime @db.Date
+  quantity       Int
+  limited        Boolean  @default(false)
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  updatedBy      String?  @map("updated_by") @db.Uuid
+
+  item DesignerItem @relation(fields: [designerItemId], references: [id], onDelete: Cascade)
+
+  @@unique([designerItemId, date])
+  @@index([date])
+  @@map("daily_availability")
+}
+
+/// DR-12 / FR-INV-05: every change to a stock count, with who and why.
+model StockMovement {
+  id             String   @id @default(uuid()) @db.Uuid
+  productId      String?  @map("product_id") @db.Uuid
+  designerItemId String?  @map("designer_item_id") @db.Uuid
+  delta          Int
+  quantityAfter  Int      @map("quantity_after")
+  reason         String
+  userId         String?  @map("user_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  product      Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+  designerItem DesignerItem? @relation(fields: [designerItemId], references: [id], onDelete: SetNull)
+
+  @@index([productId])
+  @@index([designerItemId])
+  @@map("stock_movement")
+}
+
+/// FR-ACC-06.
+model Favorite {
+  userId    String   @map("user_id") @db.Uuid
+  productId String   @map("product_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([userId, productId])
+  @@map("favorite")
+}
+
+/// FR-CON-04: delivery, cancellation, privacy and terms pages in both languages.
+model Page {
+  slug      String   @id
+  titleAr   String   @map("title_ar")
+  titleEn   String   @map("title_en")
+  bodyAr    String   @map("body_ar")
+  bodyEn    String   @map("body_en")
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("page")
 }

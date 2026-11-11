@@ -22,6 +22,296 @@ class _AdminClient extends AdminClient {
   final ParseErrorLogger? errorLogger;
 
   @override
+  Future<void> adminCatalogControllerDailyFlowers({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DailyStemsInputDto body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    _extra.addAll(extra);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Content-Type': 'application/json',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<void>(
+      Options(
+            method: 'PUT',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/v1/admin/daily-flowers',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> adminCatalogControllerCreateDesignerItem({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DesignerItemInputDto body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    _extra.addAll(extra);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Content-Type': 'application/json',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<void>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/v1/admin/designer-items',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> adminCatalogControllerUpdateDesignerItem({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required UpdateDesignerItemDto body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    _extra.addAll(extra);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Content-Type': 'application/json',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<void>(
+      Options(
+            method: 'PATCH',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/v1/admin/designer-items/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<AdminProductDto> adminCatalogControllerCreate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required CreateProductDto body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    _extra.addAll(extra);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Content-Type': 'application/json',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<AdminProductDto>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/v1/admin/products',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late AdminProductDto _value;
+    try {
+      _value = AdminProductDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<AdminProductDto> adminCatalogControllerUpdate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required UpdateProductDto body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    _extra.addAll(extra);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Content-Type': 'application/json',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<AdminProductDto>(
+      Options(
+            method: 'PATCH',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/v1/admin/products/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late AdminProductDto _value;
+    try {
+      _value = AdminProductDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<StockMovementDto> adminCatalogControllerAdjust({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required StockAdjustmentDto body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    _extra.addAll(extra);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Content-Type': 'application/json',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<StockMovementDto>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/v1/admin/stock-adjustments',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late StockMovementDto _value;
+    try {
+      _value = StockMovementDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<MeDto> adminUsersControllerChangeRole({
     Map<String, Object?> extra = const {
       "openapi.security": [

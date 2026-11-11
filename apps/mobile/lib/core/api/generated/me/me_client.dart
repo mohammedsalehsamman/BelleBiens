@@ -19,6 +19,7 @@ import 'package:retrofit/retrofit.dart'
         Path;
 
 import '../admin/models/me_dto.dart' show MeDto;
+import '../catalog/models/product_card_dto.dart' as models show ProductCardDto;
 import 'models/register_device_dto.dart' show RegisterDeviceDto;
 import 'models/update_me_dto.dart' show UpdateMeDto;
 
@@ -216,6 +217,124 @@ abstract class MeClient {
     Options? options,
     @Path('pushToken') required String pushToken,
   });
+
+  /// Saved products (screen 32, FR-ACC-06)
+  Future<List<models.ProductCardDto>> favoritesControllerList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/favorites",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map(
+          (item) =>
+              models.ProductCardDto.fromJson(item as Map<String, Object?>),
+        )
+        .toList();
+  }
+
+  Future<void> _favoritesControllerAddWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String slug,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    await _transport.request<dynamic>(
+      "/v1/me/favorites/" + slug.toString(),
+      options: _options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Save a product
+  @PUT('/v1/me/favorites/{slug}')
+  Future<void> favoritesControllerAdd({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('slug') required String slug,
+  });
+  Future<void> _favoritesControllerRemoveWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String slug,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "DELETE",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    await _transport.request<dynamic>(
+      "/v1/me/favorites/" + slug.toString(),
+      options: _options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Remove a saved product
+  @DELETE('/v1/me/favorites/{slug}')
+  Future<void> favoritesControllerRemove({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('slug') required String slug,
+  });
 }
 
 class _MeClientWithOptions extends _MeClient {
@@ -331,6 +450,64 @@ class _MeClientWithOptions extends _MeClient {
             cancelToken: cancelToken,
             options: options,
             pushToken: pushToken,
+          );
+  }
+
+  @override
+  Future<void> favoritesControllerAdd({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String slug,
+  }) {
+    return options == null
+        ? super.favoritesControllerAdd(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            slug: slug,
+          )
+        : _favoritesControllerAddWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            slug: slug,
+          );
+  }
+
+  @override
+  Future<void> favoritesControllerRemove({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String slug,
+  }) {
+    return options == null
+        ? super.favoritesControllerRemove(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            slug: slug,
+          )
+        : _favoritesControllerRemoveWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            slug: slug,
           );
   }
 }

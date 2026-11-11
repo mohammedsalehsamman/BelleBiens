@@ -70,6 +70,21 @@ export const envSchema = z
     MAIL_FROM: z.string().default('Belle Biens <no-reply@bellebiens.local>'),
     /** Where password reset links point (the website, later). */
     PUBLIC_WEB_URL: z.url().default('http://localhost:3001'),
+
+    // Media (product photos, later designer cut-outs): any S3-compatible store.
+    // Development uses SeaweedFS from infra/docker-compose.yml.
+    S3_ENDPOINT: z.url().optional(),
+    S3_REGION: z.string().default('us-east-1'),
+    S3_BUCKET: z.string().min(3).default('belle-media'),
+    S3_ACCESS_KEY_ID: z.string().default('dev'),
+    S3_SECRET_ACCESS_KEY: z.string().default('dev'),
+    /** Public base URL of the bucket; stored image URLs start with it. */
+    MEDIA_PUBLIC_URL: z.url().default('http://localhost:8333/belle-media'),
+    MEDIA_MAX_UPLOAD_BYTES: z.coerce
+      .number()
+      .int()
+      .positive()
+      .default(8 * 1024 * 1024),
   })
   .superRefine((env, ctx) => {
     if (

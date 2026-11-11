@@ -5,6 +5,7 @@ import {
 } from './identity/google-identity.js';
 import { Mailer, SmtpMailer } from './messaging/mailer.js';
 import { ConsoleOtpSender, OtpSender } from './messaging/otp-sender.js';
+import { MediaStorage, S3MediaStorage } from './storage/media-storage.js';
 
 /**
  * Binds each provider interface to its implementation. Domain modules depend on the
@@ -17,7 +18,8 @@ import { ConsoleOtpSender, OtpSender } from './messaging/otp-sender.js';
     { provide: OtpSender, useClass: ConsoleOtpSender },
     { provide: Mailer, useClass: SmtpMailer },
     { provide: GoogleIdentityVerifier, useClass: GoogleAuthLibraryVerifier },
+    { provide: MediaStorage, useClass: S3MediaStorage },
   ],
-  exports: [OtpSender, Mailer, GoogleIdentityVerifier],
+  exports: [OtpSender, Mailer, GoogleIdentityVerifier, MediaStorage],
 })
 export class AdaptersModule {}

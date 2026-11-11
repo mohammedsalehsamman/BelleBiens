@@ -3,21 +3,46 @@
 import 'dart:convert' as convert;
 
 import 'package:dio/dio.dart'
-    show Dio, Options, ResponseType, CancelToken, RequestOptions;
+    show
+        Dio,
+        Options,
+        ResponseType,
+        CancelToken,
+        FormData,
+        MultipartFile,
+        RequestOptions;
 import 'package:retrofit/retrofit.dart'
     show
         RestApi,
         Extras,
         CancelRequest,
+        PUT,
+        POST,
         PATCH,
         ParseErrorLogger,
         Body,
         Headers,
         Path;
 
+import 'models/admin_designer_item_dto.dart'
+    as models
+    show AdminDesignerItemDto;
+import 'models/admin_product_dto.dart' show AdminProductDto;
 import 'models/audit_entry_dto.dart' as models show AuditEntryDto;
 import 'models/change_role_dto.dart' show ChangeRoleDto;
+import 'models/create_product_dto.dart' show CreateProductDto;
+import 'models/daily_stems_input_dto.dart' show DailyStemsInputDto;
+import 'models/designer_item_input_dto.dart' show DesignerItemInputDto;
 import 'models/me_dto.dart' show MeDto;
+import 'models/media_controller_upload_kind.dart'
+    as models
+    show MediaControllerUploadKind;
+import 'models/media_dto.dart' as models show MediaDto;
+import 'models/stock_adjustment_dto.dart' show StockAdjustmentDto;
+import 'models/stock_movement_dto.dart' show StockMovementDto;
+import 'models/today_list_dto.dart' as models show TodayListDto;
+import 'models/update_designer_item_dto.dart' show UpdateDesignerItemDto;
+import 'models/update_product_dto.dart' show UpdateProductDto;
 
 part 'admin_client.g.dart';
 
@@ -64,6 +89,497 @@ abstract class AdminClient {
         .map(
           (item) => models.AuditEntryDto.fromJson(item as Map<String, Object?>),
         )
+        .toList();
+  }
+
+  Future<void> _adminCatalogControllerDailyFlowersWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DailyStemsInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    await _transport.request<dynamic>(
+      "/v1/admin/daily-flowers",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Set today's stems (FR-DLY-01); they expire at midnight
+  @PUT('/v1/admin/daily-flowers')
+  @Headers({'Content-Type': 'application/json'})
+  Future<void> adminCatalogControllerDailyFlowers({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required DailyStemsInputDto body,
+  });
+
+  /// Set today's product list (FR-DLY-02)
+  Future<List<AdminProductDto>> adminCatalogControllerTodayList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required models.TodayListDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/daily-products",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => AdminProductDto.fromJson(item as Map<String, Object?>))
+        .toList();
+  }
+
+  /// Designer items with today's stems
+  Future<List<models.AdminDesignerItemDto>>
+  adminCatalogControllerDesignerItems({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/designer-items",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map(
+          (item) => models.AdminDesignerItemDto.fromJson(
+            item as Map<String, Object?>,
+          ),
+        )
+        .toList();
+  }
+
+  Future<void> _adminCatalogControllerCreateDesignerItemWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DesignerItemInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    await _transport.request<dynamic>(
+      "/v1/admin/designer-items",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Add a flower, green, wrap, ribbon or extra (FR-ADM-03)
+  @POST('/v1/admin/designer-items')
+  @Headers({'Content-Type': 'application/json'})
+  Future<void> adminCatalogControllerCreateDesignerItem({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required DesignerItemInputDto body,
+  });
+  Future<void> _adminCatalogControllerUpdateDesignerItemWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required UpdateDesignerItemDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PATCH",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    await _transport.request<dynamic>(
+      "/v1/admin/designer-items/" + id.toString(),
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Change a designer item
+  @PATCH('/v1/admin/designer-items/{id}')
+  @Headers({'Content-Type': 'application/json'})
+  Future<void> adminCatalogControllerUpdateDesignerItem({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+    @Body() required UpdateDesignerItemDto body,
+  });
+
+  /// Upload a product photo or a designer cut-out (NFR-SEC-08: checked and re-encoded)
+  Future<models.MediaDto> mediaControllerUpload({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    models.MediaControllerUploadKind? kind,
+    required MultipartFile file,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "multipart/form-data",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+      validateStatus: (status) => status != null && (status == 201),
+    );
+    final formData = FormData();
+    formData.files.add(MapEntry("file", file));
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/media",
+      options: _options,
+      queryParameters: <String, Object?>{
+        if (kind != null) "kind": kind.toJson(),
+      },
+      data: formData,
+      cancelToken: cancelToken,
+    );
+    return models.MediaDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Every product, hidden ones too
+  Future<List<AdminProductDto>> adminCatalogControllerProducts({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/products",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => AdminProductDto.fromJson(item as Map<String, Object?>))
+        .toList();
+  }
+
+  Future<AdminProductDto> _adminCatalogControllerCreateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required CreateProductDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/products",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AdminProductDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Add a product with its options and photos (FR-ADM-02)
+  @POST('/v1/admin/products')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AdminProductDto> adminCatalogControllerCreate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required CreateProductDto body,
+  });
+  Future<AdminProductDto> _adminCatalogControllerUpdateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required UpdateProductDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PATCH",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/products/" + id.toString(),
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AdminProductDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Change a product; optionGroups and images replace the old ones
+  @PATCH('/v1/admin/products/{id}')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AdminProductDto> adminCatalogControllerUpdate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+    @Body() required UpdateProductDto body,
+  });
+  Future<StockMovementDto> _adminCatalogControllerAdjustWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required StockAdjustmentDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/stock-adjustments",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return StockMovementDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Change a stock count with a reason (FR-INV-05)
+  @POST('/v1/admin/stock-adjustments')
+  @Headers({'Content-Type': 'application/json'})
+  Future<StockMovementDto> adminCatalogControllerAdjust({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required StockAdjustmentDto body,
+  });
+
+  /// Latest stock changes (DR-12)
+  Future<List<StockMovementDto>> adminCatalogControllerMovements({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    String? entity,
+    num? limit,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/stock-movements",
+      options: _options,
+      queryParameters: <String, Object?>{
+        if (entity != null) "entity": entity,
+        if (limit != null) "limit": limit,
+      },
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => StockMovementDto.fromJson(item as Map<String, Object?>))
         .toList();
   }
 
@@ -124,6 +640,186 @@ abstract class AdminClient {
 
 class _AdminClientWithOptions extends _AdminClient {
   _AdminClientWithOptions(Dio dio) : super._(dio, dio);
+
+  @override
+  Future<void> adminCatalogControllerDailyFlowers({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DailyStemsInputDto body,
+  }) {
+    return options == null
+        ? super.adminCatalogControllerDailyFlowers(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _adminCatalogControllerDailyFlowersWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<void> adminCatalogControllerCreateDesignerItem({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DesignerItemInputDto body,
+  }) {
+    return options == null
+        ? super.adminCatalogControllerCreateDesignerItem(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _adminCatalogControllerCreateDesignerItemWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<void> adminCatalogControllerUpdateDesignerItem({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required UpdateDesignerItemDto body,
+  }) {
+    return options == null
+        ? super.adminCatalogControllerUpdateDesignerItem(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          )
+        : _adminCatalogControllerUpdateDesignerItemWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          );
+  }
+
+  @override
+  Future<AdminProductDto> adminCatalogControllerCreate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required CreateProductDto body,
+  }) {
+    return options == null
+        ? super.adminCatalogControllerCreate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _adminCatalogControllerCreateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<AdminProductDto> adminCatalogControllerUpdate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required UpdateProductDto body,
+  }) {
+    return options == null
+        ? super.adminCatalogControllerUpdate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          )
+        : _adminCatalogControllerUpdateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          );
+  }
+
+  @override
+  Future<StockMovementDto> adminCatalogControllerAdjust({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required StockAdjustmentDto body,
+  }) {
+    return options == null
+        ? super.adminCatalogControllerAdjust(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _adminCatalogControllerAdjustWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
 
   @override
   Future<MeDto> adminUsersControllerChangeRole({
