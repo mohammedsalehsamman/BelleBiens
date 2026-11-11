@@ -85,6 +85,20 @@ class AccountScreen extends ConsumerWidget {
               ],
             ),
           ),
+        BBListGroup(
+          children: [
+            BBListTile(
+              title: l10n.favoritesTitle,
+              leading: const BBIconBox(BBIcons.heart, size: 36),
+              onTap: () => context.push(Routes.favorites),
+            ),
+            BBListTile(
+              title: l10n.branchTitle,
+              leading: const BBIconBox(BBIcons.store, size: 36),
+              onTap: () => context.push(Routes.branch),
+            ),
+          ],
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

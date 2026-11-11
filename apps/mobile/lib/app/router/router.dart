@@ -10,6 +10,14 @@ import 'package:belle_biens/features/auth/presentation/complete_profile_screen.d
 import 'package:belle_biens/features/auth/presentation/login_screen.dart';
 import 'package:belle_biens/features/auth/presentation/otp_screen.dart';
 import 'package:belle_biens/features/auth/presentation/register_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/branch_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/favorites_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/home_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/occasion_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/product_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/search_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/shop_screen.dart';
+import 'package:belle_biens/features/catalog/presentation/today_screen.dart';
 import 'package:belle_biens/features/notifications/presentation/notification_permission_screen.dart';
 import 'package:belle_biens/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -62,11 +70,60 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.notificationPermission,
         builder: (context, state) => const NotificationPermissionScreen(),
       ),
+      // Full-screen catalog pages, above the tab bar (screens 08, 12-14, 32,
+      // 34). Today's flowers and occasions keep the tabs (screens 10, 11).
+      GoRoute(
+        path: Routes.search,
+        builder: (context, state) => const SearchScreen(),
+      ),
+      GoRoute(
+        path: '/p/:slug',
+        builder: (context, state) =>
+            ProductScreen(slug: state.pathParameters['slug']!),
+      ),
+      GoRoute(
+        path: Routes.branch,
+        builder: (context, state) => const BranchScreen(),
+      ),
+      GoRoute(
+        path: '/pages/:slug',
+        builder: (context, state) =>
+            PolicyPageScreen(slug: state.pathParameters['slug']!),
+      ),
+      GoRoute(
+        path: Routes.favorites,
+        builder: (context, state) => const FavoritesScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _TabShell(shell: shell),
         branches: [
-          _placeholderTab(Routes.home, (l) => l.navHome, sprint: 'S2'),
-          _placeholderTab(Routes.shop, (l) => l.navShop, sprint: 'S2'),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.home,
+                builder: (context, state) => const HomeScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'today',
+                    builder: (context, state) => const TodayScreen(),
+                  ),
+                  GoRoute(
+                    path: 'occasions/:slug',
+                    builder: (context, state) =>
+                        OccasionScreen(slug: state.pathParameters['slug']!),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.shop,
+                builder: (context, state) => const ShopScreen(),
+              ),
+            ],
+          ),
           _placeholderTab(Routes.designer, (l) => l.navDesigner, sprint: 'S3'),
           _placeholderTab(Routes.orders, (l) => l.navOrders, sprint: 'S6'),
           StatefulShellBranch(

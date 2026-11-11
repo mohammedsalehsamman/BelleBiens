@@ -208,12 +208,17 @@ class BBBadge extends StatelessWidget {
             BBIcon(icon!, size: 14, color: fg),
             const SizedBox(width: 4),
           ],
-          Text(
-            label,
-            style: BBText.xs.copyWith(
-              color: fg,
-              fontWeight: FontWeight.w600,
-              height: 20 / 12,
+          // Long labels at large text sizes shorten instead of overflowing.
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: BBText.xs.copyWith(
+                color: fg,
+                fontWeight: FontWeight.w600,
+                height: 20 / 12,
+              ),
             ),
           ),
         ],

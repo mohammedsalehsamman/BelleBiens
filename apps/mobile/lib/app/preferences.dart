@@ -60,12 +60,16 @@ class AppPreferences {
   static const notificationsAskedKey = 'notifications.asked';
   static const languageKey = 'locale.language';
   static const numeralsKey = 'locale.numerals';
+  static const displayCurrencyKey = 'display.currency';
+  static const recentSearchesKey = 'search.recent';
 
   static const Set<String> keys = {
     onboardingSeenKey,
     notificationsAskedKey,
     languageKey,
     numeralsKey,
+    displayCurrencyKey,
+    recentSearchesKey,
   };
 
   bool get onboardingSeen => _backend.getBool(onboardingSeenKey) ?? false;
@@ -87,6 +91,16 @@ class AppPreferences {
       Numerals.western;
   Future<void> setNumerals(Numerals value) =>
       _backend.setString(numeralsKey, value.name);
+
+  /// 'syp' or 'usd' (screens 06, 07).
+  String? get displayCurrency => _backend.getString(displayCurrencyKey);
+  Future<void> setDisplayCurrency(String value) =>
+      _backend.setString(displayCurrencyKey, value);
+
+  /// JSON list of the latest searches (screen 08).
+  String? get recentSearches => _backend.getString(recentSearchesKey);
+  Future<void> setRecentSearches(String json) =>
+      _backend.setString(recentSearchesKey, json);
 }
 
 /// Overridden in `main()` once the preferences are loaded.

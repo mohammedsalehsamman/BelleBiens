@@ -1,15 +1,24 @@
 import 'package:belle_biens/app/app.dart';
+import 'package:belle_biens/app/bootstrap.dart';
 import 'package:belle_biens/app/env.dart';
 import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
+import 'package:belle_biens/core/launch/external_links.dart';
+import 'package:belle_biens/core/storage/json_cache.dart';
 import 'package:belle_biens/core/storage/token_store.dart';
 import 'package:belle_biens/features/auth/data/auth_repository.dart';
+import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/notifications/notification_permission.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+
+import 'fixture_server.dart';
+
+export 'fixture_server.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository;
 
@@ -36,6 +45,9 @@ class TestHarness {
     required this.tokens,
     required this.auth,
     required this.permission,
+    required this.server,
+    required this.cache,
+    required this.links,
   });
 
   final ProviderContainer container;
@@ -43,6 +55,11 @@ class TestHarness {
   final MemoryTokenStore tokens;
   final MockAuthRepository auth;
   final FakeNotificationPermission permission;
+
+  /// Serves catalog calls from test/fixtures/catalog.
+  final FixtureServer server;
+  final MemoryJsonCache cache;
+  final FakeExternalLinks links;
 }
 
 /// Pumps the whole app with fakes: no network, no device storage.
@@ -52,17 +69,29 @@ Future<TestHarness> pumpTestApp(
   bool notificationsAsked = false,
   String? language,
   String? storedSession,
+  FixtureServer? server,
+  MemoryJsonCache? cache,
+  Map<String, Object>? preferences,
 }) async {
   final prefs = MemoryPreferencesBackend({
     AppPreferences.onboardingSeenKey: onboardingSeen,
     AppPreferences.notificationsAskedKey: notificationsAsked,
     AppPreferences.languageKey: ?language,
+    ...?preferences,
   });
   final tokens = MemoryTokenStore()..value = storedSession;
   final auth = MockAuthRepository();
   final permission = FakeNotificationPermission();
+  final fixtures = server ?? FixtureServer();
+  final memory = cache ?? MemoryJsonCache();
+  final links = FakeExternalLinks();
+  final api = BelleApi(
+    Dio(BaseOptions(baseUrl: 'http://localhost:3000'))
+      ..httpClientAdapter = fixtures,
+  );
 
   final container = ProviderContainer(
+    retry: appRetry,
     overrides: [
       appEnvProvider.overrideWithValue(testEnv),
       appPreferencesProvider.overrideWithValue(AppPreferences(prefs)),
@@ -70,6 +99,9 @@ Future<TestHarness> pumpTestApp(
       tokenStoreProvider.overrideWithValue(tokens),
       authRepositoryProvider.overrideWithValue(auth),
       notificationPermissionProvider.overrideWithValue(permission),
+      belleApiProvider.overrideWithValue(api),
+      jsonCacheProvider.overrideWithValue(memory),
+      externalLinksProvider.overrideWithValue(links),
     ],
   );
   addTearDown(container.dispose);
@@ -84,6 +116,9 @@ Future<TestHarness> pumpTestApp(
     tokens: tokens,
     auth: auth,
     permission: permission,
+    server: fixtures,
+    cache: memory,
+    links: links,
   );
 }
 

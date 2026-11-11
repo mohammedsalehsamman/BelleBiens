@@ -374,4 +374,458 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountLanguage => 'Language';
+
+  @override
+  String get currencySyp => 'SYP';
+
+  @override
+  String get currencyUsd => '\$';
+
+  @override
+  String homeDeliveryTo(String area) {
+    return 'Delivering to: $area';
+  }
+
+  @override
+  String get homeSearchHint => 'Search bouquets, cakes, gifts…';
+
+  @override
+  String get homeDesignerEyebrow => 'Bouquet designer';
+
+  @override
+  String get homeDesignerTitle => 'Design your own bouquet';
+
+  @override
+  String get homeDesignerBody =>
+      'Pick the flowers, wrap and extras, and see the bouquet and its price before you order.';
+
+  @override
+  String get homeDesignerCta => 'Start designing';
+
+  @override
+  String get homeOrderNow => 'Order now';
+
+  @override
+  String get homeOrderNowSub => 'Delivery or pickup';
+
+  @override
+  String get homeWhatsapp => 'WhatsApp';
+
+  @override
+  String get homeWhatsappSub => 'Ask the shop';
+
+  @override
+  String get homeCategories => 'Categories';
+
+  @override
+  String get homeTodayTitle => 'Today\'s flowers';
+
+  @override
+  String get homeTodaySub => 'What is fresh in the shop today';
+
+  @override
+  String get homeCakesTitle => 'Cakes & sweets';
+
+  @override
+  String get homeCakesSub => 'Made daily in the shop kitchen';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get shopOpenNow => 'Open now';
+
+  @override
+  String get shopBusyNow => 'Busy right now';
+
+  @override
+  String get shopClosedNow => 'Closed now';
+
+  @override
+  String shopUntil(String time) {
+    return 'Until $time';
+  }
+
+  @override
+  String shopOpensAt(String time) {
+    return 'Opens $time';
+  }
+
+  @override
+  String get branchHoursLabel => 'Opening hours';
+
+  @override
+  String branchHoursDaily(String open, String close) {
+    return 'Daily $open – $close';
+  }
+
+  @override
+  String get branchMap => 'Map';
+
+  @override
+  String get branchInstagram => 'Instagram';
+
+  @override
+  String get branchTitle => 'Branch & contact';
+
+  @override
+  String get branchDirections => 'Directions';
+
+  @override
+  String get branchCall => 'Call';
+
+  @override
+  String get branchPolicies => 'Policies';
+
+  @override
+  String branchPartners(String list) {
+    return 'Also on $list';
+  }
+
+  @override
+  String get branchContactSoon =>
+      'The shop will add its phone and WhatsApp numbers soon.';
+
+  @override
+  String get badgeBestSeller => 'Best seller';
+
+  @override
+  String get badgeSeasonal => 'Seasonal';
+
+  @override
+  String get badgeToday => 'Today\'s flowers';
+
+  @override
+  String get badgeTodayOnly => 'Today only';
+
+  @override
+  String get badgeLimited => 'Limited';
+
+  @override
+  String get badgeUnavailable => 'Not available today';
+
+  @override
+  String priceFrom(String price) {
+    return 'From $price';
+  }
+
+  @override
+  String priceApprox(String price) {
+    return '≈ $price';
+  }
+
+  @override
+  String get shopTitle => 'Shop';
+
+  @override
+  String get shopSearchHint => 'Search the shop';
+
+  @override
+  String get shopFilters => 'Filters';
+
+  @override
+  String shopFiltersCount(int count) {
+    return 'Filters · $count';
+  }
+
+  @override
+  String get shopAll => 'All';
+
+  @override
+  String shopResultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shopSortedBy(String sort) {
+    return 'Sorted by: $sort';
+  }
+
+  @override
+  String get sortPopular => 'Most ordered';
+
+  @override
+  String get sortNewest => 'Newest';
+
+  @override
+  String get sortPriceAsc => 'Price: low to high';
+
+  @override
+  String get sortPriceDesc => 'Price: high to low';
+
+  @override
+  String get shopSortTitle => 'Sort products';
+
+  @override
+  String get shopOpenForOrders => 'Open for orders';
+
+  @override
+  String get shopLoadMore => 'Show more';
+
+  @override
+  String get shopEmpty => 'No products match these filters.';
+
+  @override
+  String get shopClearFilters => 'Clear filters';
+
+  @override
+  String get filtersOccasion => 'Occasion';
+
+  @override
+  String get filtersColor => 'Color';
+
+  @override
+  String get filtersFlowerType => 'Flower type';
+
+  @override
+  String filtersPrice(String currency) {
+    return 'Price ($currency)';
+  }
+
+  @override
+  String get filtersAvailableToday => 'Available today only';
+
+  @override
+  String get filtersDeliverableToday => 'Can be delivered today';
+
+  @override
+  String get filtersClearAll => 'Clear all';
+
+  @override
+  String filtersShowCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show $count products',
+      one: 'Show 1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filtersShowResults => 'Show results';
+
+  @override
+  String get searchRecent => 'Recent searches';
+
+  @override
+  String get searchClear => 'Clear';
+
+  @override
+  String searchTab(String name, int count) {
+    return '$name · $count';
+  }
+
+  @override
+  String searchNoResults(String query) {
+    return 'No results for “$query”. Try another word.';
+  }
+
+  @override
+  String get searchOfflineNote =>
+      'You are offline. Searching products saved on this phone.';
+
+  @override
+  String get todayNotice =>
+      'The shop updates this list every day. It expires at midnight, Damascus time.';
+
+  @override
+  String todayLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count left',
+      one: '1 left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayAvailable => 'Available';
+
+  @override
+  String get todayStemsTitle => 'Flowers for the designer today';
+
+  @override
+  String todayStem(String name, String count) {
+    return '$name · $count';
+  }
+
+  @override
+  String get todayDesignCta => 'Design a bouquet from today\'s flowers';
+
+  @override
+  String get todayEmpty =>
+      'The shop has not posted today\'s list yet. Check back later.';
+
+  @override
+  String get occasionTabFlowers => 'Flowers';
+
+  @override
+  String get occasionTabCakes => 'Cakes';
+
+  @override
+  String get occasionTabExtras => 'Extras';
+
+  @override
+  String occasionDesignCta(String occasion) {
+    return 'Design a $occasion bouquet';
+  }
+
+  @override
+  String occasionDesignSub(String occasion) {
+    return 'Starts with “$occasion” already chosen';
+  }
+
+  @override
+  String get productReadyBouquet => 'Ready-made bouquet';
+
+  @override
+  String productSelected(String group, String option) {
+    return 'Selected $group: $option';
+  }
+
+  @override
+  String get productCustomizeTitle => 'Want a personal touch?';
+
+  @override
+  String get productCustomizeBody =>
+      'Open this bouquet in the designer and change the flowers and colors.';
+
+  @override
+  String get productCustomize => 'Customize';
+
+  @override
+  String get productIncluded => '(included)';
+
+  @override
+  String get optionIncluded => 'Included';
+
+  @override
+  String productEarliest(String when) {
+    return 'Earliest delivery: $when';
+  }
+
+  @override
+  String get whenToday => 'today';
+
+  @override
+  String get whenTomorrow => 'tomorrow';
+
+  @override
+  String whenInDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'in $days days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get productDeliveryNote =>
+      'Delivery inside Damascus by area, or free pickup at the Abu Rummaneh branch.';
+
+  @override
+  String get productDeliveryPolicy => 'Delivery policy';
+
+  @override
+  String get productDisclaimer =>
+      'The final bouquet may differ slightly depending on the fresh flowers available.';
+
+  @override
+  String get productPairingsGift => 'Add to your gift';
+
+  @override
+  String get productPairingsDrink => 'Goes well with your drink';
+
+  @override
+  String productAllergens(String list) {
+    return 'Allergens: $list';
+  }
+
+  @override
+  String get allergenNuts => 'nuts';
+
+  @override
+  String get allergenMilk => 'milk';
+
+  @override
+  String get allergenEggs => 'eggs';
+
+  @override
+  String get allergenGluten => 'gluten';
+
+  @override
+  String productLeadTime(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'Order $hours hours ahead',
+      one: 'Order 1 hour ahead',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get productAskTitle => 'Have a question?';
+
+  @override
+  String get productAskBody => 'Message the shop on WhatsApp';
+
+  @override
+  String get productTotal => 'Total';
+
+  @override
+  String get productAddToCart => 'Add to cart';
+
+  @override
+  String productAddWithTotal(String price) {
+    return 'Add · $price';
+  }
+
+  @override
+  String get productCartSoon => 'The cart arrives in the next update.';
+
+  @override
+  String get productUnavailable =>
+      'Not available today. Save it and order later.';
+
+  @override
+  String get productFavoriteAdd => 'Save to favorites';
+
+  @override
+  String get productFavoriteRemove => 'Remove from favorites';
+
+  @override
+  String get productQuantity => 'Quantity';
+
+  @override
+  String get favoriteSignIn => 'Sign in to save your favorites.';
+
+  @override
+  String get favoritesTitle => 'Favorites';
+
+  @override
+  String get favoritesEmpty =>
+      'Nothing saved yet. Tap the heart on a product page.';
+
+  @override
+  String get offlineBanner => 'You are offline. Showing the last saved copy.';
+
+  @override
+  String get loadFailed => 'Could not load.';
+
+  @override
+  String imagePlaceholder(String name) {
+    return 'Photo of $name';
+  }
 }

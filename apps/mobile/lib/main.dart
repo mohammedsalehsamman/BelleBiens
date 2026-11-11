@@ -15,8 +15,13 @@ Future<void> main() async {
   registerFontLicenses();
   final overrides = await appOverrides(env);
 
-  void run() =>
-      runApp(ProviderScope(overrides: overrides, child: const BelleApp()));
+  void run() => runApp(
+    ProviderScope(
+      overrides: overrides,
+      retry: appRetry,
+      child: const BelleApp(),
+    ),
+  );
 
   final dsn = env.sentryDsn;
   if (dsn == null) {

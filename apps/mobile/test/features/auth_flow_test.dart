@@ -57,7 +57,7 @@ void main() {
     await tapText(tester, 'تفعيل الإشعارات');
     expect(t.permission.requests, 1);
     expect(t.prefs.values['notifications.asked'], true);
-    expect(find.text('هذه الشاشة تُبنى في سبرنت S2.'), findsOneWidget);
+    expect(find.text('صمّم باقتك على ذوقك'), findsOneWidget);
   });
 
   testWidgets('a wrong code shows the server message and the tries left', (
@@ -190,7 +190,7 @@ void main() {
     await tapText(tester, 'حفظ والمتابعة');
 
     // Notifications were already asked: straight home.
-    expect(find.text('هذه الشاشة تُبنى في سبرنت S2.'), findsOneWidget);
+    expect(find.text('صمّم باقتك على ذوقك'), findsOneWidget);
     expect(Session.fromJson(t.tokens.value!).user.profileComplete, isTrue);
   });
 

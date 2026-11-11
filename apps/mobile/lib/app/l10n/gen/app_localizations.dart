@@ -751,6 +751,732 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اللغة'**
   String get accountLanguage;
+
+  /// No description provided for @currencySyp.
+  ///
+  /// In ar, this message translates to:
+  /// **'ل.س'**
+  String get currencySyp;
+
+  /// No description provided for @currencyUsd.
+  ///
+  /// In ar, this message translates to:
+  /// **'\$'**
+  String get currencyUsd;
+
+  /// No description provided for @homeDeliveryTo.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوصيل إلى: {area}'**
+  String homeDeliveryTo(String area);
+
+  /// No description provided for @homeSearchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابحث عن باقة، كيك، هدية…'**
+  String get homeSearchHint;
+
+  /// No description provided for @homeDesignerEyebrow.
+  ///
+  /// In ar, this message translates to:
+  /// **'مصمّم الباقات'**
+  String get homeDesignerEyebrow;
+
+  /// No description provided for @homeDesignerTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صمّم باقتك على ذوقك'**
+  String get homeDesignerTitle;
+
+  /// No description provided for @homeDesignerBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الورد والتغليف والإضافات، وشاهد الباقة والسعر قبل الطلب.'**
+  String get homeDesignerBody;
+
+  /// No description provided for @homeDesignerCta.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ التصميم'**
+  String get homeDesignerCta;
+
+  /// No description provided for @homeOrderNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'اطلب الآن'**
+  String get homeOrderNow;
+
+  /// No description provided for @homeOrderNowSub.
+  ///
+  /// In ar, this message translates to:
+  /// **'توصيل أو استلام'**
+  String get homeOrderNowSub;
+
+  /// No description provided for @homeWhatsapp.
+  ///
+  /// In ar, this message translates to:
+  /// **'واتساب'**
+  String get homeWhatsapp;
+
+  /// No description provided for @homeWhatsappSub.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسأل المحل'**
+  String get homeWhatsappSub;
+
+  /// No description provided for @homeCategories.
+  ///
+  /// In ar, this message translates to:
+  /// **'التصنيفات'**
+  String get homeCategories;
+
+  /// No description provided for @homeTodayTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ورد اليوم'**
+  String get homeTodayTitle;
+
+  /// No description provided for @homeTodaySub.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما هو متوفر طازجاً اليوم في المحل'**
+  String get homeTodaySub;
+
+  /// No description provided for @homeCakesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'كيك وحلويات'**
+  String get homeCakesTitle;
+
+  /// No description provided for @homeCakesSub.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحضير يومي في مطبخ المحل'**
+  String get homeCakesSub;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض الكل'**
+  String get seeAll;
+
+  /// No description provided for @shopOpenNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفتوح الآن'**
+  String get shopOpenNow;
+
+  /// No description provided for @shopBusyNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشغول الآن'**
+  String get shopBusyNow;
+
+  /// No description provided for @shopClosedNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'مغلق الآن'**
+  String get shopClosedNow;
+
+  /// No description provided for @shopUntil.
+  ///
+  /// In ar, this message translates to:
+  /// **'حتى {time}'**
+  String shopUntil(String time);
+
+  /// No description provided for @shopOpensAt.
+  ///
+  /// In ar, this message translates to:
+  /// **'يفتح {time}'**
+  String shopOpensAt(String time);
+
+  /// No description provided for @branchHoursLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'ساعات العمل'**
+  String get branchHoursLabel;
+
+  /// No description provided for @branchHoursDaily.
+  ///
+  /// In ar, this message translates to:
+  /// **'يومياً {open} – {close}'**
+  String branchHoursDaily(String open, String close);
+
+  /// No description provided for @branchMap.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخريطة'**
+  String get branchMap;
+
+  /// No description provided for @branchInstagram.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنستغرام'**
+  String get branchInstagram;
+
+  /// No description provided for @branchTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفرع والتواصل'**
+  String get branchTitle;
+
+  /// No description provided for @branchDirections.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاتجاهات'**
+  String get branchDirections;
+
+  /// No description provided for @branchCall.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتصال'**
+  String get branchCall;
+
+  /// No description provided for @branchPolicies.
+  ///
+  /// In ar, this message translates to:
+  /// **'السياسات'**
+  String get branchPolicies;
+
+  /// No description provided for @branchPartners.
+  ///
+  /// In ar, this message translates to:
+  /// **'نتواجد أيضاً على {list}'**
+  String branchPartners(String list);
+
+  /// No description provided for @branchContactSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'يضيف المحل رقم الهاتف وواتساب قريباً.'**
+  String get branchContactSoon;
+
+  /// No description provided for @badgeBestSeller.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأكثر طلباً'**
+  String get badgeBestSeller;
+
+  /// No description provided for @badgeSeasonal.
+  ///
+  /// In ar, this message translates to:
+  /// **'موسمي'**
+  String get badgeSeasonal;
+
+  /// No description provided for @badgeToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'ورد اليوم'**
+  String get badgeToday;
+
+  /// No description provided for @badgeTodayOnly.
+  ///
+  /// In ar, this message translates to:
+  /// **'متوفر اليوم فقط'**
+  String get badgeTodayOnly;
+
+  /// No description provided for @badgeLimited.
+  ///
+  /// In ar, this message translates to:
+  /// **'كمية محدودة'**
+  String get badgeLimited;
+
+  /// No description provided for @badgeUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير متوفر اليوم'**
+  String get badgeUnavailable;
+
+  /// No description provided for @priceFrom.
+  ///
+  /// In ar, this message translates to:
+  /// **'من {price}'**
+  String priceFrom(String price);
+
+  /// No description provided for @priceApprox.
+  ///
+  /// In ar, this message translates to:
+  /// **'≈ {price}'**
+  String priceApprox(String price);
+
+  /// No description provided for @shopTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتجر'**
+  String get shopTitle;
+
+  /// No description provided for @shopSearchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابحث في المتجر'**
+  String get shopSearchHint;
+
+  /// No description provided for @shopFilters.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفلاتر'**
+  String get shopFilters;
+
+  /// No description provided for @shopFiltersCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفلاتر · {count}'**
+  String shopFiltersCount(int count);
+
+  /// No description provided for @shopAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكل'**
+  String get shopAll;
+
+  /// No description provided for @shopResultsCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{لا منتجات} =1{منتج واحد} =2{منتجان} few{{count} منتجات} many{{count} منتجاً} other{{count} منتج}}'**
+  String shopResultsCount(int count);
+
+  /// No description provided for @shopSortedBy.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرتبة حسب: {sort}'**
+  String shopSortedBy(String sort);
+
+  /// No description provided for @sortPopular.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأكثر طلباً'**
+  String get sortPopular;
+
+  /// No description provided for @sortNewest.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأحدث'**
+  String get sortNewest;
+
+  /// No description provided for @sortPriceAsc.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر: من الأقل'**
+  String get sortPriceAsc;
+
+  /// No description provided for @sortPriceDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر: من الأعلى'**
+  String get sortPriceDesc;
+
+  /// No description provided for @shopSortTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ترتيب المنتجات'**
+  String get shopSortTitle;
+
+  /// No description provided for @shopOpenForOrders.
+  ///
+  /// In ar, this message translates to:
+  /// **'مفتوح للطلب'**
+  String get shopOpenForOrders;
+
+  /// No description provided for @shopLoadMore.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض المزيد'**
+  String get shopLoadMore;
+
+  /// No description provided for @shopEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد منتجات بهذه الفلاتر.'**
+  String get shopEmpty;
+
+  /// No description provided for @shopClearFilters.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح الفلاتر'**
+  String get shopClearFilters;
+
+  /// No description provided for @filtersOccasion.
+  ///
+  /// In ar, this message translates to:
+  /// **'المناسبة'**
+  String get filtersOccasion;
+
+  /// No description provided for @filtersColor.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللون'**
+  String get filtersColor;
+
+  /// No description provided for @filtersFlowerType.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع الورد'**
+  String get filtersFlowerType;
+
+  /// No description provided for @filtersPrice.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر ({currency})'**
+  String filtersPrice(String currency);
+
+  /// No description provided for @filtersAvailableToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'متوفر اليوم فقط'**
+  String get filtersAvailableToday;
+
+  /// No description provided for @filtersDeliverableToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكن توصيله اليوم'**
+  String get filtersDeliverableToday;
+
+  /// No description provided for @filtersClearAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح الكل'**
+  String get filtersClearAll;
+
+  /// No description provided for @filtersShowCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{لا توجد منتجات} =1{عرض منتج واحد} =2{عرض منتجين} few{عرض {count} منتجات} many{عرض {count} منتجاً} other{عرض {count} منتج}}'**
+  String filtersShowCount(int count);
+
+  /// No description provided for @filtersShowResults.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض النتائج'**
+  String get filtersShowResults;
+
+  /// No description provided for @searchRecent.
+  ///
+  /// In ar, this message translates to:
+  /// **'عمليات البحث الأخيرة'**
+  String get searchRecent;
+
+  /// No description provided for @searchClear.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح'**
+  String get searchClear;
+
+  /// No description provided for @searchTab.
+  ///
+  /// In ar, this message translates to:
+  /// **'{name} · {count}'**
+  String searchTab(String name, int count);
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نجد نتائج لـ «{query}». جرّب كلمة أخرى.'**
+  String searchNoResults(String query);
+
+  /// No description provided for @searchOfflineNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت غير متصل. نبحث في المنتجات المحفوظة على جهازك.'**
+  String get searchOfflineNote;
+
+  /// No description provided for @todayNotice.
+  ///
+  /// In ar, this message translates to:
+  /// **'يحدّث المحل هذه القائمة يومياً. تنتهي صلاحيتها منتصف الليل بتوقيت دمشق.'**
+  String get todayNotice;
+
+  /// No description provided for @todayLeft.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{بقيت قطعة واحدة} =2{بقيت قطعتان} few{متبقٍ {count} قطع} other{متبقٍ {count}}}'**
+  String todayLeft(int count);
+
+  /// No description provided for @todayAvailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'متوفرة'**
+  String get todayAvailable;
+
+  /// No description provided for @todayStemsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ورد متاح للتصميم اليوم'**
+  String get todayStemsTitle;
+
+  /// No description provided for @todayStem.
+  ///
+  /// In ar, this message translates to:
+  /// **'{name} · {count}'**
+  String todayStem(String name, String count);
+
+  /// No description provided for @todayDesignCta.
+  ///
+  /// In ar, this message translates to:
+  /// **'صمّم باقة من ورد اليوم'**
+  String get todayDesignCta;
+
+  /// No description provided for @todayEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم ينشر المحل قائمة اليوم بعد. عد لاحقاً.'**
+  String get todayEmpty;
+
+  /// No description provided for @occasionTabFlowers.
+  ///
+  /// In ar, this message translates to:
+  /// **'ورد'**
+  String get occasionTabFlowers;
+
+  /// No description provided for @occasionTabCakes.
+  ///
+  /// In ar, this message translates to:
+  /// **'كيك'**
+  String get occasionTabCakes;
+
+  /// No description provided for @occasionTabExtras.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافات'**
+  String get occasionTabExtras;
+
+  /// No description provided for @occasionDesignCta.
+  ///
+  /// In ar, this message translates to:
+  /// **'صمّم باقة {occasion}'**
+  String occasionDesignCta(String occasion);
+
+  /// No description provided for @occasionDesignSub.
+  ///
+  /// In ar, this message translates to:
+  /// **'تبدأ بمناسبة «{occasion}» محددة مسبقاً'**
+  String occasionDesignSub(String occasion);
+
+  /// No description provided for @productReadyBouquet.
+  ///
+  /// In ar, this message translates to:
+  /// **'باقة جاهزة'**
+  String get productReadyBouquet;
+
+  /// No description provided for @productSelected.
+  ///
+  /// In ar, this message translates to:
+  /// **'{group} المختار: {option}'**
+  String productSelected(String group, String option);
+
+  /// No description provided for @productCustomizeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تريد لمسة خاصة؟'**
+  String get productCustomizeTitle;
+
+  /// No description provided for @productCustomizeBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'افتح هذه الباقة في المصمّم وغيّر الورد والألوان.'**
+  String get productCustomizeBody;
+
+  /// No description provided for @productCustomize.
+  ///
+  /// In ar, this message translates to:
+  /// **'خصّصها'**
+  String get productCustomize;
+
+  /// No description provided for @productIncluded.
+  ///
+  /// In ar, this message translates to:
+  /// **'(مشمول بالسعر)'**
+  String get productIncluded;
+
+  /// No description provided for @optionIncluded.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشمول'**
+  String get optionIncluded;
+
+  /// No description provided for @productEarliest.
+  ///
+  /// In ar, this message translates to:
+  /// **'أقرب توصيل: {when}'**
+  String productEarliest(String when);
+
+  /// No description provided for @whenToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get whenToday;
+
+  /// No description provided for @whenTomorrow.
+  ///
+  /// In ar, this message translates to:
+  /// **'غداً'**
+  String get whenTomorrow;
+
+  /// No description provided for @whenInDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'{days, plural, =2{بعد يومين} few{بعد {days} أيام} other{بعد {days} يوماً}}'**
+  String whenInDays(int days);
+
+  /// No description provided for @productDeliveryNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوصيل داخل دمشق حسب المنطقة، أو الاستلام من فرع أبو رمانة مجاناً.'**
+  String get productDeliveryNote;
+
+  /// No description provided for @productDeliveryPolicy.
+  ///
+  /// In ar, this message translates to:
+  /// **'سياسة التوصيل'**
+  String get productDeliveryPolicy;
+
+  /// No description provided for @productDisclaimer.
+  ///
+  /// In ar, this message translates to:
+  /// **'قد تختلف الباقة النهائية قليلاً حسب الورد الطازج المتوفر.'**
+  String get productDisclaimer;
+
+  /// No description provided for @productPairingsGift.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف إلى هديتك'**
+  String get productPairingsGift;
+
+  /// No description provided for @productPairingsDrink.
+  ///
+  /// In ar, this message translates to:
+  /// **'يناسب مع مشروبك'**
+  String get productPairingsDrink;
+
+  /// No description provided for @productAllergens.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسببات الحساسية: {list}'**
+  String productAllergens(String list);
+
+  /// No description provided for @allergenNuts.
+  ///
+  /// In ar, this message translates to:
+  /// **'مكسرات'**
+  String get allergenNuts;
+
+  /// No description provided for @allergenMilk.
+  ///
+  /// In ar, this message translates to:
+  /// **'حليب'**
+  String get allergenMilk;
+
+  /// No description provided for @allergenEggs.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيض'**
+  String get allergenEggs;
+
+  /// No description provided for @allergenGluten.
+  ///
+  /// In ar, this message translates to:
+  /// **'غلوتين'**
+  String get allergenGluten;
+
+  /// No description provided for @productLeadTime.
+  ///
+  /// In ar, this message translates to:
+  /// **'{hours, plural, =1{يُطلب قبل ساعة} =2{يُطلب قبل ساعتين} few{يُطلب قبل {hours} ساعات} other{يُطلب قبل {hours} ساعة}}'**
+  String productLeadTime(int hours);
+
+  /// No description provided for @productAskTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندك سؤال؟'**
+  String get productAskTitle;
+
+  /// No description provided for @productAskBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'راسل المحل على واتساب'**
+  String get productAskBody;
+
+  /// No description provided for @productTotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجموع'**
+  String get productTotal;
+
+  /// No description provided for @productAddToCart.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف إلى السلة'**
+  String get productAddToCart;
+
+  /// No description provided for @productAddWithTotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف · {price}'**
+  String productAddWithTotal(String price);
+
+  /// No description provided for @productCartSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'السلة قيد التجهيز وتصل في التحديث القادم.'**
+  String get productCartSoon;
+
+  /// No description provided for @productUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير متوفر اليوم. احفظه في المفضلة واطلبه لاحقاً.'**
+  String get productUnavailable;
+
+  /// No description provided for @productFavoriteAdd.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف إلى المفضلة'**
+  String get productFavoriteAdd;
+
+  /// No description provided for @productFavoriteRemove.
+  ///
+  /// In ar, this message translates to:
+  /// **'أزل من المفضلة'**
+  String get productFavoriteRemove;
+
+  /// No description provided for @productQuantity.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية'**
+  String get productQuantity;
+
+  /// No description provided for @favoriteSignIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل الدخول لتحفظ منتجاتك المفضلة.'**
+  String get favoriteSignIn;
+
+  /// No description provided for @favoritesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المفضلة'**
+  String get favoritesTitle;
+
+  /// No description provided for @favoritesEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تحفظ أي منتج بعد. اضغط على القلب في صفحة المنتج.'**
+  String get favoritesEmpty;
+
+  /// No description provided for @offlineBanner.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت غير متصل. نعرض آخر نسخة محفوظة.'**
+  String get offlineBanner;
+
+  /// No description provided for @loadFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر التحميل.'**
+  String get loadFailed;
+
+  /// No description provided for @imagePlaceholder.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة {name}'**
+  String imagePlaceholder(String name);
 }
 
 class _AppLocalizationsDelegate

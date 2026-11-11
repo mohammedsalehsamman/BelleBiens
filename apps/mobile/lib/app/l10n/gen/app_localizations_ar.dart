@@ -370,4 +370,468 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get accountLanguage => 'اللغة';
+
+  @override
+  String get currencySyp => 'ل.س';
+
+  @override
+  String get currencyUsd => '\$';
+
+  @override
+  String homeDeliveryTo(String area) {
+    return 'التوصيل إلى: $area';
+  }
+
+  @override
+  String get homeSearchHint => 'ابحث عن باقة، كيك، هدية…';
+
+  @override
+  String get homeDesignerEyebrow => 'مصمّم الباقات';
+
+  @override
+  String get homeDesignerTitle => 'صمّم باقتك على ذوقك';
+
+  @override
+  String get homeDesignerBody =>
+      'اختر الورد والتغليف والإضافات، وشاهد الباقة والسعر قبل الطلب.';
+
+  @override
+  String get homeDesignerCta => 'ابدأ التصميم';
+
+  @override
+  String get homeOrderNow => 'اطلب الآن';
+
+  @override
+  String get homeOrderNowSub => 'توصيل أو استلام';
+
+  @override
+  String get homeWhatsapp => 'واتساب';
+
+  @override
+  String get homeWhatsappSub => 'اسأل المحل';
+
+  @override
+  String get homeCategories => 'التصنيفات';
+
+  @override
+  String get homeTodayTitle => 'ورد اليوم';
+
+  @override
+  String get homeTodaySub => 'ما هو متوفر طازجاً اليوم في المحل';
+
+  @override
+  String get homeCakesTitle => 'كيك وحلويات';
+
+  @override
+  String get homeCakesSub => 'تحضير يومي في مطبخ المحل';
+
+  @override
+  String get seeAll => 'عرض الكل';
+
+  @override
+  String get shopOpenNow => 'مفتوح الآن';
+
+  @override
+  String get shopBusyNow => 'مشغول الآن';
+
+  @override
+  String get shopClosedNow => 'مغلق الآن';
+
+  @override
+  String shopUntil(String time) {
+    return 'حتى $time';
+  }
+
+  @override
+  String shopOpensAt(String time) {
+    return 'يفتح $time';
+  }
+
+  @override
+  String get branchHoursLabel => 'ساعات العمل';
+
+  @override
+  String branchHoursDaily(String open, String close) {
+    return 'يومياً $open – $close';
+  }
+
+  @override
+  String get branchMap => 'الخريطة';
+
+  @override
+  String get branchInstagram => 'إنستغرام';
+
+  @override
+  String get branchTitle => 'الفرع والتواصل';
+
+  @override
+  String get branchDirections => 'الاتجاهات';
+
+  @override
+  String get branchCall => 'اتصال';
+
+  @override
+  String get branchPolicies => 'السياسات';
+
+  @override
+  String branchPartners(String list) {
+    return 'نتواجد أيضاً على $list';
+  }
+
+  @override
+  String get branchContactSoon => 'يضيف المحل رقم الهاتف وواتساب قريباً.';
+
+  @override
+  String get badgeBestSeller => 'الأكثر طلباً';
+
+  @override
+  String get badgeSeasonal => 'موسمي';
+
+  @override
+  String get badgeToday => 'ورد اليوم';
+
+  @override
+  String get badgeTodayOnly => 'متوفر اليوم فقط';
+
+  @override
+  String get badgeLimited => 'كمية محدودة';
+
+  @override
+  String get badgeUnavailable => 'غير متوفر اليوم';
+
+  @override
+  String priceFrom(String price) {
+    return 'من $price';
+  }
+
+  @override
+  String priceApprox(String price) {
+    return '≈ $price';
+  }
+
+  @override
+  String get shopTitle => 'المتجر';
+
+  @override
+  String get shopSearchHint => 'ابحث في المتجر';
+
+  @override
+  String get shopFilters => 'الفلاتر';
+
+  @override
+  String shopFiltersCount(int count) {
+    return 'الفلاتر · $count';
+  }
+
+  @override
+  String get shopAll => 'الكل';
+
+  @override
+  String shopResultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count منتج',
+      many: '$count منتجاً',
+      few: '$count منتجات',
+      two: 'منتجان',
+      one: 'منتج واحد',
+      zero: 'لا منتجات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shopSortedBy(String sort) {
+    return 'مرتبة حسب: $sort';
+  }
+
+  @override
+  String get sortPopular => 'الأكثر طلباً';
+
+  @override
+  String get sortNewest => 'الأحدث';
+
+  @override
+  String get sortPriceAsc => 'السعر: من الأقل';
+
+  @override
+  String get sortPriceDesc => 'السعر: من الأعلى';
+
+  @override
+  String get shopSortTitle => 'ترتيب المنتجات';
+
+  @override
+  String get shopOpenForOrders => 'مفتوح للطلب';
+
+  @override
+  String get shopLoadMore => 'عرض المزيد';
+
+  @override
+  String get shopEmpty => 'لا توجد منتجات بهذه الفلاتر.';
+
+  @override
+  String get shopClearFilters => 'مسح الفلاتر';
+
+  @override
+  String get filtersOccasion => 'المناسبة';
+
+  @override
+  String get filtersColor => 'اللون';
+
+  @override
+  String get filtersFlowerType => 'نوع الورد';
+
+  @override
+  String filtersPrice(String currency) {
+    return 'السعر ($currency)';
+  }
+
+  @override
+  String get filtersAvailableToday => 'متوفر اليوم فقط';
+
+  @override
+  String get filtersDeliverableToday => 'يمكن توصيله اليوم';
+
+  @override
+  String get filtersClearAll => 'مسح الكل';
+
+  @override
+  String filtersShowCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'عرض $count منتج',
+      many: 'عرض $count منتجاً',
+      few: 'عرض $count منتجات',
+      two: 'عرض منتجين',
+      one: 'عرض منتج واحد',
+      zero: 'لا توجد منتجات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filtersShowResults => 'عرض النتائج';
+
+  @override
+  String get searchRecent => 'عمليات البحث الأخيرة';
+
+  @override
+  String get searchClear => 'مسح';
+
+  @override
+  String searchTab(String name, int count) {
+    return '$name · $count';
+  }
+
+  @override
+  String searchNoResults(String query) {
+    return 'لم نجد نتائج لـ «$query». جرّب كلمة أخرى.';
+  }
+
+  @override
+  String get searchOfflineNote =>
+      'أنت غير متصل. نبحث في المنتجات المحفوظة على جهازك.';
+
+  @override
+  String get todayNotice =>
+      'يحدّث المحل هذه القائمة يومياً. تنتهي صلاحيتها منتصف الليل بتوقيت دمشق.';
+
+  @override
+  String todayLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'متبقٍ $count',
+      few: 'متبقٍ $count قطع',
+      two: 'بقيت قطعتان',
+      one: 'بقيت قطعة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayAvailable => 'متوفرة';
+
+  @override
+  String get todayStemsTitle => 'ورد متاح للتصميم اليوم';
+
+  @override
+  String todayStem(String name, String count) {
+    return '$name · $count';
+  }
+
+  @override
+  String get todayDesignCta => 'صمّم باقة من ورد اليوم';
+
+  @override
+  String get todayEmpty => 'لم ينشر المحل قائمة اليوم بعد. عد لاحقاً.';
+
+  @override
+  String get occasionTabFlowers => 'ورد';
+
+  @override
+  String get occasionTabCakes => 'كيك';
+
+  @override
+  String get occasionTabExtras => 'إضافات';
+
+  @override
+  String occasionDesignCta(String occasion) {
+    return 'صمّم باقة $occasion';
+  }
+
+  @override
+  String occasionDesignSub(String occasion) {
+    return 'تبدأ بمناسبة «$occasion» محددة مسبقاً';
+  }
+
+  @override
+  String get productReadyBouquet => 'باقة جاهزة';
+
+  @override
+  String productSelected(String group, String option) {
+    return '$group المختار: $option';
+  }
+
+  @override
+  String get productCustomizeTitle => 'تريد لمسة خاصة؟';
+
+  @override
+  String get productCustomizeBody =>
+      'افتح هذه الباقة في المصمّم وغيّر الورد والألوان.';
+
+  @override
+  String get productCustomize => 'خصّصها';
+
+  @override
+  String get productIncluded => '(مشمول بالسعر)';
+
+  @override
+  String get optionIncluded => 'مشمول';
+
+  @override
+  String productEarliest(String when) {
+    return 'أقرب توصيل: $when';
+  }
+
+  @override
+  String get whenToday => 'اليوم';
+
+  @override
+  String get whenTomorrow => 'غداً';
+
+  @override
+  String whenInDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'بعد $days يوماً',
+      few: 'بعد $days أيام',
+      two: 'بعد يومين',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get productDeliveryNote =>
+      'التوصيل داخل دمشق حسب المنطقة، أو الاستلام من فرع أبو رمانة مجاناً.';
+
+  @override
+  String get productDeliveryPolicy => 'سياسة التوصيل';
+
+  @override
+  String get productDisclaimer =>
+      'قد تختلف الباقة النهائية قليلاً حسب الورد الطازج المتوفر.';
+
+  @override
+  String get productPairingsGift => 'أضف إلى هديتك';
+
+  @override
+  String get productPairingsDrink => 'يناسب مع مشروبك';
+
+  @override
+  String productAllergens(String list) {
+    return 'مسببات الحساسية: $list';
+  }
+
+  @override
+  String get allergenNuts => 'مكسرات';
+
+  @override
+  String get allergenMilk => 'حليب';
+
+  @override
+  String get allergenEggs => 'بيض';
+
+  @override
+  String get allergenGluten => 'غلوتين';
+
+  @override
+  String productLeadTime(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'يُطلب قبل $hours ساعة',
+      few: 'يُطلب قبل $hours ساعات',
+      two: 'يُطلب قبل ساعتين',
+      one: 'يُطلب قبل ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get productAskTitle => 'عندك سؤال؟';
+
+  @override
+  String get productAskBody => 'راسل المحل على واتساب';
+
+  @override
+  String get productTotal => 'المجموع';
+
+  @override
+  String get productAddToCart => 'أضف إلى السلة';
+
+  @override
+  String productAddWithTotal(String price) {
+    return 'أضف · $price';
+  }
+
+  @override
+  String get productCartSoon => 'السلة قيد التجهيز وتصل في التحديث القادم.';
+
+  @override
+  String get productUnavailable =>
+      'غير متوفر اليوم. احفظه في المفضلة واطلبه لاحقاً.';
+
+  @override
+  String get productFavoriteAdd => 'أضف إلى المفضلة';
+
+  @override
+  String get productFavoriteRemove => 'أزل من المفضلة';
+
+  @override
+  String get productQuantity => 'الكمية';
+
+  @override
+  String get favoriteSignIn => 'سجّل الدخول لتحفظ منتجاتك المفضلة.';
+
+  @override
+  String get favoritesTitle => 'المفضلة';
+
+  @override
+  String get favoritesEmpty =>
+      'لم تحفظ أي منتج بعد. اضغط على القلب في صفحة المنتج.';
+
+  @override
+  String get offlineBanner => 'أنت غير متصل. نعرض آخر نسخة محفوظة.';
+
+  @override
+  String get loadFailed => 'تعذّر التحميل.';
+
+  @override
+  String imagePlaceholder(String name) {
+    return 'صورة $name';
+  }
 }

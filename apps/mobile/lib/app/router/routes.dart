@@ -15,6 +15,15 @@ abstract final class Routes {
   static const completeProfile = '/auth/complete-profile';
   static const notificationPermission = '/permissions/notifications';
 
+  // Catalog (screens 06 to 14, 32, 34)
+  static const search = '/search';
+  static const today = '/today';
+  static const branch = '/branch';
+  static const favorites = '/account/favorites';
+  static String product(String slug) => '/p/$slug';
+  static String occasion(String slug) => '/occasions/$slug';
+  static String page(String slug) => '/pages/$slug';
+
   /// Routes reachable before the welcome screen was seen.
   static bool isPreOnboarding(String location) =>
       location == onboarding ||

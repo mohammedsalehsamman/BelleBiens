@@ -76,7 +76,7 @@ export const CATEGORIES = [
     icon: 'flower',
   },
   { slug: 'cakes', ar: 'كيك وحلويات', en: 'Cakes & sweets', icon: 'cake' },
-  { slug: 'coffee', ar: 'قهوة وماتشا', en: 'Coffee & matcha', icon: 'cup' },
+  { slug: 'coffee', ar: 'قهوة وماتشا', en: 'Coffee & matcha', icon: 'coffee' },
   { slug: 'gifts', ar: 'هدايا', en: 'Gifts', icon: 'gift' },
 ];
 

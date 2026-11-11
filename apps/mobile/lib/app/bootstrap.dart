@@ -1,6 +1,7 @@
 import 'package:belle_biens/app/env.dart';
 import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
+import 'package:belle_biens/core/network/api_error.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -40,4 +41,12 @@ void registerFontLicenses() {
       ], await rootBundle.loadString(path));
     }
   });
+}
+
+/// When a provider fails, try again only if the network dropped: three
+/// times, waiting 1, 2 and 4 seconds. A server answer (404, 400) is final,
+/// and screens offer their own retry button.
+Duration? appRetry(int retryCount, Object error) {
+  if (error is! ApiError || !error.isOffline || retryCount >= 3) return null;
+  return Duration(seconds: 1 << retryCount);
 }

@@ -17,7 +17,7 @@ void main() {
     await tester.tap(find.text('المتابعة كضيف'));
     await tester.pumpAndSettle();
     expect(t.prefs.values['onboarding.seen'], true);
-    expect(find.text('هذه الشاشة تُبنى في سبرنت S2.'), findsOneWidget);
+    expect(find.text('صمّم باقتك على ذوقك'), findsOneWidget);
   });
 
   testWidgets('the language chosen on the welcome screen is kept '

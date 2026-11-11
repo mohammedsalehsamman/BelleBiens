@@ -1,7 +1,9 @@
 {
   "@@locale": "ar",
   "appTitle": "Belle Biens",
-  "@appTitle": { "description": "Brand name, not translated" },
+  "@appTitle": {
+    "description": "Brand name, not translated"
+  },
   "navHome": "الرئيسية",
   "navShop": "المتجر",
   "navDesigner": "صمّم باقتك",
@@ -10,11 +12,21 @@
   "comingSoon": "قيد البناء",
   "comingSoonBody": "هذه الشاشة تُبنى في سبرنت {sprint}.",
   "@comingSoonBody": {
-    "placeholders": { "sprint": { "type": "String", "example": "S2" } }
+    "placeholders": {
+      "sprint": {
+        "type": "String",
+        "example": "S2"
+      }
+    }
   },
   "environmentBadge": "بيئة: {name}",
   "@environmentBadge": {
-    "placeholders": { "name": { "type": "String", "example": "dev" } }
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "dev"
+      }
+    }
   },
   "commonBack": "رجوع",
   "commonContinue": "متابعة",
@@ -27,7 +39,6 @@
   "errorGeneric": "حدث خطأ غير متوقع. حاول مرة أخرى بعد قليل.",
   "languageArabic": "العربية",
   "languageEnglish": "English",
-
   "onboardingBrowseAsGuest": "تصفّح كضيف",
   "onboardingPhotoLabel": "صورة: باقة ورد من المحل",
   "onboardingBadge": "ورد · حلويات · قهوة · هدايا",
@@ -43,7 +54,6 @@
   "onboardingCreateAccount": "إنشاء حساب",
   "onboardingSignIn": "تسجيل الدخول",
   "onboardingContinueAsGuest": "المتابعة كضيف",
-
   "loginTitle": "تسجيل الدخول",
   "loginHeading": "مرحباً بعودتك",
   "loginBody": "أدخل رقم هاتفك لنرسل لك رمز تحقق، أو سجّل الدخول بالبريد.",
@@ -51,8 +61,8 @@
   "loginTabEmail": "البريد الإلكتروني",
   "phoneLabel": "رقم الهاتف",
   "phoneHint": "0944 123 456",
-  "phoneHelper": "يقبل \u206609XXXXXXXX\u2069 أو \u2066+9639XXXXXXXX\u2069، وأرقام دولية للمغتربين.",
-  "phoneInvalid": "رقم الهاتف غير صحيح. اكتبه بالشكل \u206609XXXXXXXX\u2069 أو \u2066+9639XXXXXXXX\u2069، أو رقماً دولياً يبدأ بـ \u2066+\u2069.",
+  "phoneHelper": "يقبل ⁦09XXXXXXXX⁩ أو ⁦+9639XXXXXXXX⁩، وأرقام دولية للمغتربين.",
+  "phoneInvalid": "رقم الهاتف غير صحيح. اكتبه بالشكل ⁦09XXXXXXXX⁩ أو ⁦+9639XXXXXXXX⁩، أو رقماً دولياً يبدأ بـ ⁦+⁩.",
   "loginSendCode": "إرسال رمز التحقق",
   "emailLabel": "البريد الإلكتروني",
   "emailHint": "name@example.com",
@@ -63,7 +73,6 @@
   "loginGoogle": "المتابعة بحساب Google",
   "loginNoAccount": "ليس لديك حساب؟",
   "loginBrowseAsGuest": "التصفّح كضيف",
-
   "registerTitle": "إنشاء حساب",
   "registerHeading": "أنشئ حسابك",
   "registerBody": "احفظ عناوينك وتصاميمك وتابع طلباتك، وتذكّر مناسبات من تحب.",
@@ -88,28 +97,50 @@
   "registerSubmit": "إنشاء الحساب والتحقق",
   "registerGoogle": "التسجيل بحساب Google",
   "registerHaveAccount": "لديك حساب؟",
-
   "otpTitle": "رمز التحقق",
   "otpHeading": "أدخل الرمز المرسل إليك",
   "otpSentSms": "أرسلنا رمزاً من {length} أرقام برسالة SMS إلى",
-  "@otpSentSms": { "placeholders": { "length": { "type": "int" } } },
+  "@otpSentSms": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      }
+    }
+  },
   "otpSentWhatsapp": "أرسلنا رمزاً من {length} أرقام عبر واتساب إلى",
-  "@otpSentWhatsapp": { "placeholders": { "length": { "type": "int" } } },
+  "@otpSentWhatsapp": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      }
+    }
+  },
   "otpFieldLabel": "رمز التحقق",
   "otpResendIn": "يمكنك طلب رمز جديد خلال {time}",
-  "@otpResendIn": { "placeholders": { "time": { "type": "String", "example": "00:42" } } },
+  "@otpResendIn": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "00:42"
+      }
+    }
+  },
   "otpResendSms": "أرسل رمزاً جديداً",
   "otpSendWhatsapp": "أرسل الرمز عبر واتساب بدلاً من SMS",
   "otpConfirm": "تأكيد",
   "otpNotice": "الرمز صالح لمدة 5 دقائق، ويمكنك المحاولة 5 مرات. لم يصلك؟ تواصل معنا على واتساب.",
   "otpAttemptsLeft": "{count, plural, =1{بقيت محاولة واحدة.} =2{بقيت محاولتان.} few{بقيت {count} محاولات.} other{بقيت {count} محاولة.}}",
-  "@otpAttemptsLeft": { "placeholders": { "count": { "type": "int" } } },
-
+  "@otpAttemptsLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "completeTitle": "أكمل حسابك",
   "completeHeading": "خطوة أخيرة",
   "completeBody": "أخبرنا باسمك ووافق على الشروط لنحفظ طلباتك وعناوينك.",
   "completeSubmit": "حفظ والمتابعة",
-
   "notifyLater": "لاحقاً",
   "notifyHeading": "ابقَ على اطلاع بطلباتك",
   "notifyBody": "فعّل الإشعارات لتعرف حالة طلبك ونذكّرك بمناسباتك. لن نرسل عروضاً إلا إذا وافقت عليها.",
@@ -121,11 +152,324 @@
   "notifyOffersBody": "اختياري، ويمكن إيقافه من الإعدادات.",
   "notifyEnable": "تفعيل الإشعارات",
   "notifySystemHint": "سيظهر بعدها طلب الإذن من نظام هاتفك.",
-
   "accountGuestTitle": "أنت تتصفّح كضيف",
   "accountGuestBody": "سجّل الدخول لحفظ عناوينك وتصاميمك ومتابعة طلباتك.",
   "accountHello": "أهلاً {name}",
-  "@accountHello": { "placeholders": { "name": { "type": "String" } } },
+  "@accountHello": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "accountSignOut": "تسجيل الخروج",
-  "accountLanguage": "اللغة"
+  "accountLanguage": "اللغة",
+  "currencySyp": "ل.س",
+  "currencyUsd": "$",
+  "homeDeliveryTo": "التوصيل إلى: {area}",
+  "@homeDeliveryTo": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSearchHint": "ابحث عن باقة، كيك، هدية…",
+  "homeDesignerEyebrow": "مصمّم الباقات",
+  "homeDesignerTitle": "صمّم باقتك على ذوقك",
+  "homeDesignerBody": "اختر الورد والتغليف والإضافات، وشاهد الباقة والسعر قبل الطلب.",
+  "homeDesignerCta": "ابدأ التصميم",
+  "homeOrderNow": "اطلب الآن",
+  "homeOrderNowSub": "توصيل أو استلام",
+  "homeWhatsapp": "واتساب",
+  "homeWhatsappSub": "اسأل المحل",
+  "homeCategories": "التصنيفات",
+  "homeTodayTitle": "ورد اليوم",
+  "homeTodaySub": "ما هو متوفر طازجاً اليوم في المحل",
+  "homeCakesTitle": "كيك وحلويات",
+  "homeCakesSub": "تحضير يومي في مطبخ المحل",
+  "seeAll": "عرض الكل",
+  "shopOpenNow": "مفتوح الآن",
+  "shopBusyNow": "مشغول الآن",
+  "shopClosedNow": "مغلق الآن",
+  "shopUntil": "حتى {time}",
+  "@shopUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "shopOpensAt": "يفتح {time}",
+  "@shopOpensAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "branchHoursLabel": "ساعات العمل",
+  "branchHoursDaily": "يومياً {open} – {close}",
+  "@branchHoursDaily": {
+    "placeholders": {
+      "open": {
+        "type": "String"
+      },
+      "close": {
+        "type": "String"
+      }
+    }
+  },
+  "branchMap": "الخريطة",
+  "branchInstagram": "إنستغرام",
+  "branchTitle": "الفرع والتواصل",
+  "branchDirections": "الاتجاهات",
+  "branchCall": "اتصال",
+  "branchPolicies": "السياسات",
+  "branchPartners": "نتواجد أيضاً على {list}",
+  "@branchPartners": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "branchContactSoon": "يضيف المحل رقم الهاتف وواتساب قريباً.",
+  "badgeBestSeller": "الأكثر طلباً",
+  "badgeSeasonal": "موسمي",
+  "badgeToday": "ورد اليوم",
+  "badgeTodayOnly": "متوفر اليوم فقط",
+  "badgeLimited": "كمية محدودة",
+  "badgeUnavailable": "غير متوفر اليوم",
+  "priceFrom": "من {price}",
+  "@priceFrom": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "priceApprox": "≈ {price}",
+  "@priceApprox": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "shopTitle": "المتجر",
+  "shopSearchHint": "ابحث في المتجر",
+  "shopFilters": "الفلاتر",
+  "shopFiltersCount": "الفلاتر · {count}",
+  "@shopFiltersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopAll": "الكل",
+  "shopResultsCount": "{count, plural, =0{لا منتجات} =1{منتج واحد} =2{منتجان} few{{count} منتجات} many{{count} منتجاً} other{{count} منتج}}",
+  "@shopResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopSortedBy": "مرتبة حسب: {sort}",
+  "@shopSortedBy": {
+    "placeholders": {
+      "sort": {
+        "type": "String"
+      }
+    }
+  },
+  "sortPopular": "الأكثر طلباً",
+  "sortNewest": "الأحدث",
+  "sortPriceAsc": "السعر: من الأقل",
+  "sortPriceDesc": "السعر: من الأعلى",
+  "shopSortTitle": "ترتيب المنتجات",
+  "shopOpenForOrders": "مفتوح للطلب",
+  "shopLoadMore": "عرض المزيد",
+  "shopEmpty": "لا توجد منتجات بهذه الفلاتر.",
+  "shopClearFilters": "مسح الفلاتر",
+  "filtersOccasion": "المناسبة",
+  "filtersColor": "اللون",
+  "filtersFlowerType": "نوع الورد",
+  "filtersPrice": "السعر ({currency})",
+  "@filtersPrice": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "filtersAvailableToday": "متوفر اليوم فقط",
+  "filtersDeliverableToday": "يمكن توصيله اليوم",
+  "filtersClearAll": "مسح الكل",
+  "filtersShowCount": "{count, plural, =0{لا توجد منتجات} =1{عرض منتج واحد} =2{عرض منتجين} few{عرض {count} منتجات} many{عرض {count} منتجاً} other{عرض {count} منتج}}",
+  "@filtersShowCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filtersShowResults": "عرض النتائج",
+  "searchRecent": "عمليات البحث الأخيرة",
+  "searchClear": "مسح",
+  "searchTab": "{name} · {count}",
+  "@searchTab": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchNoResults": "لم نجد نتائج لـ «{query}». جرّب كلمة أخرى.",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchOfflineNote": "أنت غير متصل. نبحث في المنتجات المحفوظة على جهازك.",
+  "todayNotice": "يحدّث المحل هذه القائمة يومياً. تنتهي صلاحيتها منتصف الليل بتوقيت دمشق.",
+  "todayLeft": "{count, plural, =1{بقيت قطعة واحدة} =2{بقيت قطعتان} few{متبقٍ {count} قطع} other{متبقٍ {count}}}",
+  "@todayLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayAvailable": "متوفرة",
+  "todayStemsTitle": "ورد متاح للتصميم اليوم",
+  "todayStem": "{name} · {count}",
+  "@todayStem": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "todayDesignCta": "صمّم باقة من ورد اليوم",
+  "todayEmpty": "لم ينشر المحل قائمة اليوم بعد. عد لاحقاً.",
+  "occasionTabFlowers": "ورد",
+  "occasionTabCakes": "كيك",
+  "occasionTabExtras": "إضافات",
+  "occasionDesignCta": "صمّم باقة {occasion}",
+  "@occasionDesignCta": {
+    "placeholders": {
+      "occasion": {
+        "type": "String"
+      }
+    }
+  },
+  "occasionDesignSub": "تبدأ بمناسبة «{occasion}» محددة مسبقاً",
+  "@occasionDesignSub": {
+    "placeholders": {
+      "occasion": {
+        "type": "String"
+      }
+    }
+  },
+  "productReadyBouquet": "باقة جاهزة",
+  "productSelected": "{group} المختار: {option}",
+  "@productSelected": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "productCustomizeTitle": "تريد لمسة خاصة؟",
+  "productCustomizeBody": "افتح هذه الباقة في المصمّم وغيّر الورد والألوان.",
+  "productCustomize": "خصّصها",
+  "productIncluded": "(مشمول بالسعر)",
+  "optionIncluded": "مشمول",
+  "productEarliest": "أقرب توصيل: {when}",
+  "@productEarliest": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "whenToday": "اليوم",
+  "whenTomorrow": "غداً",
+  "whenInDays": "{days, plural, =2{بعد يومين} few{بعد {days} أيام} other{بعد {days} يوماً}}",
+  "@whenInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "productDeliveryNote": "التوصيل داخل دمشق حسب المنطقة، أو الاستلام من فرع أبو رمانة مجاناً.",
+  "productDeliveryPolicy": "سياسة التوصيل",
+  "productDisclaimer": "قد تختلف الباقة النهائية قليلاً حسب الورد الطازج المتوفر.",
+  "productPairingsGift": "أضف إلى هديتك",
+  "productPairingsDrink": "يناسب مع مشروبك",
+  "productAllergens": "مسببات الحساسية: {list}",
+  "@productAllergens": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "allergenNuts": "مكسرات",
+  "allergenMilk": "حليب",
+  "allergenEggs": "بيض",
+  "allergenGluten": "غلوتين",
+  "productLeadTime": "{hours, plural, =1{يُطلب قبل ساعة} =2{يُطلب قبل ساعتين} few{يُطلب قبل {hours} ساعات} other{يُطلب قبل {hours} ساعة}}",
+  "@productLeadTime": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "productAskTitle": "عندك سؤال؟",
+  "productAskBody": "راسل المحل على واتساب",
+  "productTotal": "المجموع",
+  "productAddToCart": "أضف إلى السلة",
+  "productAddWithTotal": "أضف · {price}",
+  "@productAddWithTotal": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "productCartSoon": "السلة قيد التجهيز وتصل في التحديث القادم.",
+  "productUnavailable": "غير متوفر اليوم. احفظه في المفضلة واطلبه لاحقاً.",
+  "productFavoriteAdd": "أضف إلى المفضلة",
+  "productFavoriteRemove": "أزل من المفضلة",
+  "productQuantity": "الكمية",
+  "favoriteSignIn": "سجّل الدخول لتحفظ منتجاتك المفضلة.",
+  "favoritesTitle": "المفضلة",
+  "favoritesEmpty": "لم تحفظ أي منتج بعد. اضغط على القلب في صفحة المنتج.",
+  "offlineBanner": "أنت غير متصل. نعرض آخر نسخة محفوظة.",
+  "loadFailed": "تعذّر التحميل.",
+  "imagePlaceholder": "صورة {name}",
+  "@imagePlaceholder": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }
