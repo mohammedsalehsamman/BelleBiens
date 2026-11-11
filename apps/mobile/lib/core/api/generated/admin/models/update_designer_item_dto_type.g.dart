@@ -8,6 +8,7 @@ part of 'update_designer_item_dto_type.dart';
 
 const _$UpdateDesignerItemDtoTypeEnumMap = {
   UpdateDesignerItemDtoType.flower: 'FLOWER',
+  UpdateDesignerItemDtoType.filler: 'FILLER',
   UpdateDesignerItemDtoType.green: 'GREEN',
   UpdateDesignerItemDtoType.wrap: 'WRAP',
   UpdateDesignerItemDtoType.ribbon: 'RIBBON',

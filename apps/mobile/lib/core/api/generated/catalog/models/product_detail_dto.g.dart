@@ -18,6 +18,7 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
       'colors',
       'customizable',
       'description',
+      'designerTemplate',
       'earliestDeliveryInDays',
       'flowerTypes',
       'id',
@@ -75,6 +76,11 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
     description: LocalizedTextDto.fromJson(
       json['description'] as Map<String, dynamic>,
     ),
+    designerTemplate: json['designerTemplate'] == null
+        ? null
+        : ProductDetailDtoDesignerTemplate.fromJson(
+            json['designerTemplate'] as Map<String, dynamic>,
+          ),
     earliestDeliveryInDays: ProductDetailDto._read_earliestDeliveryInDays(
       json['earliestDeliveryInDays'],
     ),
@@ -125,6 +131,7 @@ Map<String, dynamic> _$ProductDetailDtoToJson(ProductDetailDto instance) =>
       'colors': instance.colors,
       'customizable': instance.customizable,
       'description': instance.description.toJson(),
+      'designerTemplate': instance.designerTemplate?.toJson(),
       'earliestDeliveryInDays': ?ProductDetailDto._write_earliestDeliveryInDays(
         instance.earliestDeliveryInDays,
       ),

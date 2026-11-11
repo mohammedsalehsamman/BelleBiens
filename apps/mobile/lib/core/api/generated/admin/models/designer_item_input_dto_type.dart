@@ -7,6 +7,7 @@ part 'designer_item_input_dto_type.g.dart';
 @JsonEnum(alwaysCreate: true, valueField: 'value')
 enum DesignerItemInputDtoType {
   flower("FLOWER"),
+  filler("FILLER"),
   green("GREEN"),
   wrap("WRAP"),
   ribbon("RIBBON"),

@@ -132,6 +132,12 @@ export class ProductDetailDto extends ProductCardDto {
   })
   customizable!: boolean;
   @ApiProperty({
+    nullable: true,
+    type: Object,
+    description: 'The BouquetSpec v1 that "customize" opens in the designer',
+  })
+  designerTemplate!: Record<string, unknown> | null;
+  @ApiProperty({
     type: 'integer',
     example: 0,
     description: 'Days from today to the earliest delivery (0 = today)',
@@ -332,10 +338,10 @@ export class CatalogFiltersDto {
 export class DailyStemDto {
   @ApiProperty({ example: 'red-rose' }) slug!: string;
   @ApiProperty({
-    enum: ['FLOWER', 'GREEN', 'WRAP', 'RIBBON', 'EXTRA'],
-    enumName: 'DesignerItemType',
+    enum: ['FLOWER', 'FILLER', 'GREEN', 'WRAP', 'RIBBON', 'EXTRA'],
+    enumName: 'DesignerPart',
   })
-  type!: 'FLOWER' | 'GREEN' | 'WRAP' | 'RIBBON' | 'EXTRA';
+  type!: 'FLOWER' | 'FILLER' | 'GREEN' | 'WRAP' | 'RIBBON' | 'EXTRA';
   @ApiProperty({ type: LocalizedTextDto }) name!: LocalizedTextDto;
   @ApiProperty({ type: 'integer', example: 120 }) quantity!: number;
   @ApiProperty() limited!: boolean;

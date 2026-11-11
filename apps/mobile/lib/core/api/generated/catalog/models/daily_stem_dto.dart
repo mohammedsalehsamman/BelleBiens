@@ -2,8 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'designer_item_type.dart';
-import 'localized_text_dto.dart';
+import '../../admin/models/localized_text_dto.dart';
+import 'designer_part.dart';
 
 part 'daily_stem_dto.freezed.dart';
 part 'daily_stem_dto.g.dart';
@@ -39,7 +39,7 @@ class const DailyStemDto({
     fromJson: DailyStemDto._read_type2,
     toJson: DailyStemDto._write_type2,
   )
-  required final DesignerItemType type2,
+  required final DesignerPart type2,
 
   @JsonKey(
     required: true,
@@ -71,9 +71,9 @@ class const DailyStemDto({
 
   static int _read_quantity(Object? value) => value as int;
   static Object? _write_quantity(int value) => value;
-  static DesignerItemType _read_type2(Object? value) =>
-      DesignerItemType.fromJson(value);
-  static Object? _write_type2(DesignerItemType value) => value.toJson();
+  static DesignerPart _read_type2(Object? value) =>
+      DesignerPart.fromJson(value);
+  static Object? _write_type2(DesignerPart value) => value.toJson();
   static int _read_unitPriceMinor(Object? value) => value as int;
   static Object? _write_unitPriceMinor(int value) => value;
   static Object? _extras(Map map, String _) => {

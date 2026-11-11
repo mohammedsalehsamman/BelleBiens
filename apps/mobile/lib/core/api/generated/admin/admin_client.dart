@@ -33,11 +33,13 @@ import 'models/change_role_dto.dart' show ChangeRoleDto;
 import 'models/create_product_dto.dart' show CreateProductDto;
 import 'models/daily_stems_input_dto.dart' show DailyStemsInputDto;
 import 'models/designer_item_input_dto.dart' show DesignerItemInputDto;
+import 'models/designer_size_dto.dart' as models show DesignerSizeDto;
 import 'models/me_dto.dart' show MeDto;
 import 'models/media_controller_upload_kind.dart'
     as models
     show MediaControllerUploadKind;
 import 'models/media_dto.dart' as models show MediaDto;
+import 'models/size_limits_dto.dart' as models show SizeLimitsDto;
 import 'models/stock_adjustment_dto.dart' show StockAdjustmentDto;
 import 'models/stock_movement_dto.dart' show StockMovementDto;
 import 'models/today_list_dto.dart' as models show TodayListDto;
@@ -318,6 +320,47 @@ abstract class AdminClient {
     @Path('id') required String id,
     @Body() required UpdateDesignerItemDto body,
   });
+
+  /// Stem limits per size (FR-DSG-04)
+  Future<List<models.DesignerSizeDto>> adminDesignerControllerSizes({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required models.SizeLimitsDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/designer/sizes",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map(
+          (item) =>
+              models.DesignerSizeDto.fromJson(item as Map<String, Object?>),
+        )
+        .toList();
+  }
 
   /// Upload a product photo or a designer cut-out (NFR-SEC-08: checked and re-encoded)
   Future<models.MediaDto> mediaControllerUpload({

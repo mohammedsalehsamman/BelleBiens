@@ -25,9 +25,22 @@ import { PRODUCT_KINDS, type ProductKindValue } from './catalog.dto.js';
 
 const SLUG = /^[a-z0-9][a-z0-9-]{0,79}$/;
 const SLUG_MESSAGE = 'lowercase letters, digits and dashes';
+/** Designer item ids are spec ids: snake_case (contracts/schemas/bouquet-spec.v1.json). */
+const ITEM_ID = /^[a-z0-9]+(_[a-z0-9]+)*$/;
+const ITEM_ID_MESSAGE = 'lowercase letters and digits joined by underscores';
+/** Stock adjustments name either a product slug or a designer item id. */
+const ANY_ID = /^[a-z0-9][a-z0-9_-]{0,79}$/;
+const DESIGNER_TYPES_ALL = [
+  'FLOWER',
+  'FILLER',
+  'GREEN',
+  'WRAP',
+  'RIBBON',
+  'EXTRA',
+] as const;
 /** 10 million pounds, far above any real price; catches a misplaced zero. */
 const MAX_PRICE_MINOR = 1_000_000_000;
-const DESIGNER_TYPES = ['FLOWER', 'GREEN', 'WRAP', 'RIBBON', 'EXTRA'] as const;
+const DESIGNER_TYPES = DESIGNER_TYPES_ALL;
 const STATUSES = ['ACTIVE', 'HIDDEN'] as const;
 
 export class OptionInputDto {
@@ -244,8 +257,8 @@ export class TodayListDto {
 }
 
 export class DailyStemInputDto {
-  @ApiProperty({ example: 'red-rose' })
-  @Matches(SLUG, { message: SLUG_MESSAGE })
+  @ApiProperty({ example: 'red_rose' })
+  @Matches(ITEM_ID, { message: ITEM_ID_MESSAGE })
   slug!: string;
   @ApiProperty({ example: 120 })
   @IsInt()
@@ -272,7 +285,7 @@ export class StockAdjustmentDto {
   @IsIn(['product', 'designerItem'])
   target!: 'product' | 'designerItem';
   @ApiProperty({ example: 'glass-vase' })
-  @Matches(SLUG, { message: SLUG_MESSAGE })
+  @Matches(ANY_ID)
   slug!: string;
   @ApiProperty({ example: -2, description: 'Positive adds, negative removes' })
   @IsInt()
@@ -299,8 +312,8 @@ export class StockMovementDto {
 }
 
 export class DesignerItemInputDto {
-  @ApiProperty({ example: 'red-rose' })
-  @Matches(SLUG, { message: SLUG_MESSAGE })
+  @ApiProperty({ example: 'red_rose' })
+  @Matches(ITEM_ID, { message: ITEM_ID_MESSAGE })
   slug!: string;
   @ApiProperty({ enum: DESIGNER_TYPES })
   @IsIn(DESIGNER_TYPES)

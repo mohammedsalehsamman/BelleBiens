@@ -8,12 +8,14 @@
     "schemas",
     "vectors",
     "examples",
+    "layouts",
     "openapi.yaml"
   ],
   "scripts": {
     "test": "node --test",
     "vectors:update": "node scripts/update-vectors.mjs",
-    "lint": "node --test"
+    "lint": "node --test",
+    "layouts:generate": "node scripts/generate-layouts.mjs"
   },
   "devDependencies": {
     "ajv": "^8.20.0",

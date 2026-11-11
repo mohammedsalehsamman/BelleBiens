@@ -258,6 +258,8 @@ export class CatalogService {
       colors: row.colors,
       flowerTypes: row.flowerTypes,
       customizable: row.designerTemplate !== null,
+      designerTemplate:
+        (row.designerTemplate as Record<string, unknown> | null) ?? null,
       earliestDeliveryInDays: Math.max(
         0,
         Math.round(earliest.diff(todayLocal, 'days').days),

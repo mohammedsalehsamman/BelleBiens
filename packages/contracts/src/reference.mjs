@@ -124,3 +124,91 @@ export function specHash(spec) {
   const { cardMessage: _c, previewMode: _p, ...rest } = spec;
   return createHash('sha256').update(canonicalize(rest), 'utf8').digest('hex');
 }
+
+// ---------- 2D layout (FR-D2D-02/03) ----------
+
+/**
+ * Shares `shown` places between lines in proportion to their qty (largest
+ * remainder; ties go to the earlier line). Integer maths only.
+ */
+export function allocate(qtys, shown) {
+  const total = qtys.reduce((s, q) => s + q, 0);
+  if (total === 0 || shown === 0) return qtys.map(() => 0);
+  const base = qtys.map((q) => Math.floor((q * shown) / total));
+  const rem = qtys.map((q) => (q * shown) % total);
+  let left = shown - base.reduce((s, b) => s + b, 0);
+  const order = qtys.map((_, i) => i).sort((a, b) => rem[b] - rem[a] || a - b);
+  for (const i of order) {
+    if (left === 0) break;
+    base[i] += 1;
+    left -= 1;
+  }
+  return base;
+}
+
+/**
+ * Spreads lines evenly: at each step the line with the largest share still to
+ * place goes next (compare (alloc - placed) / alloc by cross-multiplying);
+ * ties go to the earlier line.
+ */
+export function interleave(alloc) {
+  const placed = alloc.map(() => 0);
+  const seq = [];
+  const n = alloc.reduce((s, a) => s + a, 0);
+  for (let step = 0; step < n; step++) {
+    let best = -1;
+    for (let k = 0; k < alloc.length; k++) {
+      if (placed[k] >= alloc[k]) continue;
+      if (best === -1) {
+        best = k;
+        continue;
+      }
+      const left = (alloc[k] - placed[k]) * alloc[best];
+      const right = (alloc[best] - placed[best]) * alloc[k];
+      if (left > right) best = k;
+    }
+    placed[best] += 1;
+    seq.push(best);
+  }
+  return seq;
+}
+
+/** Positions of `count` items spread over `length` slots: floor(j * length / count). */
+function spread(count, length) {
+  return Array.from({ length: count }, (_, j) => Math.floor((j * length) / count));
+}
+
+function place(layer, id, slot) {
+  return { layer, id, x: slot.x, y: slot.y, size: slot.size, rotation: slot.rotation };
+}
+
+/** Layers in draw order (back to front): wrap back, greens, flowers (outside in), wrap front, ribbon, extras. */
+export function layoutBouquet(spec, layout) {
+  const out = [place('wrapBack', spec.wrap, layout.wrapBack)];
+
+  const greens = spec.greens ?? [];
+  const greenShown = Math.min(
+    greens.reduce((s, l) => s + l.qty, 0),
+    layout.greens.length,
+  );
+  const greenSeq = interleave(allocate(greens.map((l) => l.qty), greenShown));
+  const greenAt = spread(greenShown, layout.greens.length);
+  greenSeq.forEach((k, j) => out.push(place('green', greens[k].id, layout.greens[greenAt[j]])));
+
+  const flowers = spec.flowers;
+  const flowerShown = Math.min(
+    flowers.reduce((s, l) => s + l.qty, 0),
+    layout.flowers.length,
+  );
+  const flowerSeq = interleave(allocate(flowers.map((l) => l.qty), flowerShown));
+  for (let i = flowerShown - 1; i >= 0; i--) {
+    out.push(place('flower', flowers[flowerSeq[i]].id, layout.flowers[i]));
+  }
+
+  out.push(place('wrapFront', spec.wrap, layout.wrapFront));
+  out.push(place('ribbon', spec.ribbon, layout.ribbon));
+  (spec.extras ?? [])
+    .slice(0, layout.extras.length)
+    .forEach((line, i) => out.push(place('extra', line.id, layout.extras[i])));
+  return out;
+}

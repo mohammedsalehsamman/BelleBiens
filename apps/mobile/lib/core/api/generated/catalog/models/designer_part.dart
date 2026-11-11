@@ -2,22 +2,23 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'designer_item_type.g.dart';
+part 'designer_part.g.dart';
 
 @JsonEnum(alwaysCreate: true, valueField: 'value')
-enum DesignerItemType {
+enum DesignerPart {
   flower("FLOWER"),
+  filler("FILLER"),
   green("GREEN"),
   wrap("WRAP"),
   ribbon("RIBBON"),
   extra("EXTRA");
 
-  const DesignerItemType(this.value);
+  const DesignerPart(this.value);
 
-  factory DesignerItemType.fromJson(Object? json) =>
-      $enumDecode(_$DesignerItemTypeEnumMap, json);
+  factory DesignerPart.fromJson(Object? json) =>
+      $enumDecode(_$DesignerPartEnumMap, json);
 
   final Object value;
 
-  Object toJson() => _$DesignerItemTypeEnumMap[this]!;
+  Object toJson() => _$DesignerPartEnumMap[this]!;
 }

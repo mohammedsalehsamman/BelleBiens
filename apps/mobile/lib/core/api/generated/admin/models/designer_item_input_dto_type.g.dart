@@ -8,6 +8,7 @@ part of 'designer_item_input_dto_type.dart';
 
 const _$DesignerItemInputDtoTypeEnumMap = {
   DesignerItemInputDtoType.flower: 'FLOWER',
+  DesignerItemInputDtoType.filler: 'FILLER',
   DesignerItemInputDtoType.green: 'GREEN',
   DesignerItemInputDtoType.wrap: 'WRAP',
   DesignerItemInputDtoType.ribbon: 'RIBBON',

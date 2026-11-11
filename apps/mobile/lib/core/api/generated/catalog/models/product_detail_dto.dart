@@ -2,10 +2,11 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../admin/models/localized_text_dto.dart';
 import 'category_ref_dto.dart';
-import 'localized_text_dto.dart';
 import 'product_badge.dart';
 import 'product_card_dto.dart';
+import 'product_detail_dto_designer_template.dart';
 import 'product_image_dto.dart';
 import 'product_kind.dart';
 import 'product_option_group_dto.dart';
@@ -51,6 +52,10 @@ class const ProductDetailDto({
 
   @JsonKey(required: true, disallowNullValue: true)
   required final LocalizedTextDto description,
+
+  /// The BouquetSpec v1 that "customize" opens in the designer
+  @JsonKey(required: true)
+  required final ProductDetailDtoDesignerTemplate? designerTemplate,
 
   /// Days from today to the earliest delivery (0 = today)
   @JsonKey(
@@ -147,6 +152,7 @@ class const ProductDetailDto({
     "colors",
     "customizable",
     "description",
+    "designerTemplate",
     "earliestDeliveryInDays",
     "flowerTypes",
     "id",

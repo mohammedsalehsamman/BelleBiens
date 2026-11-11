@@ -1,0 +1,1537 @@
+{
+  "version": 1,
+  "description": "Where each layer of the 2D preview goes, for a spec and the slots in layouts/bouquet-slots.v1.json. The API and the app must produce exactly these items, in this order (back to front). Regenerate with UPDATE_VECTORS=1 node --test.",
+  "rules": [
+    "1. Layers back to front: wrapBack, greens, flowers, wrapFront, ribbon, extras. wrapBack and wrapFront use spec.wrap; ribbon uses spec.ribbon.",
+    "2. Shown flowers = min(sum of flowers qty, number of flower slots). Shown greens likewise with green slots.",
+    "3. allocate(qtys, shown): base_k = floor(qty_k * shown / total); the places left go one each to lines with the largest (qty_k * shown) mod total, ties to the earlier line.",
+    "4. interleave(alloc): repeat shown times: pick the line with places left whose (alloc_k - placed_k) / alloc_k is largest (compare by cross-multiplying), ties to the earlier line.",
+    "5. Flower i of the interleaved sequence takes flower slot i (slots run centre outwards). Flowers are drawn from the last slot to the first, so the centre is on top.",
+    "6. Green j takes green slot floor(j * slotCount / shownGreens), in sequence order.",
+    "7. Extras: one item per line, in line order, up to the number of extra slots; qty does not add items.",
+    "8. Every item copies x, y, size and rotation from its slot. All values are integers."
+  ],
+  "cases": [
+    {
+      "name": "appendix-b-example",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "birthday",
+        "size": "medium",
+        "palette": "romantic_red",
+        "flowers": [
+          {
+            "id": "red_rose",
+            "qty": 12
+          },
+          {
+            "id": "white_gypsophila",
+            "qty": 6
+          }
+        ],
+        "greens": [
+          {
+            "id": "eucalyptus",
+            "qty": 3
+          }
+        ],
+        "wrap": "kraft_beige",
+        "ribbon": "satin_pink",
+        "extras": [
+          {
+            "id": "teddy_bear_small",
+            "qty": 1
+          },
+          {
+            "id": "chocolate_box",
+            "qty": 1
+          }
+        ],
+        "cardMessage": "كل عام وأنتِ أجمل",
+        "previewMode": "3d"
+      },
+      "items": [
+        {
+          "layer": "wrapBack",
+          "id": "kraft_beige",
+          "x": 500,
+          "y": 760,
+          "size": 667,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 500,
+          "y": 227,
+          "size": 115,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 781,
+          "y": 545,
+          "size": 115,
+          "rotation": 108
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 326,
+          "y": 666,
+          "size": 115,
+          "rotation": 216
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 279,
+          "y": 478,
+          "size": 89,
+          "rotation": -101
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 664,
+          "y": 584,
+          "size": 89,
+          "rotation": -148
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 473,
+          "y": 300,
+          "size": 89,
+          "rotation": 165
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 384,
+          "y": 605,
+          "size": 90,
+          "rotation": 118
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 690,
+          "y": 436,
+          "size": 90,
+          "rotation": 71
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 338,
+          "y": 393,
+          "size": 91,
+          "rotation": 24
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 554,
+          "y": 610,
+          "size": 91,
+          "rotation": -23
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 573,
+          "y": 343,
+          "size": 91,
+          "rotation": -70
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 349,
+          "y": 521,
+          "size": 92,
+          "rotation": -117
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 645,
+          "y": 513,
+          "size": 92,
+          "rotation": -164
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 433,
+          "y": 364,
+          "size": 93,
+          "rotation": 149
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 465,
+          "y": 577,
+          "size": 93,
+          "rotation": 102
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 605,
+          "y": 415,
+          "size": 94,
+          "rotation": 55
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 389,
+          "y": 454,
+          "size": 95,
+          "rotation": 8
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 560,
+          "y": 534,
+          "size": 96,
+          "rotation": -39
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 507,
+          "y": 402,
+          "size": 96,
+          "rotation": -86
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 452,
+          "y": 506,
+          "size": 97,
+          "rotation": -133
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 537,
+          "y": 470,
+          "size": 99,
+          "rotation": -180
+        },
+        {
+          "layer": "wrapFront",
+          "id": "kraft_beige",
+          "x": 500,
+          "y": 930,
+          "size": 551,
+          "rotation": 0
+        },
+        {
+          "layer": "ribbon",
+          "id": "satin_pink",
+          "x": 500,
+          "y": 960,
+          "size": 150,
+          "rotation": 0
+        },
+        {
+          "layer": "extra",
+          "id": "teddy_bear_small",
+          "x": 215,
+          "y": 1060,
+          "size": 170,
+          "rotation": -8
+        },
+        {
+          "layer": "extra",
+          "id": "chocolate_box",
+          "x": 785,
+          "y": 1060,
+          "size": 170,
+          "rotation": 8
+        }
+      ]
+    },
+    {
+      "name": "readme-designed-bouquet",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "birthday",
+        "size": "medium",
+        "flowers": [
+          {
+            "id": "red_rose",
+            "qty": 12
+          },
+          {
+            "id": "white_gypsophila",
+            "qty": 6
+          }
+        ],
+        "greens": [
+          {
+            "id": "eucalyptus",
+            "qty": 3
+          }
+        ],
+        "wrap": "satin_bordeaux",
+        "ribbon": "satin_pink",
+        "extras": [
+          {
+            "id": "teddy_bear_small",
+            "qty": 1
+          }
+        ],
+        "cardMessage": "كل عام وأنتِ أجمل يا لين",
+        "previewMode": "2d"
+      },
+      "items": [
+        {
+          "layer": "wrapBack",
+          "id": "satin_bordeaux",
+          "x": 500,
+          "y": 760,
+          "size": 667,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 500,
+          "y": 227,
+          "size": 115,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 781,
+          "y": 545,
+          "size": 115,
+          "rotation": 108
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 326,
+          "y": 666,
+          "size": 115,
+          "rotation": 216
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 279,
+          "y": 478,
+          "size": 89,
+          "rotation": -101
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 664,
+          "y": 584,
+          "size": 89,
+          "rotation": -148
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 473,
+          "y": 300,
+          "size": 89,
+          "rotation": 165
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 384,
+          "y": 605,
+          "size": 90,
+          "rotation": 118
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 690,
+          "y": 436,
+          "size": 90,
+          "rotation": 71
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 338,
+          "y": 393,
+          "size": 91,
+          "rotation": 24
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 554,
+          "y": 610,
+          "size": 91,
+          "rotation": -23
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 573,
+          "y": 343,
+          "size": 91,
+          "rotation": -70
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 349,
+          "y": 521,
+          "size": 92,
+          "rotation": -117
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 645,
+          "y": 513,
+          "size": 92,
+          "rotation": -164
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 433,
+          "y": 364,
+          "size": 93,
+          "rotation": 149
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 465,
+          "y": 577,
+          "size": 93,
+          "rotation": 102
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 605,
+          "y": 415,
+          "size": 94,
+          "rotation": 55
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 389,
+          "y": 454,
+          "size": 95,
+          "rotation": 8
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 560,
+          "y": 534,
+          "size": 96,
+          "rotation": -39
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 507,
+          "y": 402,
+          "size": 96,
+          "rotation": -86
+        },
+        {
+          "layer": "flower",
+          "id": "white_gypsophila",
+          "x": 452,
+          "y": 506,
+          "size": 97,
+          "rotation": -133
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 537,
+          "y": 470,
+          "size": 99,
+          "rotation": -180
+        },
+        {
+          "layer": "wrapFront",
+          "id": "satin_bordeaux",
+          "x": 500,
+          "y": 930,
+          "size": 551,
+          "rotation": 0
+        },
+        {
+          "layer": "ribbon",
+          "id": "satin_pink",
+          "x": 500,
+          "y": 960,
+          "size": 150,
+          "rotation": 0
+        },
+        {
+          "layer": "extra",
+          "id": "teddy_bear_small",
+          "x": 215,
+          "y": 1060,
+          "size": 170,
+          "rotation": -8
+        }
+      ]
+    },
+    {
+      "name": "minimal",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "none",
+        "size": "small",
+        "flowers": [
+          {
+            "id": "red_rose",
+            "qty": 8
+          }
+        ],
+        "wrap": "transparent",
+        "ribbon": "satin_white"
+      },
+      "items": [
+        {
+          "layer": "wrapBack",
+          "id": "transparent",
+          "x": 500,
+          "y": 760,
+          "size": 483,
+          "rotation": 0
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 429,
+          "y": 358,
+          "size": 108,
+          "rotation": 149
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 463,
+          "y": 583,
+          "size": 109,
+          "rotation": 102
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 611,
+          "y": 412,
+          "size": 111,
+          "rotation": 55
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 383,
+          "y": 453,
+          "size": 112,
+          "rotation": 8
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 564,
+          "y": 538,
+          "size": 113,
+          "rotation": -39
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 508,
+          "y": 398,
+          "size": 115,
+          "rotation": -86
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 449,
+          "y": 508,
+          "size": 117,
+          "rotation": -133
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 540,
+          "y": 470,
+          "size": 119,
+          "rotation": -180
+        },
+        {
+          "layer": "wrapFront",
+          "id": "transparent",
+          "x": 500,
+          "y": 930,
+          "size": 399,
+          "rotation": 0
+        },
+        {
+          "layer": "ribbon",
+          "id": "satin_white",
+          "x": 500,
+          "y": 960,
+          "size": 150,
+          "rotation": 0
+        }
+      ]
+    },
+    {
+      "name": "luxury-100-stems-three-colors",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "love",
+        "size": "luxury",
+        "flowers": [
+          {
+            "id": "red_rose",
+            "qty": 50
+          },
+          {
+            "id": "pink_rose",
+            "qty": 30
+          },
+          {
+            "id": "white_rose",
+            "qty": 20
+          }
+        ],
+        "greens": [
+          {
+            "id": "eucalyptus",
+            "qty": 10
+          },
+          {
+            "id": "ruscus",
+            "qty": 10
+          }
+        ],
+        "wrap": "satin_bordeaux",
+        "ribbon": "satin_white"
+      },
+      "items": [
+        {
+          "layer": "wrapBack",
+          "id": "satin_bordeaux",
+          "x": 500,
+          "y": 760,
+          "size": 874,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 500,
+          "y": 152,
+          "size": 78,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 633,
+          "y": 171,
+          "size": 78,
+          "rotation": 20
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 749,
+          "y": 227,
+          "size": 78,
+          "rotation": 40
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 836,
+          "y": 311,
+          "size": 78,
+          "rotation": 60
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 882,
+          "y": 415,
+          "size": 78,
+          "rotation": 80
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 882,
+          "y": 525,
+          "size": 78,
+          "rotation": 100
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 836,
+          "y": 629,
+          "size": 78,
+          "rotation": 120
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 749,
+          "y": 713,
+          "size": 78,
+          "rotation": 140
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 633,
+          "y": 769,
+          "size": 78,
+          "rotation": 160
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 500,
+          "y": 788,
+          "size": 78,
+          "rotation": 180
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 367,
+          "y": 769,
+          "size": 78,
+          "rotation": 200
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 251,
+          "y": 713,
+          "size": 78,
+          "rotation": 220
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 164,
+          "y": 629,
+          "size": 78,
+          "rotation": 240
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 118,
+          "y": 525,
+          "size": 78,
+          "rotation": 260
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 118,
+          "y": 415,
+          "size": 78,
+          "rotation": 280
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 164,
+          "y": 311,
+          "size": 78,
+          "rotation": 300
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 251,
+          "y": 227,
+          "size": 78,
+          "rotation": 320
+        },
+        {
+          "layer": "green",
+          "id": "ruscus",
+          "x": 367,
+          "y": 171,
+          "size": 78,
+          "rotation": 340
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 131,
+          "y": 400,
+          "size": 57,
+          "rotation": 73
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 713,
+          "y": 723,
+          "size": 57,
+          "rotation": 26
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 551,
+          "y": 168,
+          "size": 57,
+          "rotation": -21
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 216,
+          "y": 663,
+          "size": 57,
+          "rotation": -68
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 865,
+          "y": 485,
+          "size": 57,
+          "rotation": -115
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 246,
+          "y": 258,
+          "size": 58,
+          "rotation": -162
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 513,
+          "y": 764,
+          "size": 58,
+          "rotation": 151
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 730,
+          "y": 248,
+          "size": 58,
+          "rotation": 104
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 151,
+          "y": 506,
+          "size": 58,
+          "rotation": 57
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 784,
+          "y": 636,
+          "size": 58,
+          "rotation": 10
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 428,
+          "y": 193,
+          "size": 58,
+          "rotation": -37
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 327,
+          "y": 712,
+          "size": 58,
+          "rotation": -84
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 823,
+          "y": 388,
+          "size": 58,
+          "rotation": -131
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 198,
+          "y": 353,
+          "size": 58,
+          "rotation": -178
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 625,
+          "y": 721,
+          "size": 58,
+          "rotation": 135
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 614,
+          "y": 218,
+          "size": 59,
+          "rotation": 88
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 212,
+          "y": 591,
+          "size": 59,
+          "rotation": 41
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 808,
+          "y": 539,
+          "size": 59,
+          "rotation": -6
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 332,
+          "y": 251,
+          "size": 59,
+          "rotation": -53
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 444,
+          "y": 722,
+          "size": 59,
+          "rotation": -100
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 746,
+          "y": 317,
+          "size": 59,
+          "rotation": -147
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 197,
+          "y": 447,
+          "size": 59,
+          "rotation": 166
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 702,
+          "y": 652,
+          "size": 59,
+          "rotation": 119
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 501,
+          "y": 227,
+          "size": 59,
+          "rotation": 72
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 302,
+          "y": 646,
+          "size": 60,
+          "rotation": 25
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 787,
+          "y": 450,
+          "size": 60,
+          "rotation": -22
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 276,
+          "y": 327,
+          "size": 60,
+          "rotation": -69
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 547,
+          "y": 696,
+          "size": 60,
+          "rotation": -116
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 649,
+          "y": 280,
+          "size": 60,
+          "rotation": -163
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 238,
+          "y": 527,
+          "size": 60,
+          "rotation": 150
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 736,
+          "y": 572,
+          "size": 60,
+          "rotation": 103
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 411,
+          "y": 268,
+          "size": 61,
+          "rotation": 56
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 401,
+          "y": 665,
+          "size": 61,
+          "rotation": 9
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 729,
+          "y": 383,
+          "size": 61,
+          "rotation": -38
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 264,
+          "y": 408,
+          "size": 61,
+          "rotation": -85
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 621,
+          "y": 643,
+          "size": 61,
+          "rotation": -132
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 552,
+          "y": 280,
+          "size": 61,
+          "rotation": -179
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 309,
+          "y": 579,
+          "size": 61,
+          "rotation": 134
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 725,
+          "y": 495,
+          "size": 62,
+          "rotation": 87
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 358,
+          "y": 330,
+          "size": 62,
+          "rotation": 40
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 490,
+          "y": 647,
+          "size": 62,
+          "rotation": -7
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 650,
+          "y": 348,
+          "size": 62,
+          "rotation": -54
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 295,
+          "y": 477,
+          "size": 62,
+          "rotation": -101
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 652,
+          "y": 575,
+          "size": 62,
+          "rotation": -148
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 475,
+          "y": 313,
+          "size": 63,
+          "rotation": 165
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 393,
+          "y": 595,
+          "size": 63,
+          "rotation": 118
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 676,
+          "y": 438,
+          "size": 63,
+          "rotation": 71
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 350,
+          "y": 399,
+          "size": 63,
+          "rotation": 24
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 550,
+          "y": 600,
+          "size": 63,
+          "rotation": -23
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 567,
+          "y": 352,
+          "size": 64,
+          "rotation": -70
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 360,
+          "y": 517,
+          "size": 64,
+          "rotation": -117
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 634,
+          "y": 510,
+          "size": 64,
+          "rotation": -164
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 438,
+          "y": 372,
+          "size": 64,
+          "rotation": 149
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 468,
+          "y": 569,
+          "size": 65,
+          "rotation": 102
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 597,
+          "y": 419,
+          "size": 65,
+          "rotation": 55
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 398,
+          "y": 455,
+          "size": 65,
+          "rotation": 8
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 556,
+          "y": 530,
+          "size": 66,
+          "rotation": -39
+        },
+        {
+          "layer": "flower",
+          "id": "white_rose",
+          "x": 507,
+          "y": 407,
+          "size": 66,
+          "rotation": -86
+        },
+        {
+          "layer": "flower",
+          "id": "pink_rose",
+          "x": 456,
+          "y": 503,
+          "size": 66,
+          "rotation": -133
+        },
+        {
+          "layer": "flower",
+          "id": "red_rose",
+          "x": 535,
+          "y": 470,
+          "size": 67,
+          "rotation": -180
+        },
+        {
+          "layer": "wrapFront",
+          "id": "satin_bordeaux",
+          "x": 500,
+          "y": 930,
+          "size": 722,
+          "rotation": 0
+        },
+        {
+          "layer": "ribbon",
+          "id": "satin_white",
+          "x": 500,
+          "y": 960,
+          "size": 150,
+          "rotation": 0
+        }
+      ]
+    },
+    {
+      "name": "medium-few-greens-five-extras",
+      "spec": {
+        "schemaVersion": 1,
+        "occasion": "birthday",
+        "size": "medium",
+        "flowers": [
+          {
+            "id": "peony",
+            "qty": 15
+          }
+        ],
+        "greens": [
+          {
+            "id": "eucalyptus",
+            "qty": 3
+          }
+        ],
+        "wrap": "kraft_beige",
+        "ribbon": "satin_pink",
+        "extras": [
+          {
+            "id": "teddy_bear_small",
+            "qty": 2
+          },
+          {
+            "id": "chocolate_box",
+            "qty": 1
+          },
+          {
+            "id": "balloon",
+            "qty": 1
+          },
+          {
+            "id": "scented_candle",
+            "qty": 1
+          },
+          {
+            "id": "gift_card",
+            "qty": 1
+          }
+        ]
+      },
+      "items": [
+        {
+          "layer": "wrapBack",
+          "id": "kraft_beige",
+          "x": 500,
+          "y": 760,
+          "size": 667,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 500,
+          "y": 227,
+          "size": 115,
+          "rotation": 0
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 781,
+          "y": 545,
+          "size": 115,
+          "rotation": 108
+        },
+        {
+          "layer": "green",
+          "id": "eucalyptus",
+          "x": 326,
+          "y": 666,
+          "size": 115,
+          "rotation": 216
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 384,
+          "y": 605,
+          "size": 90,
+          "rotation": 118
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 690,
+          "y": 436,
+          "size": 90,
+          "rotation": 71
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 338,
+          "y": 393,
+          "size": 91,
+          "rotation": 24
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 554,
+          "y": 610,
+          "size": 91,
+          "rotation": -23
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 573,
+          "y": 343,
+          "size": 91,
+          "rotation": -70
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 349,
+          "y": 521,
+          "size": 92,
+          "rotation": -117
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 645,
+          "y": 513,
+          "size": 92,
+          "rotation": -164
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 433,
+          "y": 364,
+          "size": 93,
+          "rotation": 149
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 465,
+          "y": 577,
+          "size": 93,
+          "rotation": 102
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 605,
+          "y": 415,
+          "size": 94,
+          "rotation": 55
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 389,
+          "y": 454,
+          "size": 95,
+          "rotation": 8
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 560,
+          "y": 534,
+          "size": 96,
+          "rotation": -39
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 507,
+          "y": 402,
+          "size": 96,
+          "rotation": -86
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 452,
+          "y": 506,
+          "size": 97,
+          "rotation": -133
+        },
+        {
+          "layer": "flower",
+          "id": "peony",
+          "x": 537,
+          "y": 470,
+          "size": 99,
+          "rotation": -180
+        },
+        {
+          "layer": "wrapFront",
+          "id": "kraft_beige",
+          "x": 500,
+          "y": 930,
+          "size": 551,
+          "rotation": 0
+        },
+        {
+          "layer": "ribbon",
+          "id": "satin_pink",
+          "x": 500,
+          "y": 960,
+          "size": 150,
+          "rotation": 0
+        },
+        {
+          "layer": "extra",
+          "id": "teddy_bear_small",
+          "x": 215,
+          "y": 1060,
+          "size": 170,
+          "rotation": -8
+        },
+        {
+          "layer": "extra",
+          "id": "chocolate_box",
+          "x": 785,
+          "y": 1060,
+          "size": 170,
+          "rotation": 8
+        },
+        {
+          "layer": "extra",
+          "id": "balloon",
+          "x": 150,
+          "y": 830,
+          "size": 140,
+          "rotation": -12
+        },
+        {
+          "layer": "extra",
+          "id": "scented_candle",
+          "x": 850,
+          "y": 830,
+          "size": 140,
+          "rotation": 12
+        }
+      ]
+    }
+  ]
+}

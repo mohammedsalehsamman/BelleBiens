@@ -237,9 +237,9 @@ describe('Admin catalog (e2e)', () => {
         .set(as(florist))
         .send({
           items: [
-            { slug: 'gypsophila', quantity: 8 },
-            { slug: 'red-rose', quantity: 0 },
-            { slug: 'white-tulip', quantity: 12, limited: true },
+            { slug: 'white_gypsophila', quantity: 8 },
+            { slug: 'red_rose', quantity: 0 },
+            { slug: 'white_tulip', quantity: 12, limited: true },
           ],
         })
         .expect(204);
@@ -249,9 +249,11 @@ describe('Admin catalog (e2e)', () => {
         quantity: number;
         limited: boolean;
       }[];
-      expect(stems.find((s) => s.slug === 'gypsophila')!.quantity).toBe(8);
-      expect(stems.find((s) => s.slug === 'red-rose')).toBeUndefined();
-      expect(stems.find((s) => s.slug === 'white-tulip')).toMatchObject({
+      expect(stems.find((s) => s.slug === 'white_gypsophila')!.quantity).toBe(
+        8,
+      );
+      expect(stems.find((s) => s.slug === 'red_rose')).toBeUndefined();
+      expect(stems.find((s) => s.slug === 'white_tulip')).toMatchObject({
         quantity: 12,
         limited: true,
       });
@@ -283,7 +285,7 @@ describe('Admin catalog (e2e)', () => {
       t.clock.advance({ minutes: 5 });
       const wrap = await adjust({
         target: 'designerItem',
-        slug: 'satin-burgundy',
+        slug: 'satin_bordeaux',
         delta: 25,
         reason: 'Delivery from supplier',
       }).expect(201);
@@ -294,7 +296,7 @@ describe('Admin catalog (e2e)', () => {
         .set(as(manager))
         .expect(200);
       expect(list.body.map((m: { slug: string }) => m.slug)).toEqual([
-        'satin-burgundy',
+        'satin_bordeaux',
         'glass-vase',
       ]);
     });
@@ -346,7 +348,9 @@ describe('Admin catalog (e2e)', () => {
           reason: 'Sold in shop',
         }),
       ]);
-      expect(results.map((r) => r.status).sort((a, b) => a - b)).toEqual([201, 409]);
+      expect(results.map((r) => r.status).sort((a, b) => a - b)).toEqual([
+        201, 409,
+      ]);
       const vase = await t.prisma.product.findUniqueOrThrow({
         where: { slug: 'glass-vase' },
       });

@@ -27,7 +27,7 @@ components:
           example: 05-31
           type: string
         slug:
-          example: red-rose
+          example: red_rose
           type: string
         sortOrder:
           type: number
@@ -48,6 +48,7 @@ components:
         type:
           enum:
             - FLOWER
+            - FILLER
             - GREEN
             - WRAP
             - RIBBON
@@ -193,6 +194,28 @@ components:
         - dailyDate
         - updatedAt
       type: object
+    AlternativeDto:
+      properties:
+        available:
+          nullable: true
+          type: integer
+        id:
+          example: white_rose
+          type: string
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+        sameColor:
+          description: Shares a color with the missing item
+          type: boolean
+        unitPriceMinor:
+          type: integer
+      required:
+        - id
+        - name
+        - available
+        - unitPriceMinor
+        - sameColor
+      type: object
     AppConfigDto:
       properties:
         auth:
@@ -312,6 +335,20 @@ components:
         - isNewUser
         - user
       type: object
+    BouquetPalette:
+      enum:
+        - pastel
+        - romantic_red
+        - luxury_white
+        - mixed
+      type: string
+    BouquetSize:
+      enum:
+        - small
+        - medium
+        - large
+        - luxury
+      type: string
     BranchDto:
       properties:
         address:
@@ -590,7 +627,7 @@ components:
           type: string
         type:
           allOf:
-            - $ref: "#/components/schemas/DesignerItemType"
+            - $ref: "#/components/schemas/DesignerPart"
         unitPriceMinor:
           example: 9000
           type: integer
@@ -611,7 +648,7 @@ components:
           example: 120
           type: number
         slug:
-          example: red-rose
+          example: red_rose
           type: string
       required:
         - slug
@@ -626,6 +663,86 @@ components:
           type: array
       required:
         - items
+      type: object
+    DesignerCatalogDto:
+      properties:
+        date:
+          description: Shop date of the stock
+          example: 2026-11-11
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/DesignerItemDto"
+          type: array
+        layouts:
+          $ref: "#/components/schemas/SlotLayoutsDto"
+        occasions:
+          items:
+            $ref: "#/components/schemas/OccasionOptionDto"
+          type: array
+        palettes:
+          items:
+            $ref: "#/components/schemas/PaletteDto"
+          type: array
+        sizes:
+          items:
+            $ref: "#/components/schemas/DesignerSizeDto"
+          type: array
+      required:
+        - date
+        - sizes
+        - palettes
+        - occasions
+        - items
+        - layouts
+      type: object
+    DesignerItemDto:
+      properties:
+        available:
+          description: How many can be used today; null means no limit, 0 not available
+          nullable: true
+          type: integer
+        colorTags:
+          example:
+            - red
+          items:
+            type: string
+          type: array
+        cutoutUrl:
+          nullable: true
+          type: string
+        detail:
+          $ref: "#/components/schemas/LocalizedTextDto"
+        id:
+          description: The id used in specs
+          example: red_rose
+          type: string
+        limited:
+          description: Limited quantity today (FR-DLY-01)
+          type: boolean
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+        swatch:
+          example: "#B3263E"
+          nullable: true
+          type: string
+        type:
+          allOf:
+            - $ref: "#/components/schemas/DesignerPart"
+        unitPriceMinor:
+          example: 9000
+          type: integer
+      required:
+        - id
+        - type
+        - name
+        - detail
+        - unitPriceMinor
+        - swatch
+        - colorTags
+        - cutoutUrl
+        - available
+        - limited
       type: object
     DesignerItemInputDto:
       properties:
@@ -651,7 +768,7 @@ components:
           example: 05-31
           type: string
         slug:
-          example: red-rose
+          example: red_rose
           type: string
         sortOrder:
           type: number
@@ -668,6 +785,7 @@ components:
         type:
           enum:
             - FLOWER
+            - FILLER
             - GREEN
             - WRAP
             - RIBBON
@@ -683,14 +801,92 @@ components:
         - nameEn
         - unitPriceMinor
       type: object
-    DesignerItemType:
+    DesignerPart:
       enum:
         - FLOWER
+        - FILLER
         - GREEN
         - WRAP
         - RIBBON
         - EXTRA
       type: string
+    DesignerQuoteDto:
+      properties:
+        assemblyFeeMinor:
+          example: 0
+          type: integer
+        issues:
+          items:
+            $ref: "#/components/schemas/QuoteIssueDto"
+          type: array
+        itemsMinor:
+          example: 267600
+          type: integer
+        lines:
+          items:
+            $ref: "#/components/schemas/QuoteLineDto"
+          type: array
+        orderable:
+          description: "No issues: it can go to the cart"
+          type: boolean
+        size:
+          $ref: "#/components/schemas/DesignerSizeDto"
+        specHash:
+          description: FR-DAI-06
+          type: string
+        stems:
+          example: 18
+          type: integer
+        totalMinor:
+          description: SYP minor
+          example: 267600
+          type: integer
+        totalUsdCents:
+          example: 2230
+          type: integer
+        usdRate:
+          example: "120"
+          type: string
+      required:
+        - specHash
+        - stems
+        - size
+        - lines
+        - itemsMinor
+        - assemblyFeeMinor
+        - totalMinor
+        - totalUsdCents
+        - usdRate
+        - issues
+        - orderable
+      type: object
+    DesignerQuoteRequestDto:
+      properties:
+        spec:
+          description: A BouquetSpec v1 (contracts/schemas/bouquet-spec.v1.json)
+          type: object
+      required:
+        - spec
+      type: object
+    DesignerSizeDto:
+      properties:
+        key:
+          allOf:
+            - $ref: "#/components/schemas/BouquetSize"
+        maxStems:
+          example: 30
+          type: integer
+        minStems:
+          example: 15
+          type: integer
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+      required:
+        - key
+        - name
+        - minStems
+        - maxStems
+      type: object
     FeaturesConfigDto:
       properties:
         aiPreview:
@@ -906,6 +1102,18 @@ components:
         - title
         - heroImage
       type: object
+    OccasionOptionDto:
+      properties:
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+        slug:
+          description: '"none" for no occasion'
+          example: birthday
+          type: string
+      required:
+        - slug
+        - name
+      type: object
     OccasionPageDto:
       properties:
         occasion:
@@ -1035,6 +1243,23 @@ components:
         - slug
         - title
       type: object
+    PaletteDto:
+      properties:
+        colors:
+          description: Color tags of the flowers that fit it
+          items:
+            type: string
+          type: array
+        key:
+          allOf:
+            - $ref: "#/components/schemas/BouquetPalette"
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+      required:
+        - key
+        - name
+        - colors
+      type: object
     PasswordResetConfirmDto:
       properties:
         newPassword:
@@ -1066,6 +1291,13 @@ components:
         - cash
         - shamcash
         - stripe
+      type: object
+    PreviewImageDto:
+      properties:
+        url:
+          type: string
+      required:
+        - url
       type: object
     PriceRangeDto:
       properties:
@@ -1176,6 +1408,10 @@ components:
           type: boolean
         description:
           $ref: "#/components/schemas/LocalizedTextDto"
+        designerTemplate:
+          description: The BouquetSpec v1 that "customize" opens in the designer
+          nullable: true
+          type: object
         earliestDeliveryInDays:
           description: Days from today to the earliest delivery (0 = today)
           example: 0
@@ -1257,6 +1493,7 @@ components:
         - colors
         - flowerTypes
         - customizable
+        - designerTemplate
         - earliestDeliveryInDays
         - pairings
         - isFavorite
@@ -1356,6 +1593,61 @@ components:
         - price_asc
         - price_desc
       type: string
+    QuoteIssueCode:
+      enum:
+        - STOCK_INSUFFICIENT
+        - ITEM_UNAVAILABLE
+        - STEMS_OUT_OF_RANGE
+      type: string
+    QuoteIssueDto:
+      properties:
+        alternatives:
+          items:
+            $ref: "#/components/schemas/AlternativeDto"
+          type: array
+        available:
+          example: 6
+          type: integer
+        code:
+          allOf:
+            - $ref: "#/components/schemas/QuoteIssueCode"
+        itemId:
+          example: white_gypsophila
+          type: string
+        max:
+          type: integer
+        min:
+          type: integer
+        requested:
+          example: 8
+          type: integer
+      required:
+        - code
+      type: object
+    QuoteLineDto:
+      properties:
+        id:
+          example: red_rose
+          type: string
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+        qty:
+          type: integer
+        totalMinor:
+          type: integer
+        type:
+          allOf:
+            - $ref: "#/components/schemas/DesignerPart"
+        unitPriceMinor:
+          type: integer
+      required:
+        - id
+        - type
+        - name
+        - qty
+        - unitPriceMinor
+        - totalMinor
+      type: object
     RefreshDto:
       properties:
         refreshToken:
@@ -1509,6 +1801,104 @@ components:
         - opensAt
         - closesAt
       type: object
+    SizeLayoutDto:
+      properties:
+        extras:
+          items:
+            $ref: "#/components/schemas/SlotDto"
+          type: array
+        flowers:
+          items:
+            $ref: "#/components/schemas/SlotDto"
+          type: array
+        greens:
+          items:
+            $ref: "#/components/schemas/SlotDto"
+          type: array
+        ribbon:
+          $ref: "#/components/schemas/SlotDto"
+        size:
+          allOf:
+            - $ref: "#/components/schemas/BouquetSize"
+        wrapBack:
+          $ref: "#/components/schemas/SlotDto"
+        wrapFront:
+          $ref: "#/components/schemas/SlotDto"
+      required:
+        - size
+        - flowers
+        - greens
+        - wrapBack
+        - wrapFront
+        - ribbon
+        - extras
+      type: object
+    SizeLimitInputDto:
+      properties:
+        key:
+          enum:
+            - small
+            - medium
+            - large
+            - luxury
+          type: string
+        maxStems:
+          example: 30
+          type: number
+        minStems:
+          example: 15
+          type: number
+      required:
+        - key
+        - minStems
+        - maxStems
+      type: object
+    SizeLimitsDto:
+      properties:
+        sizes:
+          items:
+            $ref: "#/components/schemas/SizeLimitInputDto"
+          type: array
+      required:
+        - sizes
+      type: object
+    SlotDto:
+      properties:
+        rotation:
+          type: integer
+        size:
+          type: integer
+        x:
+          type: integer
+        y:
+          type: integer
+      required:
+        - x
+        - y
+        - size
+        - rotation
+      type: object
+    SlotLayoutsDto:
+      properties:
+        height:
+          example: 1250
+          type: integer
+        sizes:
+          items:
+            $ref: "#/components/schemas/SizeLayoutDto"
+          type: array
+        version:
+          example: 1
+          type: integer
+        width:
+          example: 1000
+          type: integer
+      required:
+        - version
+        - width
+        - height
+        - sizes
+      type: object
     StockAdjustmentDto:
       properties:
         delta:
@@ -1599,7 +1989,7 @@ components:
           example: 05-31
           type: string
         slug:
-          example: red-rose
+          example: red_rose
           type: string
         sortOrder:
           type: number
@@ -1616,6 +2006,7 @@ components:
         type:
           enum:
             - FLOWER
+            - FILLER
             - GREEN
             - WRAP
             - RIBBON
@@ -1949,6 +2340,30 @@ paths:
       security:
         - bearer: []
       summary: Change a designer item
+      tags:
+        - admin
+  /v1/admin/designer/sizes:
+    put:
+      operationId: AdminDesignerController_sizes
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SizeLimitsDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DesignerSizeDto"
+                type: array
+          description: ""
+      security:
+        - bearer: []
+      summary: Stem limits per size (FR-DSG-04)
       tags:
         - admin
   /v1/admin/media:
@@ -2368,6 +2783,60 @@ paths:
       summary: Today's flowers; expires at midnight Damascus time (screen 10, FR-DLY-*)
       tags:
         - catalog
+  /v1/designer/catalog:
+    get:
+      operationId: DesignerController_catalog
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DesignerCatalogDto"
+          description: ""
+      summary: Sizes, palettes, occasions, items with today's stock and slot layouts (screens 15-17)
+      tags:
+        - designer
+  /v1/designer/preview-image:
+    post:
+      operationId: DesignerController_previewImage
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MediaUploadDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PreviewImageDto"
+          description: ""
+      summary: Upload the rendered 2D preview (PNG, re-encoded)
+      tags:
+        - designer
+  /v1/designer/quote:
+    post:
+      operationId: DesignerController_quote
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DesignerQuoteRequestDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DesignerQuoteDto"
+          description: ""
+      summary: Price and check a bouquet spec; stock problems come with substitutes (FR-DSG-03/08)
+      tags:
+        - designer
   /v1/health:
     get:
       operationId: HealthController_liveness

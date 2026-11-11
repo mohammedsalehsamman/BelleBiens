@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'localized_text_dto.dart';
+import '../../admin/models/localized_text_dto.dart';
 import 'product_badge.dart';
 import 'product_kind.dart';
 

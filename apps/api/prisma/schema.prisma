@@ -230,7 +230,10 @@ enum OptionSelection {
 }
 
 enum DesignerItemType {
+  /// Main flowers (screen 16). Each stem counts towards the size limits.
   FLOWER
+  /// Secondary flowers such as gypsophila: in spec.flowers, counted as stems.
+  FILLER
   GREEN
   WRAP
   RIBBON
@@ -390,6 +393,9 @@ model DesignerItem {
   type           DesignerItemType
   nameAr         String           @map("name_ar")
   nameEn         String           @map("name_en")
+  /// Second line on screen 17, e.g. "بيج طبيعي".
+  detailAr       String           @default("") @map("detail_ar")
+  detailEn       String           @default("") @map("detail_en")
   unitPriceMinor Int              @map("unit_price_minor")
   swatch         String?
   colorTags      String[]         @default([]) @map("color_tags")
@@ -410,6 +416,20 @@ model DesignerItem {
   movements StockMovement[]
 
   @@map("designer_item")
+}
+
+/// FR-DSG-04: stem limits per bouquet size (screen 15), set by the shop.
+/// Keys match BouquetSpec.size: small, medium, large, luxury.
+model DesignerSize {
+  key       String   @id
+  nameAr    String   @map("name_ar")
+  nameEn    String   @map("name_en")
+  minStems  Int      @map("min_stems")
+  maxStems  Int      @map("max_stems")
+  sortOrder Int      @default(0) @map("sort_order")
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("designer_size")
 }
 
 /// DR-13 / FR-DLY-01: stems available today. A row only counts on its own date

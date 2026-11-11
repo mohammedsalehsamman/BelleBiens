@@ -41,12 +41,13 @@ class TodayScreen extends ConsumerWidget {
               onRetry: () => ref.invalidate(dailyFlowersProvider),
               builder: (context, cached) {
                 final data = cached.data;
-                final flowers = data.stems
-                    .where((s) => s.type2 == DesignerItemType.flower)
-                    .toList();
-                final greens = data.stems
-                    .where((s) => s.type2 != DesignerItemType.flower)
-                    .toList();
+                // Stems (flowers and fillers) show how many are left; greens,
+                // wraps and the rest only their names.
+                bool isStem(DailyStemDto s) =>
+                    s.type2 == DesignerPart.flower ||
+                    s.type2 == DesignerPart.filler;
+                final flowers = data.stems.where(isStem).toList();
+                final greens = data.stems.where((s) => !isStem(s)).toList();
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -148,7 +149,10 @@ class _StemChip extends StatelessWidget {
             ),
             const SizedBox(width: BBSpacing.sm),
           ],
-          Text(label, style: BBText.small.merge(BBText.numeric)),
+          // Long names ("Gypsophila (baby's breath)") wrap at large text sizes.
+          Flexible(
+            child: Text(label, style: BBText.small.merge(BBText.numeric)),
+          ),
           if (stem.limited) ...[
             const SizedBox(width: BBSpacing.xs),
             const BBIcon(BBIcons.warning, size: 14, color: BBColors.onAmber),

@@ -8,6 +8,7 @@ part of 'admin_designer_item_dto_type.dart';
 
 const _$AdminDesignerItemDtoTypeEnumMap = {
   AdminDesignerItemDtoType.flower: 'FLOWER',
+  AdminDesignerItemDtoType.filler: 'FILLER',
   AdminDesignerItemDtoType.green: 'GREEN',
   AdminDesignerItemDtoType.wrap: 'WRAP',
   AdminDesignerItemDtoType.ribbon: 'RIBBON',

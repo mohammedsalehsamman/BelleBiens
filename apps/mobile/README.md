@@ -41,11 +41,10 @@ env/                   non-secret build settings per flavor
 When API responses change, record them again from the seeded local API:
 
 ```bash
-B=http://localhost:3000/v1; F=test/fixtures/catalog
-curl -s $B/home > $F/home.json   # likewise products, products/<slug>, search?q=..., daily-flowers, ...
+bash tool/record_fixtures.sh      # API=http://localhost:3000/v1 by default
 ```
 
-The list of files and their paths is in `test/helpers/fixture_server.dart`.
+The script fixes the shop's open state so tests do not depend on the time of recording. The list of files and their paths is in `test/helpers/fixture_server.dart`.
 
 ## End-to-end on an emulator
 

@@ -48,6 +48,7 @@ export interface TestApp {
 
 const TABLES = [
   'favorite',
+  'designer_size',
   'stock_movement',
   'daily_availability',
   'designer_item',

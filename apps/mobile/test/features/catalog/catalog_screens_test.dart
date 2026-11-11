@@ -179,8 +179,9 @@ void main() {
       expect(find.text('متبقٍ 8 قطع'), findsOneWidget);
       expect(find.text('متوفرة'), findsOneWidget);
       expect(find.text('جوري أحمر · 120'), findsOneWidget);
-      // Greens show their name only.
-      expect(find.text('جيبسوفيلا'), findsOneWidget);
+      // Fillers count as stems; greens show their name only.
+      expect(find.text('جيبسوفيلا (بيبي بريث) · 6'), findsOneWidget);
+      expect(find.text('أوكاليبتوس'), findsOneWidget);
       expect(find.text('صمّم باقة من ورد اليوم'), findsOneWidget);
     });
   });

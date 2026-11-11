@@ -299,13 +299,15 @@ export const PRODUCTS: ProductSeed[] = [
     bestSeller: true,
     popularity: 100,
     pairings: ['macarons-6', 'gift-card'],
+    // A BouquetSpec v1 (contracts/schemas): "خصّصها" opens it in the designer.
     designerTemplate: {
+      schemaVersion: 1,
+      occasion: 'love',
       size: 'medium',
-      flowers: [{ item: 'red-rose', qty: 25 }],
-      greens: [],
-      wrap: 'satin-burgundy',
-      ribbon: 'satin-pink',
-      extras: [],
+      flowers: [{ id: 'red_rose', qty: 25 }],
+      greens: [{ id: 'eucalyptus', qty: 3 }],
+      wrap: 'satin_bordeaux',
+      ribbon: 'satin_pink',
     },
     groups: [bouquetSizes(0, SYP(600), SYP(1560)), wrapColors, giftCard],
   },
@@ -591,6 +593,8 @@ interface DesignerItemSeed {
   ar: string;
   en: string;
   price: number;
+  detailAr?: string;
+  detailEn?: string;
   swatch?: string;
   colors?: string[];
   stock?: number;
@@ -600,8 +604,10 @@ interface DesignerItemSeed {
 }
 
 export const DESIGNER_ITEMS: DesignerItemSeed[] = [
+  // Flowers (screen 16). Peony and white tulip are not on today's list, so
+  // the designer offers substitutes for them (screen 37).
   {
-    slug: 'red-rose',
+    slug: 'red_rose',
     type: 'FLOWER',
     ar: 'جوري أحمر',
     en: 'Red rose',
@@ -611,7 +617,7 @@ export const DESIGNER_ITEMS: DesignerItemSeed[] = [
     today: 120,
   },
   {
-    slug: 'pink-rose',
+    slug: 'pink_rose',
     type: 'FLOWER',
     ar: 'جوري وردي',
     en: 'Pink rose',
@@ -621,7 +627,7 @@ export const DESIGNER_ITEMS: DesignerItemSeed[] = [
     today: 60,
   },
   {
-    slug: 'white-rose',
+    slug: 'white_rose',
     type: 'FLOWER',
     ar: 'جوري أبيض',
     en: 'White rose',
@@ -631,6 +637,16 @@ export const DESIGNER_ITEMS: DesignerItemSeed[] = [
     today: 40,
   },
   {
+    slug: 'white_lisianthus',
+    type: 'FLOWER',
+    ar: 'ليزيانثوس أبيض',
+    en: 'White lisianthus',
+    price: SYP(120),
+    swatch: '#F4F0F6',
+    colors: ['white', 'pastel'],
+    today: 30,
+  },
+  {
     slug: 'peony',
     type: 'FLOWER',
     ar: 'بيوني',
@@ -638,21 +654,9 @@ export const DESIGNER_ITEMS: DesignerItemSeed[] = [
     price: SYP(150),
     swatch: '#F0B8C8',
     colors: ['pink', 'pastel'],
-    today: 24,
-    limited: true,
   },
   {
-    slug: 'lisianthus',
-    type: 'FLOWER',
-    ar: 'ليزيانثوس',
-    en: 'Lisianthus',
-    price: SYP(120),
-    swatch: '#D9C6E6',
-    colors: ['pastel'],
-    today: 30,
-  },
-  {
-    slug: 'white-tulip',
+    slug: 'white_tulip',
     type: 'FLOWER',
     ar: 'توليب أبيض',
     en: 'White tulip',
@@ -660,13 +664,15 @@ export const DESIGNER_ITEMS: DesignerItemSeed[] = [
     swatch: '#FAF7F2',
     colors: ['white'],
   },
+  // Secondary flowers count as stems; greens do not (screen 16).
   {
-    slug: 'gypsophila',
-    type: 'GREEN',
-    ar: 'جيبسوفيلا',
-    en: 'Gypsophila',
+    slug: 'white_gypsophila',
+    type: 'FILLER',
+    ar: 'جيبسوفيلا (بيبي بريث)',
+    en: "Gypsophila (baby's breath)",
     price: SYP(60),
     swatch: '#FFFFFF',
+    colors: ['white'],
     today: 6,
   },
   {
@@ -687,40 +693,135 @@ export const DESIGNER_ITEMS: DesignerItemSeed[] = [
     swatch: '#4F7A4A',
     today: 30,
   },
+  // Wraps, ribbons and extras (screen 17).
   {
-    slug: 'satin-burgundy',
+    slug: 'kraft_beige',
     type: 'WRAP',
-    ar: 'تغليف ساتان بوردو',
-    en: 'Burgundy satin wrap',
+    ar: 'ورق كرافت',
+    en: 'Kraft paper',
+    detailAr: 'بيج طبيعي',
+    detailEn: 'Natural beige',
+    price: SYP(60),
+    swatch: '#C8A97E',
+    stock: 50,
+  },
+  {
+    slug: 'satin_bordeaux',
+    type: 'WRAP',
+    ar: 'ساتان',
+    en: 'Satin',
+    detailAr: 'بوردو',
+    detailEn: 'Bordeaux',
     price: SYP(120),
     swatch: '#7A1F3D',
     stock: 50,
   },
   {
-    slug: 'kraft',
+    slug: 'transparent',
     type: 'WRAP',
-    ar: 'كرافت طبيعي',
-    en: 'Natural kraft',
-    price: SYP(100),
-    swatch: '#C8A97E',
+    ar: 'شفاف',
+    en: 'Clear',
+    detailAr: 'يُظهر الورد',
+    detailEn: 'Shows the flowers',
+    price: SYP(48),
+    swatch: '#EAF2F5',
     stock: 50,
   },
   {
-    slug: 'satin-pink',
+    slug: 'round_box',
+    type: 'WRAP',
+    ar: 'صندوق',
+    en: 'Box',
+    detailAr: 'دائري بغطاء',
+    detailEn: 'Round, with a lid',
+    price: SYP(360),
+    swatch: '#2C2422',
+    stock: 10,
+  },
+  {
+    slug: 'satin_pink',
     type: 'RIBBON',
-    ar: 'شريط ساتان وردي',
-    en: 'Pink satin ribbon',
+    ar: 'وردي',
+    en: 'Pink',
     price: SYP(36),
     swatch: '#E8A3B5',
     stock: 100,
   },
   {
-    slug: 'small-teddy',
+    slug: 'ribbon_bordeaux',
+    type: 'RIBBON',
+    ar: 'بوردو',
+    en: 'Bordeaux',
+    price: SYP(36),
+    swatch: '#7A1F3D',
+    stock: 100,
+  },
+  {
+    slug: 'satin_white',
+    type: 'RIBBON',
+    ar: 'أبيض',
+    en: 'White',
+    price: SYP(36),
+    swatch: '#FFFFFF',
+    stock: 100,
+  },
+  {
+    slug: 'ribbon_gold',
+    type: 'RIBBON',
+    ar: 'ذهبي',
+    en: 'Gold',
+    price: SYP(36),
+    swatch: '#C9A227',
+    stock: 100,
+  },
+  {
+    slug: 'teddy_bear_small',
     type: 'EXTRA',
     ar: 'دبدوب صغير',
     en: 'Small teddy bear',
     price: SYP(960),
-    stock: 10,
+    stock: 6,
+  },
+  {
+    slug: 'chocolate_box',
+    type: 'EXTRA',
+    ar: 'بوكس شوكولا صغير',
+    en: 'Small chocolate box',
+    price: SYP(600),
+  },
+  {
+    slug: 'balloon',
+    type: 'EXTRA',
+    ar: 'بالون',
+    en: 'Balloon',
+    price: SYP(360),
+  },
+  {
+    slug: 'scented_candle',
+    type: 'EXTRA',
+    ar: 'شمعة معطّرة',
+    en: 'Scented candle',
+    price: SYP(240),
+  },
+];
+
+/** FR-DSG-04 stem limits (screen 15). The shop can change them. */
+export const DESIGNER_SIZES = [
+  { key: 'small', nameAr: 'صغير', nameEn: 'Small', minStems: 8, maxStems: 14 },
+  {
+    key: 'medium',
+    nameAr: 'متوسط',
+    nameEn: 'Medium',
+    minStems: 15,
+    maxStems: 30,
+  },
+  { key: 'large', nameAr: 'كبير', nameEn: 'Large', minStems: 31, maxStems: 50 },
+  {
+    key: 'luxury',
+    nameAr: 'فخم',
+    nameEn: 'Luxury',
+    minStems: 51,
+    maxStems: 100,
   },
 ];
 
@@ -906,6 +1007,8 @@ export async function seedCatalog(
       nameAr: d.ar,
       nameEn: d.en,
       unitPriceMinor: d.price,
+      detailAr: d.detailAr ?? '',
+      detailEn: d.detailEn ?? '',
       swatch: d.swatch,
       colorTags: d.colors ?? [],
       stockQuantity: d.stock ?? null,
@@ -930,6 +1033,14 @@ export async function seedCatalog(
         },
       });
     }
+  }
+
+  for (const [i, size] of DESIGNER_SIZES.entries()) {
+    await prisma.designerSize.upsert({
+      where: { key: size.key },
+      update: {},
+      create: { ...size, sortOrder: i },
+    });
   }
 
   for (const page of PAGES) {

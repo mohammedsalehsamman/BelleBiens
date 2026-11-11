@@ -9,6 +9,7 @@ import 'exports.dart'
         AppClient,
         AuthClient,
         CatalogClient,
+        DesignerClient,
         HealthClient,
         MeClient;
 
@@ -31,6 +32,7 @@ final class BelleApi {
   late final clients.AppClient app = clients.AppClient(_client);
   late final clients.AuthClient auth = clients.AuthClient(_client);
   late final clients.CatalogClient catalog = clients.CatalogClient(_client);
+  late final clients.DesignerClient designer = clients.DesignerClient(_client);
   late final clients.HealthClient health = clients.HealthClient(_client);
   late final clients.MeClient me = clients.MeClient(_client);
 }

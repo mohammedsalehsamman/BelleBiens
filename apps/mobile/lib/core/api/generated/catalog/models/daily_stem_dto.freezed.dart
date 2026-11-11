@@ -51,7 +51,7 @@ abstract mixin class $DailyStemDtoCopyWith<$Res>  {
   factory $DailyStemDtoCopyWith(DailyStemDto value, $Res Function(DailyStemDto) _then) = _$DailyStemDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(required: true, disallowNullValue: true) bool limited,@JsonKey(required: true, disallowNullValue: true) LocalizedTextDto name,@JsonKey(required: true, disallowNullValue: true, fromJson: DailyStemDto._read_quantity, toJson: DailyStemDto._write_quantity) int quantity,@JsonKey(required: true, disallowNullValue: true) String slug,@JsonKey(required: true) String? swatch,@JsonKey(name: "type", required: true, disallowNullValue: true, fromJson: DailyStemDto._read_type2, toJson: DailyStemDto._write_type2) DesignerItemType type2,@JsonKey(required: true, disallowNullValue: true, fromJson: DailyStemDto._read_unitPriceMinor, toJson: DailyStemDto._write_unitPriceMinor) int unitPriceMinor,@JsonKey(readValue: DailyStemDto._extras, fromJson: DailyStemDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(required: true, disallowNullValue: true) bool limited,@JsonKey(required: true, disallowNullValue: true) LocalizedTextDto name,@JsonKey(required: true, disallowNullValue: true, fromJson: DailyStemDto._read_quantity, toJson: DailyStemDto._write_quantity) int quantity,@JsonKey(required: true, disallowNullValue: true) String slug,@JsonKey(required: true) String? swatch,@JsonKey(name: "type", required: true, disallowNullValue: true, fromJson: DailyStemDto._read_type2, toJson: DailyStemDto._write_type2) DesignerPart type2,@JsonKey(required: true, disallowNullValue: true, fromJson: DailyStemDto._read_unitPriceMinor, toJson: DailyStemDto._write_unitPriceMinor) int unitPriceMinor,@JsonKey(readValue: DailyStemDto._extras, fromJson: DailyStemDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
@@ -76,7 +76,7 @@ as LocalizedTextDto,quantity: null == quantity ? _self.quantity : quantity // ig
 as int,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,swatch: freezed == swatch ? _self.swatch : swatch // ignore: cast_nullable_to_non_nullable
 as String?,type2: null == type2 ? _self.type2 : type2 // ignore: cast_nullable_to_non_nullable
-as DesignerItemType,unitPriceMinor: null == unitPriceMinor ? _self.unitPriceMinor : unitPriceMinor // ignore: cast_nullable_to_non_nullable
+as DesignerPart,unitPriceMinor: null == unitPriceMinor ? _self.unitPriceMinor : unitPriceMinor // ignore: cast_nullable_to_non_nullable
 as int,additionalProperties: null == additionalProperties ? _self.additionalProperties : additionalProperties // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>,
   ));

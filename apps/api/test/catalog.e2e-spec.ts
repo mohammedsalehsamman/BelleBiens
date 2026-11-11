@@ -315,21 +315,21 @@ describe('Catalog (e2e)', () => {
         limited: boolean;
       }[];
       expect(stems.map((s) => [s.slug, s.quantity])).toEqual([
-        ['red-rose', 120],
-        ['pink-rose', 60],
-        ['white-rose', 40],
-        ['peony', 24],
-        ['lisianthus', 30],
-        ['gypsophila', 6],
+        ['red_rose', 120],
+        ['pink_rose', 60],
+        ['white_rose', 40],
+        ['white_lisianthus', 30],
+        ['white_gypsophila', 6],
         ['eucalyptus', 40],
         ['ruscus', 30],
       ]);
-      expect(stems.find((s) => s.slug === 'peony')!.limited).toBe(true);
+      // Peony and white tulip are not on today's list (screen 16).
+      expect(stems.map((s) => s.slug)).not.toContain('peony');
     });
 
     it('expires at midnight Damascus time with no job running (FR-DLY-05)', async () => {
       t.clock.set('2026-11-11T23:59:00+03:00');
-      expect((await get('/v1/daily-flowers')).body.stems).toHaveLength(8);
+      expect((await get('/v1/daily-flowers')).body.stems).toHaveLength(7);
 
       t.clock.set('2026-11-12T00:01:00+03:00');
       const next = await get('/v1/daily-flowers').expect(200);

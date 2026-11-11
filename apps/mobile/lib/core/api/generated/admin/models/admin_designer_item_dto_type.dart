@@ -7,6 +7,7 @@ part 'admin_designer_item_dto_type.g.dart';
 @JsonEnum(alwaysCreate: true, valueField: 'value')
 enum AdminDesignerItemDtoType {
   flower("FLOWER"),
+  filler("FILLER"),
   green("GREEN"),
   wrap("WRAP"),
   ribbon("RIBBON"),

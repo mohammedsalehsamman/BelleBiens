@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'localized_text_dto.dart';
+import '../../admin/models/localized_text_dto.dart';
 
 part 'search_facet_dto.freezed.dart';
 part 'search_facet_dto.g.dart';
