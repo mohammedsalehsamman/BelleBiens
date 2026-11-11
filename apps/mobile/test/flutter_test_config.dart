@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:alchemist/alchemist.dart';
 import 'package:flutter/foundation.dart';
@@ -48,7 +47,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
 }
 
 class _TolerantComparator extends LocalFileComparator {
-  _TolerantComparator(super.testFile);
+  new(super.testFile);
 
   @override
   Future<bool> compare(Uint8List imageBytes, Uri golden) async {
