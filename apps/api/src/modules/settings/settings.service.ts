@@ -13,7 +13,9 @@ export const SETTING_DEFAULTS = {
   'shop.workingHours': { open: '10:00', close: '24:00' },
   'shop.whatsapp': null as string | null,
   'payments.enabled': { cash: true, shamcash: true, stripe: false },
-  'payments.unpaidTimeoutMinutes': 120,
+  'payments.unpaidTimeoutMinutes': 120 as number,
+  /** FR-PAY-03: the shop's Sham Cash account the customer pays to (screen 24). */
+  'payments.shamcashAccount': null as string | null,
   /** FR-ADM-12 busy mode: the shop's message, and the first time it takes today. */
   'shop.busyMessage': null as { ar: string; en: string } | null,
   'shop.busyAcceptsFrom': null as string | null,

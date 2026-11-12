@@ -637,8 +637,12 @@ enum OrderStatus {
   CANCELLED
 }
 
+/// PENDING: not paid yet (cash until handed over; Sham Cash until a receipt).
+/// SUBMITTED: the customer sent a Sham Cash reference or receipt (S6).
+/// FAILED: staff could not match it; the customer may send it again.
 enum PaymentStatus {
   PENDING
+  SUBMITTED
   PAID
   FAILED
   REFUNDED
@@ -688,6 +692,10 @@ model Order {
   roundingMinor     Int           @map("rounding_minor")
   totalMinor        Int           @map("total_minor")
   totalUsdCents     Int           @map("total_usd_cents")
+  /// FR-PAY-10: an online payment not made by then cancels the order.
+  paymentDueAt      DateTime?     @map("payment_due_at") @db.Timestamptz(3)
+  /// The shop's note when it rejects a receipt (screen 38).
+  paymentNote       String        @default("") @map("payment_note")
   branchId          String?       @map("branch_id") @db.Uuid
   createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
@@ -696,9 +704,11 @@ model Order {
   lines        OrderLine[]
   history      OrderStatusHistory[]
   reservations StockReservation[]
+  payments     PaymentEvent[]
 
   @@index([userId, createdAt])
   @@index([status, slotDate])
+  @@index([paymentStatus, paymentDueAt])
   @@index([slotDate, slotStart])
   @@map("order")
 }
@@ -771,4 +781,26 @@ model IdempotencyKey {
 
   @@index([createdAt])
   @@map("idempotency_key")
+}
+
+/// FR-PAY-09: every step of an order's payment, with method, reference,
+/// amount, currency and who did it.
+model PaymentEvent {
+  id          String        @id @default(uuid()) @db.Uuid
+  orderId     String        @map("order_id") @db.Uuid
+  kind        String
+  method      PaymentMethod
+  status      PaymentStatus
+  amountMinor Int           @map("amount_minor")
+  currency    String        @default("SYP")
+  reference   String?
+  receiptUrl  String?       @map("receipt_url")
+  note        String        @default("")
+  byUserId    String?       @map("by_user_id") @db.Uuid
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("payment_event")
 }

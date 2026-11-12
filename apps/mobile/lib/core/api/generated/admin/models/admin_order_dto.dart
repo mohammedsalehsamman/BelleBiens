@@ -9,6 +9,7 @@ import 'order_address_dto.dart';
 import 'order_line_dto.dart';
 import 'order_slot_dto.dart';
 import 'order_status.dart';
+import 'payment_event_dto.dart';
 import 'payment_method.dart';
 import 'payment_status.dart';
 import 'recipient_dto.dart';
@@ -81,6 +82,15 @@ class const AdminOrderDto({
   @JsonKey(required: true, disallowNullValue: true)
   required final String number,
 
+  /// FR-PAY-10: pay before this, or the order is cancelled
+  @JsonKey(
+    disallowNullValue: true,
+    includeIfNull: false,
+    fromJson: AdminOrderDto._read_paymentDueAt,
+    toJson: AdminOrderDto._write_paymentDueAt,
+  )
+  final DateTime? paymentDueAt,
+
   @JsonKey(
     required: true,
     disallowNullValue: true,
@@ -89,6 +99,10 @@ class const AdminOrderDto({
   )
   required final PaymentMethod paymentMethod,
 
+  /// Why the shop could not match the payment (screen 38)
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final String? paymentNote,
+
   @JsonKey(
     required: true,
     disallowNullValue: true,
@@ -96,6 +110,10 @@ class const AdminOrderDto({
     toJson: AdminOrderDto._write_paymentStatus,
   )
   required final PaymentStatus paymentStatus,
+
+  /// FR-PAY-09
+  @JsonKey(required: true, disallowNullValue: true)
+  required final List<PaymentEventDto> payments,
 
   @JsonKey(required: true, disallowNullValue: true)
   required final RecipientDto recipient,
@@ -154,8 +172,11 @@ class const AdminOrderDto({
     "next",
     "notes",
     "number",
+    "paymentDueAt",
     "paymentMethod",
+    "paymentNote",
     "paymentStatus",
+    "payments",
     "recipient",
     "slot",
     "status",
@@ -182,6 +203,10 @@ class const AdminOrderDto({
           .toList();
   static Object? _write_next(List<AdminOrderDtoNextItem> value) =>
       value.map((item) => item.toJson()).toList();
+  static DateTime? _read_paymentDueAt(Object? value) =>
+      value == null ? null : DateTime.parse(value as String).toUtc();
+  static Object? _write_paymentDueAt(DateTime? value) =>
+      value?.toUtc().toIso8601String();
   static PaymentMethod _read_paymentMethod(Object? value) =>
       PaymentMethod.fromJson(value);
   static Object? _write_paymentMethod(PaymentMethod value) => value.toJson();

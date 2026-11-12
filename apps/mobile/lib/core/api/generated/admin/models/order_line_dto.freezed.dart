@@ -27,20 +27,20 @@ $OrderLineDtoCopyWith<OrderLineDto> get copyWith => _$OrderLineDtoCopyWithImpl<O
 @override
 bool operator ==(Object other) {
   final _this = this as OrderLineDto;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderLineDto&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.qty, _this.qty) || other.qty == _this.qty)&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.totalMinor, _this.totalMinor) || other.totalMinor == _this.totalMinor)&&(identical(other.unitPriceMinor, _this.unitPriceMinor) || other.unitPriceMinor == _this.unitPriceMinor)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderLineDto&&(identical(other.choice, _this.choice) || other.choice == _this.choice)&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.qty, _this.qty) || other.qty == _this.qty)&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.totalMinor, _this.totalMinor) || other.totalMinor == _this.totalMinor)&&(identical(other.unitPriceMinor, _this.unitPriceMinor) || other.unitPriceMinor == _this.unitPriceMinor)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
 }
 
 
 @override
 int get hashCode {
   final _this = this as OrderLineDto;
-  return Object.hash(runtimeType,_this.imageUrl,_this.kind,_this.position,_this.qty,_this.summary,_this.title,_this.totalMinor,_this.unitPriceMinor,const DeepCollectionEquality().hash(_this.additionalProperties));
+  return Object.hash(runtimeType,_this.choice,_this.imageUrl,_this.kind,_this.position,_this.qty,_this.summary,_this.title,_this.totalMinor,_this.unitPriceMinor,const DeepCollectionEquality().hash(_this.additionalProperties));
 }
 
 @override
 String toString() {
   final _this = this as OrderLineDto;
-  return 'OrderLineDto(imageUrl: ${_this.imageUrl}, kind: ${_this.kind}, position: ${_this.position}, qty: ${_this.qty}, summary: ${_this.summary}, title: ${_this.title}, totalMinor: ${_this.totalMinor}, unitPriceMinor: ${_this.unitPriceMinor}, additionalProperties: ${_this.additionalProperties})';
+  return 'OrderLineDto(choice: ${_this.choice}, imageUrl: ${_this.imageUrl}, kind: ${_this.kind}, position: ${_this.position}, qty: ${_this.qty}, summary: ${_this.summary}, title: ${_this.title}, totalMinor: ${_this.totalMinor}, unitPriceMinor: ${_this.unitPriceMinor}, additionalProperties: ${_this.additionalProperties})';
 }
 
 
@@ -51,11 +51,11 @@ abstract mixin class $OrderLineDtoCopyWith<$Res>  {
   factory $OrderLineDtoCopyWith(OrderLineDto value, $Res Function(OrderLineDto) _then) = _$OrderLineDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(disallowNullValue: true, includeIfNull: false) String? imageUrl,@JsonKey(required: true, disallowNullValue: true) String kind,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_position, toJson: OrderLineDto._write_position) int position,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_qty, toJson: OrderLineDto._write_qty) int qty,@JsonKey(required: true, disallowNullValue: true) LocalizedTextDto summary,@JsonKey(required: true, disallowNullValue: true) LocalizedTextDto title,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_totalMinor, toJson: OrderLineDto._write_totalMinor) int totalMinor,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_unitPriceMinor, toJson: OrderLineDto._write_unitPriceMinor) int unitPriceMinor,@JsonKey(readValue: OrderLineDto._extras, fromJson: OrderLineDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(required: true, disallowNullValue: true) CartLineInputDto choice,@JsonKey(disallowNullValue: true, includeIfNull: false) String? imageUrl,@JsonKey(required: true, disallowNullValue: true) String kind,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_position, toJson: OrderLineDto._write_position) int position,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_qty, toJson: OrderLineDto._write_qty) int qty,@JsonKey(required: true, disallowNullValue: true) LocalizedTextDto summary,@JsonKey(required: true, disallowNullValue: true) LocalizedTextDto title,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_totalMinor, toJson: OrderLineDto._write_totalMinor) int totalMinor,@JsonKey(required: true, disallowNullValue: true, fromJson: OrderLineDto._read_unitPriceMinor, toJson: OrderLineDto._write_unitPriceMinor) int unitPriceMinor,@JsonKey(readValue: OrderLineDto._extras, fromJson: OrderLineDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
-$LocalizedTextDtoCopyWith<$Res> get summary;$LocalizedTextDtoCopyWith<$Res> get title;
+$CartLineInputDtoCopyWith<$Res> get choice;$LocalizedTextDtoCopyWith<$Res> get summary;$LocalizedTextDtoCopyWith<$Res> get title;
 
 }
 /// @nodoc
@@ -68,9 +68,10 @@ class _$OrderLineDtoCopyWithImpl<$Res>
 
 /// Create a copy of OrderLineDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? imageUrl = freezed,Object? kind = null,Object? position = null,Object? qty = null,Object? summary = null,Object? title = null,Object? totalMinor = null,Object? unitPriceMinor = null,Object? additionalProperties = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? choice = null,Object? imageUrl = freezed,Object? kind = null,Object? position = null,Object? qty = null,Object? summary = null,Object? title = null,Object? totalMinor = null,Object? unitPriceMinor = null,Object? additionalProperties = null,}) {
   return _then(OrderLineDto(
-imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+choice: null == choice ? _self.choice : choice // ignore: cast_nullable_to_non_nullable
+as CartLineInputDto,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String?,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as String,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
 as int,qty: null == qty ? _self.qty : qty // ignore: cast_nullable_to_non_nullable
@@ -83,6 +84,15 @@ as Map<String, Object?>,
   ));
 }
 /// Create a copy of OrderLineDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CartLineInputDtoCopyWith<$Res> get choice {
+  
+  return $CartLineInputDtoCopyWith<$Res>(_self.choice, (value) {
+    return _then(_self.copyWith(choice: value));
+  });
+}/// Create a copy of OrderLineDto
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

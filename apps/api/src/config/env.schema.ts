@@ -86,6 +86,14 @@ export const envSchema = z
      * reverse proxy on the same machine, a CIDR list for a load balancer.
      */
     TRUST_PROXY: z.string().default('loopback'),
+    /**
+     * Background jobs in this process (FR-PAY-10 unpaid orders). Tests run
+     * them by hand; a second API instance would set this to "false".
+     */
+    JOBS_ENABLED: z
+      .enum(['true', 'false'])
+      .default('true')
+      .transform((v) => v === 'true'),
     MEDIA_MAX_UPLOAD_BYTES: z.coerce
       .number()
       .int()

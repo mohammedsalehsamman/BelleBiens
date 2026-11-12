@@ -24,10 +24,10 @@ import 'package:retrofit/retrofit.dart'
         MultiPart,
         Part;
 
+import '../orders/models/uploaded_image_dto.dart' show UploadedImageDto;
 import 'models/box_catalog_dto.dart' show BoxCatalogDto;
 import 'models/cart_quote_dto.dart' show CartQuoteDto;
 import 'models/cart_quote_request_dto.dart' show CartQuoteRequestDto;
-import 'models/uploaded_image_dto.dart' show UploadedImageDto;
 
 part 'cart_client.g.dart';
 

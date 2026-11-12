@@ -27,20 +27,20 @@ $PaymentsConfigDtoCopyWith<PaymentsConfigDto> get copyWith => _$PaymentsConfigDt
 @override
 bool operator ==(Object other) {
   final _this = this as PaymentsConfigDto;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentsConfigDto&&(identical(other.cash, _this.cash) || other.cash == _this.cash)&&(identical(other.shamcash, _this.shamcash) || other.shamcash == _this.shamcash)&&(identical(other.stripe, _this.stripe) || other.stripe == _this.stripe)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentsConfigDto&&(identical(other.cash, _this.cash) || other.cash == _this.cash)&&(identical(other.shamcash, _this.shamcash) || other.shamcash == _this.shamcash)&&(identical(other.shamcashAccount, _this.shamcashAccount) || other.shamcashAccount == _this.shamcashAccount)&&(identical(other.stripe, _this.stripe) || other.stripe == _this.stripe)&&(identical(other.unpaidTimeoutMinutes, _this.unpaidTimeoutMinutes) || other.unpaidTimeoutMinutes == _this.unpaidTimeoutMinutes)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
 }
 
 
 @override
 int get hashCode {
   final _this = this as PaymentsConfigDto;
-  return Object.hash(runtimeType,_this.cash,_this.shamcash,_this.stripe,const DeepCollectionEquality().hash(_this.additionalProperties));
+  return Object.hash(runtimeType,_this.cash,_this.shamcash,_this.shamcashAccount,_this.stripe,_this.unpaidTimeoutMinutes,const DeepCollectionEquality().hash(_this.additionalProperties));
 }
 
 @override
 String toString() {
   final _this = this as PaymentsConfigDto;
-  return 'PaymentsConfigDto(cash: ${_this.cash}, shamcash: ${_this.shamcash}, stripe: ${_this.stripe}, additionalProperties: ${_this.additionalProperties})';
+  return 'PaymentsConfigDto(cash: ${_this.cash}, shamcash: ${_this.shamcash}, shamcashAccount: ${_this.shamcashAccount}, stripe: ${_this.stripe}, unpaidTimeoutMinutes: ${_this.unpaidTimeoutMinutes}, additionalProperties: ${_this.additionalProperties})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $PaymentsConfigDtoCopyWith<$Res>  {
   factory $PaymentsConfigDtoCopyWith(PaymentsConfigDto value, $Res Function(PaymentsConfigDto) _then) = _$PaymentsConfigDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(required: true, disallowNullValue: true) bool cash,@JsonKey(required: true, disallowNullValue: true) bool shamcash,@JsonKey(required: true, disallowNullValue: true) bool stripe,@JsonKey(readValue: PaymentsConfigDto._extras, fromJson: PaymentsConfigDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(required: true, disallowNullValue: true) bool cash,@JsonKey(required: true, disallowNullValue: true) bool shamcash,@JsonKey(disallowNullValue: true, includeIfNull: false) String? shamcashAccount,@JsonKey(required: true, disallowNullValue: true) bool stripe,@JsonKey(required: true, disallowNullValue: true, fromJson: PaymentsConfigDto._read_unpaidTimeoutMinutes, toJson: PaymentsConfigDto._write_unpaidTimeoutMinutes) int unpaidTimeoutMinutes,@JsonKey(readValue: PaymentsConfigDto._extras, fromJson: PaymentsConfigDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
@@ -68,12 +68,14 @@ class _$PaymentsConfigDtoCopyWithImpl<$Res>
 
 /// Create a copy of PaymentsConfigDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cash = null,Object? shamcash = null,Object? stripe = null,Object? additionalProperties = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? cash = null,Object? shamcash = null,Object? shamcashAccount = freezed,Object? stripe = null,Object? unpaidTimeoutMinutes = null,Object? additionalProperties = null,}) {
   return _then(PaymentsConfigDto(
 cash: null == cash ? _self.cash : cash // ignore: cast_nullable_to_non_nullable
 as bool,shamcash: null == shamcash ? _self.shamcash : shamcash // ignore: cast_nullable_to_non_nullable
-as bool,stripe: null == stripe ? _self.stripe : stripe // ignore: cast_nullable_to_non_nullable
-as bool,additionalProperties: null == additionalProperties ? _self.additionalProperties : additionalProperties // ignore: cast_nullable_to_non_nullable
+as bool,shamcashAccount: freezed == shamcashAccount ? _self.shamcashAccount : shamcashAccount // ignore: cast_nullable_to_non_nullable
+as String?,stripe: null == stripe ? _self.stripe : stripe // ignore: cast_nullable_to_non_nullable
+as bool,unpaidTimeoutMinutes: null == unpaidTimeoutMinutes ? _self.unpaidTimeoutMinutes : unpaidTimeoutMinutes // ignore: cast_nullable_to_non_nullable
+as int,additionalProperties: null == additionalProperties ? _self.additionalProperties : additionalProperties // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>,
   ));
 }

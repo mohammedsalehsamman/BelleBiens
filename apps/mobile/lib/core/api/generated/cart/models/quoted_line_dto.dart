@@ -2,8 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../admin/models/cart_line_kind.dart';
 import '../../admin/models/localized_text_dto.dart';
-import 'cart_line_kind.dart';
 import 'line_issue_dto.dart';
 
 part 'quoted_line_dto.freezed.dart';

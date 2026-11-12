@@ -252,11 +252,22 @@ describe('Orders (e2e)', () => {
       });
     });
 
-    it('Sham Cash waits for its receipt flow (S6)', async () => {
-      const res = await place(checkout({ paymentMethod: 'SHAMCASH' })).expect(
+    it('Stripe is refused even when switched on: no provider until S12', async () => {
+      await setting('payments.enabled', {
+        cash: true,
+        shamcash: true,
+        stripe: true,
+      });
+      const res = await place(checkout({ paymentMethod: 'STRIPE' })).expect(
         422,
       );
       expect(res.body.code).toBe('PAYMENT_METHOD_UNAVAILABLE');
+      await setting('payments.enabled', {
+        cash: true,
+        shamcash: false,
+        stripe: false,
+      });
+      await place(checkout({ paymentMethod: 'SHAMCASH' })).expect(422);
     });
 
     it('an item that is not available: CART_NOT_ORDERABLE with the line', async () => {

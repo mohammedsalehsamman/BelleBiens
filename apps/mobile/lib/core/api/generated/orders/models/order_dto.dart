@@ -67,6 +67,15 @@ class const OrderDto({
   @JsonKey(required: true, disallowNullValue: true)
   required final String number,
 
+  /// FR-PAY-10: pay before this, or the order is cancelled
+  @JsonKey(
+    disallowNullValue: true,
+    includeIfNull: false,
+    fromJson: OrderDto._read_paymentDueAt,
+    toJson: OrderDto._write_paymentDueAt,
+  )
+  final DateTime? paymentDueAt,
+
   @JsonKey(
     required: true,
     disallowNullValue: true,
@@ -74,6 +83,10 @@ class const OrderDto({
     toJson: OrderDto._write_paymentMethod,
   )
   required final PaymentMethod paymentMethod,
+
+  /// Why the shop could not match the payment (screen 38)
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final String? paymentNote,
 
   @JsonKey(
     required: true,
@@ -138,7 +151,9 @@ class const OrderDto({
     "lines",
     "notes",
     "number",
+    "paymentDueAt",
     "paymentMethod",
+    "paymentNote",
     "paymentStatus",
     "recipient",
     "slot",
@@ -160,6 +175,10 @@ class const OrderDto({
   static Fulfillment _read_fulfillment(Object? value) =>
       Fulfillment.fromJson(value);
   static Object? _write_fulfillment(Fulfillment value) => value.toJson();
+  static DateTime? _read_paymentDueAt(Object? value) =>
+      value == null ? null : DateTime.parse(value as String).toUtc();
+  static Object? _write_paymentDueAt(DateTime? value) =>
+      value?.toUtc().toIso8601String();
   static PaymentMethod _read_paymentMethod(Object? value) =>
       PaymentMethod.fromJson(value);
   static Object? _write_paymentMethod(PaymentMethod value) => value.toJson();

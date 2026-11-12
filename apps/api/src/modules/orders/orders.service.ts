@@ -7,6 +7,7 @@ import { Clock } from '../../common/clock/clock.js';
 import { AppError } from '../../common/errors/app-error.js';
 import { normalizePhone } from '../../common/phone/phone.js';
 import type {
+  Order,
   OrderStatus,
   Prisma,
   Role,
@@ -27,6 +28,9 @@ import {
 import { DAILY_TYPES } from '../designer/designer.service.js';
 import { canonicalize } from '../designer/domain/spec.js';
 import { SettingsService } from '../settings/settings.service.js';
+import { OrderEvents } from './order-events.js';
+import type { ItemNames, PrintOrder } from './print/order-print.js';
+import { PaymentProviders } from './payments/payment-providers.js';
 import {
   checkMove,
   customerCanCancel,
@@ -38,7 +42,6 @@ import type {
   CreateOrderDto,
   OrderDto,
   OrderSummaryDto,
-  PaymentMethodValue,
 } from './dto/order.dto.js';
 
 /** What is written on an order for its address (FR-ORD-06): the address and its zone then. */
@@ -63,15 +66,15 @@ interface AddressSnapshot {
 const ORDER_INCLUDE = {
   lines: { orderBy: { position: 'asc' } },
   history: { orderBy: { createdAt: 'asc' } },
+  payments: { orderBy: { createdAt: 'asc' } },
 } as const satisfies Prisma.OrderInclude;
 
-type OrderRow = Prisma.OrderGetPayload<{ include: typeof ORDER_INCLUDE }>;
+export type OrderRow = Prisma.OrderGetPayload<{
+  include: typeof ORDER_INCLUDE;
+}>;
 
-/**
- * Payment methods this release takes. Sham Cash needs the receipt flow (S6) and
- * Stripe the checkout (S12); until then they are refused even when switched on.
- */
-const SUPPORTED_METHODS: PaymentMethodValue[] = ['CASH'];
+/** Who moves an order: the customer, staff, or the system (FR-PAY-10). */
+export type MoveBy = 'customer' | 'staff' | 'system';
 
 const IDEMPOTENCY_HOURS = 24;
 
@@ -88,6 +91,8 @@ export class OrdersService {
     private readonly audit: AuditService,
     private readonly notifier: OrderNotifier,
     private readonly media: MediaStorage,
+    private readonly providers: PaymentProviders,
+    private readonly events: OrderEvents,
   ) {}
 
   // ---------- placing an order ----------
@@ -173,7 +178,8 @@ export class OrdersService {
     };
     if (
       !enabled[dto.paymentMethod] ||
-      !SUPPORTED_METHODS.includes(dto.paymentMethod)
+      // Stripe has no provider until S12, so it is refused even if switched on.
+      !this.providers.get(dto.paymentMethod)
     ) {
       throw new AppError('PAYMENT_METHOD_UNAVAILABLE');
     }
@@ -241,6 +247,8 @@ export class OrdersService {
     const slotTemplate = calendar.slots.find((s) => s.start === dto.slot.start);
     const now = this.clock.now();
     const today = shopDate(now);
+
+    const payment = await this.providers.get(dto.paymentMethod)!.start(now);
 
     const order = await this.prisma.$transaction(async (tx) => {
       // FR-DLV-04: count the slot's places under its lock; the customer's own
@@ -329,6 +337,7 @@ export class OrdersService {
           roundingMinor: quote.syp.roundingAdjustmentMinor,
           totalMinor: quote.syp.totalMinor,
           totalUsdCents: quote.usd.totalMinor,
+          paymentDueAt: payment.dueAt,
           createdAt: now,
           lines: {
             create: priced.map((p, i) => ({
@@ -355,6 +364,17 @@ export class OrdersService {
             },
           },
           reservations: { create: reservations },
+          // FR-PAY-09: the payment's history starts with the order.
+          payments: {
+            create: {
+              kind: 'created',
+              method: dto.paymentMethod,
+              status: 'PENDING',
+              amountMinor: quote.syp.totalMinor,
+              byUserId: user?.id ?? null,
+              createdAt: now,
+            },
+          },
         },
         include: ORDER_INCLUDE,
       });
@@ -397,6 +417,16 @@ export class OrdersService {
         customerPhone,
       }),
     );
+    this.events.emit({
+      type: 'order.placed',
+      number: order.number,
+      status: order.status,
+      fulfillment: order.fulfillment,
+      slotDate: dto.slot.date,
+      slotStart: order.slotStart,
+      totalMinor: order.totalMinor,
+      at: now.toISOString(),
+    });
     return this.toDto(order);
   }
 
@@ -611,7 +641,8 @@ export class OrdersService {
     return this.toDto(row);
   }
 
-  private async find(number: string): Promise<OrderRow> {
+  /** The order, or NOT_FOUND. */
+  async find(number: string): Promise<OrderRow> {
     const row = await this.prisma.order.findUnique({
       where: { number: number.toUpperCase() },
       include: ORDER_INCLUDE,
@@ -630,10 +661,9 @@ export class OrdersService {
     reason: string | undefined,
   ): Promise<OrderDto> {
     const row = await this.find(number);
-    const owner =
-      (user && row.userId === user.id) ||
-      (phone !== undefined && normalizePhone(phone) === row.customerPhone);
-    if (!owner) throw new AppError('NOT_FOUND', { detail: number });
+    if (!this.isOwner(row, user, phone)) {
+      throw new AppError('NOT_FOUND', { detail: number });
+    }
     return this.move(
       row.number,
       'CANCELLED',
@@ -670,77 +700,138 @@ export class OrdersService {
     to: OrderStatus,
     actor: AuthUser | null,
     note: string,
-    by: 'customer' | 'staff',
+    by: MoveBy,
   ): Promise<OrderDto> {
-    const now = this.clock.now();
     const { row, from } = await this.prisma.$transaction(async (tx) => {
-      // The row lock makes two staff (or staff and the customer) take turns.
-      await tx.$queryRaw`SELECT id FROM "order" WHERE number = ${number} FOR UPDATE`;
-      const current = await tx.order.findUnique({ where: { number } });
-      if (!current) throw new AppError('NOT_FOUND', { detail: number });
-      if (by === 'customer') {
-        if (!customerCanCancel(current.status))
-          throw new AppError('ORDER_NOT_CANCELLABLE');
-      } else {
-        const check = checkMove(
-          current.status,
-          to,
-          actor!.role,
-          current.fulfillment,
-        );
-        if (check === 'NOT_ALLOWED') {
-          throw new AppError('STATUS_CHANGE_NOT_ALLOWED', {
-            extra: { from: current.status, to },
-          });
-        }
-        if (check === 'FORBIDDEN') throw new AppError('FORBIDDEN');
-      }
-
-      // Cash is paid when the order is handed over.
-      const paid =
-        current.paymentMethod === 'CASH' &&
-        (to === 'DELIVERED' || to === 'PICKED_UP');
-      const updated = await tx.order.update({
-        where: { id: current.id },
-        data: {
-          status: to,
-          ...(paid ? { paymentStatus: 'PAID' } : {}),
-          updatedAt: now,
-        },
-        include: ORDER_INCLUDE,
-      });
-      await tx.orderStatusHistory.create({
-        data: {
-          orderId: current.id,
-          from: current.status,
-          to,
-          byUserId: actor?.id ?? null,
-          note,
-          createdAt: now,
-        },
-      });
-      if (releasesStock(to))
-        await this.release(tx, current.id, number, current.couponCode, actor);
-      if (actor && by === 'staff') {
-        await this.audit.record(
-          {
-            actor,
-            action: 'order.status.change',
-            entity: 'order',
-            entityId: current.id,
-            before: { status: current.status },
-            after: { status: to, note },
-          },
-          tx,
-        );
-      }
+      const current = await this.lock(tx, number);
+      await this.transitionInTx(tx, current, to, actor, note, by);
       const fresh = await tx.order.findUniqueOrThrow({
-        where: { id: updated.id },
+        where: { id: current.id },
         include: ORDER_INCLUDE,
       });
       return { row: fresh, from: current.status };
     });
+    await this.statusNotice(row, from);
+    return this.toDto(row);
+  }
 
+  /** Locks the order row, so two people (or a job) take turns on it. */
+  async lock(tx: Prisma.TransactionClient, number: string): Promise<Order> {
+    await tx.$queryRaw`SELECT id FROM "order" WHERE number = ${number} FOR UPDATE`;
+    const current = await tx.order.findUnique({ where: { number } });
+    if (!current) throw new AppError('NOT_FOUND', { detail: number });
+    return current;
+  }
+
+  /**
+   * One checked status move inside the caller's transaction: history, stock
+   * back on cancel, audit for staff. Payment confirmation (S6) moves the
+   * order with it.
+   */
+  async transitionInTx(
+    tx: Prisma.TransactionClient,
+    current: Order,
+    to: OrderStatus,
+    actor: AuthUser | null,
+    note: string,
+    by: MoveBy,
+  ): Promise<void> {
+    const now = this.clock.now();
+    if (by === 'customer') {
+      if (!customerCanCancel(current.status))
+        throw new AppError('ORDER_NOT_CANCELLABLE');
+    } else if (by === 'staff') {
+      const check = checkMove(
+        current.status,
+        to,
+        actor!.role,
+        current.fulfillment,
+      );
+      if (check === 'NOT_ALLOWED') {
+        throw new AppError('STATUS_CHANGE_NOT_ALLOWED', {
+          extra: { from: current.status, to },
+        });
+      }
+      if (check === 'FORBIDDEN') throw new AppError('FORBIDDEN');
+    } else if (current.status !== 'NEW' || to !== 'CANCELLED') {
+      // The system only cancels orders nobody confirmed (FR-PAY-10).
+      throw new AppError('STATUS_CHANGE_NOT_ALLOWED', {
+        extra: { from: current.status, to },
+      });
+    }
+
+    // Cash is paid when the order is handed over.
+    const paid =
+      current.paymentMethod === 'CASH' &&
+      (to === 'DELIVERED' || to === 'PICKED_UP');
+    await tx.order.update({
+      where: { id: current.id },
+      data: {
+        status: to,
+        ...(paid ? { paymentStatus: 'PAID' } : {}),
+        updatedAt: now,
+      },
+    });
+    if (paid) {
+      await tx.paymentEvent.create({
+        data: {
+          orderId: current.id,
+          kind: 'collected',
+          method: 'CASH',
+          status: 'PAID',
+          amountMinor: current.totalMinor,
+          byUserId: actor?.id ?? null,
+          createdAt: now,
+        },
+      });
+    }
+    await tx.orderStatusHistory.create({
+      data: {
+        orderId: current.id,
+        from: current.status,
+        to,
+        byUserId: actor?.id ?? null,
+        note,
+        createdAt: now,
+      },
+    });
+    if (releasesStock(to)) {
+      await this.release(
+        tx,
+        current.id,
+        current.number,
+        current.couponCode,
+        actor,
+      );
+    }
+    if (actor && by === 'staff') {
+      await this.audit.record(
+        {
+          actor,
+          action: 'order.status.change',
+          entity: 'order',
+          entityId: current.id,
+          before: { status: current.status },
+          after: { status: to, note },
+        },
+        tx,
+      );
+    }
+  }
+
+  /** Tells the customer (S7) and the dashboard stream about a move. */
+  async statusNotice(row: OrderRow, from: OrderStatus): Promise<void> {
+    if (row.status === from) return;
+    this.events.emit({
+      type: 'order.status',
+      number: row.number,
+      status: row.status,
+      fulfillment: row.fulfillment,
+      slotDate: dateString(row.slotDate),
+      slotStart: row.slotStart,
+      totalMinor: row.totalMinor,
+      at: this.clock.now().toISOString(),
+    });
     await this.notify(() =>
       this.notifier.statusChanged({
         number: row.number,
@@ -753,7 +844,18 @@ export class OrdersService {
         customerPhone: row.customerPhone,
       }),
     );
-    return this.toDto(row);
+  }
+
+  /** The signed-in owner, or a guest with the order's phone (FR-ORD-04). */
+  isOwner(
+    row: { userId: string | null; customerPhone: string },
+    user: AuthUser | undefined,
+    phone: string | undefined,
+  ): boolean {
+    return (
+      (user !== undefined && row.userId === user.id) ||
+      (phone !== undefined && normalizePhone(phone) === row.customerPhone)
+    );
   }
 
   /** FR-INV-02: a cancelled order gives back its stock and its coupon use. */
@@ -811,6 +913,58 @@ export class OrdersService {
 
   // ---------- the shop's view ----------
 
+  /** What the recipe and the slip print (FR-DSG-16). */
+  async printData(
+    number: string,
+  ): Promise<{ order: PrintOrder; names: ItemNames }> {
+    const row = await this.find(number);
+    const items = await this.prisma.designerItem.findMany({
+      select: { slug: true, nameAr: true },
+    });
+    const byId = new Map(items.map((i) => [i.slug, i.nameAr]));
+    const a = row.address as AddressSnapshot | null;
+    return {
+      names: (id) => byId.get(id) ?? id,
+      order: {
+        number: row.number,
+        fulfillment: row.fulfillment,
+        slotDate: dateString(row.slotDate),
+        slotStart: row.slotStart,
+        slotEnd: row.slotEnd,
+        customerName: row.customerName,
+        customerPhone: row.customerPhone,
+        recipientName: row.recipientName,
+        recipientPhone: row.recipientPhone,
+        hideSender: row.hideSender,
+        callBeforeArrival: row.callBeforeArrival,
+        address: a
+          ? {
+              label: a.label,
+              area: a.area,
+              landmark: a.landmark,
+              building: a.building,
+              floor: a.floor,
+              details: a.details,
+              zoneName: a.zone.nameAr,
+            }
+          : null,
+        notes: row.notes,
+        paymentMethod: row.paymentMethod,
+        paymentStatus: row.paymentStatus,
+        totalMinor: row.totalMinor,
+        lines: row.lines.map((l) => ({
+          position: l.position,
+          kind: l.kind,
+          title: l.titleAr,
+          summary: l.summaryAr,
+          qty: l.qty,
+          imageUrl: l.imageUrl,
+          choice: l.choice as Record<string, unknown>,
+        })),
+      },
+    };
+  }
+
   async forStaff(number: string, role: Role): Promise<AdminOrderDto> {
     return this.toAdminDto(await this.find(number), role);
   }
@@ -839,6 +993,17 @@ export class OrdersService {
     return Object.assign(this.toDto(row), {
       customer: { name: row.customerName, phone: row.customerPhone },
       next: nextStatuses(row.status, role, row.fulfillment),
+      payments: row.payments.map((p) => ({
+        kind: p.kind,
+        method: p.method,
+        status: p.status,
+        amountMinor: p.amountMinor,
+        currency: p.currency,
+        ...(p.reference ? { reference: p.reference } : {}),
+        ...(p.receiptUrl ? { receiptUrl: p.receiptUrl } : {}),
+        note: p.note,
+        at: p.createdAt,
+      })),
     });
   }
 
@@ -893,6 +1058,7 @@ export class OrdersService {
         unitPriceMinor: l.unitPriceMinor,
         totalMinor: l.totalMinor,
         ...(l.imageUrl ? { imageUrl: l.imageUrl } : {}),
+        choice: l.choice as unknown as OrderDto['lines'][number]['choice'],
       })),
       syp: {
         itemsMinor: row.itemsMinor,
@@ -906,6 +1072,15 @@ export class OrdersService {
       usdRate: row.usdRate,
       canCancel: customerCanCancel(row.status),
       history: row.history.map((h) => ({ status: h.to, at: h.createdAt })),
+      // The deadline matters only while the payment is still owed.
+      ...(row.paymentDueAt &&
+      row.status === 'NEW' &&
+      (row.paymentStatus === 'PENDING' || row.paymentStatus === 'FAILED')
+        ? { paymentDueAt: row.paymentDueAt }
+        : {}),
+      ...(row.paymentStatus === 'FAILED' && row.paymentNote
+        ? { paymentNote: row.paymentNote }
+        : {}),
     };
   }
 }

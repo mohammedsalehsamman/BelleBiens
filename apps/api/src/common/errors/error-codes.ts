@@ -117,6 +117,11 @@ export const ERROR_CATALOG = {
     ar: 'أكّد المحل طلبك، فلا يمكن إلغاؤه من التطبيق. راسل المحل على واتساب.',
     en: 'The shop has confirmed your order, so it cannot be cancelled in the app. Message the shop on WhatsApp.',
   },
+  PAYMENT_NOT_EXPECTED: {
+    status: 409,
+    ar: 'لا ينتظر هذا الطلب دفعة الآن. حدّث الصفحة لترى حالته.',
+    en: 'This order is not waiting for a payment now. Refresh to see its status.',
+  },
   STATUS_CHANGE_NOT_ALLOWED: {
     status: 409,
     ar: 'لا يمكن نقل الطلب إلى هذه الحالة من حالته الحالية.',

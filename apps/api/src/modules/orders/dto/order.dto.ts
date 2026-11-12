@@ -48,6 +48,7 @@ export type PaymentMethodValue = (typeof PAYMENT_METHODS)[number];
 
 export const PAYMENT_STATUSES = [
   'PENDING',
+  'SUBMITTED',
   'PAID',
   'FAILED',
   'REFUNDED',
@@ -204,6 +205,11 @@ export class OrderLineDto {
   @ApiProperty({ type: 'integer' }) unitPriceMinor!: number;
   @ApiProperty({ type: 'integer' }) totalMinor!: number;
   @ApiPropertyOptional() imageUrl?: string;
+  @ApiProperty({
+    type: CartLineInputDto,
+    description: 'The line as ordered, to put it back in the cart (FR-ORD-07)',
+  })
+  choice!: CartLineInputDto;
 }
 
 export class OrderAddressDto {
@@ -273,6 +279,81 @@ export class OrderDto {
   @ApiProperty({ description: 'FR-ORD-05: the customer may still cancel' })
   canCancel!: boolean;
   @ApiProperty({ type: [StatusEventDto] }) history!: StatusEventDto[];
+  @ApiPropertyOptional({
+    description: 'FR-PAY-10: pay before this, or the order is cancelled',
+  })
+  paymentDueAt?: Date;
+  @ApiPropertyOptional({
+    description: 'Why the shop could not match the payment (screen 38)',
+  })
+  paymentNote?: string;
+}
+
+export class PaymentEventDto {
+  @ApiProperty({
+    example: 'submitted',
+    description:
+      'created, submitted, confirmed, rejected, method.changed, collected, refunded, expired',
+  })
+  kind!: string;
+  @ApiProperty({ enum: PAYMENT_METHODS, enumName: 'PaymentMethod' })
+  method!: PaymentMethodValue;
+  @ApiProperty({ enum: PAYMENT_STATUSES, enumName: 'PaymentStatus' })
+  status!: (typeof PAYMENT_STATUSES)[number];
+  @ApiProperty({ type: 'integer' }) amountMinor!: number;
+  @ApiProperty({ example: 'SYP' }) currency!: string;
+  @ApiPropertyOptional() reference?: string;
+  @ApiPropertyOptional() receiptUrl?: string;
+  @ApiProperty() note!: string;
+  @ApiProperty() at!: Date;
+}
+
+export class PaymentProofDto {
+  @ApiPropertyOptional({ description: 'A guest gives the phone on the order' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(32)
+  phone?: string;
+
+  @ApiPropertyOptional({
+    example: '784512',
+    description: 'Sham Cash transaction number',
+  })
+  @IsOptional()
+  @IsString()
+  @MinLength(3)
+  @MaxLength(64)
+  reference?: string;
+
+  @ApiPropertyOptional({ description: 'From POST /v1/uploads/receipt' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  receiptUrl?: string;
+}
+
+export class OwnerDto {
+  @ApiPropertyOptional({ description: 'A guest gives the phone on the order' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(32)
+  phone?: string;
+}
+
+export class StaffNoteDto {
+  @ApiProperty({ example: 'رقم العملية لا يطابق المبلغ' })
+  @IsString()
+  @MinLength(1)
+  @MaxLength(300)
+  note!: string;
+}
+
+export class OptionalStaffNoteDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @MaxLength(300)
+  note?: string;
 }
 
 export class OrderSummaryDto {
@@ -337,4 +418,6 @@ export class AdminOrderDto extends OrderDto {
     description: 'Where this role may move it next',
   })
   next!: OrderStatusValue[];
+  @ApiProperty({ type: [PaymentEventDto], description: 'FR-PAY-09' })
+  payments!: PaymentEventDto[];
 }

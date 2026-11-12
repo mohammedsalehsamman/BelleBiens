@@ -51,6 +51,7 @@ export interface TestApp {
 }
 
 const TABLES = [
+  'payment_event',
   'idempotency_key',
   'stock_reservation',
   'order_status_history',

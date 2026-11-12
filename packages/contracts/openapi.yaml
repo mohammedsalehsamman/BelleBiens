@@ -180,12 +180,24 @@ components:
         number:
           example: BB-1001
           type: string
+        paymentDueAt:
+          description: "FR-PAY-10: pay before this, or the order is cancelled"
+          format: date-time
+          type: string
         paymentMethod:
           allOf:
             - $ref: "#/components/schemas/PaymentMethod"
+        paymentNote:
+          description: Why the shop could not match the payment (screen 38)
+          type: string
         paymentStatus:
           allOf:
             - $ref: "#/components/schemas/PaymentStatus"
+        payments:
+          description: FR-PAY-09
+          items:
+            $ref: "#/components/schemas/PaymentEventDto"
+          type: array
         recipient:
           $ref: "#/components/schemas/RecipientDto"
         slot:
@@ -230,6 +242,7 @@ components:
         - history
         - customer
         - next
+        - payments
       type: object
     AdminProductDto:
       properties:
@@ -1977,9 +1990,16 @@ components:
         number:
           example: BB-1001
           type: string
+        paymentDueAt:
+          description: "FR-PAY-10: pay before this, or the order is cancelled"
+          format: date-time
+          type: string
         paymentMethod:
           allOf:
             - $ref: "#/components/schemas/PaymentMethod"
+        paymentNote:
+          description: Why the shop could not match the payment (screen 38)
+          type: string
         paymentStatus:
           allOf:
             - $ref: "#/components/schemas/PaymentStatus"
@@ -2028,6 +2048,10 @@ components:
       type: object
     OrderLineDto:
       properties:
+        choice:
+          allOf:
+            - $ref: "#/components/schemas/CartLineInputDto"
+          description: The line as ordered, to put it back in the cart (FR-ORD-07)
         imageUrl:
           type: string
         kind:
@@ -2053,6 +2077,7 @@ components:
         - qty
         - unitPriceMinor
         - totalMinor
+        - choice
       type: object
     OrderLookupDto:
       properties:
@@ -2155,6 +2180,12 @@ components:
         - expiresInSeconds
         - resendAfterSeconds
       type: object
+    OwnerDto:
+      properties:
+        phone:
+          description: A guest gives the phone on the order
+          type: string
+      type: object
     PageDto:
       properties:
         body:
@@ -2219,15 +2250,64 @@ components:
       required:
         - email
       type: object
+    PaymentEventDto:
+      properties:
+        amountMinor:
+          type: integer
+        at:
+          format: date-time
+          type: string
+        currency:
+          example: SYP
+          type: string
+        kind:
+          description: created, submitted, confirmed, rejected, method.changed, collected, refunded, expired
+          example: submitted
+          type: string
+        method:
+          allOf:
+            - $ref: "#/components/schemas/PaymentMethod"
+        note:
+          type: string
+        receiptUrl:
+          type: string
+        reference:
+          type: string
+        status:
+          allOf:
+            - $ref: "#/components/schemas/PaymentStatus"
+      required:
+        - kind
+        - method
+        - status
+        - amountMinor
+        - currency
+        - note
+        - at
+      type: object
     PaymentMethod:
       enum:
         - CASH
         - SHAMCASH
         - STRIPE
       type: string
+    PaymentProofDto:
+      properties:
+        phone:
+          description: A guest gives the phone on the order
+          type: string
+        receiptUrl:
+          description: From POST /v1/uploads/receipt
+          type: string
+        reference:
+          description: Sham Cash transaction number
+          example: "784512"
+          type: string
+      type: object
     PaymentStatus:
       enum:
         - PENDING
+        - SUBMITTED
         - PAID
         - FAILED
         - REFUNDED
@@ -2238,12 +2318,20 @@ components:
           type: boolean
         shamcash:
           type: boolean
+        shamcashAccount:
+          description: The shop's Sham Cash account to pay to (screen 24)
+          type: string
         stripe:
           type: boolean
+        unpaidTimeoutMinutes:
+          description: "FR-PAY-10: minutes to pay online before the order is cancelled"
+          example: 120
+          type: integer
       required:
         - cash
         - shamcash
         - stripe
+        - unpaidTimeoutMinutes
       type: object
     PersonDto:
       properties:
@@ -3086,6 +3174,14 @@ components:
         - end
         - capacity
       type: object
+    StaffNoteDto:
+      properties:
+        note:
+          example: رقم العملية لا يطابق المبلغ
+          type: string
+      required:
+        - note
+      type: object
     StatusChangeDto:
       properties:
         note:
@@ -3847,6 +3943,18 @@ paths:
       summary: Orders by day and status, in slot order (UC-04)
       tags:
         - admin
+  /v1/admin/orders/stream:
+    get:
+      operationId: AdminOrderPaymentsController_stream
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      security:
+        - bearer: []
+      summary: New orders and status changes, as server-sent events
+      tags:
+        - admin
   /v1/admin/orders/{number}:
     get:
       operationId: AdminOrdersController_get
@@ -3866,6 +3974,123 @@ paths:
       security:
         - bearer: []
       summary: One order, and where this role may move it
+      tags:
+        - admin
+  /v1/admin/orders/{number}/payment/confirm:
+    post:
+      operationId: AdminOrderPaymentsController_confirm
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOrderDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: "The Sham Cash money arrived: paid, and the order confirmed (audited)"
+      tags:
+        - admin
+  /v1/admin/orders/{number}/payment/refund:
+    post:
+      operationId: AdminOrderPaymentsController_refund
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StaffNoteDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOrderDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Record a refund with its reason (FR-PAY-11)
+      tags:
+        - admin
+  /v1/admin/orders/{number}/payment/reject:
+    post:
+      operationId: AdminOrderPaymentsController_reject
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StaffNoteDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOrderDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: The receipt does not match; tell the customer why
+      tags:
+        - admin
+  /v1/admin/orders/{number}/recipe:
+    get:
+      operationId: AdminOrderPaymentsController_recipe
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            text/html:
+              schema:
+                type: string
+          description: HTML to print
+      security:
+        - bearer: []
+      summary: The florist's recipe, A4 (FR-DSG-16)
+      tags:
+        - admin
+  /v1/admin/orders/{number}/slip:
+    get:
+      operationId: AdminOrderPaymentsController_slip
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            text/html:
+              schema:
+                type: string
+          description: HTML to print
+      security:
+        - bearer: []
+      summary: The order slip for an 80 mm printer (UC-04)
       tags:
         - admin
   /v1/admin/orders/{number}/status:
@@ -5121,6 +5346,56 @@ paths:
       summary: Cancel before the shop confirms (FR-ORD-05); a guest gives the phone
       tags:
         - orders
+  /v1/orders/{number}/payment/cash:
+    post:
+      operationId: OrderPaymentsController_cash
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OwnerDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDto"
+          description: ""
+      summary: Pay on delivery instead (screen 38)
+      tags:
+        - orders
+  /v1/orders/{number}/payment/proof:
+    post:
+      operationId: OrderPaymentsController_proof
+      parameters:
+        - in: path
+          name: number
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentProofDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDto"
+          description: ""
+      summary: Send the Sham Cash transaction number or receipt (FR-PAY-03)
+      tags:
+        - orders
   /v1/pages/{slug}:
     get:
       operationId: CatalogController_page
@@ -5288,6 +5563,26 @@ paths:
       summary: Arabic-aware search with per-category counts (screen 08, FR-CAT-04)
       tags:
         - catalog
+  /v1/uploads/receipt:
+    post:
+      operationId: OrderPaymentsController_receipt
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MediaUploadDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadedImageDto"
+          description: ""
+      summary: A Sham Cash receipt photo, checked and re-encoded (NFR-SEC-08)
+      tags:
+        - orders
   /v1/uploads/reference-image:
     post:
       operationId: CartController_referenceImage

@@ -10,6 +10,7 @@ OrderLineDto _$OrderLineDtoFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
     requiredKeys: const [
+      'choice',
       'kind',
       'position',
       'qty',
@@ -19,6 +20,7 @@ OrderLineDto _$OrderLineDtoFromJson(Map<String, dynamic> json) {
       'unitPriceMinor',
     ],
     disallowNullValues: const [
+      'choice',
       'imageUrl',
       'kind',
       'position',
@@ -30,6 +32,7 @@ OrderLineDto _$OrderLineDtoFromJson(Map<String, dynamic> json) {
     ],
   );
   return OrderLineDto(
+    choice: CartLineInputDto.fromJson(json['choice'] as Map<String, dynamic>),
     imageUrl: json['imageUrl'] as String?,
     kind: json['kind'] as String,
     position: OrderLineDto._read_position(json['position']),
@@ -49,6 +52,7 @@ OrderLineDto _$OrderLineDtoFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$OrderLineDtoToJson(OrderLineDto instance) =>
     <String, dynamic>{
+      'choice': instance.choice.toJson(),
       'imageUrl': ?instance.imageUrl,
       'kind': instance.kind,
       'position': ?OrderLineDto._write_position(instance.position),

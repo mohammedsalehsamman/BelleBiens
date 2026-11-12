@@ -17,7 +17,20 @@ class const PaymentsConfigDto({
   @JsonKey(required: true, disallowNullValue: true)
   required final bool shamcash,
 
+  /// The shop's Sham Cash account to pay to (screen 24)
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final String? shamcashAccount,
+
   @JsonKey(required: true, disallowNullValue: true) required final bool stripe,
+
+  /// FR-PAY-10: minutes to pay online before the order is cancelled
+  @JsonKey(
+    required: true,
+    disallowNullValue: true,
+    fromJson: PaymentsConfigDto._read_unpaidTimeoutMinutes,
+    toJson: PaymentsConfigDto._write_unpaidTimeoutMinutes,
+  )
+  required final int unpaidTimeoutMinutes,
 
   @JsonKey(
     readValue: PaymentsConfigDto._extras,
@@ -26,11 +39,19 @@ class const PaymentsConfigDto({
   )
   final Map<String, Object?> additionalProperties = const {},
 }) with _$PaymentsConfigDto {
-  static const _knownKeys = <String>{"cash", "shamcash", "stripe"};
+  static const _knownKeys = <String>{
+    "cash",
+    "shamcash",
+    "shamcashAccount",
+    "stripe",
+    "unpaidTimeoutMinutes",
+  };
 
   factory PaymentsConfigDto.fromJson(Map<String, Object?> json) =>
       _$PaymentsConfigDtoFromJson(json);
 
+  static int _read_unpaidTimeoutMinutes(Object? value) => value as int;
+  static Object? _write_unpaidTimeoutMinutes(int value) => value;
   static Object? _extras(Map map, String _) => {
     for (final entry in map.entries)
       if (!_knownKeys.contains(entry.key)) entry.key as String: entry.value,

@@ -7,6 +7,7 @@ part 'payment_status.g.dart';
 @JsonEnum(alwaysCreate: true, valueField: 'value')
 enum PaymentStatus {
   pending("PENDING"),
+  submitted("SUBMITTED"),
   paid("PAID"),
   failed("FAILED"),
   refunded("REFUNDED");

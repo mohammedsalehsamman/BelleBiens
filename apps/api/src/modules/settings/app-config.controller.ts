@@ -59,6 +59,16 @@ class PaymentsConfigDto {
   @ApiProperty() cash!: boolean;
   @ApiProperty() shamcash!: boolean;
   @ApiProperty() stripe!: boolean;
+  @ApiPropertyOptional({
+    description: "The shop's Sham Cash account to pay to (screen 24)",
+  })
+  shamcashAccount?: string;
+  @ApiProperty({
+    type: 'integer',
+    example: 120,
+    description: 'FR-PAY-10: minutes to pay online before the order is cancelled',
+  })
+  unpaidTimeoutMinutes!: number;
 }
 
 class AuthConfigDto {
@@ -122,6 +132,10 @@ export class AppConfigController {
       this.settings.get('shop.busyMessage'),
       this.settings.get('shop.busyAcceptsFrom'),
     ]);
+    const [shamcashAccount, unpaidTimeoutMinutes] = await Promise.all([
+      this.settings.get('payments.shamcashAccount'),
+      this.settings.get('payments.unpaidTimeoutMinutes'),
+    ]);
     return {
       minSupportedVersion: this.config.get('APP_MIN_SUPPORTED_VERSION', {
         infer: true,
@@ -135,7 +149,11 @@ export class AppConfigController {
         ...(mode === 'busy' && acceptsFrom ? { acceptsFrom } : {}),
       },
       currency: { base: 'SYP', usdRate },
-      payments: { ...payments },
+      payments: {
+        ...payments,
+        ...(shamcashAccount ? { shamcashAccount } : {}),
+        unpaidTimeoutMinutes,
+      },
       auth: {
         otpLength: this.config.get('OTP_LENGTH', { infer: true }),
         otpResendSeconds: this.config.get('OTP_RESEND_SECONDS', {

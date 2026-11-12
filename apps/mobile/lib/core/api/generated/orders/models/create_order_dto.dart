@@ -2,9 +2,9 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../admin/models/cart_line_input_dto.dart';
 import '../../admin/models/fulfillment.dart';
 import '../../admin/models/payment_method.dart';
-import '../../cart/models/cart_line_input_dto.dart';
 import 'order_address_input_dto.dart';
 import 'person_dto.dart';
 import 'slot_choice_dto.dart';

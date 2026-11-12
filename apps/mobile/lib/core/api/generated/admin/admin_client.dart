@@ -7,6 +7,7 @@ import 'package:dio/dio.dart'
         Dio,
         Options,
         ResponseType,
+        ResponseBody,
         CancelToken,
         FormData,
         MultipartFile,
@@ -48,6 +49,7 @@ import 'models/media_dto.dart' as models show MediaDto;
 import 'models/order_status.dart' as models show OrderStatus;
 import 'models/shop_mode_dto.dart' show ShopModeDto;
 import 'models/size_limits_dto.dart' as models show SizeLimitsDto;
+import 'models/staff_note_dto.dart' show StaffNoteDto;
 import 'models/status_change_dto.dart' show StatusChangeDto;
 import 'models/stock_adjustment_dto.dart' show StockAdjustmentDto;
 import 'models/stock_movement_dto.dart' show StockMovementDto;
@@ -670,6 +672,46 @@ abstract class AdminClient {
         .toList();
   }
 
+  Future<void> _adminOrderPaymentsControllerStreamWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    await _transport.request<dynamic>(
+      "/v1/admin/orders/stream",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// New orders and status changes, as server-sent events
+  @GET('/v1/admin/orders/stream')
+  Future<void> adminOrderPaymentsControllerStream({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+  });
   Future<AdminOrderDto> _adminOrdersControllerGetWithOptions({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -713,6 +755,224 @@ abstract class AdminClient {
     Options? options,
     @Path('number') required String number,
   });
+  Future<AdminOrderDto> _adminOrderPaymentsControllerConfirmWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders/" + number.toString() + "/payment/confirm",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return AdminOrderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// The Sham Cash money arrived: paid, and the order confirmed (audited)
+  @POST('/v1/admin/orders/{number}/payment/confirm')
+  Future<AdminOrderDto> adminOrderPaymentsControllerConfirm({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('number') required String number,
+  });
+  Future<AdminOrderDto> _adminOrderPaymentsControllerRefundWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required StaffNoteDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders/" + number.toString() + "/payment/refund",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AdminOrderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Record a refund with its reason (FR-PAY-11)
+  @POST('/v1/admin/orders/{number}/payment/refund')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AdminOrderDto> adminOrderPaymentsControllerRefund({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('number') required String number,
+    @Body() required StaffNoteDto body,
+  });
+  Future<AdminOrderDto> _adminOrderPaymentsControllerRejectWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required StaffNoteDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders/" + number.toString() + "/payment/reject",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AdminOrderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// The receipt does not match; tell the customer why
+  @POST('/v1/admin/orders/{number}/payment/reject')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AdminOrderDto> adminOrderPaymentsControllerReject({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('number') required String number,
+    @Body() required StaffNoteDto body,
+  });
+
+  /// The florist's recipe, A4 (FR-DSG-16)
+  Future<String> adminOrderPaymentsControllerRecipe({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+  }) async {
+    if (const {'', '.', '..'}.contains(Uri.encodeComponent(number))) {
+      throw ArgumentError('Invalid path segment.');
+    }
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.stream,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "text/html"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders/" + Uri.encodeComponent(number) + "/recipe",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return await convert.utf8.decoder
+        .bind((response.data as ResponseBody).stream)
+        .join();
+  }
+
+  /// The order slip for an 80 mm printer (UC-04)
+  Future<String> adminOrderPaymentsControllerSlip({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+  }) async {
+    if (const {'', '.', '..'}.contains(Uri.encodeComponent(number))) {
+      throw ArgumentError('Invalid path segment.');
+    }
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.stream,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "text/html"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders/" + Uri.encodeComponent(number) + "/slip",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return await convert.utf8.decoder
+        .bind((response.data as ResponseBody).stream)
+        .join();
+  }
+
   Future<AdminOrderDto> _adminOrdersControllerStatusWithOptions({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -1376,6 +1636,32 @@ class _AdminClientWithOptions extends _AdminClient {
   }
 
   @override
+  Future<void> adminOrderPaymentsControllerStream({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) {
+    return options == null
+        ? super.adminOrderPaymentsControllerStream(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          )
+        : _adminOrderPaymentsControllerStreamWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          );
+  }
+
+  @override
   Future<AdminOrderDto> adminOrdersControllerGet({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -1401,6 +1687,99 @@ class _AdminClientWithOptions extends _AdminClient {
             cancelToken: cancelToken,
             options: options,
             number: number,
+          );
+  }
+
+  @override
+  Future<AdminOrderDto> adminOrderPaymentsControllerConfirm({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+  }) {
+    return options == null
+        ? super.adminOrderPaymentsControllerConfirm(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+          )
+        : _adminOrderPaymentsControllerConfirmWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+          );
+  }
+
+  @override
+  Future<AdminOrderDto> adminOrderPaymentsControllerRefund({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required StaffNoteDto body,
+  }) {
+    return options == null
+        ? super.adminOrderPaymentsControllerRefund(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          )
+        : _adminOrderPaymentsControllerRefundWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          );
+  }
+
+  @override
+  Future<AdminOrderDto> adminOrderPaymentsControllerReject({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required StaffNoteDto body,
+  }) {
+    return options == null
+        ? super.adminOrderPaymentsControllerReject(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          )
+        : _adminOrderPaymentsControllerRejectWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
           );
   }
 

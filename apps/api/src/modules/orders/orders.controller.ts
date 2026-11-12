@@ -48,7 +48,7 @@ import { OrdersService } from './orders.service.js';
 const KEY = /^[A-Za-z0-9_-]{8,100}$/;
 const NUMBER = /^BB-\d{4,9}$/i;
 
-function orderNumber(value: string): string {
+export function orderNumber(value: string): string {
   if (!NUMBER.test(value)) throw new AppError('NOT_FOUND', { detail: value });
   return value.toUpperCase();
 }

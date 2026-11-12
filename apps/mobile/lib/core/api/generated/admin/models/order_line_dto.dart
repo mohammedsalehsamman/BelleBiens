@@ -2,6 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'cart_line_input_dto.dart';
 import 'localized_text_dto.dart';
 
 part 'order_line_dto.freezed.dart';
@@ -14,6 +15,10 @@ part 'order_line_dto.g.dart';
   disallowUnrecognizedKeys: false,
 )
 class const OrderLineDto({
+  /// The line as ordered, to put it back in the cart (FR-ORD-07)
+  @JsonKey(required: true, disallowNullValue: true)
+  required final CartLineInputDto choice,
+
   @JsonKey(disallowNullValue: true, includeIfNull: false)
   final String? imageUrl,
 
@@ -65,6 +70,7 @@ class const OrderLineDto({
   final Map<String, Object?> additionalProperties = const {},
 }) with _$OrderLineDto {
   static const _knownKeys = <String>{
+    "choice",
     "imageUrl",
     "kind",
     "position",

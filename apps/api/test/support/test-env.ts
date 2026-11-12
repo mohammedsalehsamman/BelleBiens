@@ -16,4 +16,6 @@ export const TEST_ENV: Record<string, string> = {
   MAIL_SMTP_URL: 'smtp://127.0.0.1:1',
   // High enough that functional tests never trip it; rate-limit.e2e-spec.ts lowers it.
   AUTH_RATE_LIMIT_PER_MINUTE: '1000',
+  // Jobs run when a test calls them, never on a timer.
+  JOBS_ENABLED: 'false',
 };

@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'cart_line_input_dto.dart';
+import '../../admin/models/cart_line_input_dto.dart';
 
 part 'cart_quote_request_dto.freezed.dart';
 part 'cart_quote_request_dto.g.dart';

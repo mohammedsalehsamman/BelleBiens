@@ -8,6 +8,7 @@ part of 'payment_status.dart';
 
 const _$PaymentStatusEnumMap = {
   PaymentStatus.pending: 'PENDING',
+  PaymentStatus.submitted: 'SUBMITTED',
   PaymentStatus.paid: 'PAID',
   PaymentStatus.failed: 'FAILED',
   PaymentStatus.refunded: 'REFUNDED',

@@ -3,7 +3,14 @@
 import 'dart:convert' as convert;
 
 import 'package:dio/dio.dart'
-    show Dio, Options, ResponseType, CancelToken, RequestOptions;
+    show
+        Dio,
+        Options,
+        ResponseType,
+        CancelToken,
+        FormData,
+        MultipartFile,
+        RequestOptions;
 import 'package:retrofit/retrofit.dart'
     show
         RestApi,
@@ -14,6 +21,8 @@ import 'package:retrofit/retrofit.dart'
         ParseErrorLogger,
         Body,
         Headers,
+        MultiPart,
+        Part,
         Path,
         Header;
 
@@ -21,6 +30,9 @@ import 'models/cancel_order_dto.dart' show CancelOrderDto;
 import 'models/create_order_dto.dart' show CreateOrderDto;
 import 'models/order_dto.dart' show OrderDto;
 import 'models/order_lookup_dto.dart' show OrderLookupDto;
+import 'models/owner_dto.dart' show OwnerDto;
+import 'models/payment_proof_dto.dart' show PaymentProofDto;
+import 'models/uploaded_image_dto.dart' show UploadedImageDto;
 
 part 'orders_client.g.dart';
 
@@ -190,6 +202,120 @@ abstract class OrdersClient {
     @Path('number') required String number,
     @Body() required CancelOrderDto body,
   });
+  Future<OrderDto> _orderPaymentsControllerCashWithOptions({
+    Map<String, Object?> extra = const {},
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required OwnerDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/orders/" + number.toString() + "/payment/cash",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return OrderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Pay on delivery instead (screen 38)
+  @POST('/v1/orders/{number}/payment/cash')
+  @Headers({'Content-Type': 'application/json'})
+  Future<OrderDto> orderPaymentsControllerCash({
+    @Extras() Map<String, Object?> extra = const {},
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('number') required String number,
+    @Body() required OwnerDto body,
+  });
+  Future<OrderDto> _orderPaymentsControllerProofWithOptions({
+    Map<String, Object?> extra = const {},
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required PaymentProofDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/orders/" + number.toString() + "/payment/proof",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return OrderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Send the Sham Cash transaction number or receipt (FR-PAY-03)
+  @POST('/v1/orders/{number}/payment/proof')
+  @Headers({'Content-Type': 'application/json'})
+  Future<OrderDto> orderPaymentsControllerProof({
+    @Extras() Map<String, Object?> extra = const {},
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('number') required String number,
+    @Body() required PaymentProofDto body,
+  });
+  Future<UploadedImageDto> _orderPaymentsControllerReceiptWithOptions({
+    Map<String, Object?> extra = const {},
+    CancelToken? cancelToken,
+    Options? options,
+    required MultipartFile file,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "multipart/form-data",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final formData = FormData();
+    formData.files.add(MapEntry("file", file));
+    final response = await _transport.request<dynamic>(
+      "/v1/uploads/receipt",
+      options: _options,
+      data: formData,
+      cancelToken: cancelToken,
+    );
+    return UploadedImageDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// A Sham Cash receipt photo, checked and re-encoded (NFR-SEC-08)
+  @POST('/v1/uploads/receipt')
+  @MultiPart()
+  Future<UploadedImageDto> orderPaymentsControllerReceipt({
+    @Extras() Map<String, Object?> extra = const {},
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Part(name: 'file') required MultipartFile file,
+  });
 }
 
 class _OrdersClientWithOptions extends _OrdersClient {
@@ -293,6 +419,78 @@ class _OrdersClientWithOptions extends _OrdersClient {
             options: options,
             number: number,
             body: body,
+          );
+  }
+
+  @override
+  Future<OrderDto> orderPaymentsControllerCash({
+    Map<String, Object?> extra = const {},
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required OwnerDto body,
+  }) {
+    return options == null
+        ? super.orderPaymentsControllerCash(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          )
+        : _orderPaymentsControllerCashWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          );
+  }
+
+  @override
+  Future<OrderDto> orderPaymentsControllerProof({
+    Map<String, Object?> extra = const {},
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required PaymentProofDto body,
+  }) {
+    return options == null
+        ? super.orderPaymentsControllerProof(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          )
+        : _orderPaymentsControllerProofWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          );
+  }
+
+  @override
+  Future<UploadedImageDto> orderPaymentsControllerReceipt({
+    Map<String, Object?> extra = const {},
+    CancelToken? cancelToken,
+    Options? options,
+    required MultipartFile file,
+  }) {
+    return options == null
+        ? super.orderPaymentsControllerReceipt(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            file: file,
+          )
+        : _orderPaymentsControllerReceiptWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            file: file,
           );
   }
 }
