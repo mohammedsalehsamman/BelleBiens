@@ -11,7 +11,8 @@ enum DesignerPart {
   green("GREEN"),
   wrap("WRAP"),
   ribbon("RIBBON"),
-  extra("EXTRA");
+  extra("EXTRA"),
+  sweet("SWEET");
 
   const DesignerPart(this.value);
 

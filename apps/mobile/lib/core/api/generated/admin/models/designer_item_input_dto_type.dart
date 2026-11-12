@@ -11,7 +11,8 @@ enum DesignerItemInputDtoType {
   green("GREEN"),
   wrap("WRAP"),
   ribbon("RIBBON"),
-  extra("EXTRA");
+  extra("EXTRA"),
+  sweet("SWEET");
 
   const DesignerItemInputDtoType(this.value);
 

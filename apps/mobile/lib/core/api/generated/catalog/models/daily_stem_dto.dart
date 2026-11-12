@@ -3,7 +3,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../admin/models/localized_text_dto.dart';
-import 'designer_part.dart';
+import '../../cart/models/designer_part.dart';
 
 part 'daily_stem_dto.freezed.dart';
 part 'daily_stem_dto.g.dart';

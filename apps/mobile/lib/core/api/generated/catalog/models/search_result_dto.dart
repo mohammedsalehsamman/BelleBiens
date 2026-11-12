@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'product_card_dto.dart';
+import '../../cart/models/product_card_dto.dart';
 import 'search_facet_dto.dart';
 
 part 'search_result_dto.freezed.dart';

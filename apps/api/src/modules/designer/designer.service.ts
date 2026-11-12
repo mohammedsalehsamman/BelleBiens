@@ -69,7 +69,7 @@ type Part = keyof typeof SLOTS;
 /** Types that come from today's list rather than a stock count (FR-DLY-01). */
 const DAILY_TYPES: DesignerItemType[] = ['FLOWER', 'FILLER', 'GREEN'];
 
-interface Stocked {
+export interface Stocked {
   item: DesignerItem;
   /** null: no limit. */
   available: number | null;
@@ -94,10 +94,8 @@ export class DesignerService {
       : today >= item.seasonFrom || today <= item.seasonTo;
   }
 
-  /** Every item with how many can be used today. */
-  private async stocked(
-    where: { slug?: { in: string[] } } = {},
-  ): Promise<Stocked[]> {
+  /** Every item with how many can be used today (also used by boxes, S4). */
+  async stocked(where: { slug?: { in: string[] } } = {}): Promise<Stocked[]> {
     const today = shopDate(this.clock.now());
     const items = await this.prisma.designerItem.findMany({
       where,
@@ -118,7 +116,7 @@ export class DesignerService {
     });
   }
 
-  private toItemDto(s: Stocked): DesignerItemDto {
+  toItemDto(s: Stocked): DesignerItemDto {
     return {
       id: s.item.slug,
       type: s.item.type,

@@ -19,8 +19,10 @@ import 'package:retrofit/retrofit.dart'
         Path;
 
 import '../admin/models/me_dto.dart' show MeDto;
-import '../catalog/models/product_card_dto.dart' as models show ProductCardDto;
+import '../cart/models/product_card_dto.dart' as models show ProductCardDto;
+import 'models/cart_dto.dart' show CartDto;
 import 'models/register_device_dto.dart' show RegisterDeviceDto;
+import 'models/save_cart_dto.dart' show SaveCartDto;
 import 'models/update_me_dto.dart' show UpdateMeDto;
 
 part 'me_client.g.dart';
@@ -124,6 +126,98 @@ abstract class MeClient {
     @CancelRequest() CancelToken? cancelToken,
     Options? options,
     @Body() required UpdateMeDto body,
+  });
+  Future<CartDto> _savedCartControllerGetWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/cart",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return CartDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// The cart kept for this account (FR-CRT-03)
+  @GET('/v1/me/cart')
+  Future<CartDto> savedCartControllerGet({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+  });
+  Future<CartDto> _savedCartControllerPutWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required SaveCartDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/cart",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return CartDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Replace the saved cart (the app merges first)
+  @PUT('/v1/me/cart')
+  @Headers({'Content-Type': 'application/json'})
+  Future<CartDto> savedCartControllerPut({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required SaveCartDto body,
   });
   Future<void> _meControllerRegisterDeviceWithOptions({
     Map<String, Object?> extra = const {
@@ -388,6 +482,61 @@ class _MeClientWithOptions extends _MeClient {
             body: body,
           )
         : _meControllerUpdateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<CartDto> savedCartControllerGet({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) {
+    return options == null
+        ? super.savedCartControllerGet(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          )
+        : _savedCartControllerGetWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          );
+  }
+
+  @override
+  Future<CartDto> savedCartControllerPut({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required SaveCartDto body,
+  }) {
+    return options == null
+        ? super.savedCartControllerPut(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _savedCartControllerPutWithOptions(
             extra: extra,
             cancelToken: cancelToken,
             options: options,

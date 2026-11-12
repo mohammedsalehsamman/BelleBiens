@@ -2,8 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../cart/models/product_card_dto.dart';
 import 'daily_stem_dto.dart';
-import 'product_card_dto.dart';
 
 part 'daily_flowers_dto.freezed.dart';
 part 'daily_flowers_dto.g.dart';

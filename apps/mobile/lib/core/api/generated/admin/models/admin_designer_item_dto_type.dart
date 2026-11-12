@@ -11,7 +11,8 @@ enum AdminDesignerItemDtoType {
   green("GREEN"),
   wrap("WRAP"),
   ribbon("RIBBON"),
-  extra("EXTRA");
+  extra("EXTRA"),
+  sweet("SWEET");
 
   const AdminDesignerItemDtoType(this.value);
 

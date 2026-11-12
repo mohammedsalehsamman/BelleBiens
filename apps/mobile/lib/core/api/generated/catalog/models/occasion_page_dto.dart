@@ -2,8 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../cart/models/product_card_dto.dart';
 import 'occasion_dto.dart';
-import 'product_card_dto.dart';
 
 part 'occasion_page_dto.freezed.dart';
 part 'occasion_page_dto.g.dart';

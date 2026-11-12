@@ -13,4 +13,5 @@ const _$DesignerItemInputDtoTypeEnumMap = {
   DesignerItemInputDtoType.wrap: 'WRAP',
   DesignerItemInputDtoType.ribbon: 'RIBBON',
   DesignerItemInputDtoType.extra: 'EXTRA',
+  DesignerItemInputDtoType.sweet: 'SWEET',
 };

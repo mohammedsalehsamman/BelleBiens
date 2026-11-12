@@ -260,6 +260,9 @@ export class CatalogService {
       customizable: row.designerTemplate !== null,
       designerTemplate:
         (row.designerTemplate as Record<string, unknown> | null) ?? null,
+      inscriptionMaxLength: row.inscriptionMaxLength,
+      inscriptionSuggestions: row.inscriptionSuggestions,
+      allowsReferenceImage: row.allowsReferenceImage,
       earliestDeliveryInDays: Math.max(
         0,
         Math.round(earliest.diff(todayLocal, 'days').days),

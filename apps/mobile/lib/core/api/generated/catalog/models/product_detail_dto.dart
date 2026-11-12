@@ -3,12 +3,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../admin/models/localized_text_dto.dart';
+import '../../cart/models/product_badge.dart';
+import '../../cart/models/product_card_dto.dart';
+import '../../cart/models/product_kind.dart';
 import 'category_ref_dto.dart';
-import 'product_badge.dart';
-import 'product_card_dto.dart';
 import 'product_detail_dto_designer_template.dart';
 import 'product_image_dto.dart';
-import 'product_kind.dart';
 import 'product_option_group_dto.dart';
 
 part 'product_detail_dto.freezed.dart';
@@ -24,6 +24,10 @@ class const ProductDetailDto({
   /// FR-CKE-05
   @JsonKey(required: true, disallowNullValue: true)
   required final List<String> allergens,
+
+  /// A reference photo may be attached (FR-CKE-04)
+  @JsonKey(required: true, disallowNullValue: true)
+  required final bool allowsReferenceImage,
 
   /// Can be ordered today
   @JsonKey(required: true, disallowNullValue: true)
@@ -75,6 +79,17 @@ class const ProductDetailDto({
 
   @JsonKey(required: true, disallowNullValue: true)
   required final List<ProductImageDto> images,
+
+  /// Message on the cake allowed, up to this many characters (FR-CKE-03)
+  @JsonKey(
+    required: true,
+    fromJson: ProductDetailDto._read_inscriptionMaxLength,
+    toJson: ProductDetailDto._write_inscriptionMaxLength,
+  )
+  required final int? inscriptionMaxLength,
+
+  @JsonKey(required: true, disallowNullValue: true)
+  required final List<String> inscriptionSuggestions,
 
   /// False for guests
   @JsonKey(required: true, disallowNullValue: true)
@@ -145,6 +160,7 @@ class const ProductDetailDto({
 }) with _$ProductDetailDto {
   static const _knownKeys = <String>{
     "allergens",
+    "allowsReferenceImage",
     "available",
     "badges",
     "category",
@@ -158,6 +174,8 @@ class const ProductDetailDto({
     "id",
     "imageUrl",
     "images",
+    "inscriptionMaxLength",
+    "inscriptionSuggestions",
     "isFavorite",
     "kind",
     "leadTimeHours",
@@ -183,6 +201,8 @@ class const ProductDetailDto({
       value.map((item) => item.toJson()).toList();
   static int _read_earliestDeliveryInDays(Object? value) => value as int;
   static Object? _write_earliestDeliveryInDays(int value) => value;
+  static int? _read_inscriptionMaxLength(Object? value) => value as int?;
+  static Object? _write_inscriptionMaxLength(int? value) => value;
   static ProductKind _read_kind(Object? value) => ProductKind.fromJson(value);
   static Object? _write_kind(ProductKind value) => value.toJson();
   static int _read_leadTimeHours(Object? value) => value as int;

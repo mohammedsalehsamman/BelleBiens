@@ -47,6 +47,9 @@ export interface TestApp {
 }
 
 const TABLES = [
+  'cart',
+  'coupon',
+  'box_type',
   'favorite',
   'designer_size',
   'stock_movement',

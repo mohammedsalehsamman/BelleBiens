@@ -4,7 +4,9 @@ import {
   type OpenAPIObject,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
+import type { Env } from '../config/env.schema.js';
 import { ProblemDetailsFilter } from '../common/errors/problem-details.filter.js';
 
 /** URL prefix of the versioned REST API (EI-CM-02). */
@@ -16,6 +18,13 @@ export const API_PREFIX = 'v1';
  */
 export function configureApp(app: INestApplication): INestApplication {
   app.setGlobalPrefix(API_PREFIX);
+  // Rate limits (throttler, coupon guesses) key on the client address.
+  const config = app.get<ConfigService<Env, true>>(ConfigService);
+  (
+    app.getHttpAdapter().getInstance() as {
+      set: (k: string, v: unknown) => void;
+    }
+  ).set('trust proxy', config.get('TRUST_PROXY', { infer: true }));
   app.use(helmet());
   app.useGlobalPipes(
     new ValidationPipe({

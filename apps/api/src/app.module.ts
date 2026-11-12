@@ -10,6 +10,7 @@ import { type Env, validateEnv } from './config/env.schema.js';
 import { PrismaModule } from './infra/prisma/prisma.module.js';
 import { AccountsModule } from './modules/accounts/accounts.module.js';
 import { CatalogModule } from './modules/catalog/catalog.module.js';
+import { CartModule } from './modules/cart/cart.module.js';
 import { DesignerModule } from './modules/designer/designer.module.js';
 import { AUTH_RATE_LIMITED } from './modules/accounts/auth/auth.decorators.js';
 import {
@@ -83,6 +84,7 @@ function isAuthRateLimited(context: ExecutionContext): boolean {
     AccountsModule,
     CatalogModule,
     DesignerModule,
+    CartModule,
     HealthModule,
   ],
   // Order matters: rate limit, then app version, then identity, then role.

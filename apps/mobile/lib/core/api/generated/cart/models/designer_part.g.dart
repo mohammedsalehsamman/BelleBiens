@@ -13,4 +13,5 @@ const _$DesignerPartEnumMap = {
   DesignerPart.wrap: 'WRAP',
   DesignerPart.ribbon: 'RIBBON',
   DesignerPart.extra: 'EXTRA',
+  DesignerPart.sweet: 'SWEET',
 };

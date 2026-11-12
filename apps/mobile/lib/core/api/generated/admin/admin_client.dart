@@ -16,9 +16,9 @@ import 'package:retrofit/retrofit.dart'
         RestApi,
         Extras,
         CancelRequest,
-        PUT,
         POST,
         PATCH,
+        PUT,
         ParseErrorLogger,
         Body,
         Headers,
@@ -30,6 +30,8 @@ import 'models/admin_designer_item_dto.dart'
 import 'models/admin_product_dto.dart' show AdminProductDto;
 import 'models/audit_entry_dto.dart' as models show AuditEntryDto;
 import 'models/change_role_dto.dart' show ChangeRoleDto;
+import 'models/coupon_dto.dart' show CouponDto;
+import 'models/coupon_input_dto.dart' show CouponInputDto;
 import 'models/create_product_dto.dart' show CreateProductDto;
 import 'models/daily_stems_input_dto.dart' show DailyStemsInputDto;
 import 'models/designer_item_input_dto.dart' show DesignerItemInputDto;
@@ -94,6 +96,140 @@ abstract class AdminClient {
         .toList();
   }
 
+  /// Discount codes (FR-CRT-07)
+  Future<List<CouponDto>> adminCouponsControllerList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/coupons",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => CouponDto.fromJson(item as Map<String, Object?>))
+        .toList();
+  }
+
+  Future<CouponDto> _adminCouponsControllerCreateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required CouponInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/coupons",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return CouponDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Add a discount code (audited)
+  @POST('/v1/admin/coupons')
+  @Headers({'Content-Type': 'application/json'})
+  Future<CouponDto> adminCouponsControllerCreate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required CouponInputDto body,
+  });
+  Future<CouponDto> _adminCouponsControllerUpdateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required CouponInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PATCH",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/coupons/" + id.toString(),
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return CouponDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Change or switch off a discount code (audited)
+  @PATCH('/v1/admin/coupons/{id}')
+  @Headers({'Content-Type': 'application/json'})
+  Future<CouponDto> adminCouponsControllerUpdate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+    @Body() required CouponInputDto body,
+  });
   Future<void> _adminCatalogControllerDailyFlowersWithOptions({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -683,6 +819,67 @@ abstract class AdminClient {
 
 class _AdminClientWithOptions extends _AdminClient {
   _AdminClientWithOptions(Dio dio) : super._(dio, dio);
+
+  @override
+  Future<CouponDto> adminCouponsControllerCreate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required CouponInputDto body,
+  }) {
+    return options == null
+        ? super.adminCouponsControllerCreate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _adminCouponsControllerCreateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<CouponDto> adminCouponsControllerUpdate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required CouponInputDto body,
+  }) {
+    return options == null
+        ? super.adminCouponsControllerUpdate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          )
+        : _adminCouponsControllerUpdateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          );
+  }
 
   @override
   Future<void> adminCatalogControllerDailyFlowers({

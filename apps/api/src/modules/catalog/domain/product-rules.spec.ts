@@ -4,6 +4,7 @@ import {
   displayPrice,
   earliestDeliveryDate,
   isOpenNow,
+  earliestReadyAt,
   shopDate,
   type AvailabilityInput,
 } from './product-rules.js';
@@ -166,5 +167,39 @@ describe('isOpenNow (FR-ADM-12)', () => {
     const late = { open: '18:00', close: '02:00' };
     expect(isOpenNow(at('01:00'), 'open', late)).toBe(true);
     expect(isOpenNow(at('03:00'), 'open', late)).toBe(false);
+  });
+});
+
+describe('earliestReadyAt (FR-DLV-05)', () => {
+  const hours = { open: '10:00', close: '24:00' };
+  const iso = (d: ReturnType<typeof earliestReadyAt>) => d.toISO();
+
+  it('a cake ordered at 15:00 is ready tomorrow at 15:00', () => {
+    expect(
+      iso(earliestReadyAt(new Date('2026-11-11T15:00:00+03:00'), 24, hours)),
+    ).toBe('2026-11-12T15:00:00.000+03:00');
+  });
+
+  it('rounds up to the next half hour', () => {
+    expect(
+      iso(earliestReadyAt(new Date('2026-11-11T15:10:00+03:00'), 0, hours)),
+    ).toBe('2026-11-11T15:30:00.000+03:00');
+    expect(
+      iso(earliestReadyAt(new Date('2026-11-11T15:40:00+03:00'), 0, hours)),
+    ).toBe('2026-11-11T16:00:00.000+03:00');
+  });
+
+  it('before opening waits for opening; after closing, the next morning', () => {
+    expect(
+      iso(earliestReadyAt(new Date('2026-11-11T08:00:00+03:00'), 0, hours)),
+    ).toBe('2026-11-11T10:00:00.000+03:00');
+    expect(
+      iso(
+        earliestReadyAt(new Date('2026-11-11T21:00:00+03:00'), 0, {
+          open: '10:00',
+          close: '20:00',
+        }),
+      ),
+    ).toBe('2026-11-12T10:00:00.000+03:00');
   });
 });

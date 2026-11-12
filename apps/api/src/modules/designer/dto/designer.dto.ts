@@ -22,6 +22,7 @@ export const DESIGNER_ITEM_TYPES = [
   'WRAP',
   'RIBBON',
   'EXTRA',
+  'SWEET',
 ] as const;
 export type DesignerItemTypeValue = (typeof DESIGNER_ITEM_TYPES)[number];
 

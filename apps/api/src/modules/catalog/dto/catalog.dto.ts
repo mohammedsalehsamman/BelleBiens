@@ -138,6 +138,18 @@ export class ProductDetailDto extends ProductCardDto {
   })
   designerTemplate!: Record<string, unknown> | null;
   @ApiProperty({
+    nullable: true,
+    type: 'integer',
+    example: 40,
+    description:
+      'Message on the cake allowed, up to this many characters (FR-CKE-03)',
+  })
+  inscriptionMaxLength!: number | null;
+  @ApiProperty({ type: [String], example: ['مبروك'] })
+  inscriptionSuggestions!: string[];
+  @ApiProperty({ description: 'A reference photo may be attached (FR-CKE-04)' })
+  allowsReferenceImage!: boolean;
+  @ApiProperty({
     type: 'integer',
     example: 0,
     description: 'Days from today to the earliest delivery (0 = today)',
@@ -338,10 +350,10 @@ export class CatalogFiltersDto {
 export class DailyStemDto {
   @ApiProperty({ example: 'red-rose' }) slug!: string;
   @ApiProperty({
-    enum: ['FLOWER', 'FILLER', 'GREEN', 'WRAP', 'RIBBON', 'EXTRA'],
+    enum: ['FLOWER', 'FILLER', 'GREEN', 'WRAP', 'RIBBON', 'EXTRA', 'SWEET'],
     enumName: 'DesignerPart',
   })
-  type!: 'FLOWER' | 'FILLER' | 'GREEN' | 'WRAP' | 'RIBBON' | 'EXTRA';
+  type!: 'FLOWER' | 'FILLER' | 'GREEN' | 'WRAP' | 'RIBBON' | 'EXTRA' | 'SWEET';
   @ApiProperty({ type: LocalizedTextDto }) name!: LocalizedTextDto;
   @ApiProperty({ type: 'integer', example: 120 }) quantity!: number;
   @ApiProperty() limited!: boolean;

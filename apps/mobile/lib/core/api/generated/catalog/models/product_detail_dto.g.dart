@@ -11,6 +11,7 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
     json,
     requiredKeys: const [
       'allergens',
+      'allowsReferenceImage',
       'available',
       'badges',
       'category',
@@ -24,6 +25,8 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
       'id',
       'imageUrl',
       'images',
+      'inscriptionMaxLength',
+      'inscriptionSuggestions',
       'isFavorite',
       'kind',
       'leadTimeHours',
@@ -39,6 +42,7 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
     ],
     disallowNullValues: const [
       'allergens',
+      'allowsReferenceImage',
       'available',
       'badges',
       'category',
@@ -50,6 +54,7 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
       'flowerTypes',
       'id',
       'images',
+      'inscriptionSuggestions',
       'isFavorite',
       'kind',
       'leadTimeHours',
@@ -67,6 +72,7 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
     allergens: (json['allergens'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
+    allowsReferenceImage: json['allowsReferenceImage'] as bool,
     available: json['available'] as bool,
     badges: ProductDetailDto._read_badges(json['badges']),
     category: CategoryRefDto.fromJson(json['category'] as Map<String, dynamic>),
@@ -91,6 +97,12 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
     imageUrl: json['imageUrl'] as String?,
     images: (json['images'] as List<dynamic>)
         .map((e) => ProductImageDto.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    inscriptionMaxLength: ProductDetailDto._read_inscriptionMaxLength(
+      json['inscriptionMaxLength'],
+    ),
+    inscriptionSuggestions: (json['inscriptionSuggestions'] as List<dynamic>)
+        .map((e) => e as String)
         .toList(),
     isFavorite: json['isFavorite'] as bool,
     kind: ProductDetailDto._read_kind(json['kind']),
@@ -124,6 +136,7 @@ ProductDetailDto _$ProductDetailDtoFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ProductDetailDtoToJson(ProductDetailDto instance) =>
     <String, dynamic>{
       'allergens': instance.allergens,
+      'allowsReferenceImage': instance.allowsReferenceImage,
       'available': instance.available,
       'badges': ?ProductDetailDto._write_badges(instance.badges),
       'category': instance.category.toJson(),
@@ -139,6 +152,10 @@ Map<String, dynamic> _$ProductDetailDtoToJson(ProductDetailDto instance) =>
       'id': instance.id,
       'imageUrl': instance.imageUrl,
       'images': instance.images.map((e) => e.toJson()).toList(),
+      'inscriptionMaxLength': ProductDetailDto._write_inscriptionMaxLength(
+        instance.inscriptionMaxLength,
+      ),
+      'inscriptionSuggestions': instance.inscriptionSuggestions,
       'isFavorite': instance.isFavorite,
       'kind': ?ProductDetailDto._write_kind(instance.kind),
       'leadTimeHours': ?ProductDetailDto._write_leadTimeHours(

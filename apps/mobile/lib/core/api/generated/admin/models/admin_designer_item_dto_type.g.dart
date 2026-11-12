@@ -13,4 +13,5 @@ const _$AdminDesignerItemDtoTypeEnumMap = {
   AdminDesignerItemDtoType.wrap: 'WRAP',
   AdminDesignerItemDtoType.ribbon: 'RIBBON',
   AdminDesignerItemDtoType.extra: 'EXTRA',
+  AdminDesignerItemDtoType.sweet: 'SWEET',
 };

@@ -2,9 +2,9 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../cart/models/product_card_dto.dart';
 import 'branch_dto.dart';
 import 'category_dto.dart';
-import 'product_card_dto.dart';
 
 part 'home_dto.freezed.dart';
 part 'home_dto.g.dart';

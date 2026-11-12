@@ -118,6 +118,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   devices             Device[]
   favorites           Favorite[]
+  cart                Cart?
 
   @@map("app_user")
 }
@@ -238,6 +239,8 @@ enum DesignerItemType {
   WRAP
   RIBBON
   EXTRA
+  /// Sweets sold by the piece for the sweets compartment of a split box (screen 19).
+  SWEET
 }
 
 /// FR-CAT-01: flowers and bouquets, cakes and sweets, coffee and matcha, gifts.
@@ -276,51 +279,57 @@ model Occasion {
 /// DR-03. Prices are SYP minor units (1/100 pound, ADR 0011). The shown price is the
 /// base price plus the default option of each group.
 model Product {
-  id                String        @id @default(uuid()) @db.Uuid
-  slug              String        @unique
-  categoryId        String        @map("category_id") @db.Uuid
-  kind              ProductKind
-  nameAr            String        @map("name_ar")
-  nameEn            String        @map("name_en")
-  subtitleAr        String        @default("") @map("subtitle_ar")
-  subtitleEn        String        @default("") @map("subtitle_en")
-  descriptionAr     String        @default("") @map("description_ar")
-  descriptionEn     String        @default("") @map("description_en")
-  basePriceMinor    Int           @map("base_price_minor")
+  id                     String        @id @default(uuid()) @db.Uuid
+  slug                   String        @unique
+  categoryId             String        @map("category_id") @db.Uuid
+  kind                   ProductKind
+  nameAr                 String        @map("name_ar")
+  nameEn                 String        @map("name_en")
+  subtitleAr             String        @default("") @map("subtitle_ar")
+  subtitleEn             String        @default("") @map("subtitle_en")
+  descriptionAr          String        @default("") @map("description_ar")
+  descriptionEn          String        @default("") @map("description_en")
+  basePriceMinor         Int           @map("base_price_minor")
   /// Derived on every write: base plus the default options, so lists can filter and
   /// sort by the price customers see. "From" when the default is the cheapest choice.
-  displayPriceMinor Int           @default(0) @map("display_price_minor")
-  priceFrom         Boolean       @default(false) @map("price_from")
+  displayPriceMinor      Int           @default(0) @map("display_price_minor")
+  priceFrom              Boolean       @default(false) @map("price_from")
   /// "Add to your gift" suggestions on the product page (screens 12, 14), as slugs.
-  pairings          String[]      @default([])
+  pairings               String[]      @default([])
   /// FR-DLV-05: the earliest delivery is now plus the longest lead time in the cart.
-  leadTimeHours     Int           @default(0) @map("lead_time_hours")
+  leadTimeHours          Int           @default(0) @map("lead_time_hours")
   /// FR-CKE-05, e.g. ["nuts", "milk", "eggs", "gluten"].
-  allergens         String[]      @default([])
+  allergens              String[]      @default([])
   /// FR-CAT-02 filters (slugs).
-  occasions         String[]      @default([])
-  colors            String[]      @default([])
-  flowerTypes       String[]      @default([]) @map("flower_types")
+  occasions              String[]      @default([])
+  colors                 String[]      @default([])
+  flowerTypes            String[]      @default([]) @map("flower_types")
   /// FR-INV-01: null means made to order, so there is no count to run out of.
-  stockQuantity     Int?          @map("stock_quantity")
-  status            PublishStatus @default(ACTIVE)
+  stockQuantity          Int?          @map("stock_quantity")
+  status                 PublishStatus @default(ACTIVE)
   /// FR-DLY-02/03: staff put a product on today's list. It only counts on that date
   /// (Damascus), so it expires at midnight by itself (FR-DLY-05).
-  dailyDate         DateTime?     @map("daily_date") @db.Date
+  dailyDate              DateTime?     @map("daily_date") @db.Date
   /// "Available today only": outside its daily date the product cannot be ordered.
-  dailyOnly         Boolean       @default(false) @map("daily_only")
-  limited           Boolean       @default(false)
-  seasonal          Boolean       @default(false)
-  bestSeller        Boolean       @default(false) @map("best_seller")
+  dailyOnly              Boolean       @default(false) @map("daily_only")
+  limited                Boolean       @default(false)
+  seasonal               Boolean       @default(false)
+  bestSeller             Boolean       @default(false) @map("best_seller")
   /// Higher sorts first under "most ordered" until real order counts exist (S5).
-  popularity        Int           @default(0)
+  popularity             Int           @default(0)
   /// The bouquet spec this ready-made bouquet starts from in the designer (FR-CAT-07, S3).
-  designerTemplate  Json?         @map("designer_template")
+  designerTemplate       Json?         @map("designer_template")
+  /// FR-CKE-03: a message written on the cake, up to this many characters; null: none.
+  inscriptionMaxLength   Int?          @map("inscription_max_length")
+  /// Ready messages offered under the field (screen 13).
+  inscriptionSuggestions String[]      @default([]) @map("inscription_suggestions")
+  /// FR-CKE-04: the customer may attach a photo of the design they want.
+  allowsReferenceImage   Boolean       @default(false) @map("allows_reference_image")
   /// Normalized names, subtitles and tags in both languages (FR-CAT-04).
-  searchText        String        @default("") @map("search_text")
-  branchId          String?       @map("branch_id") @db.Uuid
-  createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+  searchText             String        @default("") @map("search_text")
+  branchId               String?       @map("branch_id") @db.Uuid
+  createdAt              DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt              DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   category     Category             @relation(fields: [categoryId], references: [id])
   images       ProductImage[]
@@ -492,4 +501,65 @@ model Page {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   @@map("page")
+}
+
+// ---------------------------------------------------------------------------
+// Cart (S4): DR-07, DR-08, FR-BOX-*, FR-CRT-*, FR-PAY-07
+// ---------------------------------------------------------------------------
+
+/// FR-BOX-01/02: a split box (screen 19). Compartments say what each part holds:
+/// [{ "index": 0, "kind": "FLOWER", "nameAr": "ركن الورد", "nameEn": "Flowers", "capacity": 12 }, ...]
+model BoxType {
+  id             String        @id @default(uuid()) @db.Uuid
+  slug           String        @unique
+  nameAr         String        @map("name_ar")
+  nameEn         String        @map("name_en")
+  detailAr       String        @default("") @map("detail_ar")
+  detailEn       String        @default("") @map("detail_en")
+  basePriceMinor Int           @map("base_price_minor")
+  compartments   Json
+  status         PublishStatus @default(ACTIVE)
+  sortOrder      Int           @default(0) @map("sort_order")
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("box_type")
+}
+
+/// FR-CRT-03: a signed-in customer's cart, kept on the server so it follows them
+/// between phones. Lines are what the app sends (no prices); every quote prices
+/// them again from the database.
+model Cart {
+  userId    String   @id @map("user_id") @db.Uuid
+  lines     Json
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("cart")
+}
+
+enum CouponType {
+  PERCENT
+  FIXED
+}
+
+/// FR-CRT-07: discount codes. Stored upper-case; the customer may type any case.
+model Coupon {
+  id             String     @id @default(uuid()) @db.Uuid
+  code           String     @unique
+  type           CouponType
+  /// Percent for PERCENT (1-100); SYP minor units for FIXED.
+  value          Int
+  minOrderMinor  Int        @default(0) @map("min_order_minor")
+  startsAt       DateTime?  @map("starts_at") @db.Timestamptz(3)
+  endsAt         DateTime?  @map("ends_at") @db.Timestamptz(3)
+  /// Uses allowed in total; null: no limit. Counted when an order is placed (S5).
+  maxRedemptions Int?       @map("max_redemptions")
+  redemptions    Int        @default(0)
+  active         Boolean    @default(true)
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("coupon")
 }

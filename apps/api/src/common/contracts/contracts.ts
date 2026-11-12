@@ -40,3 +40,5 @@ export const SLOT_LAYOUTS = contractFile<SlotLayouts>(
 export const BOUQUET_SPEC_SCHEMA = contractFile<object>(
   'schemas/bouquet-spec.v1.json',
 );
+
+export const BOX_SPEC_SCHEMA = contractFile<object>('schemas/box-spec.v1.json');

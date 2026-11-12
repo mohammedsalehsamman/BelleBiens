@@ -37,6 +37,7 @@ const DESIGNER_TYPES_ALL = [
   'WRAP',
   'RIBBON',
   'EXTRA',
+  'SWEET',
 ] as const;
 /** 10 million pounds, far above any real price; catches a misplaced zero. */
 const MAX_PRICE_MINOR = 1_000_000_000;

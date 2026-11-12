@@ -53,6 +53,7 @@ components:
             - WRAP
             - RIBBON
             - EXTRA
+            - SWEET
           type: string
         unitPriceMinor:
           example: 9000
@@ -349,6 +350,71 @@ components:
         - large
         - luxury
       type: string
+    BoxCatalogDto:
+      properties:
+        items:
+          description: Flowers, sweets, gifts
+          items:
+            $ref: "#/components/schemas/DesignerItemDto"
+          type: array
+        types:
+          items:
+            $ref: "#/components/schemas/BoxTypeDto"
+          type: array
+      required:
+        - types
+        - items
+      type: object
+    BoxCompartmentDto:
+      properties:
+        capacity:
+          example: 12
+          type: integer
+        index:
+          type: integer
+        kind:
+          allOf:
+            - $ref: "#/components/schemas/BoxPartKind"
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+      required:
+        - index
+        - kind
+        - name
+        - capacity
+      type: object
+    BoxPartKind:
+      enum:
+        - FLOWER
+        - SWEET
+        - EXTRA
+      type: string
+    BoxTypeDto:
+      properties:
+        basePriceMinor:
+          type: integer
+        compartments:
+          items:
+            $ref: "#/components/schemas/BoxCompartmentDto"
+          type: array
+        detail:
+          $ref: "#/components/schemas/LocalizedTextDto"
+        fromPriceMinor:
+          description: Base plus the default fill
+          type: integer
+        id:
+          example: square_two
+          type: string
+        name:
+          $ref: "#/components/schemas/LocalizedTextDto"
+      required:
+        - id
+        - name
+        - detail
+        - basePriceMinor
+        - fromPriceMinor
+        - compartments
+      type: object
     BranchDto:
       properties:
         address:
@@ -399,6 +465,126 @@ components:
         - partners
         - status
         - pages
+      type: object
+    CartDto:
+      properties:
+        lines:
+          items:
+            $ref: "#/components/schemas/CartLineInputDto"
+          type: array
+        updatedAt:
+          format: date-time
+          nullable: true
+          type: string
+      required:
+        - lines
+        - updatedAt
+      type: object
+    CartIssueCode:
+      enum:
+        - PRODUCT_UNAVAILABLE
+        - OPTION_UNAVAILABLE
+        - STOCK_INSUFFICIENT
+        - ITEM_UNAVAILABLE
+        - STEMS_OUT_OF_RANGE
+        - BOX_COMPARTMENT_INVALID
+        - BOX_OVER_CAPACITY
+        - INSCRIPTION_NOT_ALLOWED
+      type: string
+    CartLineInputDto:
+      properties:
+        id:
+          description: Chosen by the app; stays the same while the line lives
+          example: 3f2c9a8e-…
+          type: string
+        kind:
+          allOf:
+            - $ref: "#/components/schemas/CartLineKind"
+        previewUrl:
+          description: The rendered 2D preview (FR-D2D-05)
+          type: string
+        product:
+          $ref: "#/components/schemas/ProductChoiceDto"
+        qty:
+          example: 1
+          type: number
+        spec:
+          description: BouquetSpec v1 for a design, BoxSpec v1 for a box
+          type: object
+      required:
+        - id
+        - kind
+        - qty
+      type: object
+    CartLineKind:
+      enum:
+        - product
+        - design
+        - box
+      type: string
+    CartQuoteDto:
+      properties:
+        coupon:
+          allOf:
+            - $ref: "#/components/schemas/CouponResultDto"
+          nullable: true
+          type: object
+        earliestAt:
+          description: Earliest delivery or pickup for the whole cart (FR-DLV-05)
+          example: 2026-11-12T15:00:00.000+03:00
+          type: string
+        earliestInDays:
+          example: 1
+          type: integer
+        leadTimeHours:
+          description: Longest lead time in the cart
+          type: integer
+        lines:
+          items:
+            $ref: "#/components/schemas/QuotedLineDto"
+          type: array
+        orderable:
+          description: No line has an issue
+          type: boolean
+        suggestions:
+          description: '"قد يعجبك أيضاً"'
+          items:
+            $ref: "#/components/schemas/ProductCardDto"
+          type: array
+        syp:
+          allOf:
+            - $ref: "#/components/schemas/MoneyBreakdownDto"
+          description: SYP minor units
+        usd:
+          allOf:
+            - $ref: "#/components/schemas/MoneyBreakdownDto"
+          description: US cents (FR-PAY-05)
+        usdRate:
+          example: "120"
+          type: string
+      required:
+        - lines
+        - syp
+        - usd
+        - usdRate
+        - coupon
+        - leadTimeHours
+        - earliestAt
+        - earliestInDays
+        - orderable
+        - suggestions
+      type: object
+    CartQuoteRequestDto:
+      properties:
+        couponCode:
+          example: WELCOME10
+          type: string
+        lines:
+          items:
+            $ref: "#/components/schemas/CartLineInputDto"
+          type: array
+      required:
+        - lines
       type: object
     CatalogFiltersDto:
       properties:
@@ -463,6 +649,101 @@ components:
           type: string
       required:
         - role
+      type: object
+    CouponDto:
+      properties:
+        active:
+          type: boolean
+        code:
+          example: WELCOME10
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        id:
+          type: string
+        maxRedemptions:
+          type: number
+        minOrderMinor:
+          type: number
+        redemptions:
+          type: integer
+        startsAt:
+          format: date-time
+          type: string
+        type:
+          enum:
+            - PERCENT
+            - FIXED
+          type: string
+        value:
+          description: Percent, or SYP minor units
+          example: 10
+          type: number
+      required:
+        - code
+        - type
+        - value
+        - id
+        - redemptions
+      type: object
+    CouponInputDto:
+      properties:
+        active:
+          type: boolean
+        code:
+          example: WELCOME10
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        maxRedemptions:
+          type: number
+        minOrderMinor:
+          type: number
+        startsAt:
+          format: date-time
+          type: string
+        type:
+          enum:
+            - PERCENT
+            - FIXED
+          type: string
+        value:
+          description: Percent, or SYP minor units
+          example: 10
+          type: number
+      required:
+        - code
+        - type
+        - value
+      type: object
+    CouponProblem:
+      enum:
+        - NOT_FOUND
+        - EXPIRED
+        - MIN_ORDER
+        - USED_UP
+      type: string
+    CouponResultDto:
+      properties:
+        applied:
+          type: boolean
+        code:
+          example: WELCOME10
+          type: string
+        minOrderMinor:
+          description: For MIN_ORDER
+          type: integer
+        problem:
+          allOf:
+            - $ref: "#/components/schemas/CouponProblem"
+          nullable: true
+      required:
+        - code
+        - applied
+        - problem
+        - minOrderMinor
       type: object
     CreateProductDto:
       properties:
@@ -790,6 +1071,7 @@ components:
             - WRAP
             - RIBBON
             - EXTRA
+            - SWEET
           type: string
         unitPriceMinor:
           example: 9000
@@ -809,6 +1091,7 @@ components:
         - WRAP
         - RIBBON
         - EXTRA
+        - SWEET
       type: string
     DesignerQuoteDto:
       properties:
@@ -958,6 +1241,21 @@ components:
       required:
         - url
       type: object
+    LineIssueDto:
+      properties:
+        available:
+          type: integer
+        code:
+          allOf:
+            - $ref: "#/components/schemas/CartIssueCode"
+        itemId:
+          example: white_gypsophila
+          type: string
+        requested:
+          type: integer
+      required:
+        - code
+      type: object
     LivenessDto:
       properties:
         status:
@@ -1084,6 +1382,29 @@ components:
       required:
         - file
       type: object
+    MoneyBreakdownDto:
+      properties:
+        assemblyFeeMinor:
+          type: integer
+        deliveryFeeMinor:
+          description: Set at checkout (S5)
+          type: integer
+        discountMinor:
+          type: integer
+        itemsMinor:
+          type: integer
+        roundingAdjustmentMinor:
+          type: integer
+        totalMinor:
+          type: integer
+      required:
+        - itemsMinor
+        - assemblyFeeMinor
+        - discountMinor
+        - deliveryFeeMinor
+        - roundingAdjustmentMinor
+        - totalMinor
+      type: object
     OccasionDto:
       properties:
         heroImage:
@@ -1125,6 +1446,18 @@ components:
       required:
         - occasion
         - products
+      type: object
+    OptionChoiceDto:
+      properties:
+        group:
+          example: size
+          type: string
+        option:
+          example: 22cm
+          type: string
+      required:
+        - group
+        - option
       type: object
     OptionGroupInputDto:
       properties:
@@ -1377,6 +1710,26 @@ components:
         - stockLeft
         - leadTimeHours
       type: object
+    ProductChoiceDto:
+      properties:
+        inscription:
+          description: Message on the cake (FR-CKE-03)
+          example: كل عام وأنت بخير
+          type: string
+        options:
+          items:
+            $ref: "#/components/schemas/OptionChoiceDto"
+          type: array
+        referenceImageUrl:
+          description: From POST /v1/uploads/reference-image (FR-CKE-04)
+          type: string
+        slug:
+          example: rose-pistachio-cake
+          type: string
+      required:
+        - slug
+        - options
+      type: object
     ProductDetailDto:
       properties:
         allergens:
@@ -1387,6 +1740,9 @@ components:
           items:
             type: string
           type: array
+        allowsReferenceImage:
+          description: A reference photo may be attached (FR-CKE-04)
+          type: boolean
         available:
           description: Can be ordered today
           type: boolean
@@ -1428,6 +1784,17 @@ components:
         images:
           items:
             $ref: "#/components/schemas/ProductImageDto"
+          type: array
+        inscriptionMaxLength:
+          description: Message on the cake allowed, up to this many characters (FR-CKE-03)
+          example: 40
+          nullable: true
+          type: integer
+        inscriptionSuggestions:
+          example:
+            - مبروك
+          items:
+            type: string
           type: array
         isFavorite:
           description: False for guests
@@ -1494,6 +1861,9 @@ components:
         - flowerTypes
         - customizable
         - designerTemplate
+        - inscriptionMaxLength
+        - inscriptionSuggestions
+        - allowsReferenceImage
         - earliestDeliveryInDays
         - pairings
         - isFavorite
@@ -1648,6 +2018,51 @@ components:
         - unitPriceMinor
         - totalMinor
       type: object
+    QuotedLineDto:
+      properties:
+        id:
+          type: string
+        imageUrl:
+          nullable: true
+          type: string
+        issues:
+          items:
+            $ref: "#/components/schemas/LineIssueDto"
+          type: array
+        kind:
+          allOf:
+            - $ref: "#/components/schemas/CartLineKind"
+        leadTimeHours:
+          description: FR-DLV-05
+          type: integer
+        qty:
+          type: integer
+        summary:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextDto"
+          description: 'Choices in a line: "22 سم · شمعة"'
+        title:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextDto"
+          example:
+            ar: باقتك المصمّمة
+            en: Your bouquet
+        totalMinor:
+          type: integer
+        unitPriceMinor:
+          type: integer
+      required:
+        - id
+        - kind
+        - title
+        - summary
+        - imageUrl
+        - unitPriceMinor
+        - qty
+        - totalMinor
+        - leadTimeHours
+        - issues
+      type: object
     RefreshDto:
       properties:
         refreshToken:
@@ -1715,6 +2130,15 @@ components:
           type: string
       required:
         - phone
+      type: object
+    SaveCartDto:
+      properties:
+        lines:
+          items:
+            $ref: "#/components/schemas/CartLineInputDto"
+          type: array
+      required:
+        - lines
       type: object
     SearchFacetDto:
       properties:
@@ -2011,6 +2435,7 @@ components:
             - WRAP
             - RIBBON
             - EXTRA
+            - SWEET
           type: string
         unitPriceMinor:
           example: 9000
@@ -2145,6 +2570,13 @@ components:
         subtitleEn:
           type: string
       type: object
+    UploadedImageDto:
+      properties:
+        url:
+          type: string
+      required:
+        - url
+      type: object
     VerifyOtpDto:
       properties:
         acceptTerms:
@@ -2240,6 +2672,72 @@ paths:
       security:
         - bearer: []
       summary: Latest audit log entries (FR-ADM-09)
+      tags:
+        - admin
+  /v1/admin/coupons:
+    get:
+      operationId: AdminCouponsController_list
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CouponDto"
+                type: array
+          description: ""
+      security:
+        - bearer: []
+      summary: Discount codes (FR-CRT-07)
+      tags:
+        - admin
+    post:
+      operationId: AdminCouponsController_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CouponInputDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CouponDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Add a discount code (audited)
+      tags:
+        - admin
+  /v1/admin/coupons/{id}:
+    patch:
+      operationId: AdminCouponsController_update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CouponInputDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CouponDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Change or switch off a discount code (audited)
       tags:
         - admin
   /v1/admin/daily-flowers:
@@ -2725,6 +3223,20 @@ paths:
       summary: Create an account with email and password (FR-ACC-01)
       tags:
         - auth
+  /v1/boxes/catalog:
+    get:
+      operationId: CartController_boxes
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoxCatalogDto"
+          description: ""
+      summary: Box types and what can go in them (screen 19, FR-BOX-01/02)
+      tags:
+        - cart
   /v1/branch:
     get:
       operationId: CatalogController_branch
@@ -2739,6 +3251,26 @@ paths:
       summary: Branch, hours and contact (screen 34, FR-CON-03)
       tags:
         - catalog
+  /v1/cart/quote:
+    post:
+      operationId: CartController_quote
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartQuoteRequestDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartQuoteDto"
+          description: ""
+      summary: "Price a cart: lines, coupon, totals in SYP and USD, earliest time (FR-CRT-05..08)"
+      tags:
+        - cart
   /v1/catalog/filters:
     get:
       operationId: CatalogController_filters
@@ -3068,6 +3600,43 @@ paths:
       summary: Edit name, email, language, digits, marketing consent (FR-ACC-03)
       tags:
         - me
+  /v1/me/cart:
+    get:
+      operationId: SavedCartController_get
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: The cart kept for this account (FR-CRT-03)
+      tags:
+        - me
+    put:
+      operationId: SavedCartController_put
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaveCartDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Replace the saved cart (the app merges first)
+      tags:
+        - me
   /v1/me/devices:
     put:
       operationId: MeController_registerDevice
@@ -3356,5 +3925,25 @@ paths:
       summary: Arabic-aware search with per-category counts (screen 08, FR-CAT-04)
       tags:
         - catalog
+  /v1/uploads/reference-image:
+    post:
+      operationId: CartController_referenceImage
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MediaUploadDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadedImageDto"
+          description: ""
+      summary: A photo of the cake design wanted (FR-CKE-04)
+      tags:
+        - cart
 servers: []
 tags: []

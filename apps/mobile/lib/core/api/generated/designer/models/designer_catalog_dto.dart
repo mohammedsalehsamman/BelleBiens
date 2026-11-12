@@ -3,7 +3,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../admin/models/designer_size_dto.dart';
-import 'designer_item_dto.dart';
+import '../../cart/models/designer_item_dto.dart';
 import 'occasion_option_dto.dart';
 import 'palette_dto.dart';
 import 'slot_layouts_dto.dart';

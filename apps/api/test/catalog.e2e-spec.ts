@@ -214,6 +214,16 @@ describe('Catalog (e2e)', () => {
       expect(res.body.allergens).toEqual(['nuts', 'milk', 'eggs', 'gluten']);
       expect(res.body.earliestDeliveryInDays).toBe(1);
       expect(res.body.priceFrom).toBe(true);
+      expect(res.body).toMatchObject({
+        inscriptionMaxLength: 40,
+        allowsReferenceImage: true,
+      });
+      expect(res.body.inscriptionSuggestions).toContain('مبروك');
+      expect(res.body.optionGroups.map((g: { key: string }) => g.key)).toEqual([
+        'size',
+        'flavor',
+        'extras',
+      ]);
     });
 
     it('drink: milk, sweetness and ice, with a plain price', async () => {

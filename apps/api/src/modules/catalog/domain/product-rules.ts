@@ -155,3 +155,33 @@ export function isOpenNow(
     ? minute >= open && minute < close
     : minute >= open || minute < close;
 }
+
+/**
+ * FR-DLV-05: the earliest time a whole cart can be ready: now plus the longest
+ * lead time, moved inside working hours and rounded up to the next half hour.
+ * Closed days and slot capacity come with the delivery module (S5).
+ */
+export function earliestReadyAt(
+  now: Date,
+  leadTimeHours: number,
+  hours: WorkingHours,
+): DateTime {
+  let ready = DateTime.fromJSDate(now, { zone: SHOP_TIME_ZONE }).plus({
+    hours: leadTimeHours,
+  });
+  const minutes = ready.minute + ready.second / 60;
+  if (minutes > 0 && minutes !== 30) {
+    ready = ready
+      .set({ second: 0, millisecond: 0 })
+      .plus({ minutes: minutes < 30 ? 30 - ready.minute : 60 - ready.minute });
+  } else {
+    ready = ready.set({ second: 0, millisecond: 0 });
+  }
+  const open = minutesOf(hours.open);
+  const close = minutesOf(hours.close);
+  const at = ready.hour * 60 + ready.minute;
+  if (at < open) return ready.startOf('day').plus({ minutes: open });
+  if (at >= close)
+    return ready.plus({ days: 1 }).startOf('day').plus({ minutes: open });
+  return ready;
+}

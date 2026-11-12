@@ -41,6 +41,10 @@ interface GroupSeed {
 }
 
 interface ProductSeed {
+  /** FR-CKE-03/04: message on the cake and a reference photo. */
+  inscriptionMax?: number;
+  inscriptionSuggestions?: string[];
+  referenceImage?: boolean;
   slug: string;
   category: string;
   kind: ProductKind;
@@ -252,26 +256,85 @@ const ice: GroupSeed = {
   ],
 };
 
+// Screen 13: three sizes, a flavor, extras. The smallest is the default, so
+// the card reads "from 2,280"; the README cart picks the 22 cm with a candle
+// (2,280 + 840 + 240 = 3,360).
 const cakeSizes: GroupSeed = {
   key: 'size',
-  ar: 'الحجم',
-  en: 'Size',
+  ar: 'الحجم وعدد الأشخاص',
+  en: 'Size and servings',
   options: [
     {
-      key: '18cm',
-      ar: '18 سم',
-      en: '18 cm',
-      detailAr: '6 - 8 أشخاص',
-      detailEn: '6 - 8 people',
+      key: '16cm',
+      ar: 'صغير · 16 سم',
+      en: 'Small · 16 cm',
+      detailAr: '4 – 6 أشخاص',
+      detailEn: '4 – 6 people',
       isDefault: true,
     },
     {
       key: '22cm',
-      ar: '22 سم',
-      en: '22 cm',
-      detailAr: '10 - 12 شخصاً',
-      detailEn: '10 - 12 people',
-      price: SYP(720),
+      ar: 'وسط · 22 سم',
+      en: 'Medium · 22 cm',
+      detailAr: '8 – 10 أشخاص',
+      detailEn: '8 – 10 people',
+      price: SYP(840),
+    },
+    {
+      key: '28cm',
+      ar: 'عائلي · 28 سم',
+      en: 'Family · 28 cm',
+      detailAr: '14 – 16 شخصاً',
+      detailEn: '14 – 16 people',
+      price: SYP(2520),
+    },
+  ],
+};
+
+const cakeFlavors: GroupSeed = {
+  key: 'flavor',
+  ar: 'النكهة',
+  en: 'Flavor',
+  options: [
+    {
+      key: 'rose-pistachio',
+      ar: 'الورد والفستق',
+      en: 'Rose and pistachio',
+      isDefault: true,
+    },
+    {
+      key: 'chocolate-hazelnut',
+      ar: 'شوكولا وبندق',
+      en: 'Chocolate and hazelnut',
+    },
+    { key: 'vanilla-berry', ar: 'فانيلا وتوت', en: 'Vanilla and berries' },
+  ],
+};
+
+const cakeExtras: GroupSeed = {
+  key: 'extras',
+  ar: 'إضافات',
+  en: 'Extras',
+  multiple: true,
+  optional: true,
+  options: [
+    {
+      key: 'birthday-candle',
+      ar: 'شمعة عيد ميلاد',
+      en: 'Birthday candle',
+      price: SYP(240),
+    },
+    {
+      key: 'mini-rose-bouquet',
+      ar: 'باقة جوري صغيرة',
+      en: 'Mini rose bouquet',
+      price: SYP(960),
+    },
+    {
+      key: 'chocolate-box',
+      ar: 'بوكس شوكولا صغير',
+      en: 'Small chocolate box',
+      price: SYP(600),
     },
   ],
 };
@@ -445,7 +508,10 @@ export const PRODUCTS: ProductSeed[] = [
     occasions: ['birthday', 'engagement'],
     popularity: 90,
     pairings: ['birthday-candle', 'gift-card'],
-    groups: [cakeSizes],
+    groups: [cakeSizes, cakeFlavors, cakeExtras],
+    inscriptionMax: 40,
+    inscriptionSuggestions: ['كل عام وأنت بخير', 'مبروك', 'Happy Birthday'],
+    referenceImage: true,
   },
   {
     slug: 'berry-tart',
@@ -803,6 +869,105 @@ export const DESIGNER_ITEMS: DesignerItemSeed[] = [
     en: 'Scented candle',
     price: SYP(240),
   },
+  // Sold by the piece for the sweets compartment of a split box (screen 19).
+  {
+    slug: 'macaron_piece',
+    type: 'SWEET',
+    ar: 'ماكرون',
+    en: 'Macaron',
+    detailAr: 'قطعة',
+    detailEn: 'Piece',
+    price: SYP(60),
+  },
+  {
+    slug: 'filled_chocolate',
+    type: 'SWEET',
+    ar: 'شوكولا محشوة',
+    en: 'Filled chocolate',
+    detailAr: 'قطعة',
+    detailEn: 'Piece',
+    price: SYP(70),
+  },
+];
+
+/**
+ * FR-BOX-01/02 (screen 19). Default fill: 9 pink roses and 6 macarons, so the
+ * square box reads "from 2,520" (1,350 + 9 x 90 + 6 x 60) and the long one
+ * "from 3,600" (2,430 + 810 + 360).
+ */
+export const BOX_TYPES = [
+  {
+    slug: 'square_two',
+    nameAr: 'مربع · ركنان',
+    nameEn: 'Square · two parts',
+    detailAr: 'ورد + حلويات',
+    detailEn: 'Flowers + sweets',
+    basePriceMinor: SYP(1350),
+    compartments: [
+      {
+        index: 0,
+        kind: 'FLOWER',
+        nameAr: 'ركن الورد',
+        nameEn: 'Flowers',
+        capacity: 12,
+      },
+      {
+        index: 1,
+        kind: 'SWEET',
+        nameAr: 'ركن الحلويات',
+        nameEn: 'Sweets',
+        capacity: 6,
+      },
+    ],
+  },
+  {
+    slug: 'rectangle_three',
+    nameAr: 'مستطيل · 3 أركان',
+    nameEn: 'Long · three parts',
+    detailAr: 'ورد + حلويات + هدية',
+    detailEn: 'Flowers + sweets + a gift',
+    basePriceMinor: SYP(2430),
+    compartments: [
+      {
+        index: 0,
+        kind: 'FLOWER',
+        nameAr: 'ركن الورد',
+        nameEn: 'Flowers',
+        capacity: 12,
+      },
+      {
+        index: 1,
+        kind: 'SWEET',
+        nameAr: 'ركن الحلويات',
+        nameEn: 'Sweets',
+        capacity: 6,
+      },
+      {
+        index: 2,
+        kind: 'EXTRA',
+        nameAr: 'ركن الهدية',
+        nameEn: 'Gift',
+        capacity: 1,
+      },
+    ],
+  },
+];
+
+/** FR-CRT-07: sample codes matching contracts/vectors/pricing.json. */
+export const COUPONS = [
+  { code: 'WELCOME10', type: 'PERCENT' as const, value: 10, minOrderMinor: 0 },
+  {
+    code: 'BIG500',
+    type: 'FIXED' as const,
+    value: SYP(500),
+    minOrderMinor: SYP(10000),
+  },
+  {
+    code: 'GIFT1000',
+    type: 'FIXED' as const,
+    value: SYP(1000),
+    minOrderMinor: 0,
+  },
 ];
 
 /** FR-DSG-04 stem limits (screen 15). The shop can change them. */
@@ -953,6 +1118,9 @@ export async function seedCatalog(
       popularity: p.popularity,
       pairings: p.pairings ?? [],
       designerTemplate: p.designerTemplate,
+      inscriptionMaxLength: p.inscriptionMax ?? null,
+      inscriptionSuggestions: p.inscriptionSuggestions ?? [],
+      allowsReferenceImage: p.referenceImage ?? false,
       searchText: buildSearchText([
         p.ar,
         p.en,
@@ -1040,6 +1208,23 @@ export async function seedCatalog(
       where: { key: size.key },
       update: {},
       create: { ...size, sortOrder: i },
+    });
+  }
+
+  for (const [i, box] of BOX_TYPES.entries()) {
+    const data = { ...box, sortOrder: i };
+    await prisma.boxType.upsert({
+      where: { slug: box.slug },
+      update: data,
+      create: data,
+    });
+  }
+
+  for (const coupon of COUPONS) {
+    await prisma.coupon.upsert({
+      where: { code: coupon.code },
+      update: {},
+      create: coupon,
     });
   }
 

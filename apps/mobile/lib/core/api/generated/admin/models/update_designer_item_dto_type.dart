@@ -11,7 +11,8 @@ enum UpdateDesignerItemDtoType {
   green("GREEN"),
   wrap("WRAP"),
   ribbon("RIBBON"),
-  extra("EXTRA");
+  extra("EXTRA"),
+  sweet("SWEET");
 
   const UpdateDesignerItemDtoType(this.value);
 

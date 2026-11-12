@@ -80,6 +80,12 @@ export const envSchema = z
     S3_SECRET_ACCESS_KEY: z.string().default('dev'),
     /** Public base URL of the bucket; stored image URLs start with it. */
     MEDIA_PUBLIC_URL: z.url().default('http://localhost:8333/belle-media'),
+    /**
+     * Which proxies may set X-Forwarded-For, so rate limits see the customer's
+     * address and not the proxy's (Express "trust proxy"): "loopback" for a
+     * reverse proxy on the same machine, a CIDR list for a load balancer.
+     */
+    TRUST_PROXY: z.string().default('loopback'),
     MEDIA_MAX_UPLOAD_BYTES: z.coerce
       .number()
       .int()
