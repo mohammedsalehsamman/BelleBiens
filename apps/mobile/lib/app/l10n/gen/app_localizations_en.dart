@@ -1220,10 +1220,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cartContinue => 'Continue to delivery';
 
   @override
-  String get cartCheckoutSoon =>
-      'Delivery and payment arrive in the next update.';
-
-  @override
   String get cartFixIssues => 'Fix the items in your cart before continuing.';
 
   @override
@@ -1323,4 +1319,410 @@ class AppLocalizationsEn extends AppLocalizations {
   String productAdded(String name) {
     return '$name added to the cart';
   }
+
+  @override
+  String get checkoutTitle => 'Checkout';
+
+  @override
+  String get checkoutStep1 => '1 of 2 · Delivery and time';
+
+  @override
+  String get checkoutStep2 => '2 of 2 · Payment and review';
+
+  @override
+  String get checkoutHowTitle => 'How you get it';
+
+  @override
+  String get checkoutDelivery => 'Delivery in Damascus';
+
+  @override
+  String get checkoutDeliveryHint => 'The fee depends on the area';
+
+  @override
+  String get checkoutPickup => 'Pickup at the branch';
+
+  @override
+  String get checkoutPickupFree => 'Free';
+
+  @override
+  String checkoutPickupFreeAt(String address) {
+    return 'Free · $address';
+  }
+
+  @override
+  String get checkoutAddressTitle => 'Delivery address';
+
+  @override
+  String get checkoutAddressChange => 'Change';
+
+  @override
+  String get checkoutAddressSet => 'Set the address on the map';
+
+  @override
+  String checkoutInZone(String fee) {
+    return 'Inside the delivery area · $fee';
+  }
+
+  @override
+  String get checkoutYouTitle => 'Your details';
+
+  @override
+  String get checkoutYourName => 'Your name';
+
+  @override
+  String get checkoutYourPhone => 'Your phone';
+
+  @override
+  String get checkoutRecipientTitle => 'Recipient';
+
+  @override
+  String get checkoutRecipientMe => 'It is for me';
+
+  @override
+  String get checkoutRecipientOther => 'Someone else';
+
+  @override
+  String get checkoutRecipientName => 'Recipient\'s name';
+
+  @override
+  String get checkoutRecipientPhone => 'Recipient\'s phone';
+
+  @override
+  String get checkoutHideSender => 'Do not show my name to the recipient';
+
+  @override
+  String get checkoutDayTitle => 'Delivery day';
+
+  @override
+  String get checkoutPickupDayTitle => 'Pickup day';
+
+  @override
+  String get checkoutToday => 'Today';
+
+  @override
+  String get checkoutTomorrow => 'Tomorrow';
+
+  @override
+  String get checkoutOtherDate => 'Another date';
+
+  @override
+  String checkoutUpToDays(int days) {
+    return 'Up to $days days';
+  }
+
+  @override
+  String get checkoutUnavailable => 'Not available';
+
+  @override
+  String checkoutTodayTooSoon(int hours) {
+    return '“Today” is not available because your order needs $hours hours to prepare.';
+  }
+
+  @override
+  String get checkoutDayClosed => 'The shop does not deliver on this day.';
+
+  @override
+  String get checkoutTimeTitle => 'Time';
+
+  @override
+  String checkoutSlot(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String checkoutSlotFull(String start, String end) {
+    return '$start – $end · full';
+  }
+
+  @override
+  String get checkoutNoSlots =>
+      'No times left on this day. Choose another day.';
+
+  @override
+  String get checkoutCallBefore => 'Call before arriving';
+
+  @override
+  String get checkoutNotes => 'Notes for the shop';
+
+  @override
+  String checkoutNotesCount(int count) {
+    return '$count / 300';
+  }
+
+  @override
+  String get checkoutWithDelivery => 'With delivery';
+
+  @override
+  String get checkoutToPayment => 'Continue to payment';
+
+  @override
+  String get checkoutNeedAddress => 'Set the delivery address first.';
+
+  @override
+  String get checkoutNeedSlot => 'Choose the day and the time.';
+
+  @override
+  String get checkoutNeedName => 'Write the name.';
+
+  @override
+  String get checkoutPickDate => 'Choose the date';
+
+  @override
+  String get addressTitle => 'Delivery address';
+
+  @override
+  String addressZoneBadge(String zone) {
+    return 'Area: $zone';
+  }
+
+  @override
+  String get addressSearch => 'Search for an area';
+
+  @override
+  String get addressNoArea => 'No delivery area with this name.';
+
+  @override
+  String addressInZone(String zone, String fee, String eta) {
+    return 'This address is in the $zone delivery area · fee $fee · about $eta.';
+  }
+
+  @override
+  String get addressOutOfZone => 'This point is outside our delivery areas.';
+
+  @override
+  String get addressChecking => 'Checking the area…';
+
+  @override
+  String get addressMapHint =>
+      'Move the map so the pin sits on the delivery spot.';
+
+  @override
+  String get addressMapLabel =>
+      'Map. The pin in the middle is the delivery spot.';
+
+  @override
+  String get addressSavedTitle => 'My addresses';
+
+  @override
+  String get addressLandmark => 'Nearest landmark';
+
+  @override
+  String get addressBuilding => 'Building';
+
+  @override
+  String get addressFloor => 'Floor';
+
+  @override
+  String get addressDetails => 'Street and other details';
+
+  @override
+  String get addressLabel => 'Address name';
+
+  @override
+  String get addressHome => 'Home';
+
+  @override
+  String get addressWork => 'Work';
+
+  @override
+  String get addressOther => 'Other';
+
+  @override
+  String get addressSave => 'Save this address for my next orders';
+
+  @override
+  String get addressConfirm => 'Confirm the address';
+
+  @override
+  String get paymentMethodTitle => 'Payment method';
+
+  @override
+  String get paymentCash => 'Cash on delivery';
+
+  @override
+  String get paymentCashHint =>
+      'Cash to the driver or at the shop. The shop calls you to confirm the order.';
+
+  @override
+  String get paymentShamcash => 'Sham Cash';
+
+  @override
+  String get paymentShamcashHint =>
+      'Pay in the Sham Cash app, then enter the transaction number or a receipt photo.';
+
+  @override
+  String get paymentStripe => 'International card (Stripe)';
+
+  @override
+  String get paymentStripeBadge => 'From abroad · USD';
+
+  @override
+  String get paymentStripeHint =>
+      'You go to Stripe\'s secure page. We never keep your card details.';
+
+  @override
+  String get paymentSoon => 'Coming soon';
+
+  @override
+  String paymentWhenWhere(String when, String where) {
+    return '$when · $where';
+  }
+
+  @override
+  String get paymentPickupWhere => 'Pickup at the branch';
+
+  @override
+  String paymentRecipient(String name) {
+    return 'Recipient: $name';
+  }
+
+  @override
+  String paymentRecipientHidden(String name) {
+    return 'Recipient: $name · sender hidden';
+  }
+
+  @override
+  String get paymentInvoice => 'Invoice';
+
+  @override
+  String paymentProducts(int count) {
+    return 'Products ($count)';
+  }
+
+  @override
+  String paymentDeliveryZone(String zone) {
+    return 'Delivery · $zone';
+  }
+
+  @override
+  String get paymentTotal => 'Total';
+
+  @override
+  String paymentUsdNote(String usd) {
+    return '≈ $usd · the rate is fixed when you confirm';
+  }
+
+  @override
+  String get paymentWhatsapp => 'I prefer to confirm on WhatsApp';
+
+  @override
+  String get paymentWhatsappHint =>
+      'We send the order number and summary to the shop';
+
+  @override
+  String get paymentTermsLead => 'By placing the order you agree to the ';
+
+  @override
+  String get paymentTermsLink => 'terms of sale and cancellation policy';
+
+  @override
+  String paymentConfirm(String total) {
+    return 'Place order · $total';
+  }
+
+  @override
+  String get paymentCartChanged =>
+      'Something in your cart changed. Review the cart, then check out.';
+
+  @override
+  String get confirmTitle => 'We have your order';
+
+  @override
+  String get confirmNumber => 'Order number';
+
+  @override
+  String get confirmPendingShop => 'Waiting for the shop to confirm';
+
+  @override
+  String get confirmWhen => 'Time';
+
+  @override
+  String get confirmWhere => 'Address';
+
+  @override
+  String get confirmPickup => 'Pickup';
+
+  @override
+  String get confirmPayment => 'Payment';
+
+  @override
+  String get confirmNextTitle => 'What happens next?';
+
+  @override
+  String get confirmNextCash =>
+      'The shop calls or messages you on WhatsApp to confirm. You are notified when it is confirmed.';
+
+  @override
+  String get confirmNextDelivery =>
+      'The shop prepares your order, then sends it out on time.';
+
+  @override
+  String get confirmNextPickup =>
+      'The shop prepares your order and has it ready for pickup on time.';
+
+  @override
+  String get confirmTrack => 'Track the order';
+
+  @override
+  String get confirmWhatsapp => 'Message the shop on WhatsApp';
+
+  @override
+  String get confirmContinue => 'Continue shopping';
+
+  @override
+  String get confirmGuestTitle => 'Ordered as a guest?';
+
+  @override
+  String get confirmGuestBody =>
+      'Create an account with the same number to keep this order and your addresses.';
+
+  @override
+  String get confirmGuestAction => 'Create an account';
+
+  @override
+  String orderWhatsappMessage(
+    String number,
+    String summary,
+    String total,
+    String when,
+  ) {
+    return 'Hello, I ordered in the Belle Biens app.\nOrder number: $number\n$summary\nTotal: $total\nTime: $when\nPlease confirm the order.';
+  }
+
+  @override
+  String get outZoneHeadline =>
+      'This address is outside our delivery areas for now.';
+
+  @override
+  String get outZoneBody =>
+      'We deliver inside Damascus, in the areas shown on the map.';
+
+  @override
+  String get outZoneWhatsapp => 'Ask the shop on WhatsApp';
+
+  @override
+  String get outZonePickup => 'Pick it up at the branch';
+
+  @override
+  String get outZoneOther => 'Choose another address';
+
+  @override
+  String outZoneMessage(String link) {
+    return 'Hello, do you deliver to this address? $link';
+  }
+
+  @override
+  String get shopBusyTitle => 'The shop is very busy right now';
+
+  @override
+  String shopBusyBody(String time) {
+    return 'We take orders for times from $time today, or for any later day.';
+  }
+
+  @override
+  String get shopClosedTitle => 'The shop is not taking orders right now';
+
+  @override
+  String get shopClosedBody =>
+      'Browse and fill your cart, then order when we are back.';
 }

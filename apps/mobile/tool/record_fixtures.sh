@@ -27,6 +27,10 @@ post() { curl -sf -X POST "$B/$1" -H 'content-type: application/json' -d "$2" -o
 # The README bouquet (screen 18) and the FR-DSG-03 case (8 gypsophila, 6 left).
 post designer/quote '{"spec":{"schemaVersion":1,"occasion":"birthday","size":"medium","flowers":[{"id":"red_rose","qty":12},{"id":"white_gypsophila","qty":6}],"greens":[{"id":"eucalyptus","qty":3}],"wrap":"satin_bordeaux","ribbon":"satin_pink","extras":[{"id":"teddy_bear_small","qty":1}]}}' "$D/quote_readme.json"
 post designer/quote '{"spec":{"schemaVersion":1,"occasion":"birthday","size":"medium","flowers":[{"id":"red_rose","qty":12},{"id":"white_gypsophila","qty":8}],"wrap":"satin_bordeaux","ribbon":"satin_pink"}}' "$D/quote_short.json"
+# Delivery zones (S5); the calendar depends on the hour, so tests generate it.
+F=test/fixtures/delivery
+mkdir -p "$F"
+get delivery/zones "$F/zones.json"
 E=test/fixtures/cart
 mkdir -p "$E"
 get boxes/catalog "$E/boxes.json"

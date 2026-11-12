@@ -27,20 +27,20 @@ $CartQuoteRequestDtoCopyWith<CartQuoteRequestDto> get copyWith => _$CartQuoteReq
 @override
 bool operator ==(Object other) {
   final _this = this as CartQuoteRequestDto;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartQuoteRequestDto&&(identical(other.couponCode, _this.couponCode) || other.couponCode == _this.couponCode)&&const DeepCollectionEquality().equals(other.lines, _this.lines)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartQuoteRequestDto&&(identical(other.couponCode, _this.couponCode) || other.couponCode == _this.couponCode)&&const DeepCollectionEquality().equals(other.lines, _this.lines)&&(identical(other.zone, _this.zone) || other.zone == _this.zone)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
 }
 
 
 @override
 int get hashCode {
   final _this = this as CartQuoteRequestDto;
-  return Object.hash(runtimeType,_this.couponCode,const DeepCollectionEquality().hash(_this.lines),const DeepCollectionEquality().hash(_this.additionalProperties));
+  return Object.hash(runtimeType,_this.couponCode,const DeepCollectionEquality().hash(_this.lines),_this.zone,const DeepCollectionEquality().hash(_this.additionalProperties));
 }
 
 @override
 String toString() {
   final _this = this as CartQuoteRequestDto;
-  return 'CartQuoteRequestDto(couponCode: ${_this.couponCode}, lines: ${_this.lines}, additionalProperties: ${_this.additionalProperties})';
+  return 'CartQuoteRequestDto(couponCode: ${_this.couponCode}, lines: ${_this.lines}, zone: ${_this.zone}, additionalProperties: ${_this.additionalProperties})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $CartQuoteRequestDtoCopyWith<$Res>  {
   factory $CartQuoteRequestDtoCopyWith(CartQuoteRequestDto value, $Res Function(CartQuoteRequestDto) _then) = _$CartQuoteRequestDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(disallowNullValue: true, includeIfNull: false) String? couponCode,@JsonKey(required: true, disallowNullValue: true) List<CartLineInputDto> lines,@JsonKey(readValue: CartQuoteRequestDto._extras, fromJson: CartQuoteRequestDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(disallowNullValue: true, includeIfNull: false) String? couponCode,@JsonKey(required: true, disallowNullValue: true) List<CartLineInputDto> lines,@JsonKey(disallowNullValue: true, includeIfNull: false) String? zone,@JsonKey(readValue: CartQuoteRequestDto._extras, fromJson: CartQuoteRequestDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
@@ -68,11 +68,12 @@ class _$CartQuoteRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of CartQuoteRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? couponCode = freezed,Object? lines = null,Object? additionalProperties = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? couponCode = freezed,Object? lines = null,Object? zone = freezed,Object? additionalProperties = null,}) {
   return _then(CartQuoteRequestDto(
 couponCode: freezed == couponCode ? _self.couponCode : couponCode // ignore: cast_nullable_to_non_nullable
 as String?,lines: null == lines ? _self.lines : lines // ignore: cast_nullable_to_non_nullable
-as List<CartLineInputDto>,additionalProperties: null == additionalProperties ? _self.additionalProperties : additionalProperties // ignore: cast_nullable_to_non_nullable
+as List<CartLineInputDto>,zone: freezed == zone ? _self.zone : zone // ignore: cast_nullable_to_non_nullable
+as String?,additionalProperties: null == additionalProperties ? _self.additionalProperties : additionalProperties // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>,
   ));
 }

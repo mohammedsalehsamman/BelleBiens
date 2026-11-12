@@ -125,6 +125,15 @@ export class CartQuoteRequestDto {
   @MinLength(3)
   @MaxLength(32)
   couponCode?: string;
+
+  @ApiPropertyOptional({
+    example: 'abu-rummaneh',
+    description:
+      'Checkout: add the delivery fee of this zone (FR-CRT-08, screen 23)',
+  })
+  @IsOptional()
+  @Matches(/^[a-z0-9][a-z0-9-]{0,79}$/)
+  zone?: string;
 }
 
 export class SaveCartDto {

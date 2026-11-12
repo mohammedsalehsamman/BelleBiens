@@ -5,6 +5,7 @@ import 'package:belle_biens/core/launch/external_links.dart';
 import 'package:dio/dio.dart';
 
 import 'fake_cart_quote.dart';
+import 'fake_checkout.dart';
 
 /// Answers API calls with responses recorded from the local API
 /// (test/fixtures/catalog, made from the seed). Tests can override answers,
@@ -45,6 +46,15 @@ class FixtureServer implements HttpClientAdapter {
   /// What the fake account's saved cart holds (GET/PUT /v1/me/cart).
   List<Object?> savedCart = [];
   final requests = <RequestOptions>[];
+
+  /// Orders placed through POST /v1/orders, by Idempotency-Key.
+  final placed = <String, Map<String, Object?>>{};
+
+  /// What GET /v1/me/addresses answers.
+  List<Object?> savedAddresses = [];
+
+  /// Delivery slots taken, as "date start" (FR-DLV-04).
+  Set<String> fullSlots = defaultFullSlots;
 
   /// Custom answers by path: (status, body).
   final overrides = <String, (int, Object?) Function(RequestOptions)>{};
@@ -88,6 +98,56 @@ class FixtureServer implements HttpClientAdapter {
           201,
           {'url': 'https://media.test/references/test.webp'},
         ),
+        '/v1/delivery/zones' => (200, fixture('delivery/zones')),
+        '/v1/delivery/zone-check' => (
+          200,
+          () {
+            final body = options.data as Map;
+            final zone = zoneAt(
+              body['latitude']! as num,
+              body['longitude']! as num,
+            );
+            return zone == null
+                ? {'inZone': false}
+                : {'inZone': true, 'zone': zone};
+          }(),
+        ),
+        '/v1/delivery/dates' => (
+          200,
+          fakeCalendar(
+            int.parse('${options.queryParameters['leadTimeHours'] ?? 0}'),
+            pickup: options.queryParameters['fulfillment'] == 'PICKUP',
+          ),
+        ),
+        '/v1/delivery/slots' => (
+          200,
+          {
+            'date': options.queryParameters['date'],
+            'slots': fakeSlots(
+              options.queryParameters['date']! as String,
+              int.parse('${options.queryParameters['leadTimeHours'] ?? 0}'),
+              pickup: options.queryParameters['fulfillment'] == 'PICKUP',
+              full: fullSlots,
+            ),
+          },
+        ),
+        '/v1/delivery/slot-holds' => (
+          201,
+          {
+            'id': '0b8a5f7e-0000-4000-8000-0000000000aa',
+            'date': (options.data as Map)['date'],
+            'start': (options.data as Map)['start'],
+            'expiresAt': '2026-11-11T12:15:00.000Z',
+          },
+        ),
+        '/v1/orders' => (
+          201,
+          placed.putIfAbsent(
+            options.headers['Idempotency-Key']! as String,
+            () => fakeOrder(options.data as Map, number: 1001 + placed.length),
+          ),
+        ),
+        '/v1/me/addresses' => (200, savedAddresses),
         _ => null,
       };
       if (fake != null) {

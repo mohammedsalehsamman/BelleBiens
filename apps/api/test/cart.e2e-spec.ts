@@ -69,6 +69,24 @@ describe('Cart (e2e)', () => {
   };
 
   describe('the README cart (screen 20, NFR-FUN-01)', () => {
+    it('with the Abu Rummaneh fee: 7,266 SYP and $60.55 (screen 23, FR-CRT-08)', async () => {
+      const res = await quote({
+        lines: README_CART,
+        zone: 'abu-rummaneh',
+      }).expect(200);
+      expect(res.body.syp).toMatchObject({
+        itemsMinor: 711_600,
+        deliveryFeeMinor: 15_000,
+        totalMinor: 726_600,
+      });
+      expect(res.body.usd.totalMinor).toBe(6055);
+      const unknown = await quote({
+        lines: README_CART,
+        zone: 'no-such-zone',
+      }).expect(422);
+      expect(unknown.body.code).toBe('OUT_OF_ZONE');
+    });
+
     it('7,116 SYP and $59.30, ready tomorrow at 15:00 because of the cake', async () => {
       const res = await quote({ lines: README_CART }).expect(200);
       expect(res.body).not.toHaveProperty('coupon');

@@ -55,15 +55,20 @@ class CartRepository {
   );
 
   /// Prices the lines on the server (FR-CRT-05..08).
-  Future<CartQuoteDto> quote(List<CartLine> lines, {String? coupon}) =>
-      guardApi(
-        () => _api.cart.cartControllerQuote(
-          body: CartQuoteRequestDto(
-            lines: [for (final l in lines) _dto(l)],
-            couponCode: coupon,
-          ),
-        ),
-      );
+  /// With [zone], the zone's delivery fee is added (checkout, FR-CRT-08).
+  Future<CartQuoteDto> quote(
+    List<CartLine> lines, {
+    String? coupon,
+    String? zone,
+  }) => guardApi(
+    () => _api.cart.cartControllerQuote(
+      body: CartQuoteRequestDto(
+        lines: [for (final l in lines) _dto(l)],
+        couponCode: coupon,
+        zone: zone,
+      ),
+    ),
+  );
 
   /// Box types and what goes in them (screen 19); saved for offline.
   Future<BoxCatalogDto> boxes() async {

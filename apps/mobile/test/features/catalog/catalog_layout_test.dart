@@ -23,6 +23,10 @@ const _routes = [
   '/account/favorites',
   '/cart',
   '/box',
+  '/checkout',
+  '/checkout/address',
+  '/checkout/payment',
+  '/checkout/out-of-zone',
 ];
 
 void main() {
@@ -68,6 +72,9 @@ void main() {
           '/v1/pages/delivery',
           '/v1/cart/quote',
           '/v1/boxes/catalog',
+          '/v1/delivery/dates',
+          '/v1/delivery/slots',
+          '/v1/delivery/zone-check',
         ]) {
           expect(t.server.to(path), isNotEmpty, reason: path);
         }

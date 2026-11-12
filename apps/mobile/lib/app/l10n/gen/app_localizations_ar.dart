@@ -1226,9 +1226,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cartContinue => 'متابعة للتوصيل';
 
   @override
-  String get cartCheckoutSoon => 'اختيار التوصيل والدفع يصل في التحديث القادم.';
-
-  @override
   String get cartFixIssues => 'عدّل ما في السلة قبل المتابعة.';
 
   @override
@@ -1327,4 +1324,403 @@ class AppLocalizationsAr extends AppLocalizations {
   String productAdded(String name) {
     return 'أُضيف $name إلى السلة';
   }
+
+  @override
+  String get checkoutTitle => 'إتمام الطلب';
+
+  @override
+  String get checkoutStep1 => '1 من 2 · التوصيل والموعد';
+
+  @override
+  String get checkoutStep2 => '2 من 2 · الدفع والمراجعة';
+
+  @override
+  String get checkoutHowTitle => 'طريقة الاستلام';
+
+  @override
+  String get checkoutDelivery => 'توصيل داخل دمشق';
+
+  @override
+  String get checkoutDeliveryHint => 'الرسوم حسب منطقة العنوان';
+
+  @override
+  String get checkoutPickup => 'استلام من الفرع';
+
+  @override
+  String get checkoutPickupFree => 'مجاناً';
+
+  @override
+  String checkoutPickupFreeAt(String address) {
+    return 'مجاناً · $address';
+  }
+
+  @override
+  String get checkoutAddressTitle => 'عنوان التوصيل';
+
+  @override
+  String get checkoutAddressChange => 'تغيير';
+
+  @override
+  String get checkoutAddressSet => 'حدّد العنوان على الخريطة';
+
+  @override
+  String checkoutInZone(String fee) {
+    return 'داخل منطقة التوصيل · ⁨$fee⁩';
+  }
+
+  @override
+  String get checkoutYouTitle => 'بياناتك';
+
+  @override
+  String get checkoutYourName => 'اسمك';
+
+  @override
+  String get checkoutYourPhone => 'رقم هاتفك';
+
+  @override
+  String get checkoutRecipientTitle => 'المستلم';
+
+  @override
+  String get checkoutRecipientMe => 'أنا المستلم';
+
+  @override
+  String get checkoutRecipientOther => 'شخص آخر';
+
+  @override
+  String get checkoutRecipientName => 'اسم المستلم';
+
+  @override
+  String get checkoutRecipientPhone => 'رقم هاتف المستلم';
+
+  @override
+  String get checkoutHideSender => 'لا تُظهر اسمي للمستلم';
+
+  @override
+  String get checkoutDayTitle => 'يوم التوصيل';
+
+  @override
+  String get checkoutPickupDayTitle => 'يوم الاستلام';
+
+  @override
+  String get checkoutToday => 'اليوم';
+
+  @override
+  String get checkoutTomorrow => 'غداً';
+
+  @override
+  String get checkoutOtherDate => 'تاريخ آخر';
+
+  @override
+  String checkoutUpToDays(int days) {
+    return 'حتى $days يوماً';
+  }
+
+  @override
+  String get checkoutUnavailable => 'غير متاح';
+
+  @override
+  String checkoutTodayTooSoon(int hours) {
+    return '«اليوم» غير متاح لأن طلبك يحتاج $hours ساعة للتجهيز.';
+  }
+
+  @override
+  String get checkoutDayClosed => 'المحل لا يوصل في هذا اليوم.';
+
+  @override
+  String get checkoutTimeTitle => 'الوقت';
+
+  @override
+  String checkoutSlot(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String checkoutSlotFull(String start, String end) {
+    return '$start – $end · ممتلئ';
+  }
+
+  @override
+  String get checkoutNoSlots => 'لا مواعيد متاحة في هذا اليوم. اختر يوماً آخر.';
+
+  @override
+  String get checkoutCallBefore => 'اتصل قبل الوصول';
+
+  @override
+  String get checkoutNotes => 'ملاحظات للمحل';
+
+  @override
+  String checkoutNotesCount(int count) {
+    return '$count / 300';
+  }
+
+  @override
+  String get checkoutWithDelivery => 'مع التوصيل';
+
+  @override
+  String get checkoutToPayment => 'متابعة للدفع';
+
+  @override
+  String get checkoutNeedAddress => 'حدّد عنوان التوصيل أولاً.';
+
+  @override
+  String get checkoutNeedSlot => 'اختر يوم التوصيل ووقته.';
+
+  @override
+  String get checkoutNeedName => 'اكتب الاسم.';
+
+  @override
+  String get checkoutPickDate => 'اختر التاريخ';
+
+  @override
+  String get addressTitle => 'عنوان التوصيل';
+
+  @override
+  String addressZoneBadge(String zone) {
+    return 'منطقة: $zone';
+  }
+
+  @override
+  String get addressSearch => 'ابحث عن منطقة';
+
+  @override
+  String get addressNoArea => 'لا منطقة توصيل بهذا الاسم.';
+
+  @override
+  String addressInZone(String zone, String fee, String eta) {
+    return 'العنوان داخل منطقة التوصيل $zone · الرسوم ⁨$fee⁩ · المدة التقريبية $eta.';
+  }
+
+  @override
+  String get addressOutOfZone => 'هذه النقطة خارج مناطق التوصيل.';
+
+  @override
+  String get addressChecking => 'نتحقق من المنطقة…';
+
+  @override
+  String get addressMapHint => 'حرّك الخريطة ليقع الدبوس على مكان التوصيل.';
+
+  @override
+  String get addressMapLabel => 'خريطة. الدبوس في الوسط هو مكان التوصيل.';
+
+  @override
+  String get addressSavedTitle => 'عناويني';
+
+  @override
+  String get addressLandmark => 'أقرب معلم';
+
+  @override
+  String get addressBuilding => 'البناء';
+
+  @override
+  String get addressFloor => 'الطابق';
+
+  @override
+  String get addressDetails => 'الشارع وتفاصيل أخرى';
+
+  @override
+  String get addressLabel => 'اسم العنوان';
+
+  @override
+  String get addressHome => 'البيت';
+
+  @override
+  String get addressWork => 'العمل';
+
+  @override
+  String get addressOther => 'آخر';
+
+  @override
+  String get addressSave => 'احفظ العنوان لطلباتي القادمة';
+
+  @override
+  String get addressConfirm => 'تأكيد العنوان';
+
+  @override
+  String get paymentMethodTitle => 'طريقة الدفع';
+
+  @override
+  String get paymentCash => 'الدفع عند الاستلام';
+
+  @override
+  String get paymentCashHint =>
+      'نقداً للمندوب أو في المحل. يتصل بك المحل لتأكيد الطلب.';
+
+  @override
+  String get paymentShamcash => 'شام كاش';
+
+  @override
+  String get paymentShamcashHint =>
+      'ادفع من تطبيق شام كاش، ثم أدخل رقم العملية أو صورة الإيصال.';
+
+  @override
+  String get paymentStripe => 'بطاقة دولية (Stripe)';
+
+  @override
+  String get paymentStripeBadge => 'للمغتربين · USD';
+
+  @override
+  String get paymentStripeHint =>
+      'تنتقل إلى صفحة Stripe الآمنة. لا نحفظ بيانات بطاقتك.';
+
+  @override
+  String get paymentSoon => 'قريباً';
+
+  @override
+  String paymentWhenWhere(String when, String where) {
+    return '$when · $where';
+  }
+
+  @override
+  String get paymentPickupWhere => 'الاستلام من الفرع';
+
+  @override
+  String paymentRecipient(String name) {
+    return 'المستلم: $name';
+  }
+
+  @override
+  String paymentRecipientHidden(String name) {
+    return 'المستلم: $name · بدون إظهار المرسل';
+  }
+
+  @override
+  String get paymentInvoice => 'الفاتورة';
+
+  @override
+  String paymentProducts(int count) {
+    return 'المنتجات ($count)';
+  }
+
+  @override
+  String paymentDeliveryZone(String zone) {
+    return 'التوصيل · $zone';
+  }
+
+  @override
+  String get paymentTotal => 'الإجمالي';
+
+  @override
+  String paymentUsdNote(String usd) {
+    return '≈ $usd · سعر الصرف يُثبّت عند تأكيد الطلب';
+  }
+
+  @override
+  String get paymentWhatsapp => 'أفضّل التأكيد عبر واتساب';
+
+  @override
+  String get paymentWhatsappHint => 'نرسل ملخص الطلب ورقمه للمحل';
+
+  @override
+  String get paymentTermsLead => 'بتأكيد الطلب أنت توافق على ';
+
+  @override
+  String get paymentTermsLink => 'شروط البيع وسياسة الإلغاء';
+
+  @override
+  String paymentConfirm(String total) {
+    return 'تأكيد الطلب · ⁨$total⁩';
+  }
+
+  @override
+  String get paymentCartChanged =>
+      'تغيّر شيء في سلتك. راجع السلة ثم أكمل الطلب.';
+
+  @override
+  String get confirmTitle => 'استلمنا طلبك';
+
+  @override
+  String get confirmNumber => 'رقم الطلب';
+
+  @override
+  String get confirmPendingShop => 'بانتظار تأكيد المحل';
+
+  @override
+  String get confirmWhen => 'الموعد';
+
+  @override
+  String get confirmWhere => 'العنوان';
+
+  @override
+  String get confirmPickup => 'الاستلام';
+
+  @override
+  String get confirmPayment => 'الدفع';
+
+  @override
+  String get confirmNextTitle => 'ماذا بعد؟';
+
+  @override
+  String get confirmNextCash =>
+      'يتصل بك المحل أو يراسلك على واتساب لتأكيد الطلب. يصلك إشعار عند التأكيد.';
+
+  @override
+  String get confirmNextDelivery =>
+      'يجهّز المحل طلبك حسب الوصفة، ثم يخرج للتوصيل في الموعد.';
+
+  @override
+  String get confirmNextPickup =>
+      'يجهّز المحل طلبك حسب الوصفة، ويكون جاهزاً للاستلام في الموعد.';
+
+  @override
+  String get confirmTrack => 'تتبّع الطلب';
+
+  @override
+  String get confirmWhatsapp => 'راسل المحل على واتساب';
+
+  @override
+  String get confirmContinue => 'متابعة التسوق';
+
+  @override
+  String get confirmGuestTitle => 'طلبت كضيف؟';
+
+  @override
+  String get confirmGuestBody =>
+      'أنشئ حساباً بنفس الرقم لتحفظ هذا الطلب وعناوينك.';
+
+  @override
+  String get confirmGuestAction => 'إنشاء حساب';
+
+  @override
+  String orderWhatsappMessage(
+    String number,
+    String summary,
+    String total,
+    String when,
+  ) {
+    return 'مرحباً، طلبت من تطبيق Belle Biens.\nرقم الطلب: $number\n$summary\nالإجمالي: $total\nالموعد: $when\nأرجو تأكيد الطلب.';
+  }
+
+  @override
+  String get outZoneHeadline => 'هذا العنوان خارج مناطق التوصيل حالياً.';
+
+  @override
+  String get outZoneBody => 'نوصل داخل دمشق فقط في المناطق المحددة.';
+
+  @override
+  String get outZoneWhatsapp => 'اسأل المحل على واتساب';
+
+  @override
+  String get outZonePickup => 'استلم من الفرع';
+
+  @override
+  String get outZoneOther => 'اختر عنواناً آخر';
+
+  @override
+  String outZoneMessage(String link) {
+    return 'مرحباً، هل توصلون إلى هذا العنوان؟ $link';
+  }
+
+  @override
+  String get shopBusyTitle => 'المحل مشغول حالياً';
+
+  @override
+  String shopBusyBody(String time) {
+    return 'نستقبل الطلبات لمواعيد تبدأ من $time اليوم أو لأي يوم لاحق.';
+  }
+
+  @override
+  String get shopClosedTitle => 'المحل لا يستقبل طلبات الآن';
+
+  @override
+  String get shopClosedBody => 'تصفّح المنتجات وجهّز سلتك، واطلب حين نعود.';
 }

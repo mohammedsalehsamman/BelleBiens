@@ -61,6 +61,9 @@ class MoneyFormat {
     '\$${_cents.format(sypMinorToUsdCents(sypMinor, usdRate) / 100)}',
   );
 
+  /// "$60.55" from US cents the server worked out (an order's fixed total).
+  String usdCents(int cents) => _digits('\$${_cents.format(cents / 100)}');
+
   /// The amount in the chosen currency.
   String primary(int sypMinor) =>
       currency == DisplayCurrency.syp ? syp(sypMinor) : usd(sypMinor);

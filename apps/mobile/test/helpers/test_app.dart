@@ -5,6 +5,7 @@ import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/launch/external_links.dart';
+import 'package:belle_biens/core/map/map_tiles.dart';
 import 'package:belle_biens/core/media/image_picker.dart';
 import 'package:belle_biens/core/storage/json_cache.dart';
 import 'package:belle_biens/core/storage/token_store.dart';
@@ -104,6 +105,8 @@ Future<TestHarness> pumpTestApp(
       belleApiProvider.overrideWithValue(api),
       jsonCacheProvider.overrideWithValue(memory),
       externalLinksProvider.overrideWithValue(links),
+      // No map tiles: tests never reach the network.
+      mapTilesProvider.overrideWithValue(null),
       // A small photo instead of the gallery.
       imagePickerProvider.overrideWithValue(
         () async => (bytes: Uint8List.fromList([1, 2, 3]), name: 'cake.jpg'),

@@ -2096,12 +2096,6 @@ abstract class AppLocalizations {
   /// **'متابعة للتوصيل'**
   String get cartContinue;
 
-  /// No description provided for @cartCheckoutSoon.
-  ///
-  /// In ar, this message translates to:
-  /// **'اختيار التوصيل والدفع يصل في التحديث القادم.'**
-  String get cartCheckoutSoon;
-
   /// No description provided for @cartFixIssues.
   ///
   /// In ar, this message translates to:
@@ -2275,6 +2269,707 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'أُضيف {name} إلى السلة'**
   String productAdded(String name);
+
+  /// No description provided for @checkoutTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'إتمام الطلب'**
+  String get checkoutTitle;
+
+  /// No description provided for @checkoutStep1.
+  ///
+  /// In ar, this message translates to:
+  /// **'1 من 2 · التوصيل والموعد'**
+  String get checkoutStep1;
+
+  /// No description provided for @checkoutStep2.
+  ///
+  /// In ar, this message translates to:
+  /// **'2 من 2 · الدفع والمراجعة'**
+  String get checkoutStep2;
+
+  /// No description provided for @checkoutHowTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طريقة الاستلام'**
+  String get checkoutHowTitle;
+
+  /// No description provided for @checkoutDelivery.
+  ///
+  /// In ar, this message translates to:
+  /// **'توصيل داخل دمشق'**
+  String get checkoutDelivery;
+
+  /// No description provided for @checkoutDeliveryHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسوم حسب منطقة العنوان'**
+  String get checkoutDeliveryHint;
+
+  /// No description provided for @checkoutPickup.
+  ///
+  /// In ar, this message translates to:
+  /// **'استلام من الفرع'**
+  String get checkoutPickup;
+
+  /// No description provided for @checkoutPickupFree.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاناً'**
+  String get checkoutPickupFree;
+
+  /// No description provided for @checkoutPickupFreeAt.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجاناً · {address}'**
+  String checkoutPickupFreeAt(String address);
+
+  /// No description provided for @checkoutAddressTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان التوصيل'**
+  String get checkoutAddressTitle;
+
+  /// No description provided for @checkoutAddressChange.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير'**
+  String get checkoutAddressChange;
+
+  /// No description provided for @checkoutAddressSet.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّد العنوان على الخريطة'**
+  String get checkoutAddressSet;
+
+  /// No description provided for @checkoutInZone.
+  ///
+  /// In ar, this message translates to:
+  /// **'داخل منطقة التوصيل · ⁨{fee}⁩'**
+  String checkoutInZone(String fee);
+
+  /// No description provided for @checkoutYouTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'بياناتك'**
+  String get checkoutYouTitle;
+
+  /// No description provided for @checkoutYourName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسمك'**
+  String get checkoutYourName;
+
+  /// No description provided for @checkoutYourPhone.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم هاتفك'**
+  String get checkoutYourPhone;
+
+  /// No description provided for @checkoutRecipientTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المستلم'**
+  String get checkoutRecipientTitle;
+
+  /// No description provided for @checkoutRecipientMe.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا المستلم'**
+  String get checkoutRecipientMe;
+
+  /// No description provided for @checkoutRecipientOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'شخص آخر'**
+  String get checkoutRecipientOther;
+
+  /// No description provided for @checkoutRecipientName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المستلم'**
+  String get checkoutRecipientName;
+
+  /// No description provided for @checkoutRecipientPhone.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم هاتف المستلم'**
+  String get checkoutRecipientPhone;
+
+  /// No description provided for @checkoutHideSender.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا تُظهر اسمي للمستلم'**
+  String get checkoutHideSender;
+
+  /// No description provided for @checkoutDayTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوم التوصيل'**
+  String get checkoutDayTitle;
+
+  /// No description provided for @checkoutPickupDayTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوم الاستلام'**
+  String get checkoutPickupDayTitle;
+
+  /// No description provided for @checkoutToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get checkoutToday;
+
+  /// No description provided for @checkoutTomorrow.
+  ///
+  /// In ar, this message translates to:
+  /// **'غداً'**
+  String get checkoutTomorrow;
+
+  /// No description provided for @checkoutOtherDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ آخر'**
+  String get checkoutOtherDate;
+
+  /// No description provided for @checkoutUpToDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'حتى {days} يوماً'**
+  String checkoutUpToDays(int days);
+
+  /// No description provided for @checkoutUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير متاح'**
+  String get checkoutUnavailable;
+
+  /// No description provided for @checkoutTodayTooSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'«اليوم» غير متاح لأن طلبك يحتاج {hours} ساعة للتجهيز.'**
+  String checkoutTodayTooSoon(int hours);
+
+  /// No description provided for @checkoutDayClosed.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحل لا يوصل في هذا اليوم.'**
+  String get checkoutDayClosed;
+
+  /// No description provided for @checkoutTimeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوقت'**
+  String get checkoutTimeTitle;
+
+  /// No description provided for @checkoutSlot.
+  ///
+  /// In ar, this message translates to:
+  /// **'{start} – {end}'**
+  String checkoutSlot(String start, String end);
+
+  /// No description provided for @checkoutSlotFull.
+  ///
+  /// In ar, this message translates to:
+  /// **'{start} – {end} · ممتلئ'**
+  String checkoutSlotFull(String start, String end);
+
+  /// No description provided for @checkoutNoSlots.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا مواعيد متاحة في هذا اليوم. اختر يوماً آخر.'**
+  String get checkoutNoSlots;
+
+  /// No description provided for @checkoutCallBefore.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتصل قبل الوصول'**
+  String get checkoutCallBefore;
+
+  /// No description provided for @checkoutNotes.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظات للمحل'**
+  String get checkoutNotes;
+
+  /// No description provided for @checkoutNotesCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} / 300'**
+  String checkoutNotesCount(int count);
+
+  /// No description provided for @checkoutWithDelivery.
+  ///
+  /// In ar, this message translates to:
+  /// **'مع التوصيل'**
+  String get checkoutWithDelivery;
+
+  /// No description provided for @checkoutToPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة للدفع'**
+  String get checkoutToPayment;
+
+  /// No description provided for @checkoutNeedAddress.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّد عنوان التوصيل أولاً.'**
+  String get checkoutNeedAddress;
+
+  /// No description provided for @checkoutNeedSlot.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر يوم التوصيل ووقته.'**
+  String get checkoutNeedSlot;
+
+  /// No description provided for @checkoutNeedName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب الاسم.'**
+  String get checkoutNeedName;
+
+  /// No description provided for @checkoutPickDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر التاريخ'**
+  String get checkoutPickDate;
+
+  /// No description provided for @addressTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان التوصيل'**
+  String get addressTitle;
+
+  /// No description provided for @addressZoneBadge.
+  ///
+  /// In ar, this message translates to:
+  /// **'منطقة: {zone}'**
+  String addressZoneBadge(String zone);
+
+  /// No description provided for @addressSearch.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابحث عن منطقة'**
+  String get addressSearch;
+
+  /// No description provided for @addressNoArea.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا منطقة توصيل بهذا الاسم.'**
+  String get addressNoArea;
+
+  /// No description provided for @addressInZone.
+  ///
+  /// In ar, this message translates to:
+  /// **'العنوان داخل منطقة التوصيل {zone} · الرسوم ⁨{fee}⁩ · المدة التقريبية {eta}.'**
+  String addressInZone(String zone, String fee, String eta);
+
+  /// No description provided for @addressOutOfZone.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه النقطة خارج مناطق التوصيل.'**
+  String get addressOutOfZone;
+
+  /// No description provided for @addressChecking.
+  ///
+  /// In ar, this message translates to:
+  /// **'نتحقق من المنطقة…'**
+  String get addressChecking;
+
+  /// No description provided for @addressMapHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'حرّك الخريطة ليقع الدبوس على مكان التوصيل.'**
+  String get addressMapHint;
+
+  /// No description provided for @addressMapLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'خريطة. الدبوس في الوسط هو مكان التوصيل.'**
+  String get addressMapLabel;
+
+  /// No description provided for @addressSavedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'عناويني'**
+  String get addressSavedTitle;
+
+  /// No description provided for @addressLandmark.
+  ///
+  /// In ar, this message translates to:
+  /// **'أقرب معلم'**
+  String get addressLandmark;
+
+  /// No description provided for @addressBuilding.
+  ///
+  /// In ar, this message translates to:
+  /// **'البناء'**
+  String get addressBuilding;
+
+  /// No description provided for @addressFloor.
+  ///
+  /// In ar, this message translates to:
+  /// **'الطابق'**
+  String get addressFloor;
+
+  /// No description provided for @addressDetails.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشارع وتفاصيل أخرى'**
+  String get addressDetails;
+
+  /// No description provided for @addressLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم العنوان'**
+  String get addressLabel;
+
+  /// No description provided for @addressHome.
+  ///
+  /// In ar, this message translates to:
+  /// **'البيت'**
+  String get addressHome;
+
+  /// No description provided for @addressWork.
+  ///
+  /// In ar, this message translates to:
+  /// **'العمل'**
+  String get addressWork;
+
+  /// No description provided for @addressOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر'**
+  String get addressOther;
+
+  /// No description provided for @addressSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'احفظ العنوان لطلباتي القادمة'**
+  String get addressSave;
+
+  /// No description provided for @addressConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد العنوان'**
+  String get addressConfirm;
+
+  /// No description provided for @paymentMethodTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طريقة الدفع'**
+  String get paymentMethodTitle;
+
+  /// No description provided for @paymentCash.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع عند الاستلام'**
+  String get paymentCash;
+
+  /// No description provided for @paymentCashHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'نقداً للمندوب أو في المحل. يتصل بك المحل لتأكيد الطلب.'**
+  String get paymentCashHint;
+
+  /// No description provided for @paymentShamcash.
+  ///
+  /// In ar, this message translates to:
+  /// **'شام كاش'**
+  String get paymentShamcash;
+
+  /// No description provided for @paymentShamcashHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'ادفع من تطبيق شام كاش، ثم أدخل رقم العملية أو صورة الإيصال.'**
+  String get paymentShamcashHint;
+
+  /// No description provided for @paymentStripe.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقة دولية (Stripe)'**
+  String get paymentStripe;
+
+  /// No description provided for @paymentStripeBadge.
+  ///
+  /// In ar, this message translates to:
+  /// **'للمغتربين · USD'**
+  String get paymentStripeBadge;
+
+  /// No description provided for @paymentStripeHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'تنتقل إلى صفحة Stripe الآمنة. لا نحفظ بيانات بطاقتك.'**
+  String get paymentStripeHint;
+
+  /// No description provided for @paymentSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'قريباً'**
+  String get paymentSoon;
+
+  /// No description provided for @paymentWhenWhere.
+  ///
+  /// In ar, this message translates to:
+  /// **'{when} · {where}'**
+  String paymentWhenWhere(String when, String where);
+
+  /// No description provided for @paymentPickupWhere.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاستلام من الفرع'**
+  String get paymentPickupWhere;
+
+  /// No description provided for @paymentRecipient.
+  ///
+  /// In ar, this message translates to:
+  /// **'المستلم: {name}'**
+  String paymentRecipient(String name);
+
+  /// No description provided for @paymentRecipientHidden.
+  ///
+  /// In ar, this message translates to:
+  /// **'المستلم: {name} · بدون إظهار المرسل'**
+  String paymentRecipientHidden(String name);
+
+  /// No description provided for @paymentInvoice.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفاتورة'**
+  String get paymentInvoice;
+
+  /// No description provided for @paymentProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنتجات ({count})'**
+  String paymentProducts(int count);
+
+  /// No description provided for @paymentDeliveryZone.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوصيل · {zone}'**
+  String paymentDeliveryZone(String zone);
+
+  /// No description provided for @paymentTotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإجمالي'**
+  String get paymentTotal;
+
+  /// No description provided for @paymentUsdNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'≈ {usd} · سعر الصرف يُثبّت عند تأكيد الطلب'**
+  String paymentUsdNote(String usd);
+
+  /// No description provided for @paymentWhatsapp.
+  ///
+  /// In ar, this message translates to:
+  /// **'أفضّل التأكيد عبر واتساب'**
+  String get paymentWhatsapp;
+
+  /// No description provided for @paymentWhatsappHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'نرسل ملخص الطلب ورقمه للمحل'**
+  String get paymentWhatsappHint;
+
+  /// No description provided for @paymentTermsLead.
+  ///
+  /// In ar, this message translates to:
+  /// **'بتأكيد الطلب أنت توافق على '**
+  String get paymentTermsLead;
+
+  /// No description provided for @paymentTermsLink.
+  ///
+  /// In ar, this message translates to:
+  /// **'شروط البيع وسياسة الإلغاء'**
+  String get paymentTermsLink;
+
+  /// No description provided for @paymentConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الطلب · ⁨{total}⁩'**
+  String paymentConfirm(String total);
+
+  /// No description provided for @paymentCartChanged.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيّر شيء في سلتك. راجع السلة ثم أكمل الطلب.'**
+  String get paymentCartChanged;
+
+  /// No description provided for @confirmTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'استلمنا طلبك'**
+  String get confirmTitle;
+
+  /// No description provided for @confirmNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الطلب'**
+  String get confirmNumber;
+
+  /// No description provided for @confirmPendingShop.
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار تأكيد المحل'**
+  String get confirmPendingShop;
+
+  /// No description provided for @confirmWhen.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموعد'**
+  String get confirmWhen;
+
+  /// No description provided for @confirmWhere.
+  ///
+  /// In ar, this message translates to:
+  /// **'العنوان'**
+  String get confirmWhere;
+
+  /// No description provided for @confirmPickup.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاستلام'**
+  String get confirmPickup;
+
+  /// No description provided for @confirmPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع'**
+  String get confirmPayment;
+
+  /// No description provided for @confirmNextTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ماذا بعد؟'**
+  String get confirmNextTitle;
+
+  /// No description provided for @confirmNextCash.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتصل بك المحل أو يراسلك على واتساب لتأكيد الطلب. يصلك إشعار عند التأكيد.'**
+  String get confirmNextCash;
+
+  /// No description provided for @confirmNextDelivery.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجهّز المحل طلبك حسب الوصفة، ثم يخرج للتوصيل في الموعد.'**
+  String get confirmNextDelivery;
+
+  /// No description provided for @confirmNextPickup.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجهّز المحل طلبك حسب الوصفة، ويكون جاهزاً للاستلام في الموعد.'**
+  String get confirmNextPickup;
+
+  /// No description provided for @confirmTrack.
+  ///
+  /// In ar, this message translates to:
+  /// **'تتبّع الطلب'**
+  String get confirmTrack;
+
+  /// No description provided for @confirmWhatsapp.
+  ///
+  /// In ar, this message translates to:
+  /// **'راسل المحل على واتساب'**
+  String get confirmWhatsapp;
+
+  /// No description provided for @confirmContinue.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة التسوق'**
+  String get confirmContinue;
+
+  /// No description provided for @confirmGuestTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبت كضيف؟'**
+  String get confirmGuestTitle;
+
+  /// No description provided for @confirmGuestBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنشئ حساباً بنفس الرقم لتحفظ هذا الطلب وعناوينك.'**
+  String get confirmGuestBody;
+
+  /// No description provided for @confirmGuestAction.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get confirmGuestAction;
+
+  /// No description provided for @orderWhatsappMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرحباً، طلبت من تطبيق Belle Biens.\nرقم الطلب: {number}\n{summary}\nالإجمالي: {total}\nالموعد: {when}\nأرجو تأكيد الطلب.'**
+  String orderWhatsappMessage(
+    String number,
+    String summary,
+    String total,
+    String when,
+  );
+
+  /// No description provided for @outZoneHeadline.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا العنوان خارج مناطق التوصيل حالياً.'**
+  String get outZoneHeadline;
+
+  /// No description provided for @outZoneBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوصل داخل دمشق فقط في المناطق المحددة.'**
+  String get outZoneBody;
+
+  /// No description provided for @outZoneWhatsapp.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسأل المحل على واتساب'**
+  String get outZoneWhatsapp;
+
+  /// No description provided for @outZonePickup.
+  ///
+  /// In ar, this message translates to:
+  /// **'استلم من الفرع'**
+  String get outZonePickup;
+
+  /// No description provided for @outZoneOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر عنواناً آخر'**
+  String get outZoneOther;
+
+  /// No description provided for @outZoneMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرحباً، هل توصلون إلى هذا العنوان؟ {link}'**
+  String outZoneMessage(String link);
+
+  /// No description provided for @shopBusyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحل مشغول حالياً'**
+  String get shopBusyTitle;
+
+  /// No description provided for @shopBusyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'نستقبل الطلبات لمواعيد تبدأ من {time} اليوم أو لأي يوم لاحق.'**
+  String shopBusyBody(String time);
+
+  /// No description provided for @shopClosedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحل لا يستقبل طلبات الآن'**
+  String get shopClosedTitle;
+
+  /// No description provided for @shopClosedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصفّح المنتجات وجهّز سلتك، واطلب حين نعود.'**
+  String get shopClosedBody;
 }
 
 class _AppLocalizationsDelegate

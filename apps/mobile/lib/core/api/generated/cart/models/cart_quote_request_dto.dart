@@ -20,6 +20,9 @@ class const CartQuoteRequestDto({
   @JsonKey(required: true, disallowNullValue: true)
   required final List<CartLineInputDto> lines,
 
+  /// Checkout: add the delivery fee of this zone (FR-CRT-08, screen 23)
+  @JsonKey(disallowNullValue: true, includeIfNull: false) final String? zone,
+
   @JsonKey(
     readValue: CartQuoteRequestDto._extras,
     fromJson: CartQuoteRequestDto._readExtras,
@@ -27,7 +30,7 @@ class const CartQuoteRequestDto({
   )
   final Map<String, Object?> additionalProperties = const {},
 }) with _$CartQuoteRequestDto {
-  static const _knownKeys = <String>{"couponCode", "lines"};
+  static const _knownKeys = <String>{"couponCode", "lines", "zone"};
 
   factory CartQuoteRequestDto.fromJson(Map<String, Object?> json) =>
       _$CartQuoteRequestDtoFromJson(json);

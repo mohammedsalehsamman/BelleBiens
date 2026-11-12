@@ -111,11 +111,14 @@ final couponProvider = NotifierProvider<CouponController, String?>(
   CouponController.new,
 );
 
-/// The key [cartQuoteProvider] uses: the lines and the coupon.
-String cartQuoteKey(List<CartLine> lines, String? coupon) => jsonEncode({
-  'lines': [for (final l in lines) l.toJson()],
-  'coupon': coupon,
-});
+/// The key [cartQuoteProvider] uses: the lines, the coupon, and at checkout
+/// the delivery zone whose fee is added.
+String cartQuoteKey(List<CartLine> lines, String? coupon, {String? zone}) =>
+    jsonEncode({
+      'lines': [for (final l in lines) l.toJson()],
+      'coupon': coupon,
+      'zone': ?zone,
+    });
 
 /// The server's price for the cart, 400 ms after the last change; a newer
 /// cart cancels an older request. Null for an empty cart.
@@ -139,7 +142,11 @@ final FutureProviderFamily<CartQuoteDto?, String> cartQuoteProvider =
       if (lines.isEmpty) return null;
       return await ref
           .read(cartRepositoryProvider)
-          .quote(lines, coupon: request['coupon'] as String?);
+          .quote(
+            lines,
+            coupon: request['coupon'] as String?,
+            zone: request['zone'] as String?,
+          );
     });
 
 /// The quote for the cart as it is now.

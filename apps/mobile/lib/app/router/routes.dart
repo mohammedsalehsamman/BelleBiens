@@ -24,6 +24,14 @@ abstract final class Routes {
   // Cart (screens 19, 20, 35)
   static const cart = '/cart';
   static const box = '/box';
+
+  // Checkout (screens 21-23, 25, 36)
+  static const checkout = '/checkout';
+  static const checkoutAddress = '/checkout/address';
+  static const checkoutPayment = '/checkout/payment';
+  static const checkoutOutOfZone = '/checkout/out-of-zone';
+  static String orderConfirmed(String number) => '/orders/$number/confirmed';
+
   static String product(String slug) => '/p/$slug';
   static String occasion(String slug) => '/occasions/$slug';
   static String page(String slug) => '/pages/$slug';

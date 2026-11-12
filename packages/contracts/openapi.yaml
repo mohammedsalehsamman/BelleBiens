@@ -790,6 +790,10 @@ components:
           items:
             $ref: "#/components/schemas/CartLineInputDto"
           type: array
+        zone:
+          description: "Checkout: add the delivery fee of this zone (FR-CRT-08, screen 23)"
+          example: abu-rummaneh
+          type: string
       required:
         - lines
       type: object

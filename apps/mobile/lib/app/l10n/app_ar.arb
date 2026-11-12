@@ -814,7 +814,6 @@
   "cartSubtotal": "المجموع الفرعي",
   "cartSuggestions": "قد يعجبك أيضاً",
   "cartContinue": "متابعة للتوصيل",
-  "cartCheckoutSoon": "اختيار التوصيل والدفع يصل في التحديث القادم.",
   "cartFixIssues": "عدّل ما في السلة قبل المتابعة.",
   "cartAdded": "أُضيف إلى السلة",
   "cartView": "عرض السلة",
@@ -894,5 +893,278 @@
         "type": "String"
       }
     }
-  }
+  },
+  "checkoutTitle": "إتمام الطلب",
+  "checkoutStep1": "1 من 2 · التوصيل والموعد",
+  "checkoutStep2": "2 من 2 · الدفع والمراجعة",
+  "checkoutHowTitle": "طريقة الاستلام",
+  "checkoutDelivery": "توصيل داخل دمشق",
+  "checkoutDeliveryHint": "الرسوم حسب منطقة العنوان",
+  "checkoutPickup": "استلام من الفرع",
+  "checkoutPickupFree": "مجاناً",
+  "checkoutPickupFreeAt": "مجاناً · {address}",
+  "@checkoutPickupFreeAt": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutAddressTitle": "عنوان التوصيل",
+  "checkoutAddressChange": "تغيير",
+  "checkoutAddressSet": "حدّد العنوان على الخريطة",
+  "checkoutInZone": "داخل منطقة التوصيل · ⁨{fee}⁩",
+  "@checkoutInZone": {
+    "placeholders": {
+      "fee": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutYouTitle": "بياناتك",
+  "checkoutYourName": "اسمك",
+  "checkoutYourPhone": "رقم هاتفك",
+  "checkoutRecipientTitle": "المستلم",
+  "checkoutRecipientMe": "أنا المستلم",
+  "checkoutRecipientOther": "شخص آخر",
+  "checkoutRecipientName": "اسم المستلم",
+  "checkoutRecipientPhone": "رقم هاتف المستلم",
+  "checkoutHideSender": "لا تُظهر اسمي للمستلم",
+  "checkoutDayTitle": "يوم التوصيل",
+  "checkoutPickupDayTitle": "يوم الاستلام",
+  "checkoutToday": "اليوم",
+  "checkoutTomorrow": "غداً",
+  "checkoutOtherDate": "تاريخ آخر",
+  "checkoutUpToDays": "حتى {days} يوماً",
+  "@checkoutUpToDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutUnavailable": "غير متاح",
+  "checkoutTodayTooSoon": "«اليوم» غير متاح لأن طلبك يحتاج {hours} ساعة للتجهيز.",
+  "@checkoutTodayTooSoon": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutDayClosed": "المحل لا يوصل في هذا اليوم.",
+  "checkoutTimeTitle": "الوقت",
+  "checkoutSlot": "{start} – {end}",
+  "@checkoutSlot": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutSlotFull": "{start} – {end} · ممتلئ",
+  "@checkoutSlotFull": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutNoSlots": "لا مواعيد متاحة في هذا اليوم. اختر يوماً آخر.",
+  "checkoutCallBefore": "اتصل قبل الوصول",
+  "checkoutNotes": "ملاحظات للمحل",
+  "checkoutNotesCount": "{count} / 300",
+  "@checkoutNotesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutWithDelivery": "مع التوصيل",
+  "checkoutToPayment": "متابعة للدفع",
+  "checkoutNeedAddress": "حدّد عنوان التوصيل أولاً.",
+  "checkoutNeedSlot": "اختر يوم التوصيل ووقته.",
+  "checkoutNeedName": "اكتب الاسم.",
+  "checkoutPickDate": "اختر التاريخ",
+  "addressTitle": "عنوان التوصيل",
+  "addressZoneBadge": "منطقة: {zone}",
+  "@addressZoneBadge": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "addressSearch": "ابحث عن منطقة",
+  "addressNoArea": "لا منطقة توصيل بهذا الاسم.",
+  "addressInZone": "العنوان داخل منطقة التوصيل {zone} · الرسوم ⁨{fee}⁩ · المدة التقريبية {eta}.",
+  "@addressInZone": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      },
+      "fee": {
+        "type": "String"
+      },
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "addressOutOfZone": "هذه النقطة خارج مناطق التوصيل.",
+  "addressChecking": "نتحقق من المنطقة…",
+  "addressMapHint": "حرّك الخريطة ليقع الدبوس على مكان التوصيل.",
+  "addressMapLabel": "خريطة. الدبوس في الوسط هو مكان التوصيل.",
+  "addressSavedTitle": "عناويني",
+  "addressLandmark": "أقرب معلم",
+  "addressBuilding": "البناء",
+  "addressFloor": "الطابق",
+  "addressDetails": "الشارع وتفاصيل أخرى",
+  "addressLabel": "اسم العنوان",
+  "addressHome": "البيت",
+  "addressWork": "العمل",
+  "addressOther": "آخر",
+  "addressSave": "احفظ العنوان لطلباتي القادمة",
+  "addressConfirm": "تأكيد العنوان",
+  "paymentMethodTitle": "طريقة الدفع",
+  "paymentCash": "الدفع عند الاستلام",
+  "paymentCashHint": "نقداً للمندوب أو في المحل. يتصل بك المحل لتأكيد الطلب.",
+  "paymentShamcash": "شام كاش",
+  "paymentShamcashHint": "ادفع من تطبيق شام كاش، ثم أدخل رقم العملية أو صورة الإيصال.",
+  "paymentStripe": "بطاقة دولية (Stripe)",
+  "paymentStripeBadge": "للمغتربين · USD",
+  "paymentStripeHint": "تنتقل إلى صفحة Stripe الآمنة. لا نحفظ بيانات بطاقتك.",
+  "paymentSoon": "قريباً",
+  "paymentWhenWhere": "{when} · {where}",
+  "@paymentWhenWhere": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "where": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentPickupWhere": "الاستلام من الفرع",
+  "paymentRecipient": "المستلم: {name}",
+  "@paymentRecipient": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentRecipientHidden": "المستلم: {name} · بدون إظهار المرسل",
+  "@paymentRecipientHidden": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentInvoice": "الفاتورة",
+  "paymentProducts": "المنتجات ({count})",
+  "@paymentProducts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "paymentDeliveryZone": "التوصيل · {zone}",
+  "@paymentDeliveryZone": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentTotal": "الإجمالي",
+  "paymentUsdNote": "≈ {usd} · سعر الصرف يُثبّت عند تأكيد الطلب",
+  "@paymentUsdNote": {
+    "placeholders": {
+      "usd": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentWhatsapp": "أفضّل التأكيد عبر واتساب",
+  "paymentWhatsappHint": "نرسل ملخص الطلب ورقمه للمحل",
+  "paymentTermsLead": "بتأكيد الطلب أنت توافق على ",
+  "paymentTermsLink": "شروط البيع وسياسة الإلغاء",
+  "paymentConfirm": "تأكيد الطلب · ⁨{total}⁩",
+  "@paymentConfirm": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentCartChanged": "تغيّر شيء في سلتك. راجع السلة ثم أكمل الطلب.",
+  "confirmTitle": "استلمنا طلبك",
+  "confirmNumber": "رقم الطلب",
+  "confirmPendingShop": "بانتظار تأكيد المحل",
+  "confirmWhen": "الموعد",
+  "confirmWhere": "العنوان",
+  "confirmPickup": "الاستلام",
+  "confirmPayment": "الدفع",
+  "confirmNextTitle": "ماذا بعد؟",
+  "confirmNextCash": "يتصل بك المحل أو يراسلك على واتساب لتأكيد الطلب. يصلك إشعار عند التأكيد.",
+  "confirmNextDelivery": "يجهّز المحل طلبك حسب الوصفة، ثم يخرج للتوصيل في الموعد.",
+  "confirmNextPickup": "يجهّز المحل طلبك حسب الوصفة، ويكون جاهزاً للاستلام في الموعد.",
+  "confirmTrack": "تتبّع الطلب",
+  "confirmWhatsapp": "راسل المحل على واتساب",
+  "confirmContinue": "متابعة التسوق",
+  "confirmGuestTitle": "طلبت كضيف؟",
+  "confirmGuestBody": "أنشئ حساباً بنفس الرقم لتحفظ هذا الطلب وعناوينك.",
+  "confirmGuestAction": "إنشاء حساب",
+  "orderWhatsappMessage": "مرحباً، طلبت من تطبيق Belle Biens.\nرقم الطلب: {number}\n{summary}\nالإجمالي: {total}\nالموعد: {when}\nأرجو تأكيد الطلب.",
+  "@orderWhatsappMessage": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      },
+      "summary": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "outZoneHeadline": "هذا العنوان خارج مناطق التوصيل حالياً.",
+  "outZoneBody": "نوصل داخل دمشق فقط في المناطق المحددة.",
+  "outZoneWhatsapp": "اسأل المحل على واتساب",
+  "outZonePickup": "استلم من الفرع",
+  "outZoneOther": "اختر عنواناً آخر",
+  "outZoneMessage": "مرحباً، هل توصلون إلى هذا العنوان؟ {link}",
+  "@outZoneMessage": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shopBusyTitle": "المحل مشغول حالياً",
+  "shopBusyBody": "نستقبل الطلبات لمواعيد تبدأ من {time} اليوم أو لأي يوم لاحق.",
+  "@shopBusyBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "shopClosedTitle": "المحل لا يستقبل طلبات الآن",
+  "shopClosedBody": "تصفّح المنتجات وجهّز سلتك، واطلب حين نعود."
 }

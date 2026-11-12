@@ -1,3 +1,4 @@
+import 'fake_checkout.dart';
 import 'fixture_server.dart';
 
 /// A cart quote priced from the recorded fixtures the way the server prices
@@ -107,13 +108,15 @@ Map<String, Object?> fakeCartQuote(Map<Object?, Object?> request) {
     0,
     (m, l) => (l['leadTimeHours']! as int) > m ? l['leadTimeHours']! as int : m,
   );
+  // At checkout the zone's fee is added (FR-CRT-08).
+  final fee = zoneFee(request['zone'] as String?);
   Map<String, Object?> money(int Function(int) convert) => {
     'itemsMinor': convert(items),
     'assemblyFeeMinor': 0,
     'discountMinor': convert(discount),
-    'deliveryFeeMinor': 0,
+    'deliveryFeeMinor': convert(fee),
     'roundingAdjustmentMinor': 0,
-    'totalMinor': convert(items) - convert(discount),
+    'totalMinor': convert(items - discount + fee),
   };
   final inCart = {
     for (final l in request['lines']! as List)

@@ -608,6 +608,8 @@ class _FavoriteButton extends ConsumerWidget {
       messenger.showSnackBar(
         SnackBar(
           content: Text(l10n.favoriteSignIn),
+          // Times out like any other: a kept bar covers checkout.
+          persist: false,
           action: SnackBarAction(
             label: l10n.onboardingSignIn,
             onPressed: () => context.push(Routes.login),

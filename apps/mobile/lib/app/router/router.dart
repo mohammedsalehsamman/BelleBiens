@@ -1,6 +1,7 @@
 import 'package:belle_biens/app/l10n/gen/app_localizations.dart';
 import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/app/router/routes.dart';
+import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/widgets/bb_bottom_nav.dart';
 import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/placeholder_screen.dart';
@@ -20,6 +21,11 @@ import 'package:belle_biens/features/catalog/presentation/product_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/search_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/shop_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/today_screen.dart';
+import 'package:belle_biens/features/checkout/presentation/address_screen.dart';
+import 'package:belle_biens/features/checkout/presentation/checkout_screen.dart';
+import 'package:belle_biens/features/checkout/presentation/order_confirmed_screen.dart';
+import 'package:belle_biens/features/checkout/presentation/out_of_zone_screen.dart';
+import 'package:belle_biens/features/checkout/presentation/payment_screen.dart';
 import 'package:belle_biens/features/designer/presentation/designer_screen.dart';
 import 'package:belle_biens/features/notifications/presentation/notification_permission_screen.dart';
 import 'package:belle_biens/features/onboarding/presentation/onboarding_screen.dart';
@@ -102,6 +108,31 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CartScreen(),
       ),
       GoRoute(path: Routes.box, builder: (context, state) => const BoxScreen()),
+      // Checkout (screens 21-23, 36) and the order received (25).
+      GoRoute(
+        path: Routes.checkout,
+        builder: (context, state) => const CheckoutScreen(),
+      ),
+      GoRoute(
+        path: Routes.checkoutAddress,
+        builder: (context, state) => const AddressScreen(),
+      ),
+      GoRoute(
+        path: Routes.checkoutPayment,
+        builder: (context, state) => const PaymentScreen(),
+      ),
+      GoRoute(
+        path: Routes.checkoutOutOfZone,
+        builder: (context, state) => const OutOfZoneScreen(),
+      ),
+      GoRoute(
+        path: '/orders/:number/confirmed',
+        // Only right after placing it; tracking (S6) reads it from the server.
+        redirect: (context, state) =>
+            state.extra is OrderDto ? null : Routes.orders,
+        builder: (context, state) =>
+            OrderConfirmedScreen(order: state.extra! as OrderDto),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _TabShell(shell: shell),
         branches: [

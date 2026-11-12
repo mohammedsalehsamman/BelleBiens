@@ -12,6 +12,7 @@ import 'package:belle_biens/features/cart/presentation/cart_screen.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/filters_sheet.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
+import 'package:belle_biens/features/checkout/presentation/shop_mode_notice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -90,6 +91,7 @@ class ShopScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: BBSpacing.gutter),
+              const ShopModeNotice(bottomGap: BBSpacing.gutter),
               if (products.value case final page?) ...[
                 if (page.offline) ...[
                   const OfflineBanner(),

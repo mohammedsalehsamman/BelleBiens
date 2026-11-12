@@ -432,7 +432,15 @@ export class CartService {
    * the whole cart can be ready. Nothing here trusts a price from the app.
    */
   async quote(dto: CartQuoteRequestDto, client: string): Promise<CartQuoteDto> {
-    return (await this.evaluate(dto, client)).quote;
+    let fee = 0;
+    if (dto.zone) {
+      const zone = await this.prisma.deliveryZone.findFirst({
+        where: { slug: dto.zone, active: true },
+      });
+      if (!zone) throw new AppError('OUT_OF_ZONE');
+      fee = zone.feeMinor;
+    }
+    return (await this.evaluate(dto, client, fee)).quote;
   }
 
   /** The quote with the zone fee (orders, S5), and the lines behind it. */

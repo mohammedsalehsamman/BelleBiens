@@ -250,15 +250,24 @@ class BBKvRow extends StatelessWidget {
     final base = total
         ? BBText.h3.copyWith(fontWeight: FontWeight.w700)
         : BBText.label.copyWith(fontWeight: FontWeight.w400);
+    // Label and value each take up to half the row, pushed to the two
+    // sides; longer ones ("غداً 18:00 – 20:00", an address at large text)
+    // wrap instead of overflowing.
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(child: Text(label, style: mutedLabel ? base.muted : base)),
-        const SizedBox(width: BBSpacing.gutter),
-        Text(
-          value,
-          style: total
-              ? BBText.price.copyWith(fontSize: 17)
-              : base.merge(BBText.numeric),
+        Flexible(child: Text(label, style: mutedLabel ? base.muted : base)),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsetsDirectional.only(start: BBSpacing.gutter),
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: total
+                  ? BBText.price.copyWith(fontSize: 17)
+                  : base.merge(BBText.numeric),
+            ),
+          ),
         ),
       ],
     );

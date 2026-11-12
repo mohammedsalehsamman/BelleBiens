@@ -111,7 +111,11 @@ class BBTextField extends StatelessWidget {
             hintTextDirection: textDirection,
             errorText: error,
             errorMaxLines: 3,
-            prefixIcon: prefix,
+            // The icon slots are at least 48 dp; centring keeps a 20 dp icon
+            // at its size instead of stretching it.
+            prefixIcon: prefix == null
+                ? null
+                : Center(widthFactor: 1, heightFactor: 1, child: prefix),
             suffixIcon: suffix,
             constraints: const BoxConstraints(minHeight: BBSizes.minTouch),
           ),

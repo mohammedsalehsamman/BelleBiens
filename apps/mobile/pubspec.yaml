@@ -34,6 +34,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_map: ^8.3.2
   flutter_riverpod: ^3.5.0
   flutter_secure_storage: ^11.2.0
   flutter_svg: ^2.3.2
@@ -42,6 +43,7 @@ dependencies:
   image_picker: ^1.2.4
   intl: ^0.20.3
   json_annotation: ^4.12.0
+  latlong2: ^0.10.1
   package_info_plus: ^10.2.2
   path_provider: ^2.1.6
   permission_handler: ^13.0.2

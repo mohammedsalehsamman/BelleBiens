@@ -5,6 +5,7 @@ import 'package:belle_biens/app/theme/typography.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/money/money.dart';
 import 'package:belle_biens/core/network/error_text.dart';
+import 'package:belle_biens/core/time/date_text.dart';
 import 'package:belle_biens/core/widgets/bb_buttons.dart';
 import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
@@ -18,7 +19,6 @@ import 'package:belle_biens/features/designer/application/designer_controller.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart' show DateFormat;
 
 /// Screens 20 (cart) and 35 (empty cart).
 class CartScreen extends ConsumerStatefulWidget {
@@ -116,10 +116,7 @@ String earliestText(
   return switch (inDays) {
     0 => l10n.cartWhenToday(time),
     1 => l10n.cartWhenTomorrow(time),
-    _ => l10n.cartWhenDate(
-      DateFormat.MMMMd(locale).format(DateTime.parse(iso.substring(0, 10))),
-      time,
-    ),
+    _ => l10n.cartWhenDate(dayMonthText(locale, iso.substring(0, 10)), time),
   };
 }
 
@@ -467,15 +464,11 @@ class _CartBottom extends ConsumerWidget {
             loading: loading && q == null,
             onPressed: q == null
                 ? null
-                : () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        q.orderable
-                            ? l10n.cartCheckoutSoon
-                            : l10n.cartFixIssues,
-                      ),
-                    ),
-                  ),
+                : () => q.orderable
+                      ? context.push(Routes.checkout)
+                      : ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.cartFixIssues)),
+                        ),
           ),
         ),
       ],
@@ -535,6 +528,8 @@ void showAddedToCart(BuildContext context, String message) {
     ..showSnackBar(
       SnackBar(
         content: Text(message),
+        // Times out like any other: a kept bar covers checkout.
+        persist: false,
         action: SnackBarAction(
           label: l10n.cartView,
           onPressed: () => GoRouter.of(context).push(Routes.cart),
