@@ -2970,6 +2970,510 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تصفّح المنتجات وجهّز سلتك، واطلب حين نعود.'**
   String get shopClosedBody;
+
+  /// No description provided for @shamcashTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع بشام كاش'**
+  String get shamcashTitle;
+
+  /// No description provided for @shamcashAmountFor.
+  ///
+  /// In ar, this message translates to:
+  /// **'المبلغ المطلوب · طلب رقم {number}'**
+  String shamcashAmountFor(String number);
+
+  /// No description provided for @shamcashPayWithin.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكمل الدفع خلال {time}'**
+  String shamcashPayWithin(String time);
+
+  /// No description provided for @shamcashExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت مهلة الدفع. أُلغي الطلب إن لم يصل الإيصال.'**
+  String get shamcashExpired;
+
+  /// No description provided for @shamcashSteps.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوات'**
+  String get shamcashSteps;
+
+  /// No description provided for @shamcashStep1.
+  ///
+  /// In ar, this message translates to:
+  /// **'افتح تطبيق شام كاش واختر \"تحويل\" أو \"دفع لتاجر\".'**
+  String get shamcashStep1;
+
+  /// No description provided for @shamcashStep2.
+  ///
+  /// In ar, this message translates to:
+  /// **'حوّل المبلغ إلى حساب المحل:'**
+  String get shamcashStep2;
+
+  /// No description provided for @shamcashNoAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'اطلب رقم حساب المحل على واتساب.'**
+  String get shamcashNoAccount;
+
+  /// No description provided for @shamcashStep3.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب رقم العملية أو أرفق صورة الإيصال هنا.'**
+  String get shamcashStep3;
+
+  /// No description provided for @shamcashCopy.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخ'**
+  String get shamcashCopy;
+
+  /// No description provided for @shamcashCopied.
+  ///
+  /// In ar, this message translates to:
+  /// **'نُسخ رقم الحساب'**
+  String get shamcashCopied;
+
+  /// No description provided for @shamcashReference.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم العملية'**
+  String get shamcashReference;
+
+  /// No description provided for @shamcashAttach.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرفق صورة الإيصال'**
+  String get shamcashAttach;
+
+  /// No description provided for @shamcashAttachHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'JPG أو PNG · حتى 5 ميغابايت'**
+  String get shamcashAttachHint;
+
+  /// No description provided for @shamcashAttached.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُرفق الإيصال'**
+  String get shamcashAttached;
+
+  /// No description provided for @shamcashAfter.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد الإرسال يتحقق المحل من الدفعة ويؤكد طلبك. إذا وصل تأكيد شام كاش تلقائياً، يتأكد الطلب فوراً.'**
+  String get shamcashAfter;
+
+  /// No description provided for @shamcashChangeMethod.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير طريقة الدفع'**
+  String get shamcashChangeMethod;
+
+  /// No description provided for @shamcashSent.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرسلت الدفعة'**
+  String get shamcashSent;
+
+  /// No description provided for @shamcashNeedProof.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب رقم العملية أو أرفق صورة الإيصال.'**
+  String get shamcashNeedProof;
+
+  /// No description provided for @confirmPendingPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار التحقق من الدفع'**
+  String get confirmPendingPayment;
+
+  /// No description provided for @confirmNextShamcash.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتحقق المحل من دفعتك ويؤكد الطلب. يصلك إشعار عند التأكيد.'**
+  String get confirmNextShamcash;
+
+  /// No description provided for @payFailTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نتمكن من تأكيد الدفعة'**
+  String get payFailTitle;
+
+  /// No description provided for @payFailBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم العملية لا يطابق المبلغ أو الحساب. طلبك محفوظ لمدة {time}.'**
+  String payFailBody(String time);
+
+  /// No description provided for @payFailNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظة المحل: {note}'**
+  String payFailNote(String note);
+
+  /// No description provided for @payFailResend.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة إرسال الإيصال'**
+  String get payFailResend;
+
+  /// No description provided for @payFailCash.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع عند الاستلام بدلاً من ذلك'**
+  String get payFailCash;
+
+  /// No description provided for @payFailContact.
+  ///
+  /// In ar, this message translates to:
+  /// **'تواصل مع المحل'**
+  String get payFailContact;
+
+  /// No description provided for @orderTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب {number}'**
+  String orderTitle(String number);
+
+  /// No description provided for @ordersTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلباتي'**
+  String get ordersTitle;
+
+  /// No description provided for @ordersCurrent.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحالية · {count}'**
+  String ordersCurrent(int count);
+
+  /// No description provided for @ordersPast.
+  ///
+  /// In ar, this message translates to:
+  /// **'السابقة · {count}'**
+  String ordersPast(int count);
+
+  /// No description provided for @ordersPastTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'السابقة'**
+  String get ordersPastTitle;
+
+  /// No description provided for @ordersEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا طلبات بعد. حين تطلب، تجد طلبك هنا لتتابعه.'**
+  String get ordersEmpty;
+
+  /// No description provided for @ordersPieces.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{قطعة واحدة} =2{قطعتان} few{{count} قطع} other{{count} قطعة}}'**
+  String ordersPieces(int count);
+
+  /// No description provided for @ordersTrack.
+  ///
+  /// In ar, this message translates to:
+  /// **'تتبّع الطلب'**
+  String get ordersTrack;
+
+  /// No description provided for @ordersAgain.
+  ///
+  /// In ar, this message translates to:
+  /// **'اطلب مجدداً'**
+  String get ordersAgain;
+
+  /// No description provided for @ordersAgainDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُضيفت محتويات الطلب إلى السلة'**
+  String get ordersAgainDone;
+
+  /// No description provided for @ordersGuestTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبت كضيف؟'**
+  String get ordersGuestTitle;
+
+  /// No description provided for @ordersGuestBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل رقم الطلب ورقم الهاتف الذي طلبت به.'**
+  String get ordersGuestBody;
+
+  /// No description provided for @ordersNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الطلب'**
+  String get ordersNumber;
+
+  /// No description provided for @ordersShow.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض الطلب'**
+  String get ordersShow;
+
+  /// No description provided for @ordersNotFound.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نجد طلباً بهذا الرقم والهاتف.'**
+  String get ordersNotFound;
+
+  /// No description provided for @statusNew.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم استلام الطلب'**
+  String get statusNew;
+
+  /// No description provided for @statusConfirmed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الطلب'**
+  String get statusConfirmed;
+
+  /// No description provided for @statusPreparing.
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد التحضير'**
+  String get statusPreparing;
+
+  /// No description provided for @statusReady.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاهز'**
+  String get statusReady;
+
+  /// No description provided for @statusOut.
+  ///
+  /// In ar, this message translates to:
+  /// **'خرج للتوصيل'**
+  String get statusOut;
+
+  /// No description provided for @statusDelivered.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التسليم'**
+  String get statusDelivered;
+
+  /// No description provided for @statusPickedUp.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الاستلام'**
+  String get statusPickedUp;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملغى'**
+  String get statusCancelled;
+
+  /// No description provided for @statusAwaitingShop.
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار تأكيد المحل'**
+  String get statusAwaitingShop;
+
+  /// No description provided for @statusAwaitingPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار الدفع'**
+  String get statusAwaitingPayment;
+
+  /// No description provided for @statusPaymentProblem.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشكلة في الدفع'**
+  String get statusPaymentProblem;
+
+  /// No description provided for @trackCurrent.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحالة الحالية'**
+  String get trackCurrent;
+
+  /// No description provided for @trackAfterPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد التحقق من الدفع'**
+  String get trackAfterPayment;
+
+  /// No description provided for @trackExplainNew.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتصل بك المحل أو يراسلك على واتساب لتأكيد الطلب.'**
+  String get trackExplainNew;
+
+  /// No description provided for @trackExplainSubmitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتحقق المحل من دفعة شام كاش. يصلك إشعار عند تأكيد الطلب.'**
+  String get trackExplainSubmitted;
+
+  /// No description provided for @trackExplainUnpaid.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكمل الدفع بشام كاش قبل انتهاء المهلة، وإلا يُلغى الطلب.'**
+  String get trackExplainUnpaid;
+
+  /// No description provided for @trackExplainConfirmed.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكّد المحل طلبك وسيبدأ بتجهيزه قريباً.'**
+  String get trackExplainConfirmed;
+
+  /// No description provided for @trackExplainPreparing.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجهّز المحل طلبك الآن حسب الوصفة.'**
+  String get trackExplainPreparing;
+
+  /// No description provided for @trackExplainReady.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك جاهز.'**
+  String get trackExplainReady;
+
+  /// No description provided for @trackExplainReadyPickup.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك جاهز للاستلام من الفرع.'**
+  String get trackExplainReadyPickup;
+
+  /// No description provided for @trackExplainOut.
+  ///
+  /// In ar, this message translates to:
+  /// **'المندوب في الطريق إليك.'**
+  String get trackExplainOut;
+
+  /// No description provided for @trackExplainDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'شكراً لك! نتمنى أن تعجبك.'**
+  String get trackExplainDone;
+
+  /// No description provided for @trackExplainCancelled.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُلغي هذا الطلب.'**
+  String get trackExplainCancelled;
+
+  /// No description provided for @trackDelivery.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوصيل'**
+  String get trackDelivery;
+
+  /// No description provided for @trackPickup.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاستلام'**
+  String get trackPickup;
+
+  /// No description provided for @trackCallBefore.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتصل قبل الوصول'**
+  String get trackCallBefore;
+
+  /// No description provided for @trackContents.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحتويات'**
+  String get trackContents;
+
+  /// No description provided for @trackPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع'**
+  String get trackPayment;
+
+  /// No description provided for @trackPayNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'ادفع الآن بشام كاش'**
+  String get trackPayNow;
+
+  /// No description provided for @trackCancel.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الطلب'**
+  String get trackCancel;
+
+  /// No description provided for @trackCancelHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكن الإلغاء من هنا قبل تأكيد الطلب فقط. بعد ذلك تواصل مع المحل.'**
+  String get trackCancelHint;
+
+  /// No description provided for @trackCancelAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'هل تريد إلغاء الطلب {number}؟'**
+  String trackCancelAsk(String number);
+
+  /// No description provided for @trackCancelYes.
+  ///
+  /// In ar, this message translates to:
+  /// **'نعم، ألغِ الطلب'**
+  String get trackCancelYes;
+
+  /// No description provided for @trackCancelNo.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get trackCancelNo;
+
+  /// No description provided for @trackCancelled.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُلغي الطلب'**
+  String get trackCancelled;
+
+  /// No description provided for @payStatePending.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير مدفوع'**
+  String get payStatePending;
+
+  /// No description provided for @payStateSubmitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد التحقق'**
+  String get payStateSubmitted;
+
+  /// No description provided for @payStatePaid.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدفوع'**
+  String get payStatePaid;
+
+  /// No description provided for @payStateFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تُطابق الدفعة'**
+  String get payStateFailed;
+
+  /// No description provided for @payStateRefunded.
+  ///
+  /// In ar, this message translates to:
+  /// **'مُسترد'**
+  String get payStateRefunded;
+
+  /// No description provided for @payMethodState.
+  ///
+  /// In ar, this message translates to:
+  /// **'{method} · {state}'**
+  String payMethodState(String method, String state);
+
+  /// No description provided for @checkoutTodayOver.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت مواعيد اليوم. اختر يوماً آخر.'**
+  String get checkoutTodayOver;
 }
 
 class _AppLocalizationsDelegate

@@ -524,8 +524,11 @@ class _DaySection extends ConsumerWidget {
           ),
           if (!today.available && today.problem == SlotProblem.tooSoon) ...[
             const SizedBox(height: BBSpacing.sm),
+            // A preparation time to blame, or simply a day already over.
             Text(
-              l10n.checkoutTodayTooSoon(leadTimeHours),
+              leadTimeHours > 0
+                  ? l10n.checkoutTodayTooSoon(leadTimeHours)
+                  : l10n.checkoutTodayOver,
               style: BBText.xs.muted,
             ),
           ],

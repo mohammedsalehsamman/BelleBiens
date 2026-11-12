@@ -32,6 +32,10 @@ abstract final class Routes {
   static const checkoutOutOfZone = '/checkout/out-of-zone';
   static String orderConfirmed(String number) => '/orders/$number/confirmed';
 
+  // Orders (screens 24, 26, 27, 38)
+  static String order(String number) => '/orders/$number';
+  static String orderPay(String number) => '/orders/$number/pay';
+
   static String product(String slug) => '/p/$slug';
   static String occasion(String slug) => '/occasions/$slug';
   static String page(String slug) => '/pages/$slug';

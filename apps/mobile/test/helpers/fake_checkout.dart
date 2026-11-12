@@ -155,6 +155,7 @@ Map<String, Object?> fakeOrder(
     'lines': [
       for (final (i, l) in (quote['lines']! as List).indexed)
         {
+          'choice': (body['lines']! as List)[i],
           'position': i + 1,
           'kind': (l as Map)['kind'],
           'title': l['title'],
@@ -168,6 +169,8 @@ Map<String, Object?> fakeOrder(
     'totalUsdCents': (quote['usd']! as Map)['totalMinor'],
     'usdRate': '120',
     'canCancel': true,
+    if (body['paymentMethod'] == 'SHAMCASH')
+      'paymentDueAt': '2026-11-11T14:00:00.000Z',
     'history': [
       {'status': 'NEW', 'at': '2026-11-11T12:00:00.000Z'},
     ],

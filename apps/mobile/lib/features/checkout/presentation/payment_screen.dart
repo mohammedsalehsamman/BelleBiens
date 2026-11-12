@@ -26,7 +26,10 @@ import 'package:go_router/go_router.dart';
 
 /// Payment methods this release takes; the others show "قريباً" until
 /// their sprints (Sham Cash S6, Stripe S12).
-const Set<PaymentMethod> _supported = {PaymentMethod.cash};
+const Set<PaymentMethod> _supported = {
+  PaymentMethod.cash,
+  PaymentMethod.shamcash,
+};
 
 /// Screen 23: payment, a last look, and the order (FR-PAY-01/02, FR-CRT-08,
 /// FR-CRT-12).
@@ -52,7 +55,12 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
     try {
       final order = await ref.read(checkoutControllerProvider.notifier).place();
       ref.read(checkoutControllerProvider.notifier).reset();
-      router.go(Routes.orderConfirmed(order.number), extra: order);
+      // Sham Cash is paid next (screen 24); cash is done (screen 25).
+      if (order.paymentMethod == PaymentMethod.shamcash) {
+        router.go(Routes.orderPay(order.number));
+      } else {
+        router.go(Routes.orderConfirmed(order.number), extra: order);
+      }
       // FR-CRT-12: the shop gets the number and the summary on WhatsApp.
       if (draft.whatsappConfirm && whatsapp != null) {
         await ref

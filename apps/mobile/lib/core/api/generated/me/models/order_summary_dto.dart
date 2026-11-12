@@ -3,8 +3,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../admin/models/fulfillment.dart';
+import '../../admin/models/localized_text_dto.dart';
 import '../../admin/models/order_slot_dto.dart';
 import '../../admin/models/order_status.dart';
+import '../../admin/models/payment_method.dart';
+import '../../admin/models/payment_status.dart';
 
 part 'order_summary_dto.freezed.dart';
 part 'order_summary_dto.g.dart';
@@ -46,6 +49,22 @@ class const OrderSummaryDto({
   @JsonKey(required: true, disallowNullValue: true)
   required final String number,
 
+  @JsonKey(
+    required: true,
+    disallowNullValue: true,
+    fromJson: OrderSummaryDto._read_paymentMethod,
+    toJson: OrderSummaryDto._write_paymentMethod,
+  )
+  required final PaymentMethod paymentMethod,
+
+  @JsonKey(
+    required: true,
+    disallowNullValue: true,
+    fromJson: OrderSummaryDto._read_paymentStatus,
+    toJson: OrderSummaryDto._write_paymentStatus,
+  )
+  required final PaymentStatus paymentStatus,
+
   @JsonKey(required: true, disallowNullValue: true)
   required final OrderSlotDto slot,
 
@@ -56,6 +75,10 @@ class const OrderSummaryDto({
     toJson: OrderSummaryDto._write_status,
   )
   required final OrderStatus status,
+
+  /// The first line, e.g. "باقة الجوري الأحمر" (screen 26)
+  @JsonKey(required: true, disallowNullValue: true)
+  required final LocalizedTextDto title,
 
   @JsonKey(
     required: true,
@@ -78,8 +101,11 @@ class const OrderSummaryDto({
     "imageUrl",
     "itemCount",
     "number",
+    "paymentMethod",
+    "paymentStatus",
     "slot",
     "status",
+    "title",
     "totalMinor",
   };
 
@@ -95,6 +121,12 @@ class const OrderSummaryDto({
   static Object? _write_fulfillment(Fulfillment value) => value.toJson();
   static int _read_itemCount(Object? value) => value as int;
   static Object? _write_itemCount(int value) => value;
+  static PaymentMethod _read_paymentMethod(Object? value) =>
+      PaymentMethod.fromJson(value);
+  static Object? _write_paymentMethod(PaymentMethod value) => value.toJson();
+  static PaymentStatus _read_paymentStatus(Object? value) =>
+      PaymentStatus.fromJson(value);
+  static Object? _write_paymentStatus(PaymentStatus value) => value.toJson();
   static OrderStatus _read_status(Object? value) => OrderStatus.fromJson(value);
   static Object? _write_status(OrderStatus value) => value.toJson();
   static int _read_totalMinor(Object? value) => value as int;

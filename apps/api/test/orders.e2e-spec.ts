@@ -494,6 +494,8 @@ describe('Orders (e2e)', () => {
           number: 'BB-1001',
           totalMinor: 726_600,
           itemCount: 4,
+          paymentStatus: 'PENDING',
+          title: { ar: 'باقتك المصمّمة', en: 'Your designed bouquet' },
         }),
       ]);
       await t

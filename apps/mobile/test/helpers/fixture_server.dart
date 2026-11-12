@@ -73,6 +73,16 @@ class FixtureServer implements HttpClientAdapter {
       );
     }
     final path = options.uri.path;
+    final order = overrides.containsKey(path) ? null : _orderRoute(options);
+    if (order != null) {
+      return ResponseBody.fromString(
+        jsonEncode(order.$2),
+        order.$1,
+        headers: {
+          Headers.contentTypeHeader: ['application/json'],
+        },
+      );
+    }
     if (path == '/v1/designer/preview-image') {
       return ResponseBody.fromString(
         jsonEncode({'url': 'https://media.test/previews/test.webp'}),
@@ -245,6 +255,62 @@ class FixtureServer implements HttpClientAdapter {
       'issues': <Object>[],
       'orderable': true,
     };
+  }
+
+  /// Placed orders by number, as later reads, payments and cancels see them.
+  Map<String, Map<String, Object?>> get ordersByNumber => {
+    for (final o in placed.values) o['number']! as String: o,
+  };
+
+  static const Map<String, Object> _notFound = {
+    'type': 'https://errors.bellebiens.local/NOT_FOUND',
+    'title': 'لم نجد ما تبحث عنه.',
+    'status': 404,
+    'code': 'NOT_FOUND',
+  };
+
+  /// Order reads and changes (S6): GET /v1/orders/:n, lookup, cancel,
+  /// payment proof and cash, the receipt upload.
+  (int, Object?)? _orderRoute(RequestOptions options) {
+    final path = options.uri.path;
+    if (path == '/v1/uploads/receipt') {
+      return (201, {'url': 'https://media.test/receipts/test.webp'});
+    }
+    final body = options.data is Map
+        ? options.data as Map
+        : const <String, Object?>{};
+    if (path == '/v1/orders/lookup') {
+      final o = ordersByNumber[(body['number'] as String?)?.toUpperCase()];
+      return o == null ? (404, _notFound) : (200, o);
+    }
+    final match = RegExp(
+      r'^/v1/orders/(BB-\d+)(/cancel|/payment/proof|/payment/cash)?$',
+    ).firstMatch(path);
+    if (match == null) return null;
+    final o = ordersByNumber[match.group(1)];
+    if (o == null) return (404, _notFound);
+    switch (match.group(2)) {
+      case '/cancel':
+        o
+          ..['status'] = 'CANCELLED'
+          ..['canCancel'] = false
+          ..['history'] = [
+            ...o['history']! as List,
+            {'status': 'CANCELLED', 'at': '2026-11-11T12:10:00.000Z'},
+          ];
+      case '/payment/proof':
+        o
+          ..['paymentStatus'] = 'SUBMITTED'
+          ..remove('paymentDueAt')
+          ..remove('paymentNote');
+      case '/payment/cash':
+        o
+          ..['paymentMethod'] = 'CASH'
+          ..['paymentStatus'] = 'PENDING'
+          ..remove('paymentDueAt')
+          ..remove('paymentNote');
+    }
+    return (200, o);
   }
 
   /// Requests made to [path], newest last.

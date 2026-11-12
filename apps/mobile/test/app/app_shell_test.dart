@@ -62,7 +62,8 @@ void main() {
     await pumpTestApp(tester);
     await tester.tap(find.text('طلباتي').last);
     await tester.pumpAndSettle();
-    expect(find.text('هذه الشاشة تُبنى في سبرنت S6.'), findsOneWidget);
+    // A guest with no orders yet: the empty list and the lookup (screen 26).
+    expect(find.text('طلبت كضيف؟'), findsOneWidget);
 
     await tester.tap(find.text('صمّم باقتك').last);
     await tester.pumpAndSettle();

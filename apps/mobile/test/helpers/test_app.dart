@@ -12,6 +12,7 @@ import 'package:belle_biens/core/storage/token_store.dart';
 import 'package:belle_biens/features/auth/data/auth_repository.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/notifications/notification_permission.dart';
+import 'package:belle_biens/features/orders/application/orders_providers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -107,6 +108,8 @@ Future<TestHarness> pumpTestApp(
       externalLinksProvider.overrideWithValue(links),
       // No map tiles: tests never reach the network.
       mapTilesProvider.overrideWithValue(null),
+      // 15:05 in Damascus on 11 November 2026, as in the API tests.
+      clockProvider.overrideWithValue(() => DateTime.utc(2026, 11, 11, 12, 5)),
       // A small photo instead of the gallery.
       imagePickerProvider.overrideWithValue(
         () async => (bytes: Uint8List.fromList([1, 2, 3]), name: 'cake.jpg'),

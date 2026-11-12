@@ -13,6 +13,7 @@ import 'package:belle_biens/core/widgets/bb_surfaces.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/checkout/presentation/checkout_widgets.dart';
+import 'package:belle_biens/features/orders/presentation/order_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -105,9 +106,10 @@ class OrderConfirmedScreen extends ConsumerWidget {
             ),
             const SizedBox(height: BBSpacing.sm),
             Center(
-              child: BBBadge(
-                label: l10n.confirmPendingShop,
-                tone: BBBadgeTone.amber,
+              child: OrderStateBadge(
+                status: order.status,
+                paymentStatus: order.paymentStatus,
+                paymentMethod: order.paymentMethod,
               ),
             ),
             const SizedBox(height: BBSpacing.section),
@@ -151,7 +153,12 @@ class OrderConfirmedScreen extends ConsumerWidget {
               child: Text(l10n.confirmNextTitle, style: BBText.h3),
             ),
             const SizedBox(height: BBSpacing.sm),
-            _Step(n: 1, text: l10n.confirmNextCash),
+            _Step(
+              n: 1,
+              text: order.paymentMethod == PaymentMethod.cash
+                  ? l10n.confirmNextCash
+                  : l10n.confirmNextShamcash,
+            ),
             const SizedBox(height: BBSpacing.sm),
             _Step(
               n: 2,
@@ -163,7 +170,7 @@ class OrderConfirmedScreen extends ConsumerWidget {
             BBButton(
               label: l10n.confirmTrack,
               expand: true,
-              onPressed: () => context.go(Routes.orders),
+              onPressed: () => context.go(Routes.order(order.number)),
             ),
             const SizedBox(height: BBSpacing.sm),
             BBButton(

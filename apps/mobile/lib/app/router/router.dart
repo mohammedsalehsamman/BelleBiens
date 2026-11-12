@@ -4,7 +4,6 @@ import 'package:belle_biens/app/router/routes.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/widgets/bb_bottom_nav.dart';
 import 'package:belle_biens/core/widgets/bb_icon.dart';
-import 'package:belle_biens/core/widgets/placeholder_screen.dart';
 import 'package:belle_biens/features/account/presentation/account_screen.dart';
 import 'package:belle_biens/features/auth/domain/otp_challenge.dart';
 import 'package:belle_biens/features/auth/presentation/complete_profile_screen.dart';
@@ -29,6 +28,9 @@ import 'package:belle_biens/features/checkout/presentation/payment_screen.dart';
 import 'package:belle_biens/features/designer/presentation/designer_screen.dart';
 import 'package:belle_biens/features/notifications/presentation/notification_permission_screen.dart';
 import 'package:belle_biens/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:belle_biens/features/orders/presentation/order_track_screen.dart';
+import 'package:belle_biens/features/orders/presentation/orders_screen.dart';
+import 'package:belle_biens/features/orders/presentation/shamcash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -126,12 +128,22 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OutOfZoneScreen(),
       ),
       GoRoute(
+        path: '/orders/:number/pay',
+        builder: (context, state) =>
+            ShamCashScreen(number: state.pathParameters['number']!),
+      ),
+      GoRoute(
         path: '/orders/:number/confirmed',
         // Only right after placing it; tracking (S6) reads it from the server.
         redirect: (context, state) =>
             state.extra is OrderDto ? null : Routes.orders,
         builder: (context, state) =>
             OrderConfirmedScreen(order: state.extra! as OrderDto),
+      ),
+      GoRoute(
+        path: '/orders/:number',
+        builder: (context, state) =>
+            OrderTrackScreen(number: state.pathParameters['number']!),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _TabShell(shell: shell),
@@ -171,7 +183,14 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          _placeholderTab(Routes.orders, (l) => l.navOrders, sprint: 'S6'),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.orders,
+                builder: (context, state) => const OrdersScreen(),
+              ),
+            ],
+          ),
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -187,24 +206,6 @@ final routerProvider = Provider<GoRouter>((ref) {
   ref.onDispose(router.dispose);
   return router;
 });
-
-StatefulShellBranch _placeholderTab(
-  String path,
-  String Function(AppLocalizations) title, {
-  required String sprint,
-}) {
-  return StatefulShellBranch(
-    routes: [
-      GoRoute(
-        path: path,
-        builder: (context, state) => PlaceholderScreen(
-          title: title(AppLocalizations.of(context)),
-          sprint: sprint,
-        ),
-      ),
-    ],
-  );
-}
 
 class _TabShell extends StatelessWidget {
   const new({required this.shell});

@@ -619,6 +619,9 @@ export class OrdersService {
       },
       totalMinor: r.totalMinor,
       itemCount: r.lines.reduce((s, l) => s + l.qty, 0),
+      paymentStatus: r.paymentStatus,
+      paymentMethod: r.paymentMethod,
+      title: text(r.lines[0]?.titleAr ?? '', r.lines[0]?.titleEn ?? ''),
       ...(r.lines.find((l) => l.imageUrl)?.imageUrl
         ? { imageUrl: r.lines.find((l) => l.imageUrl)!.imageUrl! }
         : {}),

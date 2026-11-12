@@ -2134,11 +2134,21 @@ components:
         number:
           example: BB-1001
           type: string
+        paymentMethod:
+          allOf:
+            - $ref: "#/components/schemas/PaymentMethod"
+        paymentStatus:
+          allOf:
+            - $ref: "#/components/schemas/PaymentStatus"
         slot:
           $ref: "#/components/schemas/OrderSlotDto"
         status:
           allOf:
             - $ref: "#/components/schemas/OrderStatus"
+        title:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextDto"
+          description: The first line, e.g. "باقة الجوري الأحمر" (screen 26)
         totalMinor:
           type: integer
       required:
@@ -2149,6 +2159,9 @@ components:
         - slot
         - totalMinor
         - itemCount
+        - paymentStatus
+        - paymentMethod
+        - title
       type: object
     OtpRequestedDto:
       properties:

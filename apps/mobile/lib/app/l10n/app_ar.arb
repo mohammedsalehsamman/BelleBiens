@@ -1166,5 +1166,162 @@
     }
   },
   "shopClosedTitle": "المحل لا يستقبل طلبات الآن",
-  "shopClosedBody": "تصفّح المنتجات وجهّز سلتك، واطلب حين نعود."
+  "shopClosedBody": "تصفّح المنتجات وجهّز سلتك، واطلب حين نعود.",
+  "shamcashTitle": "الدفع بشام كاش",
+  "shamcashAmountFor": "المبلغ المطلوب · طلب رقم {number}",
+  "@shamcashAmountFor": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "shamcashPayWithin": "أكمل الدفع خلال {time}",
+  "@shamcashPayWithin": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "shamcashExpired": "انتهت مهلة الدفع. أُلغي الطلب إن لم يصل الإيصال.",
+  "shamcashSteps": "الخطوات",
+  "shamcashStep1": "افتح تطبيق شام كاش واختر \"تحويل\" أو \"دفع لتاجر\".",
+  "shamcashStep2": "حوّل المبلغ إلى حساب المحل:",
+  "shamcashNoAccount": "اطلب رقم حساب المحل على واتساب.",
+  "shamcashStep3": "اكتب رقم العملية أو أرفق صورة الإيصال هنا.",
+  "shamcashCopy": "نسخ",
+  "shamcashCopied": "نُسخ رقم الحساب",
+  "shamcashReference": "رقم العملية",
+  "shamcashAttach": "أرفق صورة الإيصال",
+  "shamcashAttachHint": "JPG أو PNG · حتى 5 ميغابايت",
+  "shamcashAttached": "أُرفق الإيصال",
+  "shamcashAfter": "بعد الإرسال يتحقق المحل من الدفعة ويؤكد طلبك. إذا وصل تأكيد شام كاش تلقائياً، يتأكد الطلب فوراً.",
+  "shamcashChangeMethod": "تغيير طريقة الدفع",
+  "shamcashSent": "أرسلت الدفعة",
+  "shamcashNeedProof": "اكتب رقم العملية أو أرفق صورة الإيصال.",
+  "confirmPendingPayment": "بانتظار التحقق من الدفع",
+  "confirmNextShamcash": "يتحقق المحل من دفعتك ويؤكد الطلب. يصلك إشعار عند التأكيد.",
+  "payFailTitle": "لم نتمكن من تأكيد الدفعة",
+  "payFailBody": "رقم العملية لا يطابق المبلغ أو الحساب. طلبك محفوظ لمدة {time}.",
+  "@payFailBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "payFailNote": "ملاحظة المحل: {note}",
+  "@payFailNote": {
+    "placeholders": {
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "payFailResend": "إعادة إرسال الإيصال",
+  "payFailCash": "الدفع عند الاستلام بدلاً من ذلك",
+  "payFailContact": "تواصل مع المحل",
+  "orderTitle": "طلب {number}",
+  "@orderTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "ordersTitle": "طلباتي",
+  "ordersCurrent": "الحالية · {count}",
+  "@ordersCurrent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ordersPast": "السابقة · {count}",
+  "@ordersPast": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ordersPastTitle": "السابقة",
+  "ordersEmpty": "لا طلبات بعد. حين تطلب، تجد طلبك هنا لتتابعه.",
+  "ordersPieces": "{count, plural, =1{قطعة واحدة} =2{قطعتان} few{{count} قطع} other{{count} قطعة}}",
+  "@ordersPieces": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ordersTrack": "تتبّع الطلب",
+  "ordersAgain": "اطلب مجدداً",
+  "ordersAgainDone": "أُضيفت محتويات الطلب إلى السلة",
+  "ordersGuestTitle": "طلبت كضيف؟",
+  "ordersGuestBody": "أدخل رقم الطلب ورقم الهاتف الذي طلبت به.",
+  "ordersNumber": "رقم الطلب",
+  "ordersShow": "عرض الطلب",
+  "ordersNotFound": "لم نجد طلباً بهذا الرقم والهاتف.",
+  "statusNew": "تم استلام الطلب",
+  "statusConfirmed": "تأكيد الطلب",
+  "statusPreparing": "قيد التحضير",
+  "statusReady": "جاهز",
+  "statusOut": "خرج للتوصيل",
+  "statusDelivered": "تم التسليم",
+  "statusPickedUp": "تم الاستلام",
+  "statusCancelled": "ملغى",
+  "statusAwaitingShop": "بانتظار تأكيد المحل",
+  "statusAwaitingPayment": "بانتظار الدفع",
+  "statusPaymentProblem": "مشكلة في الدفع",
+  "trackCurrent": "الحالة الحالية",
+  "trackAfterPayment": "بعد التحقق من الدفع",
+  "trackExplainNew": "يتصل بك المحل أو يراسلك على واتساب لتأكيد الطلب.",
+  "trackExplainSubmitted": "يتحقق المحل من دفعة شام كاش. يصلك إشعار عند تأكيد الطلب.",
+  "trackExplainUnpaid": "أكمل الدفع بشام كاش قبل انتهاء المهلة، وإلا يُلغى الطلب.",
+  "trackExplainConfirmed": "أكّد المحل طلبك وسيبدأ بتجهيزه قريباً.",
+  "trackExplainPreparing": "يجهّز المحل طلبك الآن حسب الوصفة.",
+  "trackExplainReady": "طلبك جاهز.",
+  "trackExplainReadyPickup": "طلبك جاهز للاستلام من الفرع.",
+  "trackExplainOut": "المندوب في الطريق إليك.",
+  "trackExplainDone": "شكراً لك! نتمنى أن تعجبك.",
+  "trackExplainCancelled": "أُلغي هذا الطلب.",
+  "trackDelivery": "التوصيل",
+  "trackPickup": "الاستلام",
+  "trackCallBefore": "اتصل قبل الوصول",
+  "trackContents": "المحتويات",
+  "trackPayment": "الدفع",
+  "trackPayNow": "ادفع الآن بشام كاش",
+  "trackCancel": "إلغاء الطلب",
+  "trackCancelHint": "يمكن الإلغاء من هنا قبل تأكيد الطلب فقط. بعد ذلك تواصل مع المحل.",
+  "trackCancelAsk": "هل تريد إلغاء الطلب {number}؟",
+  "@trackCancelAsk": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "trackCancelYes": "نعم، ألغِ الطلب",
+  "trackCancelNo": "تراجع",
+  "trackCancelled": "أُلغي الطلب",
+  "payStatePending": "غير مدفوع",
+  "payStateSubmitted": "قيد التحقق",
+  "payStatePaid": "مدفوع",
+  "payStateFailed": "لم تُطابق الدفعة",
+  "payStateRefunded": "مُسترد",
+  "payMethodState": "{method} · {state}",
+  "@payMethodState": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutTodayOver": "انتهت مواعيد اليوم. اختر يوماً آخر."
 }

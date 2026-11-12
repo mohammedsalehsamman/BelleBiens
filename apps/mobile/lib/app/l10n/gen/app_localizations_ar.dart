@@ -1723,4 +1723,292 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shopClosedBody => 'تصفّح المنتجات وجهّز سلتك، واطلب حين نعود.';
+
+  @override
+  String get shamcashTitle => 'الدفع بشام كاش';
+
+  @override
+  String shamcashAmountFor(String number) {
+    return 'المبلغ المطلوب · طلب رقم $number';
+  }
+
+  @override
+  String shamcashPayWithin(String time) {
+    return 'أكمل الدفع خلال $time';
+  }
+
+  @override
+  String get shamcashExpired =>
+      'انتهت مهلة الدفع. أُلغي الطلب إن لم يصل الإيصال.';
+
+  @override
+  String get shamcashSteps => 'الخطوات';
+
+  @override
+  String get shamcashStep1 =>
+      'افتح تطبيق شام كاش واختر \"تحويل\" أو \"دفع لتاجر\".';
+
+  @override
+  String get shamcashStep2 => 'حوّل المبلغ إلى حساب المحل:';
+
+  @override
+  String get shamcashNoAccount => 'اطلب رقم حساب المحل على واتساب.';
+
+  @override
+  String get shamcashStep3 => 'اكتب رقم العملية أو أرفق صورة الإيصال هنا.';
+
+  @override
+  String get shamcashCopy => 'نسخ';
+
+  @override
+  String get shamcashCopied => 'نُسخ رقم الحساب';
+
+  @override
+  String get shamcashReference => 'رقم العملية';
+
+  @override
+  String get shamcashAttach => 'أرفق صورة الإيصال';
+
+  @override
+  String get shamcashAttachHint => 'JPG أو PNG · حتى 5 ميغابايت';
+
+  @override
+  String get shamcashAttached => 'أُرفق الإيصال';
+
+  @override
+  String get shamcashAfter =>
+      'بعد الإرسال يتحقق المحل من الدفعة ويؤكد طلبك. إذا وصل تأكيد شام كاش تلقائياً، يتأكد الطلب فوراً.';
+
+  @override
+  String get shamcashChangeMethod => 'تغيير طريقة الدفع';
+
+  @override
+  String get shamcashSent => 'أرسلت الدفعة';
+
+  @override
+  String get shamcashNeedProof => 'اكتب رقم العملية أو أرفق صورة الإيصال.';
+
+  @override
+  String get confirmPendingPayment => 'بانتظار التحقق من الدفع';
+
+  @override
+  String get confirmNextShamcash =>
+      'يتحقق المحل من دفعتك ويؤكد الطلب. يصلك إشعار عند التأكيد.';
+
+  @override
+  String get payFailTitle => 'لم نتمكن من تأكيد الدفعة';
+
+  @override
+  String payFailBody(String time) {
+    return 'رقم العملية لا يطابق المبلغ أو الحساب. طلبك محفوظ لمدة $time.';
+  }
+
+  @override
+  String payFailNote(String note) {
+    return 'ملاحظة المحل: $note';
+  }
+
+  @override
+  String get payFailResend => 'إعادة إرسال الإيصال';
+
+  @override
+  String get payFailCash => 'الدفع عند الاستلام بدلاً من ذلك';
+
+  @override
+  String get payFailContact => 'تواصل مع المحل';
+
+  @override
+  String orderTitle(String number) {
+    return 'طلب $number';
+  }
+
+  @override
+  String get ordersTitle => 'طلباتي';
+
+  @override
+  String ordersCurrent(int count) {
+    return 'الحالية · $count';
+  }
+
+  @override
+  String ordersPast(int count) {
+    return 'السابقة · $count';
+  }
+
+  @override
+  String get ordersPastTitle => 'السابقة';
+
+  @override
+  String get ordersEmpty => 'لا طلبات بعد. حين تطلب، تجد طلبك هنا لتتابعه.';
+
+  @override
+  String ordersPieces(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count قطعة',
+      few: '$count قطع',
+      two: 'قطعتان',
+      one: 'قطعة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ordersTrack => 'تتبّع الطلب';
+
+  @override
+  String get ordersAgain => 'اطلب مجدداً';
+
+  @override
+  String get ordersAgainDone => 'أُضيفت محتويات الطلب إلى السلة';
+
+  @override
+  String get ordersGuestTitle => 'طلبت كضيف؟';
+
+  @override
+  String get ordersGuestBody => 'أدخل رقم الطلب ورقم الهاتف الذي طلبت به.';
+
+  @override
+  String get ordersNumber => 'رقم الطلب';
+
+  @override
+  String get ordersShow => 'عرض الطلب';
+
+  @override
+  String get ordersNotFound => 'لم نجد طلباً بهذا الرقم والهاتف.';
+
+  @override
+  String get statusNew => 'تم استلام الطلب';
+
+  @override
+  String get statusConfirmed => 'تأكيد الطلب';
+
+  @override
+  String get statusPreparing => 'قيد التحضير';
+
+  @override
+  String get statusReady => 'جاهز';
+
+  @override
+  String get statusOut => 'خرج للتوصيل';
+
+  @override
+  String get statusDelivered => 'تم التسليم';
+
+  @override
+  String get statusPickedUp => 'تم الاستلام';
+
+  @override
+  String get statusCancelled => 'ملغى';
+
+  @override
+  String get statusAwaitingShop => 'بانتظار تأكيد المحل';
+
+  @override
+  String get statusAwaitingPayment => 'بانتظار الدفع';
+
+  @override
+  String get statusPaymentProblem => 'مشكلة في الدفع';
+
+  @override
+  String get trackCurrent => 'الحالة الحالية';
+
+  @override
+  String get trackAfterPayment => 'بعد التحقق من الدفع';
+
+  @override
+  String get trackExplainNew =>
+      'يتصل بك المحل أو يراسلك على واتساب لتأكيد الطلب.';
+
+  @override
+  String get trackExplainSubmitted =>
+      'يتحقق المحل من دفعة شام كاش. يصلك إشعار عند تأكيد الطلب.';
+
+  @override
+  String get trackExplainUnpaid =>
+      'أكمل الدفع بشام كاش قبل انتهاء المهلة، وإلا يُلغى الطلب.';
+
+  @override
+  String get trackExplainConfirmed => 'أكّد المحل طلبك وسيبدأ بتجهيزه قريباً.';
+
+  @override
+  String get trackExplainPreparing => 'يجهّز المحل طلبك الآن حسب الوصفة.';
+
+  @override
+  String get trackExplainReady => 'طلبك جاهز.';
+
+  @override
+  String get trackExplainReadyPickup => 'طلبك جاهز للاستلام من الفرع.';
+
+  @override
+  String get trackExplainOut => 'المندوب في الطريق إليك.';
+
+  @override
+  String get trackExplainDone => 'شكراً لك! نتمنى أن تعجبك.';
+
+  @override
+  String get trackExplainCancelled => 'أُلغي هذا الطلب.';
+
+  @override
+  String get trackDelivery => 'التوصيل';
+
+  @override
+  String get trackPickup => 'الاستلام';
+
+  @override
+  String get trackCallBefore => 'اتصل قبل الوصول';
+
+  @override
+  String get trackContents => 'المحتويات';
+
+  @override
+  String get trackPayment => 'الدفع';
+
+  @override
+  String get trackPayNow => 'ادفع الآن بشام كاش';
+
+  @override
+  String get trackCancel => 'إلغاء الطلب';
+
+  @override
+  String get trackCancelHint =>
+      'يمكن الإلغاء من هنا قبل تأكيد الطلب فقط. بعد ذلك تواصل مع المحل.';
+
+  @override
+  String trackCancelAsk(String number) {
+    return 'هل تريد إلغاء الطلب $number؟';
+  }
+
+  @override
+  String get trackCancelYes => 'نعم، ألغِ الطلب';
+
+  @override
+  String get trackCancelNo => 'تراجع';
+
+  @override
+  String get trackCancelled => 'أُلغي الطلب';
+
+  @override
+  String get payStatePending => 'غير مدفوع';
+
+  @override
+  String get payStateSubmitted => 'قيد التحقق';
+
+  @override
+  String get payStatePaid => 'مدفوع';
+
+  @override
+  String get payStateFailed => 'لم تُطابق الدفعة';
+
+  @override
+  String get payStateRefunded => 'مُسترد';
+
+  @override
+  String payMethodState(String method, String state) {
+    return '$method · $state';
+  }
+
+  @override
+  String get checkoutTodayOver => 'انتهت مواعيد اليوم. اختر يوماً آخر.';
 }

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/cart_fixtures.dart';
+import '../../helpers/fake_checkout.dart';
 import '../../helpers/test_app.dart';
 
 const _fsi = '\u2068';
@@ -140,7 +141,9 @@ void main() {
     );
     expect(find.text('غداً 18:00 – 20:00 · البيت · أبو رمانة'), findsOneWidget);
     expect(find.text('المستلم: لين · بدون إظهار المرسل'), findsOneWidget);
-    expect(find.text('قريباً'), findsOneWidget);
+    // Sham Cash is offered (S6); Stripe is off in the shop's settings.
+    expect(find.text('شام كاش'), findsOneWidget);
+    expect(find.text('قريباً'), findsNothing);
     final quote = t.server.to('/v1/cart/quote').last.data as Map;
     expect(quote['zone'], 'abu-rummaneh');
 
@@ -324,6 +327,28 @@ void main() {
     await tapText(tester, 'تأكيد العنوان');
     await _settle(tester);
     expect(find.text('العمل · أبو رمانة'), findsOneWidget);
+  });
+
+  _testCheckout('late in the evening with nothing to prepare: today is '
+      'simply over', (tester) async {
+    final server = FixtureServer();
+    server.overrides['/v1/delivery/dates'] = (_) {
+      final calendar = fakeCalendar(0);
+      ((calendar['days']! as List).first as Map)
+        ..['available'] = false
+        ..['problem'] = 'TOO_SOON';
+      return (200, calendar);
+    };
+    _tall(tester);
+    final t = await pumpTestApp(
+      tester,
+      cache: cacheWithCart([readmeCart[1]]),
+      server: server,
+    );
+    t.container.read(routerProvider).push('/checkout').ignore();
+    await _settle(tester);
+    expect(find.text('انتهت مواعيد اليوم. اختر يوماً آخر.'), findsOneWidget);
+    expect(find.textContaining('يحتاج 0 ساعة'), findsNothing);
   });
 
   _testCheckout('busy and closed shop (screen 39, FR-ADM-12)', (tester) async {

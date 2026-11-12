@@ -367,6 +367,15 @@ export class OrderSummaryDto {
   @ApiProperty({ type: 'integer' }) totalMinor!: number;
   @ApiProperty({ type: 'integer' }) itemCount!: number;
   @ApiPropertyOptional() imageUrl?: string;
+  @ApiProperty({ enum: PAYMENT_STATUSES, enumName: 'PaymentStatus' })
+  paymentStatus!: (typeof PAYMENT_STATUSES)[number];
+  @ApiProperty({ enum: PAYMENT_METHODS, enumName: 'PaymentMethod' })
+  paymentMethod!: PaymentMethodValue;
+  @ApiProperty({
+    type: LocalizedTextDto,
+    description: 'The first line, e.g. "باقة الجوري الأحمر" (screen 26)',
+  })
+  title!: LocalizedTextDto;
 }
 
 export class OrderLookupDto {

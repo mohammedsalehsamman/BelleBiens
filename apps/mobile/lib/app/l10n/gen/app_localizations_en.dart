@@ -1725,4 +1725,298 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get shopClosedBody =>
       'Browse and fill your cart, then order when we are back.';
+
+  @override
+  String get shamcashTitle => 'Pay with Sham Cash';
+
+  @override
+  String shamcashAmountFor(String number) {
+    return 'Amount due · order $number';
+  }
+
+  @override
+  String shamcashPayWithin(String time) {
+    return 'Pay within $time';
+  }
+
+  @override
+  String get shamcashExpired =>
+      'The time to pay has passed. The order is cancelled unless a receipt arrived.';
+
+  @override
+  String get shamcashSteps => 'Steps';
+
+  @override
+  String get shamcashStep1 =>
+      'Open the Sham Cash app and choose \"Transfer\" or \"Pay a merchant\".';
+
+  @override
+  String get shamcashStep2 => 'Send the amount to the shop\'s account:';
+
+  @override
+  String get shamcashNoAccount =>
+      'Ask the shop for its account number on WhatsApp.';
+
+  @override
+  String get shamcashStep3 =>
+      'Enter the transaction number or attach a photo of the receipt here.';
+
+  @override
+  String get shamcashCopy => 'Copy';
+
+  @override
+  String get shamcashCopied => 'Account number copied';
+
+  @override
+  String get shamcashReference => 'Transaction number';
+
+  @override
+  String get shamcashAttach => 'Attach the receipt photo';
+
+  @override
+  String get shamcashAttachHint => 'JPG or PNG · up to 5 MB';
+
+  @override
+  String get shamcashAttached => 'Receipt attached';
+
+  @override
+  String get shamcashAfter =>
+      'After you send it, the shop checks the payment and confirms your order. If Sham Cash confirms automatically, the order is confirmed at once.';
+
+  @override
+  String get shamcashChangeMethod => 'Change payment method';
+
+  @override
+  String get shamcashSent => 'I have paid';
+
+  @override
+  String get shamcashNeedProof =>
+      'Enter the transaction number or attach the receipt.';
+
+  @override
+  String get confirmPendingPayment => 'Waiting for the payment check';
+
+  @override
+  String get confirmNextShamcash =>
+      'The shop checks your payment and confirms the order. You are notified when it is confirmed.';
+
+  @override
+  String get payFailTitle => 'We could not confirm the payment';
+
+  @override
+  String payFailBody(String time) {
+    return 'The transaction does not match the amount or the account. Your order is kept for $time.';
+  }
+
+  @override
+  String payFailNote(String note) {
+    return 'The shop\'s note: $note';
+  }
+
+  @override
+  String get payFailResend => 'Send the receipt again';
+
+  @override
+  String get payFailCash => 'Pay on delivery instead';
+
+  @override
+  String get payFailContact => 'Contact the shop';
+
+  @override
+  String orderTitle(String number) {
+    return 'Order $number';
+  }
+
+  @override
+  String get ordersTitle => 'My orders';
+
+  @override
+  String ordersCurrent(int count) {
+    return 'Current · $count';
+  }
+
+  @override
+  String ordersPast(int count) {
+    return 'Past · $count';
+  }
+
+  @override
+  String get ordersPastTitle => 'Past';
+
+  @override
+  String get ordersEmpty =>
+      'No orders yet. When you order, you will find it here to follow.';
+
+  @override
+  String ordersPieces(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ordersTrack => 'Track the order';
+
+  @override
+  String get ordersAgain => 'Order again';
+
+  @override
+  String get ordersAgainDone => 'The order\'s items were added to the cart';
+
+  @override
+  String get ordersGuestTitle => 'Ordered as a guest?';
+
+  @override
+  String get ordersGuestBody =>
+      'Enter the order number and the phone number you ordered with.';
+
+  @override
+  String get ordersNumber => 'Order number';
+
+  @override
+  String get ordersShow => 'Show the order';
+
+  @override
+  String get ordersNotFound => 'No order with this number and phone.';
+
+  @override
+  String get statusNew => 'Order received';
+
+  @override
+  String get statusConfirmed => 'Order confirmed';
+
+  @override
+  String get statusPreparing => 'Being prepared';
+
+  @override
+  String get statusReady => 'Ready';
+
+  @override
+  String get statusOut => 'Out for delivery';
+
+  @override
+  String get statusDelivered => 'Delivered';
+
+  @override
+  String get statusPickedUp => 'Picked up';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+
+  @override
+  String get statusAwaitingShop => 'Waiting for the shop';
+
+  @override
+  String get statusAwaitingPayment => 'Waiting for payment';
+
+  @override
+  String get statusPaymentProblem => 'Payment problem';
+
+  @override
+  String get trackCurrent => 'Current status';
+
+  @override
+  String get trackAfterPayment => 'After the payment check';
+
+  @override
+  String get trackExplainNew =>
+      'The shop calls or messages you on WhatsApp to confirm the order.';
+
+  @override
+  String get trackExplainSubmitted =>
+      'The shop is checking the Sham Cash payment. You are notified when the order is confirmed.';
+
+  @override
+  String get trackExplainUnpaid =>
+      'Finish paying with Sham Cash before the time runs out, or the order is cancelled.';
+
+  @override
+  String get trackExplainConfirmed =>
+      'The shop confirmed your order and will start preparing it soon.';
+
+  @override
+  String get trackExplainPreparing => 'The shop is preparing your order now.';
+
+  @override
+  String get trackExplainReady => 'Your order is ready.';
+
+  @override
+  String get trackExplainReadyPickup =>
+      'Your order is ready to pick up at the branch.';
+
+  @override
+  String get trackExplainOut => 'The driver is on the way.';
+
+  @override
+  String get trackExplainDone => 'Thank you! We hope you love it.';
+
+  @override
+  String get trackExplainCancelled => 'This order was cancelled.';
+
+  @override
+  String get trackDelivery => 'Delivery';
+
+  @override
+  String get trackPickup => 'Pickup';
+
+  @override
+  String get trackCallBefore => 'Call before arriving';
+
+  @override
+  String get trackContents => 'Contents';
+
+  @override
+  String get trackPayment => 'Payment';
+
+  @override
+  String get trackPayNow => 'Pay now with Sham Cash';
+
+  @override
+  String get trackCancel => 'Cancel the order';
+
+  @override
+  String get trackCancelHint =>
+      'You can cancel here only before the order is confirmed. After that, contact the shop.';
+
+  @override
+  String trackCancelAsk(String number) {
+    return 'Cancel order $number?';
+  }
+
+  @override
+  String get trackCancelYes => 'Yes, cancel it';
+
+  @override
+  String get trackCancelNo => 'Keep it';
+
+  @override
+  String get trackCancelled => 'The order was cancelled';
+
+  @override
+  String get payStatePending => 'Not paid';
+
+  @override
+  String get payStateSubmitted => 'Being checked';
+
+  @override
+  String get payStatePaid => 'Paid';
+
+  @override
+  String get payStateFailed => 'Payment not matched';
+
+  @override
+  String get payStateRefunded => 'Refunded';
+
+  @override
+  String payMethodState(String method, String state) {
+    return '$method · $state';
+  }
+
+  @override
+  String get checkoutTodayOver =>
+      'Today has no times left. Choose another day.';
 }

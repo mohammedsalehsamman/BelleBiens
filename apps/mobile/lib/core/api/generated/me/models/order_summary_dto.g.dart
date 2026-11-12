@@ -14,8 +14,11 @@ OrderSummaryDto _$OrderSummaryDtoFromJson(Map<String, dynamic> json) {
       'fulfillment',
       'itemCount',
       'number',
+      'paymentMethod',
+      'paymentStatus',
       'slot',
       'status',
+      'title',
       'totalMinor',
     ],
     disallowNullValues: const [
@@ -24,8 +27,11 @@ OrderSummaryDto _$OrderSummaryDtoFromJson(Map<String, dynamic> json) {
       'imageUrl',
       'itemCount',
       'number',
+      'paymentMethod',
+      'paymentStatus',
       'slot',
       'status',
+      'title',
       'totalMinor',
     ],
   );
@@ -35,8 +41,11 @@ OrderSummaryDto _$OrderSummaryDtoFromJson(Map<String, dynamic> json) {
     imageUrl: json['imageUrl'] as String?,
     itemCount: OrderSummaryDto._read_itemCount(json['itemCount']),
     number: json['number'] as String,
+    paymentMethod: OrderSummaryDto._read_paymentMethod(json['paymentMethod']),
+    paymentStatus: OrderSummaryDto._read_paymentStatus(json['paymentStatus']),
     slot: OrderSlotDto.fromJson(json['slot'] as Map<String, dynamic>),
     status: OrderSummaryDto._read_status(json['status']),
+    title: LocalizedTextDto.fromJson(json['title'] as Map<String, dynamic>),
     totalMinor: OrderSummaryDto._read_totalMinor(json['totalMinor']),
     additionalProperties:
         OrderSummaryDto._extras(json, 'additionalProperties') == null
@@ -54,7 +63,14 @@ Map<String, dynamic> _$OrderSummaryDtoToJson(OrderSummaryDto instance) =>
       'imageUrl': ?instance.imageUrl,
       'itemCount': ?OrderSummaryDto._write_itemCount(instance.itemCount),
       'number': instance.number,
+      'paymentMethod': ?OrderSummaryDto._write_paymentMethod(
+        instance.paymentMethod,
+      ),
+      'paymentStatus': ?OrderSummaryDto._write_paymentStatus(
+        instance.paymentStatus,
+      ),
       'slot': instance.slot.toJson(),
       'status': ?OrderSummaryDto._write_status(instance.status),
+      'title': instance.title.toJson(),
       'totalMinor': ?OrderSummaryDto._write_totalMinor(instance.totalMinor),
     };
