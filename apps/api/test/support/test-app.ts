@@ -4,6 +4,7 @@ import request from 'supertest';
 import type { App } from 'supertest/types.js';
 import { GoogleIdentityVerifier } from '../../src/adapters/identity/google-identity.js';
 import { Mailer } from '../../src/adapters/messaging/mailer.js';
+import { OrderNotifier } from '../../src/adapters/messaging/order-notifier.js';
 import { OtpSender } from '../../src/adapters/messaging/otp-sender.js';
 import { MediaStorage } from '../../src/adapters/storage/media-storage.js';
 import { AppModule } from '../../src/app.module.js';
@@ -15,8 +16,10 @@ import { TokenService } from '../../src/modules/accounts/auth/token.service.js';
 import { shopDate } from '../../src/modules/catalog/domain/product-rules.js';
 import { SettingsService } from '../../src/modules/settings/settings.service.js';
 import { seedCatalog } from '../../prisma/seed-data/catalog.js';
+import { seedDelivery } from '../../prisma/seed-data/delivery.js';
 import {
   CapturingMailer,
+  CapturingOrderNotifier,
   CapturingOtpSender,
   FakeGoogleVerifier,
   MemoryMediaStorage,
@@ -34,7 +37,8 @@ export interface TestApp {
   mail: CapturingMailer;
   google: FakeGoogleVerifier;
   media: MemoryMediaStorage;
-  /** Writes the screens' catalog (prisma/seed-data/catalog.ts) with today's list for the test clock. */
+  orders: CapturingOrderNotifier;
+  /** Writes the screens' catalog and delivery zones (prisma/seed-data) with today's list for the test clock. */
   seedCatalog: () => Promise<void>;
   /** Empties every table except the append-only audit log, and resets the fakes. */
   reset: () => Promise<void>;
@@ -47,6 +51,14 @@ export interface TestApp {
 }
 
 const TABLES = [
+  'idempotency_key',
+  'stock_reservation',
+  'order_status_history',
+  'order_line',
+  'order',
+  'slot_hold',
+  'address',
+  'delivery_zone',
   'cart',
   'coupon',
   'box_type',
@@ -77,6 +89,7 @@ export async function createTestApp(): Promise<TestApp> {
   const mail = new CapturingMailer();
   const google = new FakeGoogleVerifier();
   const media = new MemoryMediaStorage();
+  const orders = new CapturingOrderNotifier();
 
   const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
     .overrideProvider(Clock)
@@ -89,6 +102,8 @@ export async function createTestApp(): Promise<TestApp> {
     .useValue(google)
     .overrideProvider(MediaStorage)
     .useValue(media)
+    .overrideProvider(OrderNotifier)
+    .useValue(orders)
     .compile();
 
   const app = configureApp(
@@ -109,13 +124,19 @@ export async function createTestApp(): Promise<TestApp> {
     mail,
     google,
     media,
+    orders,
     async seedCatalog() {
       await seedCatalog(prisma, shopDate(clock.now()));
+      await seedDelivery(prisma);
     },
     async reset() {
       await prisma.$executeRawUnsafe(
         `TRUNCATE ${TABLES.map((t) => `"${t}"`).join(', ')} RESTART IDENTITY CASCADE`,
       );
+      await prisma.$executeRawUnsafe(
+        `ALTER SEQUENCE order_number_seq RESTART WITH 1001`,
+      );
+      orders.sent.length = 0;
       settings.invalidate();
       clock.set(TEST_NOW);
       otp.sent.length = 0;

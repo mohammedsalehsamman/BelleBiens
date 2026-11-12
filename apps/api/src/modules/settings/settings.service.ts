@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Clock } from '../../common/clock/clock.js';
+import { Prisma } from '../../generated/prisma/client.js';
 import { PrismaService } from '../../infra/prisma/prisma.service.js';
 
 /** Defaults used until the shop sets a value (DR-21). Keys match prisma/seed.ts. */
@@ -13,6 +14,23 @@ export const SETTING_DEFAULTS = {
   'shop.whatsapp': null as string | null,
   'payments.enabled': { cash: true, shamcash: true, stripe: false },
   'payments.unpaidTimeoutMinutes': 120,
+  /** FR-ADM-12 busy mode: the shop's message, and the first time it takes today. */
+  'shop.busyMessage': null as { ar: string; en: string } | null,
+  'shop.busyAcceptsFrom': null as string | null,
+  /** FR-DLV-04: the day's delivery slots and how many orders each takes. */
+  'delivery.slots': [
+    { start: '12:00', end: '14:00', capacity: 6 },
+    { start: '14:00', end: '16:00', capacity: 6 },
+    { start: '16:00', end: '18:00', capacity: 6 },
+    { start: '18:00', end: '20:00', capacity: 6 },
+    { start: '20:00', end: '22:00', capacity: 6 },
+  ] as { start: string; end: string; capacity: number }[],
+  /** FR-DLV-09: dates (YYYY-MM-DD) the shop does not deliver. */
+  'delivery.closedDays': [] as string[],
+  /** FR-DLV-03: how far ahead an order can be placed. */
+  'delivery.windowDays': 60 as number,
+  /** FR-DLV-04: how long a chosen slot is kept during checkout. */
+  'delivery.slotHoldMinutes': 15 as number,
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;
@@ -39,6 +57,25 @@ export class SettingsService {
     return (
       values.has(key) ? values.get(key) : SETTING_DEFAULTS[key]
     ) as SettingValue<K>;
+  }
+
+  /** Writes one setting inside the caller's transaction, then clears the cache. */
+  async set<K extends SettingKey>(
+    key: K,
+    value: SettingValue<K>,
+    updatedBy: string | null,
+    tx: Prisma.TransactionClient = this.prisma,
+  ): Promise<void> {
+    const json =
+      value === null
+        ? Prisma.JsonNull
+        : (value as unknown as Prisma.InputJsonValue);
+    await tx.setting.upsert({
+      where: { key },
+      update: { value: json, updatedBy },
+      create: { key, value: json, updatedBy },
+    });
+    this.invalidate();
   }
 
   invalidate(): void {

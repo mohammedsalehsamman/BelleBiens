@@ -19,6 +19,7 @@ import 'package:retrofit/retrofit.dart'
         POST,
         PATCH,
         PUT,
+        GET,
         ParseErrorLogger,
         Body,
         Headers,
@@ -27,13 +28,16 @@ import 'package:retrofit/retrofit.dart'
 import 'models/admin_designer_item_dto.dart'
     as models
     show AdminDesignerItemDto;
+import 'models/admin_order_dto.dart' show AdminOrderDto;
 import 'models/admin_product_dto.dart' show AdminProductDto;
+import 'models/admin_zone_dto.dart' show AdminZoneDto;
 import 'models/audit_entry_dto.dart' as models show AuditEntryDto;
 import 'models/change_role_dto.dart' show ChangeRoleDto;
 import 'models/coupon_dto.dart' show CouponDto;
 import 'models/coupon_input_dto.dart' show CouponInputDto;
 import 'models/create_product_dto.dart' show CreateProductDto;
 import 'models/daily_stems_input_dto.dart' show DailyStemsInputDto;
+import 'models/delivery_settings_dto.dart' show DeliverySettingsDto;
 import 'models/designer_item_input_dto.dart' show DesignerItemInputDto;
 import 'models/designer_size_dto.dart' as models show DesignerSizeDto;
 import 'models/me_dto.dart' show MeDto;
@@ -41,12 +45,16 @@ import 'models/media_controller_upload_kind.dart'
     as models
     show MediaControllerUploadKind;
 import 'models/media_dto.dart' as models show MediaDto;
+import 'models/order_status.dart' as models show OrderStatus;
+import 'models/shop_mode_dto.dart' show ShopModeDto;
 import 'models/size_limits_dto.dart' as models show SizeLimitsDto;
+import 'models/status_change_dto.dart' show StatusChangeDto;
 import 'models/stock_adjustment_dto.dart' show StockAdjustmentDto;
 import 'models/stock_movement_dto.dart' show StockMovementDto;
 import 'models/today_list_dto.dart' as models show TodayListDto;
 import 'models/update_designer_item_dto.dart' show UpdateDesignerItemDto;
 import 'models/update_product_dto.dart' show UpdateProductDto;
+import 'models/zone_input_dto.dart' show ZoneInputDto;
 
 part 'admin_client.g.dart';
 
@@ -319,6 +327,90 @@ abstract class AdminClient {
         .toList();
   }
 
+  /// Every zone, switched off ones too (FR-DLV-02)
+  Future<List<AdminZoneDto>> adminDeliveryControllerZones({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/delivery/zones",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => AdminZoneDto.fromJson(item as Map<String, Object?>))
+        .toList();
+  }
+
+  Future<AdminZoneDto> _adminDeliveryControllerPutZoneWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String slug,
+    required ZoneInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/delivery/zones/" + slug.toString(),
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AdminZoneDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Add or change a zone: area, fee, time (audited)
+  @PUT('/v1/admin/delivery/zones/{slug}')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AdminZoneDto> adminDeliveryControllerPutZone({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('slug') required String slug,
+    @Body() required ZoneInputDto body,
+  });
+
   /// Designer items with today's stems
   Future<List<models.AdminDesignerItemDto>>
   adminCatalogControllerDesignerItems({
@@ -540,6 +632,141 @@ abstract class AdminClient {
     return models.MediaDto.fromJson(response.data as Map<String, Object?>);
   }
 
+  /// Orders by day and status, in slot order (UC-04)
+  Future<List<AdminOrderDto>> adminOrdersControllerList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    models.OrderStatus? status,
+
+    /// Delivery or pickup day
+    String? date,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders",
+      options: _options,
+      queryParameters: <String, Object?>{
+        if (status != null) "status": status.toJson(),
+        if (date != null) "date": date,
+      },
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => AdminOrderDto.fromJson(item as Map<String, Object?>))
+        .toList();
+  }
+
+  Future<AdminOrderDto> _adminOrdersControllerGetWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders/" + number.toString(),
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return AdminOrderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// One order, and where this role may move it
+  @GET('/v1/admin/orders/{number}')
+  Future<AdminOrderDto> adminOrdersControllerGet({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('number') required String number,
+  });
+  Future<AdminOrderDto> _adminOrdersControllerStatusWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required StatusChangeDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PATCH",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/orders/" + number.toString() + "/status",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AdminOrderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Move an order on (FR-ORD-02/03); cancelling gives the stock back
+  @PATCH('/v1/admin/orders/{number}/status')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AdminOrderDto> adminOrdersControllerStatus({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('number') required String number,
+    @Body() required StatusChangeDto body,
+  });
+
   /// Every product, hidden ones too
   Future<List<AdminProductDto>> adminCatalogControllerProducts({
     Map<String, Object?> extra = const {
@@ -673,6 +900,151 @@ abstract class AdminClient {
     Options? options,
     @Path('id') required String id,
     @Body() required UpdateProductDto body,
+  });
+  Future<DeliverySettingsDto>
+  _adminDeliveryControllerDeliverySettingsWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/settings/delivery",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return DeliverySettingsDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Slots, closed days and the booking window
+  @GET('/v1/admin/settings/delivery')
+  Future<DeliverySettingsDto> adminDeliveryControllerDeliverySettings({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+  });
+  Future<DeliverySettingsDto>
+  _adminDeliveryControllerPutDeliverySettingsWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DeliverySettingsDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/settings/delivery",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return DeliverySettingsDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Change slots and capacity, closed days, the window (audited)
+  @PUT('/v1/admin/settings/delivery')
+  @Headers({'Content-Type': 'application/json'})
+  Future<DeliverySettingsDto> adminDeliveryControllerPutDeliverySettings({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required DeliverySettingsDto body,
+  });
+  Future<ShopModeDto> _adminDeliveryControllerShopModeWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required ShopModeDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/settings/shop-mode",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return ShopModeDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Open, busy (today only from a time) or closed, with a message (FR-ADM-12)
+  @PUT('/v1/admin/settings/shop-mode')
+  @Headers({'Content-Type': 'application/json'})
+  Future<ShopModeDto> adminDeliveryControllerShopMode({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required ShopModeDto body,
   });
   Future<StockMovementDto> _adminCatalogControllerAdjustWithOptions({
     Map<String, Object?> extra = const {
@@ -911,6 +1283,38 @@ class _AdminClientWithOptions extends _AdminClient {
   }
 
   @override
+  Future<AdminZoneDto> adminDeliveryControllerPutZone({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String slug,
+    required ZoneInputDto body,
+  }) {
+    return options == null
+        ? super.adminDeliveryControllerPutZone(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            slug: slug,
+            body: body,
+          )
+        : _adminDeliveryControllerPutZoneWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            slug: slug,
+            body: body,
+          );
+  }
+
+  @override
   Future<void> adminCatalogControllerCreateDesignerItem({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -972,6 +1376,67 @@ class _AdminClientWithOptions extends _AdminClient {
   }
 
   @override
+  Future<AdminOrderDto> adminOrdersControllerGet({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+  }) {
+    return options == null
+        ? super.adminOrdersControllerGet(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+          )
+        : _adminOrdersControllerGetWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+          );
+  }
+
+  @override
+  Future<AdminOrderDto> adminOrdersControllerStatus({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String number,
+    required StatusChangeDto body,
+  }) {
+    return options == null
+        ? super.adminOrdersControllerStatus(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          )
+        : _adminOrdersControllerStatusWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            number: number,
+            body: body,
+          );
+  }
+
+  @override
   Future<AdminProductDto> adminCatalogControllerCreate({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -1028,6 +1493,90 @@ class _AdminClientWithOptions extends _AdminClient {
             cancelToken: cancelToken,
             options: options,
             id: id,
+            body: body,
+          );
+  }
+
+  @override
+  Future<DeliverySettingsDto> adminDeliveryControllerDeliverySettings({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) {
+    return options == null
+        ? super.adminDeliveryControllerDeliverySettings(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          )
+        : _adminDeliveryControllerDeliverySettingsWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          );
+  }
+
+  @override
+  Future<DeliverySettingsDto> adminDeliveryControllerPutDeliverySettings({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required DeliverySettingsDto body,
+  }) {
+    return options == null
+        ? super.adminDeliveryControllerPutDeliverySettings(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _adminDeliveryControllerPutDeliverySettingsWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<ShopModeDto> adminDeliveryControllerShopMode({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required ShopModeDto body,
+  }) {
+    return options == null
+        ? super.adminDeliveryControllerShopMode(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _adminDeliveryControllerShopModeWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
             body: body,
           );
   }

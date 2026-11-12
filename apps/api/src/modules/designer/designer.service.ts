@@ -67,7 +67,7 @@ const SLOTS: Record<
 type Part = keyof typeof SLOTS;
 
 /** Types that come from today's list rather than a stock count (FR-DLY-01). */
-const DAILY_TYPES: DesignerItemType[] = ['FLOWER', 'FILLER', 'GREEN'];
+export const DAILY_TYPES: DesignerItemType[] = ['FLOWER', 'FILLER', 'GREEN'];
 
 export interface Stocked {
   item: DesignerItem;

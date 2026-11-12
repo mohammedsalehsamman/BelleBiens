@@ -3,6 +3,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'shop_config_dto_mode.dart';
+import 'shop_message_dto.dart';
 import 'working_hours_dto.dart';
 
 part 'shop_config_dto.freezed.dart';
@@ -15,6 +16,14 @@ part 'shop_config_dto.g.dart';
   disallowUnrecognizedKeys: false,
 )
 class const ShopConfigDto({
+  /// Busy: today only slots from this time
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final String? acceptsFrom,
+
+  /// Busy or closed: the message the shop wrote (screen 39)
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final ShopMessageDto? message,
+
   /// FR-ADM-12
   @JsonKey(
     required: true,
@@ -40,6 +49,8 @@ class const ShopConfigDto({
   final Map<String, Object?> additionalProperties = const {},
 }) with _$ShopConfigDto {
   static const _knownKeys = <String>{
+    "acceptsFrom",
+    "message",
     "mode",
     "timeZone",
     "whatsapp",

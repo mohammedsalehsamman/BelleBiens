@@ -20,6 +20,9 @@ export abstract class MediaStorage {
     bytes: Buffer,
     contentType: string,
   ): Promise<string>;
+
+  /** True for a URL this store handed out (NFR-SEC-08: no outside links on orders). */
+  abstract owns(url: string): boolean;
 }
 
 @Injectable()
@@ -61,6 +64,10 @@ export class S3MediaStorage extends MediaStorage {
       }),
     );
     return `${this.publicUrl}/${key}`;
+  }
+
+  owns(url: string): boolean {
+    return url.startsWith(`${this.publicUrl}/`);
   }
 
   /** Creates the bucket with public read on first use (development convenience). */

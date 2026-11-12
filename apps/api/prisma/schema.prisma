@@ -119,6 +119,8 @@ model User {
   devices             Device[]
   favorites           Favorite[]
   cart                Cart?
+  addresses           Address[]
+  orders              Order[]
 
   @@map("app_user")
 }
@@ -562,4 +564,211 @@ model Coupon {
   updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   @@map("coupon")
+}
+
+// ---------------------------------------------------------------------------
+// Delivery and orders (S5): DR-09..11, DR-14..16, FR-DLV-*, FR-ORD-*, FR-INV-02/03
+// ---------------------------------------------------------------------------
+
+/// FR-DLV-01/02: an area the shop delivers to. polygon is GeoJSON ring order:
+/// [[lng, lat], ...] (first point = last point not required).
+model DeliveryZone {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique
+  nameAr    String   @map("name_ar")
+  nameEn    String   @map("name_en")
+  polygon   Json
+  feeMinor  Int      @map("fee_minor")
+  /// Shown as "المدة التقريبية" (screen 22); free text set by the shop.
+  etaAr     String   @default("") @map("eta_ar")
+  etaEn     String   @default("") @map("eta_en")
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("delivery_zone")
+}
+
+/// FR-DLV-04: a delivery slot kept for one checkout for a few minutes, so two
+/// customers cannot both take the last place.
+model SlotHold {
+  id        String   @id @default(uuid()) @db.Uuid
+  date      DateTime @db.Date
+  start     String
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([date, start])
+  @@map("slot_hold")
+}
+
+/// FR-ACC-04: saved addresses (screen 22 "احفظ العنوان", screen 29 in S7).
+model Address {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  label     String
+  latitude  Float
+  longitude Float
+  zoneSlug  String?  @map("zone_slug")
+  area      String   @default("")
+  landmark  String   @default("")
+  building  String   @default("")
+  floor     String   @default("")
+  details   String   @default("")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("address")
+}
+
+/// Design diagram 3 (FR-ORD-02). Payment has its own status.
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  PREPARING
+  READY
+  OUT_FOR_DELIVERY
+  DELIVERED
+  PICKED_UP
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  SHAMCASH
+  STRIPE
+}
+
+enum Fulfillment {
+  DELIVERY
+  PICKUP
+}
+
+/// DR-09. Prices, rate, address and lines are copied in when the order is
+/// placed, so later changes to the catalog never change an order (FR-PAY-06).
+model Order {
+  id                String        @id @default(uuid()) @db.Uuid
+  number            String        @unique
+  userId            String?       @map("user_id") @db.Uuid
+  status            OrderStatus   @default(NEW)
+  paymentStatus     PaymentStatus @default(PENDING) @map("payment_status")
+  paymentMethod     PaymentMethod @map("payment_method")
+  fulfillment       Fulfillment
+  customerName      String        @map("customer_name")
+  customerPhone     String        @map("customer_phone")
+  recipientName     String        @map("recipient_name")
+  recipientPhone    String        @map("recipient_phone")
+  hideSender        Boolean       @default(false) @map("hide_sender")
+  /// Delivery address as entered (null for pickup).
+  address           Json?
+  zoneSlug          String?       @map("zone_slug")
+  slotDate          DateTime      @map("slot_date") @db.Date
+  slotStart         String        @map("slot_start")
+  slotEnd           String        @map("slot_end")
+  callBeforeArrival Boolean       @default(false) @map("call_before_arrival")
+  whatsappConfirm   Boolean       @default(false) @map("whatsapp_confirm")
+  notes             String        @default("")
+  couponCode        String?       @map("coupon_code")
+  usdRate           String        @map("usd_rate")
+  itemsMinor        Int           @map("items_minor")
+  assemblyFeeMinor  Int           @map("assembly_fee_minor")
+  discountMinor     Int           @map("discount_minor")
+  deliveryFeeMinor  Int           @map("delivery_fee_minor")
+  roundingMinor     Int           @map("rounding_minor")
+  totalMinor        Int           @map("total_minor")
+  totalUsdCents     Int           @map("total_usd_cents")
+  branchId          String?       @map("branch_id") @db.Uuid
+  createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user         User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  lines        OrderLine[]
+  history      OrderStatusHistory[]
+  reservations StockReservation[]
+
+  @@index([userId, createdAt])
+  @@index([status, slotDate])
+  @@index([slotDate, slotStart])
+  @@map("order")
+}
+
+/// DR-10: one line as it was ordered.
+model OrderLine {
+  id             String  @id @default(uuid()) @db.Uuid
+  orderId        String  @map("order_id") @db.Uuid
+  position       Int
+  kind           String
+  titleAr        String  @map("title_ar")
+  titleEn        String  @map("title_en")
+  summaryAr      String  @default("") @map("summary_ar")
+  summaryEn      String  @default("") @map("summary_en")
+  qty            Int
+  unitPriceMinor Int     @map("unit_price_minor")
+  totalMinor     Int     @map("total_minor")
+  leadTimeHours  Int     @default(0) @map("lead_time_hours")
+  /// What the app sent: product slug and options, or the bouquet/box spec.
+  choice         Json
+  imageUrl       String? @map("image_url")
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("order_line")
+}
+
+/// DR-11 / FR-ORD-03: every status change, who made it, and why.
+model OrderStatusHistory {
+  id        String       @id @default(uuid()) @db.Uuid
+  orderId   String       @map("order_id") @db.Uuid
+  from      OrderStatus?
+  to        OrderStatus
+  byUserId  String?      @map("by_user_id") @db.Uuid
+  note      String       @default("")
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("order_status_history")
+}
+
+/// FR-INV-02: stock taken by an order, given back if it is cancelled.
+model StockReservation {
+  id             String    @id @default(uuid()) @db.Uuid
+  orderId        String    @map("order_id") @db.Uuid
+  productId      String?   @map("product_id") @db.Uuid
+  designerItemId String?   @map("designer_item_id") @db.Uuid
+  /// For stems from the daily list: which day's list they came from.
+  dailyDate      DateTime? @map("daily_date") @db.Date
+  qty            Int
+  releasedAt     DateTime? @map("released_at") @db.Timestamptz(3)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("stock_reservation")
+}
+
+/// FR-CRT-10: the answer to a POST /v1/orders, kept 24 hours by its
+/// Idempotency-Key, so a retry after a dropped connection never orders twice.
+model IdempotencyKey {
+  key         String   @id
+  requestHash String   @map("request_hash")
+  statusCode  Int      @map("status_code")
+  response    Json
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([createdAt])
+  @@map("idempotency_key")
 }

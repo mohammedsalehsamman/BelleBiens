@@ -2,8 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../admin/models/money_breakdown_dto.dart';
 import 'coupon_result_dto.dart';
-import 'money_breakdown_dto.dart';
 import 'product_card_dto.dart';
 import 'quoted_line_dto.dart';
 

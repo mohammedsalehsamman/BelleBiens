@@ -11,7 +11,9 @@ import { PrismaModule } from './infra/prisma/prisma.module.js';
 import { AccountsModule } from './modules/accounts/accounts.module.js';
 import { CatalogModule } from './modules/catalog/catalog.module.js';
 import { CartModule } from './modules/cart/cart.module.js';
+import { DeliveryModule } from './modules/delivery/delivery.module.js';
 import { DesignerModule } from './modules/designer/designer.module.js';
+import { OrdersModule } from './modules/orders/orders.module.js';
 import { AUTH_RATE_LIMITED } from './modules/accounts/auth/auth.decorators.js';
 import {
   JwtAuthGuard,
@@ -85,6 +87,8 @@ function isAuthRateLimited(context: ExecutionContext): boolean {
     CatalogModule,
     DesignerModule,
     CartModule,
+    DeliveryModule,
+    OrdersModule,
     HealthModule,
   ],
   // Order matters: rate limit, then app version, then identity, then role.

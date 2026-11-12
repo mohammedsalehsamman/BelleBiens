@@ -4,6 +4,10 @@ import {
   GoogleIdentityVerifier,
 } from './identity/google-identity.js';
 import { Mailer, SmtpMailer } from './messaging/mailer.js';
+import {
+  ConsoleOrderNotifier,
+  OrderNotifier,
+} from './messaging/order-notifier.js';
 import { ConsoleOtpSender, OtpSender } from './messaging/otp-sender.js';
 import { MediaStorage, S3MediaStorage } from './storage/media-storage.js';
 
@@ -19,7 +23,14 @@ import { MediaStorage, S3MediaStorage } from './storage/media-storage.js';
     { provide: Mailer, useClass: SmtpMailer },
     { provide: GoogleIdentityVerifier, useClass: GoogleAuthLibraryVerifier },
     { provide: MediaStorage, useClass: S3MediaStorage },
+    { provide: OrderNotifier, useClass: ConsoleOrderNotifier },
   ],
-  exports: [OtpSender, Mailer, GoogleIdentityVerifier, MediaStorage],
+  exports: [
+    OtpSender,
+    Mailer,
+    GoogleIdentityVerifier,
+    MediaStorage,
+    OrderNotifier,
+  ],
 })
 export class AdaptersModule {}

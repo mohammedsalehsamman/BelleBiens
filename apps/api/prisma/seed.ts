@@ -5,6 +5,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../src/generated/prisma/client.js';
 import { shopDate } from '../src/modules/catalog/domain/product-rules.js';
 import { seedCatalog } from './seed-data/catalog.js';
+import { seedDelivery } from './seed-data/delivery.js';
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env['DATABASE_URL'] }),
@@ -13,6 +14,7 @@ const prisma = new PrismaClient({
 async function main(): Promise<void> {
   // Today's list gets today's date, so re-run the seed on a new day for fresh demo data.
   await seedCatalog(prisma, shopDate(new Date()));
+  await seedDelivery(prisma);
 
   const settings: Record<string, unknown> = {
     // OI-12: base currency and rate owner still open; README examples use 120 SYP per USD.

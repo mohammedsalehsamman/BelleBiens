@@ -71,10 +71,56 @@ export const ERROR_CATALOG = {
     ar: 'هذا الموعد امتلأ. اختر موعداً آخر.',
     en: 'This time slot is full. Please choose another one.',
   },
+  SLOT_UNAVAILABLE: {
+    status: 422,
+    ar: 'هذا الموعد غير متاح. اختر يوماً أو وقتاً آخر.',
+    en: 'This time is not available. Please choose another day or time.',
+  },
   SHOP_CLOSED: {
     status: 503,
     ar: 'المحل لا يستقبل طلبات جديدة الآن. حاول لاحقاً أو راسلنا على واتساب.',
     en: 'The shop is not taking new orders right now. Try later or message us on WhatsApp.',
+  },
+  // Orders (S5)
+  CART_NOT_ORDERABLE: {
+    status: 409,
+    ar: 'تغيّر شيء في سلتك. راجع السلة ثم أكمل الطلب.',
+    en: 'Something in your cart has changed. Review the cart, then place the order.',
+  },
+  COUPON_INVALID: {
+    status: 422,
+    ar: 'كود الخصم غير صالح لهذا الطلب. أزله أو جرّب كوداً آخر.',
+    en: 'This discount code does not apply to this order. Remove it or try another one.',
+  },
+  PAYMENT_METHOD_UNAVAILABLE: {
+    status: 422,
+    ar: 'طريقة الدفع هذه غير متاحة الآن. اختر طريقة أخرى.',
+    en: 'This payment method is not available right now. Please choose another one.',
+  },
+  ADDRESS_REQUIRED: {
+    status: 400,
+    ar: 'حدّد عنوان التوصيل على الخريطة.',
+    en: 'Please set the delivery address on the map.',
+  },
+  IDEMPOTENCY_KEY_REUSED: {
+    status: 422,
+    ar: 'تغيّر الطلب بعد إرساله. راجع الطلب وأرسله مرة أخرى.',
+    en: 'The order changed after it was sent. Review it and send it again.',
+  },
+  ORDER_IN_PROGRESS: {
+    status: 409,
+    ar: 'طلبك قيد الإرسال. انتظر لحظة.',
+    en: 'Your order is being sent. Please wait a moment.',
+  },
+  ORDER_NOT_CANCELLABLE: {
+    status: 409,
+    ar: 'أكّد المحل طلبك، فلا يمكن إلغاؤه من التطبيق. راسل المحل على واتساب.',
+    en: 'The shop has confirmed your order, so it cannot be cancelled in the app. Message the shop on WhatsApp.',
+  },
+  STATUS_CHANGE_NOT_ALLOWED: {
+    status: 409,
+    ar: 'لا يمكن نقل الطلب إلى هذه الحالة من حالته الحالية.',
+    en: 'The order cannot move to this status from its current one.',
   },
   SERVICE_UNAVAILABLE: {
     status: 503,

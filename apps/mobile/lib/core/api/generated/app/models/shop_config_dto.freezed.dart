@@ -27,20 +27,20 @@ $ShopConfigDtoCopyWith<ShopConfigDto> get copyWith => _$ShopConfigDtoCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as ShopConfigDto;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShopConfigDto&&(identical(other.mode, _this.mode) || other.mode == _this.mode)&&(identical(other.timeZone, _this.timeZone) || other.timeZone == _this.timeZone)&&(identical(other.whatsapp, _this.whatsapp) || other.whatsapp == _this.whatsapp)&&(identical(other.workingHours, _this.workingHours) || other.workingHours == _this.workingHours)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShopConfigDto&&(identical(other.acceptsFrom, _this.acceptsFrom) || other.acceptsFrom == _this.acceptsFrom)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.mode, _this.mode) || other.mode == _this.mode)&&(identical(other.timeZone, _this.timeZone) || other.timeZone == _this.timeZone)&&(identical(other.whatsapp, _this.whatsapp) || other.whatsapp == _this.whatsapp)&&(identical(other.workingHours, _this.workingHours) || other.workingHours == _this.workingHours)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
 }
 
 
 @override
 int get hashCode {
   final _this = this as ShopConfigDto;
-  return Object.hash(runtimeType,_this.mode,_this.timeZone,_this.whatsapp,_this.workingHours,const DeepCollectionEquality().hash(_this.additionalProperties));
+  return Object.hash(runtimeType,_this.acceptsFrom,_this.message,_this.mode,_this.timeZone,_this.whatsapp,_this.workingHours,const DeepCollectionEquality().hash(_this.additionalProperties));
 }
 
 @override
 String toString() {
   final _this = this as ShopConfigDto;
-  return 'ShopConfigDto(mode: ${_this.mode}, timeZone: ${_this.timeZone}, whatsapp: ${_this.whatsapp}, workingHours: ${_this.workingHours}, additionalProperties: ${_this.additionalProperties})';
+  return 'ShopConfigDto(acceptsFrom: ${_this.acceptsFrom}, message: ${_this.message}, mode: ${_this.mode}, timeZone: ${_this.timeZone}, whatsapp: ${_this.whatsapp}, workingHours: ${_this.workingHours}, additionalProperties: ${_this.additionalProperties})';
 }
 
 
@@ -51,11 +51,11 @@ abstract mixin class $ShopConfigDtoCopyWith<$Res>  {
   factory $ShopConfigDtoCopyWith(ShopConfigDto value, $Res Function(ShopConfigDto) _then) = _$ShopConfigDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(required: true, disallowNullValue: true, fromJson: ShopConfigDto._read_mode, toJson: ShopConfigDto._write_mode) ShopConfigDtoMode mode,@JsonKey(required: true, disallowNullValue: true) String timeZone,@JsonKey(required: true) String? whatsapp,@JsonKey(required: true, disallowNullValue: true) WorkingHoursDto workingHours,@JsonKey(readValue: ShopConfigDto._extras, fromJson: ShopConfigDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(disallowNullValue: true, includeIfNull: false) String? acceptsFrom,@JsonKey(disallowNullValue: true, includeIfNull: false) ShopMessageDto? message,@JsonKey(required: true, disallowNullValue: true, fromJson: ShopConfigDto._read_mode, toJson: ShopConfigDto._write_mode) ShopConfigDtoMode mode,@JsonKey(required: true, disallowNullValue: true) String timeZone,@JsonKey(required: true) String? whatsapp,@JsonKey(required: true, disallowNullValue: true) WorkingHoursDto workingHours,@JsonKey(readValue: ShopConfigDto._extras, fromJson: ShopConfigDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
-$WorkingHoursDtoCopyWith<$Res> get workingHours;
+$ShopMessageDtoCopyWith<$Res>? get message;$WorkingHoursDtoCopyWith<$Res> get workingHours;
 
 }
 /// @nodoc
@@ -68,9 +68,11 @@ class _$ShopConfigDtoCopyWithImpl<$Res>
 
 /// Create a copy of ShopConfigDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? mode = null,Object? timeZone = null,Object? whatsapp = freezed,Object? workingHours = null,Object? additionalProperties = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? acceptsFrom = freezed,Object? message = freezed,Object? mode = null,Object? timeZone = null,Object? whatsapp = freezed,Object? workingHours = null,Object? additionalProperties = null,}) {
   return _then(ShopConfigDto(
-mode: null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
+acceptsFrom: freezed == acceptsFrom ? _self.acceptsFrom : acceptsFrom // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as ShopMessageDto?,mode: null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
 as ShopConfigDtoMode,timeZone: null == timeZone ? _self.timeZone : timeZone // ignore: cast_nullable_to_non_nullable
 as String,whatsapp: freezed == whatsapp ? _self.whatsapp : whatsapp // ignore: cast_nullable_to_non_nullable
 as String?,workingHours: null == workingHours ? _self.workingHours : workingHours // ignore: cast_nullable_to_non_nullable
@@ -79,6 +81,18 @@ as Map<String, Object?>,
   ));
 }
 /// Create a copy of ShopConfigDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ShopMessageDtoCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
+
+  return $ShopMessageDtoCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
+  });
+}/// Create a copy of ShopConfigDto
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

@@ -10,9 +10,11 @@ import 'exports.dart'
         AuthClient,
         CartClient,
         CatalogClient,
+        DeliveryClient,
         DesignerClient,
         HealthClient,
-        MeClient;
+        MeClient,
+        OrdersClient;
 
 export 'exports.dart';
 
@@ -34,7 +36,9 @@ final class BelleApi {
   late final clients.AuthClient auth = clients.AuthClient(_client);
   late final clients.CartClient cart = clients.CartClient(_client);
   late final clients.CatalogClient catalog = clients.CatalogClient(_client);
+  late final clients.DeliveryClient delivery = clients.DeliveryClient(_client);
   late final clients.DesignerClient designer = clients.DesignerClient(_client);
   late final clients.HealthClient health = clients.HealthClient(_client);
   late final clients.MeClient me = clients.MeClient(_client);
+  late final clients.OrdersClient orders = clients.OrdersClient(_client);
 }

@@ -41,10 +41,27 @@ const PRODUCT_INCLUDE = {
 
 type ProductRow = Prisma.ProductGetPayload<{ include: typeof PRODUCT_INCLUDE }>;
 
-/** A priced line plus what the price pipeline needs. */
-interface Priced {
+/** Stock a line takes when it is ordered (FR-INV-02). */
+export interface StockUse {
+  /** A product with a stock count. */
+  productId?: string;
+  /** A designer item (flowers and greens from today's list, the rest by count). */
+  itemSlug?: string;
+  qty: number;
+}
+
+/** A priced line plus what the price pipeline and the order need. */
+export interface Priced {
+  input: CartLineInputDto;
   dto: QuotedLineDto;
   line: PriceLine;
+  uses: StockUse[];
+}
+
+/** The quote and the priced lines behind it, for placing an order. */
+export interface Evaluation {
+  quote: CartQuoteDto;
+  priced: Priced[];
 }
 
 const join = (parts: string[]) => parts.filter((p) => p !== '').join(' · ');
@@ -94,6 +111,8 @@ export class CartService {
           issues: [{ code: 'PRODUCT_UNAVAILABLE' }],
         },
         line: { kind: 'product', qty: input.qty, unitPriceMinor: 0 },
+        input,
+        uses: [],
       };
     }
 
@@ -182,6 +201,11 @@ export class CartService {
         unitPriceMinor: row.basePriceMinor,
         options: picked.map((o) => ({ priceChangeMinor: o.priceChangeMinor })),
       },
+      input,
+      uses:
+        row.stockQuantity === null
+          ? []
+          : [{ productId: row.id, qty: input.qty }],
     };
   }
 
@@ -230,6 +254,11 @@ export class CartService {
           qty: l.qty,
         })),
       },
+      input,
+      uses: quote.lines.map((l) => ({
+        itemSlug: l.id,
+        qty: l.qty * input.qty,
+      })),
     };
   }
 
@@ -258,6 +287,7 @@ export class CartService {
 
     const issues: LineIssueDto[] = [];
     const components: { unitPriceMinor: number; qty: number }[] = [];
+    const uses: StockUse[] = [];
     const parts: { ar: string; en: string }[] = [];
     for (const part of spec.compartments) {
       const compartment = compartments.find((c) => c.index === part.index);
@@ -292,6 +322,7 @@ export class CartService {
           unitPriceMinor: found.item.unitPriceMinor,
           qty: line.qty,
         });
+        uses.push({ itemSlug: line.id, qty: line.qty * input.qty });
         parts.push({
           ar: `${found.item.nameAr} × ${line.qty}`,
           en: `${found.item.nameEn} × ${line.qty}`,
@@ -333,6 +364,8 @@ export class CartService {
         unitPriceMinor: type.basePriceMinor,
         components,
       },
+      input,
+      uses,
     };
   }
 
@@ -399,6 +432,15 @@ export class CartService {
    * the whole cart can be ready. Nothing here trusts a price from the app.
    */
   async quote(dto: CartQuoteRequestDto, client: string): Promise<CartQuoteDto> {
+    return (await this.evaluate(dto, client)).quote;
+  }
+
+  /** The quote with the zone fee (orders, S5), and the lines behind it. */
+  async evaluate(
+    dto: CartQuoteRequestDto,
+    client: string,
+    deliveryFeeMinor = 0,
+  ): Promise<Evaluation> {
     const now = this.clock.now();
     const today = shopDate(now);
     const ids = dto.lines.map((l) => l.id);
@@ -454,8 +496,8 @@ export class CartService {
       lines: priced.map((p) => p.line),
       settings,
       coupon: coupon?.coupon ?? null,
-      // FR-DLV-02: the zone fee is added at checkout (S5).
-      deliveryFeeMinor: 0,
+      // FR-DLV-02: the zone fee, once checkout knows the address.
+      deliveryFeeMinor,
     };
     const syp = priceQuote({ ...input, displayCurrency: 'SYP' });
     const usd = priceQuote({ ...input, displayCurrency: 'USD' });
@@ -467,7 +509,7 @@ export class CartService {
     const earliest = earliestReadyAt(now, leadTimeHours, hours);
     const todayLocal = this.clock.nowInShopZone().startOf('day');
 
-    return {
+    const quote: CartQuoteDto = {
       lines: priced.map((p) => p.dto),
       syp: breakdown(syp),
       usd: breakdown(usd),
@@ -482,6 +524,7 @@ export class CartService {
         priced.length > 0 && priced.every((p) => p.dto.issues.length === 0),
       suggestions: await this.suggestions(products, today),
     };
+    return { quote, priced };
   }
 
   /** "قد يعجبك أيضاً": what goes with the cart's products, else popular gifts and sweets. */

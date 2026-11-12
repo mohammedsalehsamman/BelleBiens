@@ -1,4 +1,8 @@
 import {
+  type OrderNotice,
+  OrderNotifier,
+} from '../../src/adapters/messaging/order-notifier.js';
+import {
   type GoogleIdentity,
   GoogleIdentityVerifier,
 } from '../../src/adapters/identity/google-identity.js';
@@ -60,5 +64,24 @@ export class MemoryMediaStorage extends MediaStorage {
     this.files.set(key, { bytes, contentType });
     await Promise.resolve();
     return `https://media.test/${key}`;
+  }
+
+  owns(url: string): boolean {
+    return url.startsWith('https://media.test/');
+  }
+}
+
+/** Keeps order notices so tests can see what the shop was told. */
+export class CapturingOrderNotifier extends OrderNotifier {
+  readonly sent: (OrderNotice & { from?: string })[] = [];
+
+  async orderPlaced(notice: OrderNotice): Promise<void> {
+    this.sent.push(notice);
+    await Promise.resolve();
+  }
+
+  async statusChanged(notice: OrderNotice & { from: string }): Promise<void> {
+    this.sent.push(notice);
+    await Promise.resolve();
   }
 }

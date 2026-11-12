@@ -11,6 +11,7 @@ import 'package:retrofit/retrofit.dart'
         CancelRequest,
         GET,
         PATCH,
+        POST,
         PUT,
         DELETE,
         ParseErrorLogger,
@@ -20,7 +21,10 @@ import 'package:retrofit/retrofit.dart'
 
 import '../admin/models/me_dto.dart' show MeDto;
 import '../cart/models/product_card_dto.dart' as models show ProductCardDto;
+import 'models/address_dto.dart' show AddressDto;
+import 'models/address_input_dto.dart' show AddressInputDto;
 import 'models/cart_dto.dart' show CartDto;
+import 'models/order_summary_dto.dart' as models show OrderSummaryDto;
 import 'models/register_device_dto.dart' show RegisterDeviceDto;
 import 'models/save_cart_dto.dart' show SaveCartDto;
 import 'models/update_me_dto.dart' show UpdateMeDto;
@@ -126,6 +130,183 @@ abstract class MeClient {
     @CancelRequest() CancelToken? cancelToken,
     Options? options,
     @Body() required UpdateMeDto body,
+  });
+
+  /// Saved addresses, each with its zone today
+  Future<List<AddressDto>> addressesControllerList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/addresses",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => AddressDto.fromJson(item as Map<String, Object?>))
+        .toList();
+  }
+
+  Future<AddressDto> _addressesControllerCreateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required AddressInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/addresses",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AddressDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Save an address (screen 22 "احفظ العنوان")
+  @POST('/v1/me/addresses')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AddressDto> addressesControllerCreate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required AddressInputDto body,
+  });
+  Future<AddressDto> _addressesControllerUpdateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required AddressInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/addresses/" + id.toString(),
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return AddressDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Change a saved address
+  @PUT('/v1/me/addresses/{id}')
+  @Headers({'Content-Type': 'application/json'})
+  Future<AddressDto> addressesControllerUpdate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+    @Body() required AddressInputDto body,
+  });
+  Future<void> _addressesControllerRemoveWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "DELETE",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    await _transport.request<dynamic>(
+      "/v1/me/addresses/" + id.toString(),
+      options: _options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Remove a saved address
+  @DELETE('/v1/me/addresses/{id}')
+  Future<void> addressesControllerRemove({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
   });
   Future<CartDto> _savedCartControllerGetWithOptions({
     Map<String, Object?> extra = const {
@@ -429,6 +610,39 @@ abstract class MeClient {
     Options? options,
     @Path('slug') required String slug,
   });
+
+  /// My orders, newest first (screen 26)
+  Future<List<models.OrderSummaryDto>> myOrdersControllerList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/orders",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map(
+          (item) =>
+              models.OrderSummaryDto.fromJson(item as Map<String, Object?>),
+        )
+        .toList();
+  }
 }
 
 class _MeClientWithOptions extends _MeClient {
@@ -486,6 +700,96 @@ class _MeClientWithOptions extends _MeClient {
             cancelToken: cancelToken,
             options: options,
             body: body,
+          );
+  }
+
+  @override
+  Future<AddressDto> addressesControllerCreate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required AddressInputDto body,
+  }) {
+    return options == null
+        ? super.addressesControllerCreate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _addressesControllerCreateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<AddressDto> addressesControllerUpdate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required AddressInputDto body,
+  }) {
+    return options == null
+        ? super.addressesControllerUpdate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          )
+        : _addressesControllerUpdateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          );
+  }
+
+  @override
+  Future<void> addressesControllerRemove({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+  }) {
+    return options == null
+        ? super.addressesControllerRemove(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+          )
+        : _addressesControllerRemoveWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
           );
   }
 

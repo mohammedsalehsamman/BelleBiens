@@ -4,6 +4,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiProperty,
+  ApiPropertyOptional,
   ApiTags,
 } from '@nestjs/swagger';
 import { GoogleIdentityVerifier } from '../../adapters/identity/google-identity.js';
@@ -16,6 +17,11 @@ class WorkingHoursDto {
   @ApiProperty({ example: '24:00' }) close!: string;
 }
 
+class ShopMessageDto {
+  @ApiProperty() ar!: string;
+  @ApiProperty() en!: string;
+}
+
 class ShopConfigDto {
   @ApiProperty({ enum: ['open', 'busy', 'closed'], description: 'FR-ADM-12' })
   mode!: 'open' | 'busy' | 'closed';
@@ -26,6 +32,18 @@ class ShopConfigDto {
   whatsapp!: string | null;
 
   @ApiProperty({ example: 'Asia/Damascus' }) timeZone!: string;
+
+  @ApiPropertyOptional({
+    type: ShopMessageDto,
+    description: 'Busy or closed: the message the shop wrote (screen 39)',
+  })
+  message?: ShopMessageDto;
+
+  @ApiPropertyOptional({
+    example: '20:00',
+    description: 'Busy: today only slots from this time',
+  })
+  acceptsFrom?: string;
 }
 
 class CurrencyConfigDto {
@@ -87,20 +105,35 @@ export class AppConfigController {
   })
   @ApiOkResponse({ type: AppConfigDto })
   async appConfig(): Promise<AppConfigDto> {
-    const [mode, workingHours, whatsapp, usdRate, payments] = await Promise.all(
-      [
-        this.settings.get('shop.mode'),
-        this.settings.get('shop.workingHours'),
-        this.settings.get('shop.whatsapp'),
-        this.settings.get('currency.usdRate'),
-        this.settings.get('payments.enabled'),
-      ],
-    );
+    const [
+      mode,
+      workingHours,
+      whatsapp,
+      usdRate,
+      payments,
+      message,
+      acceptsFrom,
+    ] = await Promise.all([
+      this.settings.get('shop.mode'),
+      this.settings.get('shop.workingHours'),
+      this.settings.get('shop.whatsapp'),
+      this.settings.get('currency.usdRate'),
+      this.settings.get('payments.enabled'),
+      this.settings.get('shop.busyMessage'),
+      this.settings.get('shop.busyAcceptsFrom'),
+    ]);
     return {
       minSupportedVersion: this.config.get('APP_MIN_SUPPORTED_VERSION', {
         infer: true,
       }),
-      shop: { mode, workingHours, whatsapp, timeZone: 'Asia/Damascus' },
+      shop: {
+        mode,
+        workingHours,
+        whatsapp,
+        timeZone: 'Asia/Damascus',
+        ...(mode !== 'open' && message ? { message } : {}),
+        ...(mode === 'busy' && acceptsFrom ? { acceptsFrom } : {}),
+      },
       currency: { base: 'SYP', usdRate },
       payments: { ...payments },
       auth: {
