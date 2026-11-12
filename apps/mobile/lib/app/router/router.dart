@@ -18,6 +18,7 @@ import 'package:belle_biens/features/catalog/presentation/product_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/search_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/shop_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/today_screen.dart';
+import 'package:belle_biens/features/designer/presentation/designer_screen.dart';
 import 'package:belle_biens/features/notifications/presentation/notification_permission_screen.dart';
 import 'package:belle_biens/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -124,7 +125,14 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          _placeholderTab(Routes.designer, (l) => l.navDesigner, sprint: 'S3'),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.designer,
+                builder: (context, state) => const DesignerScreen(),
+              ),
+            ],
+          ),
           _placeholderTab(Routes.orders, (l) => l.navOrders, sprint: 'S6'),
           StatefulShellBranch(
             routes: [

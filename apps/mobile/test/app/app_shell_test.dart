@@ -66,7 +66,7 @@ void main() {
 
     await tester.tap(find.text('صمّم باقتك').last);
     await tester.pumpAndSettle();
-    expect(find.text('هذه الشاشة تُبنى في سبرنت S3.'), findsOneWidget);
+    expect(find.text('الخطوة 1 من 4 · المناسبة والحجم'), findsOneWidget);
   });
 
   testWidgets('shows the environment badge outside production', (tester) async {

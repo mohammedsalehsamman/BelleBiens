@@ -828,4 +828,278 @@ class AppLocalizationsEn extends AppLocalizations {
   String imagePlaceholder(String name) {
     return 'Photo of $name';
   }
+
+  @override
+  String get designerTitle => 'Design your bouquet';
+
+  @override
+  String designerStepCaption(int current, String name) {
+    return 'Step $current of 4 · $name';
+  }
+
+  @override
+  String get designerStepOccasion => 'Occasion and size';
+
+  @override
+  String get designerStepFlowers => 'Flowers and greens';
+
+  @override
+  String get designerStepWrap => 'Wrap and extras';
+
+  @override
+  String get designerStepCard => 'Card and preview';
+
+  @override
+  String get designerPreviewLabel => 'Live bouquet preview';
+
+  @override
+  String get designerLive => 'Live';
+
+  @override
+  String designerStems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stems',
+      one: '1 stem',
+      zero: 'No stems',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get designerPickFlowers => 'Choose flowers to see the price';
+
+  @override
+  String get designerOccasion => 'Occasion';
+
+  @override
+  String get designerSize => 'Size';
+
+  @override
+  String designerSizeRange(int min, int max) {
+    return '$min – $max stems';
+  }
+
+  @override
+  String get designerSizeNote =>
+      'The shop sets how many stems each size holds.';
+
+  @override
+  String get designerPalette => 'Color palette';
+
+  @override
+  String get designerOptional => '(optional)';
+
+  @override
+  String get designerNextFlowers => 'Next: choose flowers';
+
+  @override
+  String get designerNextWrap => 'Next: wrap';
+
+  @override
+  String get designerNextCard => 'Next: card and preview';
+
+  @override
+  String get designerPrevious => 'Back';
+
+  @override
+  String designerStemsRange(String stems, int min, int max) {
+    return '$stems of $min – $max';
+  }
+
+  @override
+  String designerSizeName(String size) {
+    return '$size size';
+  }
+
+  @override
+  String get designerMainFlowers => 'Main flowers';
+
+  @override
+  String get designerPerStem => 'Price per stem';
+
+  @override
+  String designerAvailableCount(String price, String count) {
+    return '$price · $count available';
+  }
+
+  @override
+  String designerAvailable(String price) {
+    return '$price · available';
+  }
+
+  @override
+  String get designerUnavailable => 'Not available today';
+
+  @override
+  String get designerSuggest => 'Suggest a substitute';
+
+  @override
+  String get designerFillersGreens => 'Fillers and greens';
+
+  @override
+  String designerPerSprig(String price) {
+    return '$price a sprig';
+  }
+
+  @override
+  String get designerStockNote =>
+      'Prices and quantities come from the shop\'s daily flower list.';
+
+  @override
+  String designerTooFew(int min) {
+    return 'This size needs at least $min stems.';
+  }
+
+  @override
+  String designerTooMany(int max) {
+    return 'This size holds at most $max stems.';
+  }
+
+  @override
+  String get designerFitsPalette => 'Fits your palette';
+
+  @override
+  String get designerWrap => 'Wrap';
+
+  @override
+  String get designerRibbon => 'Ribbon';
+
+  @override
+  String designerRibbonNote(String price) {
+    return 'Satin ribbon · $price';
+  }
+
+  @override
+  String get designerExtras => 'Extras';
+
+  @override
+  String get designerMode3d => '3D';
+
+  @override
+  String get designerModeAi => 'Realistic AI';
+
+  @override
+  String get designerModeSoon =>
+      '3D and realistic previews arrive in release 3; until then the preview is 2D.';
+
+  @override
+  String get designerCard => 'Gift card';
+
+  @override
+  String get designerRecipient => 'Recipient\'s name';
+
+  @override
+  String get designerMessage => 'Message';
+
+  @override
+  String designerMessageCount(int count, int max) {
+    return '$count / $max';
+  }
+
+  @override
+  String get designerNoCard => 'No card';
+
+  @override
+  String get designerSummary => 'Bouquet summary';
+
+  @override
+  String designerLineQty(String name, int qty) {
+    return '$name × $qty';
+  }
+
+  @override
+  String designerWrapLine(String name) {
+    return '$name wrap';
+  }
+
+  @override
+  String designerRibbonLine(String name) {
+    return '$name ribbon';
+  }
+
+  @override
+  String get designerAssemblyFee => 'Arranging fee';
+
+  @override
+  String get designerSave => 'Save to my designs';
+
+  @override
+  String get designerSaveSoon =>
+      'Saving designs to your account is coming soon. Your design is kept on this phone.';
+
+  @override
+  String get designerSend => 'Send to the shop';
+
+  @override
+  String get designerSendNoNumber =>
+      'The shop will add its WhatsApp number soon.';
+
+  @override
+  String get designerWhatsappIntro =>
+      'Hello, I designed this bouquet in the Belle Biens app:';
+
+  @override
+  String designerWhatsappTotal(String total) {
+    return 'Total: $total';
+  }
+
+  @override
+  String designerWhatsappPreview(String link) {
+    return 'Preview: $link';
+  }
+
+  @override
+  String get designerAddToCart => 'Add the bouquet to the cart';
+
+  @override
+  String get designerUndo => 'Undo';
+
+  @override
+  String get designerRedo => 'Redo';
+
+  @override
+  String get designerRestart => 'Start over';
+
+  @override
+  String get designerIssueBanner =>
+      'Some flowers just ran out. See the substitutes.';
+
+  @override
+  String get designerFixStems => 'Adjust the stems to fit the size.';
+
+  @override
+  String get substituteTitle => 'Some flowers just ran out';
+
+  @override
+  String substituteBody(int available, String name, int qty) {
+    return 'Only $available $name left; your design needs $qty.';
+  }
+
+  @override
+  String substituteBodyNone(String name, int qty) {
+    return '$name is not available today; your design needs $qty.';
+  }
+
+  @override
+  String get substituteChoose => 'Choose a substitute';
+
+  @override
+  String get substituteSamePrice => 'Same price';
+
+  @override
+  String get substituteManual => 'Edit by hand';
+
+  @override
+  String get substituteApply => 'Apply the substitute';
+
+  @override
+  String get substituteNone =>
+      'No substitute is available right now. Lower the quantity or pick another flower.';
+
+  @override
+  String substituteOption(String items) {
+    return '$items';
+  }
 }

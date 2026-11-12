@@ -1477,6 +1477,444 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'صورة {name}'**
   String imagePlaceholder(String name);
+
+  /// No description provided for @designerTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صمّم باقتك'**
+  String get designerTitle;
+
+  /// No description provided for @designerStepCaption.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوة {current} من 4 · {name}'**
+  String designerStepCaption(int current, String name);
+
+  /// No description provided for @designerStepOccasion.
+  ///
+  /// In ar, this message translates to:
+  /// **'المناسبة والحجم'**
+  String get designerStepOccasion;
+
+  /// No description provided for @designerStepFlowers.
+  ///
+  /// In ar, this message translates to:
+  /// **'الورد والخضرة'**
+  String get designerStepFlowers;
+
+  /// No description provided for @designerStepWrap.
+  ///
+  /// In ar, this message translates to:
+  /// **'التغليف والإضافات'**
+  String get designerStepWrap;
+
+  /// No description provided for @designerStepCard.
+  ///
+  /// In ar, this message translates to:
+  /// **'البطاقة والمعاينة'**
+  String get designerStepCard;
+
+  /// No description provided for @designerPreviewLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'معاينة حية للباقة'**
+  String get designerPreviewLabel;
+
+  /// No description provided for @designerLive.
+  ///
+  /// In ar, this message translates to:
+  /// **'مباشر'**
+  String get designerLive;
+
+  /// No description provided for @designerStems.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{بدون ورد} =1{وردة واحدة} =2{وردتان} few{{count} ورود} other{{count} وردة}}'**
+  String designerStems(int count);
+
+  /// No description provided for @designerPickFlowers.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الورد ليظهر السعر'**
+  String get designerPickFlowers;
+
+  /// No description provided for @designerOccasion.
+  ///
+  /// In ar, this message translates to:
+  /// **'المناسبة'**
+  String get designerOccasion;
+
+  /// No description provided for @designerSize.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحجم'**
+  String get designerSize;
+
+  /// No description provided for @designerSizeRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'{min} – {max} وردة'**
+  String designerSizeRange(int min, int max);
+
+  /// No description provided for @designerSizeNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد الورد في كل حجم يحدده المحل.'**
+  String get designerSizeNote;
+
+  /// No description provided for @designerPalette.
+  ///
+  /// In ar, this message translates to:
+  /// **'لوحة الألوان'**
+  String get designerPalette;
+
+  /// No description provided for @designerOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'(اختياري)'**
+  String get designerOptional;
+
+  /// No description provided for @designerNextFlowers.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي: اختيار الورد'**
+  String get designerNextFlowers;
+
+  /// No description provided for @designerNextWrap.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي: التغليف'**
+  String get designerNextWrap;
+
+  /// No description provided for @designerNextCard.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي: البطاقة والمعاينة'**
+  String get designerNextCard;
+
+  /// No description provided for @designerPrevious.
+  ///
+  /// In ar, this message translates to:
+  /// **'السابق'**
+  String get designerPrevious;
+
+  /// No description provided for @designerStemsRange.
+  ///
+  /// In ar, this message translates to:
+  /// **'{stems} من {min} – {max}'**
+  String designerStemsRange(String stems, int min, int max);
+
+  /// No description provided for @designerSizeName.
+  ///
+  /// In ar, this message translates to:
+  /// **'حجم {size}'**
+  String designerSizeName(String size);
+
+  /// No description provided for @designerMainFlowers.
+  ///
+  /// In ar, this message translates to:
+  /// **'الورد الأساسي'**
+  String get designerMainFlowers;
+
+  /// No description provided for @designerPerStem.
+  ///
+  /// In ar, this message translates to:
+  /// **'السعر للوردة'**
+  String get designerPerStem;
+
+  /// No description provided for @designerAvailableCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{price} · متوفر {count}'**
+  String designerAvailableCount(String price, String count);
+
+  /// No description provided for @designerAvailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'{price} · متوفر'**
+  String designerAvailable(String price);
+
+  /// No description provided for @designerUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير متوفر اليوم'**
+  String get designerUnavailable;
+
+  /// No description provided for @designerSuggest.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقترح بديلاً'**
+  String get designerSuggest;
+
+  /// No description provided for @designerFillersGreens.
+  ///
+  /// In ar, this message translates to:
+  /// **'الورد المساعد والخضرة'**
+  String get designerFillersGreens;
+
+  /// No description provided for @designerPerSprig.
+  ///
+  /// In ar, this message translates to:
+  /// **'{price} للغصن'**
+  String designerPerSprig(String price);
+
+  /// No description provided for @designerStockNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأسعار والكميات المتوفرة من «ورد اليوم» الذي يحدّثه المحل.'**
+  String get designerStockNote;
+
+  /// No description provided for @designerTooFew.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الحجم يحتاج {min} وردة على الأقل.'**
+  String designerTooFew(int min);
+
+  /// No description provided for @designerTooMany.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الحجم يتسع لـ {max} وردة كحد أقصى.'**
+  String designerTooMany(int max);
+
+  /// No description provided for @designerFitsPalette.
+  ///
+  /// In ar, this message translates to:
+  /// **'يناسب لوحتك'**
+  String get designerFitsPalette;
+
+  /// No description provided for @designerWrap.
+  ///
+  /// In ar, this message translates to:
+  /// **'التغليف'**
+  String get designerWrap;
+
+  /// No description provided for @designerRibbon.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشريط'**
+  String get designerRibbon;
+
+  /// No description provided for @designerRibbonNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'شريط ساتان · {price}'**
+  String designerRibbonNote(String price);
+
+  /// No description provided for @designerExtras.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافات'**
+  String get designerExtras;
+
+  /// No description provided for @designerMode3d.
+  ///
+  /// In ar, this message translates to:
+  /// **'3D'**
+  String get designerMode3d;
+
+  /// No description provided for @designerModeAi.
+  ///
+  /// In ar, this message translates to:
+  /// **'واقعية AI'**
+  String get designerModeAi;
+
+  /// No description provided for @designerModeSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعاينة ثلاثية الأبعاد والواقعية تصل في الإصدار الثالث؛ قبله تظهر معاينة 2D فقط.'**
+  String get designerModeSoon;
+
+  /// No description provided for @designerCard.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقة الإهداء'**
+  String get designerCard;
+
+  /// No description provided for @designerRecipient.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المستلم'**
+  String get designerRecipient;
+
+  /// No description provided for @designerMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسالة'**
+  String get designerMessage;
+
+  /// No description provided for @designerMessageCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} / {max}'**
+  String designerMessageCount(int count, int max);
+
+  /// No description provided for @designerNoCard.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدون بطاقة'**
+  String get designerNoCard;
+
+  /// No description provided for @designerSummary.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملخص الباقة'**
+  String get designerSummary;
+
+  /// No description provided for @designerLineQty.
+  ///
+  /// In ar, this message translates to:
+  /// **'{name} × {qty}'**
+  String designerLineQty(String name, int qty);
+
+  /// No description provided for @designerWrapLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغليف {name}'**
+  String designerWrapLine(String name);
+
+  /// No description provided for @designerRibbonLine.
+  ///
+  /// In ar, this message translates to:
+  /// **'شريط {name}'**
+  String designerRibbonLine(String name);
+
+  /// No description provided for @designerAssemblyFee.
+  ///
+  /// In ar, this message translates to:
+  /// **'رسوم التنسيق'**
+  String get designerAssemblyFee;
+
+  /// No description provided for @designerSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'احفظ في تصاميمي'**
+  String get designerSave;
+
+  /// No description provided for @designerSaveSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ التصاميم في حسابك يصل قريباً. تصميمك محفوظ على هذا الهاتف.'**
+  String get designerSaveSoon;
+
+  /// No description provided for @designerSend.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرسل للمحل'**
+  String get designerSend;
+
+  /// No description provided for @designerSendNoNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'يضيف المحل رقم واتساب قريباً.'**
+  String get designerSendNoNumber;
+
+  /// No description provided for @designerWhatsappIntro.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرحباً، صمّمت هذه الباقة في تطبيق Belle Biens:'**
+  String get designerWhatsappIntro;
+
+  /// No description provided for @designerWhatsappTotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجموع: {total}'**
+  String designerWhatsappTotal(String total);
+
+  /// No description provided for @designerWhatsappPreview.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعاينة: {link}'**
+  String designerWhatsappPreview(String link);
+
+  /// No description provided for @designerAddToCart.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف الباقة إلى السلة'**
+  String get designerAddToCart;
+
+  /// No description provided for @designerUndo.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get designerUndo;
+
+  /// No description provided for @designerRedo.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة'**
+  String get designerRedo;
+
+  /// No description provided for @designerRestart.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ من جديد'**
+  String get designerRestart;
+
+  /// No description provided for @designerIssueBanner.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعض الورد نفد للتو. راجع البدائل.'**
+  String get designerIssueBanner;
+
+  /// No description provided for @designerFixStems.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدّل عدد الورد ليناسب الحجم.'**
+  String get designerFixStems;
+
+  /// No description provided for @substituteTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعض الورد نفد للتو'**
+  String get substituteTitle;
+
+  /// No description provided for @substituteBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'بقي {available} من {name}، وتصميمك يحتاج {qty}.'**
+  String substituteBody(int available, String name, int qty);
+
+  /// No description provided for @substituteBodyNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'{name} غير متوفر اليوم، وتصميمك يحتاج {qty}.'**
+  String substituteBodyNone(String name, int qty);
+
+  /// No description provided for @substituteChoose.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر بديلاً'**
+  String get substituteChoose;
+
+  /// No description provided for @substituteSamePrice.
+  ///
+  /// In ar, this message translates to:
+  /// **'نفس السعر'**
+  String get substituteSamePrice;
+
+  /// No description provided for @substituteManual.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل يدوياً'**
+  String get substituteManual;
+
+  /// No description provided for @substituteApply.
+  ///
+  /// In ar, this message translates to:
+  /// **'تطبيق البديل'**
+  String get substituteApply;
+
+  /// No description provided for @substituteNone.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد بديل متوفر الآن. خفّض الكمية أو اختر وردة أخرى.'**
+  String get substituteNone;
+
+  /// No description provided for @substituteOption.
+  ///
+  /// In ar, this message translates to:
+  /// **'{items}'**
+  String substituteOption(String items);
 }
 
 class _AppLocalizationsDelegate

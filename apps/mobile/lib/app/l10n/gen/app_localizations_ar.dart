@@ -834,4 +834,277 @@ class AppLocalizationsAr extends AppLocalizations {
   String imagePlaceholder(String name) {
     return 'صورة $name';
   }
+
+  @override
+  String get designerTitle => 'صمّم باقتك';
+
+  @override
+  String designerStepCaption(int current, String name) {
+    return 'الخطوة $current من 4 · $name';
+  }
+
+  @override
+  String get designerStepOccasion => 'المناسبة والحجم';
+
+  @override
+  String get designerStepFlowers => 'الورد والخضرة';
+
+  @override
+  String get designerStepWrap => 'التغليف والإضافات';
+
+  @override
+  String get designerStepCard => 'البطاقة والمعاينة';
+
+  @override
+  String get designerPreviewLabel => 'معاينة حية للباقة';
+
+  @override
+  String get designerLive => 'مباشر';
+
+  @override
+  String designerStems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count وردة',
+      few: '$count ورود',
+      two: 'وردتان',
+      one: 'وردة واحدة',
+      zero: 'بدون ورد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get designerPickFlowers => 'اختر الورد ليظهر السعر';
+
+  @override
+  String get designerOccasion => 'المناسبة';
+
+  @override
+  String get designerSize => 'الحجم';
+
+  @override
+  String designerSizeRange(int min, int max) {
+    return '$min – $max وردة';
+  }
+
+  @override
+  String get designerSizeNote => 'عدد الورد في كل حجم يحدده المحل.';
+
+  @override
+  String get designerPalette => 'لوحة الألوان';
+
+  @override
+  String get designerOptional => '(اختياري)';
+
+  @override
+  String get designerNextFlowers => 'التالي: اختيار الورد';
+
+  @override
+  String get designerNextWrap => 'التالي: التغليف';
+
+  @override
+  String get designerNextCard => 'التالي: البطاقة والمعاينة';
+
+  @override
+  String get designerPrevious => 'السابق';
+
+  @override
+  String designerStemsRange(String stems, int min, int max) {
+    return '$stems من $min – $max';
+  }
+
+  @override
+  String designerSizeName(String size) {
+    return 'حجم $size';
+  }
+
+  @override
+  String get designerMainFlowers => 'الورد الأساسي';
+
+  @override
+  String get designerPerStem => 'السعر للوردة';
+
+  @override
+  String designerAvailableCount(String price, String count) {
+    return '$price · متوفر $count';
+  }
+
+  @override
+  String designerAvailable(String price) {
+    return '$price · متوفر';
+  }
+
+  @override
+  String get designerUnavailable => 'غير متوفر اليوم';
+
+  @override
+  String get designerSuggest => 'اقترح بديلاً';
+
+  @override
+  String get designerFillersGreens => 'الورد المساعد والخضرة';
+
+  @override
+  String designerPerSprig(String price) {
+    return '$price للغصن';
+  }
+
+  @override
+  String get designerStockNote =>
+      'الأسعار والكميات المتوفرة من «ورد اليوم» الذي يحدّثه المحل.';
+
+  @override
+  String designerTooFew(int min) {
+    return 'هذا الحجم يحتاج $min وردة على الأقل.';
+  }
+
+  @override
+  String designerTooMany(int max) {
+    return 'هذا الحجم يتسع لـ $max وردة كحد أقصى.';
+  }
+
+  @override
+  String get designerFitsPalette => 'يناسب لوحتك';
+
+  @override
+  String get designerWrap => 'التغليف';
+
+  @override
+  String get designerRibbon => 'الشريط';
+
+  @override
+  String designerRibbonNote(String price) {
+    return 'شريط ساتان · $price';
+  }
+
+  @override
+  String get designerExtras => 'إضافات';
+
+  @override
+  String get designerMode3d => '3D';
+
+  @override
+  String get designerModeAi => 'واقعية AI';
+
+  @override
+  String get designerModeSoon =>
+      'المعاينة ثلاثية الأبعاد والواقعية تصل في الإصدار الثالث؛ قبله تظهر معاينة 2D فقط.';
+
+  @override
+  String get designerCard => 'بطاقة الإهداء';
+
+  @override
+  String get designerRecipient => 'اسم المستلم';
+
+  @override
+  String get designerMessage => 'الرسالة';
+
+  @override
+  String designerMessageCount(int count, int max) {
+    return '$count / $max';
+  }
+
+  @override
+  String get designerNoCard => 'بدون بطاقة';
+
+  @override
+  String get designerSummary => 'ملخص الباقة';
+
+  @override
+  String designerLineQty(String name, int qty) {
+    return '$name × $qty';
+  }
+
+  @override
+  String designerWrapLine(String name) {
+    return 'تغليف $name';
+  }
+
+  @override
+  String designerRibbonLine(String name) {
+    return 'شريط $name';
+  }
+
+  @override
+  String get designerAssemblyFee => 'رسوم التنسيق';
+
+  @override
+  String get designerSave => 'احفظ في تصاميمي';
+
+  @override
+  String get designerSaveSoon =>
+      'حفظ التصاميم في حسابك يصل قريباً. تصميمك محفوظ على هذا الهاتف.';
+
+  @override
+  String get designerSend => 'أرسل للمحل';
+
+  @override
+  String get designerSendNoNumber => 'يضيف المحل رقم واتساب قريباً.';
+
+  @override
+  String get designerWhatsappIntro =>
+      'مرحباً، صمّمت هذه الباقة في تطبيق Belle Biens:';
+
+  @override
+  String designerWhatsappTotal(String total) {
+    return 'المجموع: $total';
+  }
+
+  @override
+  String designerWhatsappPreview(String link) {
+    return 'المعاينة: $link';
+  }
+
+  @override
+  String get designerAddToCart => 'أضف الباقة إلى السلة';
+
+  @override
+  String get designerUndo => 'تراجع';
+
+  @override
+  String get designerRedo => 'إعادة';
+
+  @override
+  String get designerRestart => 'ابدأ من جديد';
+
+  @override
+  String get designerIssueBanner => 'بعض الورد نفد للتو. راجع البدائل.';
+
+  @override
+  String get designerFixStems => 'عدّل عدد الورد ليناسب الحجم.';
+
+  @override
+  String get substituteTitle => 'بعض الورد نفد للتو';
+
+  @override
+  String substituteBody(int available, String name, int qty) {
+    return 'بقي $available من $name، وتصميمك يحتاج $qty.';
+  }
+
+  @override
+  String substituteBodyNone(String name, int qty) {
+    return '$name غير متوفر اليوم، وتصميمك يحتاج $qty.';
+  }
+
+  @override
+  String get substituteChoose => 'اختر بديلاً';
+
+  @override
+  String get substituteSamePrice => 'نفس السعر';
+
+  @override
+  String get substituteManual => 'تعديل يدوياً';
+
+  @override
+  String get substituteApply => 'تطبيق البديل';
+
+  @override
+  String get substituteNone =>
+      'لا يوجد بديل متوفر الآن. خفّض الكمية أو اختر وردة أخرى.';
+
+  @override
+  String substituteOption(String items) {
+    return '$items';
+  }
 }

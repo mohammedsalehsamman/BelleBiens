@@ -15,6 +15,7 @@ import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/today_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
+import 'package:belle_biens/features/designer/application/designer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -107,6 +108,16 @@ class _ProductBodyState extends ConsumerState<_ProductBody> {
 
   ProductDetailDto get _p => widget.product;
 
+  /// FR-CAT-07: this bouquet's spec becomes the design (undo returns to the
+  /// previous draft).
+  Future<void> _customize() async {
+    final template = _p.designerTemplate?.additionalProperties;
+    if (template != null) {
+      await ref.read(designerControllerProvider.notifier).startFrom(template);
+    }
+    if (mounted) context.go(Routes.designer);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -166,7 +177,7 @@ class _ProductBodyState extends ConsumerState<_ProductBody> {
               ],
               if (_p.customizable) ...[
                 const SizedBox(height: BBSpacing.md),
-                _CustomizeCard(onTap: () => context.go(Routes.designer)),
+                _CustomizeCard(onTap: _customize),
               ],
               for (final group in _p.optionGroups) ...[
                 const SizedBox(height: BBSpacing.section),

@@ -9,6 +9,7 @@ import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
+import 'package:belle_biens/features/designer/application/designer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -107,7 +108,12 @@ class _OccasionScreenState extends ConsumerState<OccasionScreen> {
                   const SizedBox(height: BBSpacing.md),
                   BBCard(
                     dashed: true,
-                    onTap: () => context.go(Routes.designer),
+                    onTap: () async {
+                      await ref
+                          .read(designerControllerProvider.notifier)
+                          .startForOccasion(data.occasion.slug);
+                      if (context.mounted) context.go(Routes.designer);
+                    },
                     child: Row(
                       children: [
                         const BBIconBox(BBIcons.flower),

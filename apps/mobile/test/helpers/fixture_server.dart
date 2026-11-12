@@ -24,14 +24,17 @@ class FixtureServer implements HttpClientAdapter {
     '/v1/branch': 'branch',
     '/v1/pages/delivery': 'page',
     '/v1/app/config': 'app_config',
+    '/v1/designer/catalog': 'designer/catalog',
   };
 
   static final _cache = <String, Object?>{};
 
   static Object? fixture(String name) => _cache.putIfAbsent(
     name,
-    () =>
-        jsonDecode(File('test/fixtures/catalog/$name.json').readAsStringSync()),
+    () => jsonDecode(
+      File('test/fixtures/${name.contains('/') ? name : 'catalog/$name'}.json')
+          .readAsStringSync(),
+    ),
   );
 
   bool offline = false;
@@ -54,6 +57,24 @@ class FixtureServer implements HttpClientAdapter {
       );
     }
     final path = options.uri.path;
+    if (path == '/v1/designer/preview-image') {
+      return ResponseBody.fromString(
+        jsonEncode({'url': 'https://media.test/previews/test.webp'}),
+        201,
+        headers: {
+          Headers.contentTypeHeader: ['application/json'],
+        },
+      );
+    }
+    if (path == '/v1/designer/quote' && !overrides.containsKey(path)) {
+      return ResponseBody.fromString(
+        jsonEncode(fakeQuote((options.data as Map)['spec'] as Map)),
+        200,
+        headers: {
+          Headers.contentTypeHeader: ['application/json'],
+        },
+      );
+    }
     final (status, body) =
         overrides[path]?.call(options) ??
         switch (routes[path]) {
@@ -75,6 +96,56 @@ class FixtureServer implements HttpClientAdapter {
         Headers.contentTypeHeader: ['application/json'],
       },
     );
+  }
+
+  /// A quote priced from the catalog fixture, like the server would, with no
+  /// stock issues. Tests that need issues override the quote route.
+  static Map<String, Object?> fakeQuote(Map<Object?, Object?> spec) {
+    final items = {
+      for (final i in (fixture('designer/catalog')! as Map)['items'] as List)
+        (i as Map)['id']: i,
+    };
+    final lines = <Map<String, Object?>>[];
+    void add(Object? id, int qty) {
+      final item = items[id];
+      if (item == null) return;
+      final unit = item['unitPriceMinor']! as int;
+      lines.add({
+        'id': id,
+        'type': item['type'],
+        'name': item['name'],
+        'qty': qty,
+        'unitPriceMinor': unit,
+        'totalMinor': unit * qty,
+      });
+    }
+
+    for (final key in ['flowers', 'greens']) {
+      for (final l in (spec[key] as List?) ?? const []) {
+        add((l as Map)['id'], l['qty']! as int);
+      }
+    }
+    add(spec['wrap'], 1);
+    add(spec['ribbon'], 1);
+    for (final l in (spec['extras'] as List?) ?? const []) {
+      add((l as Map)['id'], l['qty']! as int);
+    }
+    final total = lines.fold<int>(0, (s, l) => s + (l['totalMinor']! as int));
+    final stems = ((spec['flowers'] as List?) ?? const []).fold<int>(
+      0,
+      (s, l) => s + ((l as Map)['qty']! as int),
+    );
+    return {
+      ...(fixture('designer/quote_readme')! as Map).cast<String, Object?>(),
+      'stems': stems,
+      'lines': lines,
+      'itemsMinor': total,
+      'assemblyFeeMinor': 0,
+      'totalMinor': total,
+      'totalUsdCents': (total / 120).round(),
+      'issues': <Object>[],
+      'orderable': true,
+    };
   }
 
   /// Requests made to [path], newest last.

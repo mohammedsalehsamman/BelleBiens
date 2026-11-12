@@ -471,5 +471,248 @@
         "type": "String"
       }
     }
+  },
+  "designerTitle": "صمّم باقتك",
+  "designerStepCaption": "الخطوة {current} من 4 · {name}",
+  "@designerStepCaption": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "designerStepOccasion": "المناسبة والحجم",
+  "designerStepFlowers": "الورد والخضرة",
+  "designerStepWrap": "التغليف والإضافات",
+  "designerStepCard": "البطاقة والمعاينة",
+  "designerPreviewLabel": "معاينة حية للباقة",
+  "designerLive": "مباشر",
+  "designerStems": "{count, plural, =0{بدون ورد} =1{وردة واحدة} =2{وردتان} few{{count} ورود} other{{count} وردة}}",
+  "@designerStems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "designerPickFlowers": "اختر الورد ليظهر السعر",
+  "designerOccasion": "المناسبة",
+  "designerSize": "الحجم",
+  "designerSizeRange": "{min} – {max} وردة",
+  "@designerSizeRange": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "designerSizeNote": "عدد الورد في كل حجم يحدده المحل.",
+  "designerPalette": "لوحة الألوان",
+  "designerOptional": "(اختياري)",
+  "designerNextFlowers": "التالي: اختيار الورد",
+  "designerNextWrap": "التالي: التغليف",
+  "designerNextCard": "التالي: البطاقة والمعاينة",
+  "designerPrevious": "السابق",
+  "designerStemsRange": "{stems} من {min} – {max}",
+  "@designerStemsRange": {
+    "placeholders": {
+      "stems": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "designerSizeName": "حجم {size}",
+  "@designerSizeName": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "designerMainFlowers": "الورد الأساسي",
+  "designerPerStem": "السعر للوردة",
+  "designerAvailableCount": "{price} · متوفر {count}",
+  "@designerAvailableCount": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "designerAvailable": "{price} · متوفر",
+  "@designerAvailable": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "designerUnavailable": "غير متوفر اليوم",
+  "designerSuggest": "اقترح بديلاً",
+  "designerFillersGreens": "الورد المساعد والخضرة",
+  "designerPerSprig": "{price} للغصن",
+  "@designerPerSprig": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "designerStockNote": "الأسعار والكميات المتوفرة من «ورد اليوم» الذي يحدّثه المحل.",
+  "designerTooFew": "هذا الحجم يحتاج {min} وردة على الأقل.",
+  "@designerTooFew": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "designerTooMany": "هذا الحجم يتسع لـ {max} وردة كحد أقصى.",
+  "@designerTooMany": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "designerFitsPalette": "يناسب لوحتك",
+  "designerWrap": "التغليف",
+  "designerRibbon": "الشريط",
+  "designerRibbonNote": "شريط ساتان · {price}",
+  "@designerRibbonNote": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "designerExtras": "إضافات",
+  "designerMode3d": "3D",
+  "designerModeAi": "واقعية AI",
+  "designerModeSoon": "المعاينة ثلاثية الأبعاد والواقعية تصل في الإصدار الثالث؛ قبله تظهر معاينة 2D فقط.",
+  "designerCard": "بطاقة الإهداء",
+  "designerRecipient": "اسم المستلم",
+  "designerMessage": "الرسالة",
+  "designerMessageCount": "{count} / {max}",
+  "@designerMessageCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "designerNoCard": "بدون بطاقة",
+  "designerSummary": "ملخص الباقة",
+  "designerLineQty": "{name} × {qty}",
+  "@designerLineQty": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "qty": {
+        "type": "int"
+      }
+    }
+  },
+  "designerWrapLine": "تغليف {name}",
+  "@designerWrapLine": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "designerRibbonLine": "شريط {name}",
+  "@designerRibbonLine": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "designerAssemblyFee": "رسوم التنسيق",
+  "designerSave": "احفظ في تصاميمي",
+  "designerSaveSoon": "حفظ التصاميم في حسابك يصل قريباً. تصميمك محفوظ على هذا الهاتف.",
+  "designerSend": "أرسل للمحل",
+  "designerSendNoNumber": "يضيف المحل رقم واتساب قريباً.",
+  "designerWhatsappIntro": "مرحباً، صمّمت هذه الباقة في تطبيق Belle Biens:",
+  "designerWhatsappTotal": "المجموع: {total}",
+  "@designerWhatsappTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "designerWhatsappPreview": "المعاينة: {link}",
+  "@designerWhatsappPreview": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "designerAddToCart": "أضف الباقة إلى السلة",
+  "designerUndo": "تراجع",
+  "designerRedo": "إعادة",
+  "designerRestart": "ابدأ من جديد",
+  "designerIssueBanner": "بعض الورد نفد للتو. راجع البدائل.",
+  "designerFixStems": "عدّل عدد الورد ليناسب الحجم.",
+  "substituteTitle": "بعض الورد نفد للتو",
+  "substituteBody": "بقي {available} من {name}، وتصميمك يحتاج {qty}.",
+  "@substituteBody": {
+    "placeholders": {
+      "available": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      },
+      "qty": {
+        "type": "int"
+      }
+    }
+  },
+  "substituteBodyNone": "{name} غير متوفر اليوم، وتصميمك يحتاج {qty}.",
+  "@substituteBodyNone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "qty": {
+        "type": "int"
+      }
+    }
+  },
+  "substituteChoose": "اختر بديلاً",
+  "substituteSamePrice": "نفس السعر",
+  "substituteManual": "تعديل يدوياً",
+  "substituteApply": "تطبيق البديل",
+  "substituteNone": "لا يوجد بديل متوفر الآن. خفّض الكمية أو اختر وردة أخرى.",
+  "substituteOption": "{items}",
+  "@substituteOption": {
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
   }
 }
