@@ -238,6 +238,7 @@ class BBKvRow extends StatelessWidget {
     super.key,
     this.total = false,
     this.mutedLabel = false,
+    this.longValue = false,
   });
 
   final String label;
@@ -245,31 +246,37 @@ class BBKvRow extends StatelessWidget {
   final bool total;
   final bool mutedLabel;
 
+  /// The value is text rather than an amount (a time, an address), so it
+  /// takes the room and wraps at large text sizes.
+  final bool longValue;
+
   @override
   Widget build(BuildContext context) {
     final base = total
         ? BBText.h3.copyWith(fontWeight: FontWeight.w700)
         : BBText.label.copyWith(fontWeight: FontWeight.w400);
-    // Label and value each take up to half the row, pushed to the two
-    // sides; longer ones ("غداً 18:00 – 20:00", an address at large text)
-    // wrap instead of overflowing.
+    final labelText = Text(label, style: mutedLabel ? base.muted : base);
+    final valueText = Text(
+      value,
+      textAlign: TextAlign.end,
+      style: total
+          ? BBText.price.copyWith(fontSize: 17)
+          : base.merge(BBText.numeric),
+    );
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(child: Text(label, style: mutedLabel ? base.muted : base)),
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsetsDirectional.only(start: BBSpacing.gutter),
-            child: Text(
-              value,
-              textAlign: TextAlign.end,
-              style: total
-                  ? BBText.price.copyWith(fontSize: 17)
-                  : base.merge(BBText.numeric),
-            ),
-          ),
-        ),
-      ],
+      children: longValue
+          // A short label, a value that may wrap ("غداً 18:00 – 20:00").
+          ? [
+              labelText,
+              const SizedBox(width: BBSpacing.gutter),
+              Expanded(child: valueText),
+            ]
+          // An amount: the label takes the rest and wraps if it must.
+          : [
+              Expanded(child: labelText),
+              const SizedBox(width: BBSpacing.gutter),
+              valueText,
+            ],
     );
   }
 }

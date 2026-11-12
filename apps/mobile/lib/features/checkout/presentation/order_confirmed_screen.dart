@@ -118,6 +118,7 @@ class OrderConfirmedScreen extends ConsumerWidget {
                     label: l10n.confirmWhen,
                     value: orderWhenText(l10n, locale, order),
                     mutedLabel: true,
+                    longValue: true,
                   ),
                   const SizedBox(height: BBSpacing.xs),
                   BBKvRow(
@@ -126,12 +127,14 @@ class OrderConfirmedScreen extends ConsumerWidget {
                         ? addressTitle(context, address.label, order.zone)
                         : l10n.paymentPickupWhere,
                     mutedLabel: true,
+                    longValue: true,
                   ),
                   const SizedBox(height: BBSpacing.xs),
                   BBKvRow(
                     label: l10n.confirmPayment,
                     value: paymentMethodName(l10n, order.paymentMethod),
                     mutedLabel: true,
+                    longValue: true,
                   ),
                   const Divider(),
                   BBKvRow(
