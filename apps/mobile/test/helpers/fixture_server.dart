@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:belle_biens/core/launch/external_links.dart';
 import 'package:dio/dio.dart';
 
+import 'fake_cart_quote.dart';
+
 /// Answers API calls with responses recorded from the local API
 /// (test/fixtures/catalog, made from the seed). Tests can override answers,
 /// see what was asked, or go offline.
@@ -25,6 +27,7 @@ class FixtureServer implements HttpClientAdapter {
     '/v1/pages/delivery': 'page',
     '/v1/app/config': 'app_config',
     '/v1/designer/catalog': 'designer/catalog',
+    '/v1/boxes/catalog': 'cart/boxes',
   };
 
   static final _cache = <String, Object?>{};
@@ -38,6 +41,9 @@ class FixtureServer implements HttpClientAdapter {
   );
 
   bool offline = false;
+
+  /// What the fake account's saved cart holds (GET/PUT /v1/me/cart).
+  List<Object?> savedCart = [];
   final requests = <RequestOptions>[];
 
   /// Custom answers by path: (status, body).
@@ -65,6 +71,39 @@ class FixtureServer implements HttpClientAdapter {
           Headers.contentTypeHeader: ['application/json'],
         },
       );
+    }
+    if (!overrides.containsKey(path)) {
+      final fake = switch (path) {
+        '/v1/cart/quote' => (
+          200,
+          fakeCartQuote(options.data as Map) as Object?,
+        ),
+        '/v1/me/cart' => (
+          200,
+          options.method == 'PUT'
+              ? {...(options.data as Map), 'updatedAt': null}
+              : {'lines': savedCart, 'updatedAt': null},
+        ),
+        '/v1/uploads/reference-image' => (
+          201,
+          {'url': 'https://media.test/references/test.webp'},
+        ),
+        _ => null,
+      };
+      if (fake != null) {
+        if (path == '/v1/me/cart' && options.method == 'PUT') {
+          savedCart = List<Object?>.from(
+            (options.data as Map)['lines'] as List,
+          );
+        }
+        return ResponseBody.fromString(
+          jsonEncode(fake.$2),
+          fake.$1,
+          headers: {
+            Headers.contentTypeHeader: ['application/json'],
+          },
+        );
+      }
     }
     if (path == '/v1/designer/quote' && !overrides.containsKey(path)) {
       return ResponseBody.fromString(

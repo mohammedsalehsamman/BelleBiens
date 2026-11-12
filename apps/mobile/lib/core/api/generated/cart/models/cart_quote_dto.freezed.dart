@@ -51,11 +51,11 @@ abstract mixin class $CartQuoteDtoCopyWith<$Res>  {
   factory $CartQuoteDtoCopyWith(CartQuoteDto value, $Res Function(CartQuoteDto) _then) = _$CartQuoteDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(required: true) CartQuoteDtoCoupon? coupon,@JsonKey(required: true, disallowNullValue: true) String earliestAt,@JsonKey(required: true, disallowNullValue: true, fromJson: CartQuoteDto._read_earliestInDays, toJson: CartQuoteDto._write_earliestInDays) int earliestInDays,@JsonKey(required: true, disallowNullValue: true, fromJson: CartQuoteDto._read_leadTimeHours, toJson: CartQuoteDto._write_leadTimeHours) int leadTimeHours,@JsonKey(required: true, disallowNullValue: true) List<QuotedLineDto> lines,@JsonKey(required: true, disallowNullValue: true) bool orderable,@JsonKey(required: true, disallowNullValue: true) List<ProductCardDto> suggestions,@JsonKey(required: true, disallowNullValue: true) MoneyBreakdownDto syp,@JsonKey(required: true, disallowNullValue: true) MoneyBreakdownDto usd,@JsonKey(required: true, disallowNullValue: true) String usdRate,@JsonKey(readValue: CartQuoteDto._extras, fromJson: CartQuoteDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(disallowNullValue: true, includeIfNull: false) CouponResultDto? coupon,@JsonKey(required: true, disallowNullValue: true) String earliestAt,@JsonKey(required: true, disallowNullValue: true, fromJson: CartQuoteDto._read_earliestInDays, toJson: CartQuoteDto._write_earliestInDays) int earliestInDays,@JsonKey(required: true, disallowNullValue: true, fromJson: CartQuoteDto._read_leadTimeHours, toJson: CartQuoteDto._write_leadTimeHours) int leadTimeHours,@JsonKey(required: true, disallowNullValue: true) List<QuotedLineDto> lines,@JsonKey(required: true, disallowNullValue: true) bool orderable,@JsonKey(required: true, disallowNullValue: true) List<ProductCardDto> suggestions,@JsonKey(required: true, disallowNullValue: true) MoneyBreakdownDto syp,@JsonKey(required: true, disallowNullValue: true) MoneyBreakdownDto usd,@JsonKey(required: true, disallowNullValue: true) String usdRate,@JsonKey(readValue: CartQuoteDto._extras, fromJson: CartQuoteDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
-$CartQuoteDtoCouponCopyWith<$Res>? get coupon;$MoneyBreakdownDtoCopyWith<$Res> get syp;$MoneyBreakdownDtoCopyWith<$Res> get usd;
+$CouponResultDtoCopyWith<$Res>? get coupon;$MoneyBreakdownDtoCopyWith<$Res> get syp;$MoneyBreakdownDtoCopyWith<$Res> get usd;
 
 }
 /// @nodoc
@@ -71,7 +71,7 @@ class _$CartQuoteDtoCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? coupon = freezed,Object? earliestAt = null,Object? earliestInDays = null,Object? leadTimeHours = null,Object? lines = null,Object? orderable = null,Object? suggestions = null,Object? syp = null,Object? usd = null,Object? usdRate = null,Object? additionalProperties = null,}) {
   return _then(CartQuoteDto(
 coupon: freezed == coupon ? _self.coupon : coupon // ignore: cast_nullable_to_non_nullable
-as CartQuoteDtoCoupon?,earliestAt: null == earliestAt ? _self.earliestAt : earliestAt // ignore: cast_nullable_to_non_nullable
+as CouponResultDto?,earliestAt: null == earliestAt ? _self.earliestAt : earliestAt // ignore: cast_nullable_to_non_nullable
 as String,earliestInDays: null == earliestInDays ? _self.earliestInDays : earliestInDays // ignore: cast_nullable_to_non_nullable
 as int,leadTimeHours: null == leadTimeHours ? _self.leadTimeHours : leadTimeHours // ignore: cast_nullable_to_non_nullable
 as int,lines: null == lines ? _self.lines : lines // ignore: cast_nullable_to_non_nullable
@@ -88,12 +88,12 @@ as Map<String, Object?>,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CartQuoteDtoCouponCopyWith<$Res>? get coupon {
+$CouponResultDtoCopyWith<$Res>? get coupon {
     if (_self.coupon == null) {
     return null;
   }
 
-  return $CartQuoteDtoCouponCopyWith<$Res>(_self.coupon!, (value) {
+  return $CouponResultDtoCopyWith<$Res>(_self.coupon!, (value) {
     return _then(_self.copyWith(coupon: value));
   });
 }/// Create a copy of CartQuoteDto

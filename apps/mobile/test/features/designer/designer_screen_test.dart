@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:belle_biens/app/router/router.dart';
 import 'package:belle_biens/core/storage/json_cache.dart';
+import 'package:belle_biens/features/cart/application/cart_controller.dart';
+import 'package:belle_biens/features/cart/domain/cart_line.dart';
 import 'package:belle_biens/features/designer/application/designer_controller.dart';
 import 'package:belle_biens/features/designer/data/designer_repository.dart';
 import 'package:belle_biens/features/designer/domain/bouquet_spec.dart';
@@ -121,10 +123,15 @@ void main() {
     ]);
 
     await tapText(tester, 'أضف الباقة إلى السلة');
-    expect(
-      find.text('السلة قيد التجهيز وتصل في التحديث القادم.'),
-      findsOneWidget,
-    );
+    expect(find.text('أُضيف إلى السلة'), findsOneWidget);
+    // One design line with the spec; the designer starts fresh (FR-CRT-02).
+    final line = t.container.read(cartControllerProvider).value!.single;
+    expect(line.kind, CartItemKind.design);
+    expect(line.spec!['flowers'], [
+      {'id': 'red_rose', 'qty': 12},
+      {'id': 'white_gypsophila', 'qty': 6},
+    ]);
+    expect(_spec(t).flowers, isEmpty);
   });
 
   _testDesigner('the stepper stops at what is left today (FR-DSG-03)', (

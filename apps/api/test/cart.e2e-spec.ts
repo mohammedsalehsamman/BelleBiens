@@ -71,6 +71,7 @@ describe('Cart (e2e)', () => {
   describe('the README cart (screen 20, NFR-FUN-01)', () => {
     it('7,116 SYP and $59.30, ready tomorrow at 15:00 because of the cake', async () => {
       const res = await quote({ lines: README_CART }).expect(200);
+      expect(res.body).not.toHaveProperty('coupon');
       expect(res.body.syp).toEqual({
         itemsMinor: 711_600,
         assemblyFeeMinor: 0,
@@ -86,7 +87,6 @@ describe('Cart (e2e)', () => {
         earliestAt: '2026-11-12T15:00:00.000+03:00',
         earliestInDays: 1,
         orderable: true,
-        coupon: null,
       });
       const [design, latte, cake] = res.body.lines;
       expect(design).toMatchObject({
@@ -138,7 +138,6 @@ describe('Cart (e2e)', () => {
       expect(res.body.coupon).toEqual({
         code: 'WELCOME10',
         applied: true,
-        problem: null,
         minOrderMinor: 0,
       });
       expect(res.body.syp).toMatchObject({

@@ -34,9 +34,14 @@ class DesignerState {
     this.redo = const [],
     this.recipientName = '',
     this.withCard = true,
+    this.editingLineId,
   });
 
   final BouquetSpec spec;
+
+  /// Set when the design came from the cart ("تعديل التصميم"): adding it
+  /// puts it back in that line instead of a new one.
+  final String? editingLineId;
   final DesignerStep step;
   final List<BouquetSpec> undo;
   final List<BouquetSpec> redo;
@@ -53,6 +58,7 @@ class DesignerState {
     List<BouquetSpec>? redo,
     String? recipientName,
     bool? withCard,
+    String? Function()? editingLineId,
   }) => DesignerState(
     spec: spec ?? this.spec,
     step: step ?? this.step,
@@ -60,6 +66,7 @@ class DesignerState {
     redo: redo ?? this.redo,
     recipientName: recipientName ?? this.recipientName,
     withCard: withCard ?? this.withCard,
+    editingLineId: editingLineId == null ? this.editingLineId : editingLineId(),
   );
 
   /// What is kept on the phone between visits (FR-DSG-11). History is not.
@@ -68,6 +75,7 @@ class DesignerState {
     'step': step.name,
     'recipientName': recipientName,
     'withCard': withCard,
+    'editingLineId': ?editingLineId,
   };
 }
 
@@ -113,6 +121,7 @@ class DesignerController extends AsyncNotifier<DesignerState> {
               DesignerStep.occasionAndSize,
           recipientName: (draft['recipientName'] as String?) ?? '',
           withCard: (draft['withCard'] as bool?) ?? true,
+          editingLineId: draft['editingLineId'] as String?,
         );
       } on Object {
         // A draft from an older app version: start fresh.
@@ -204,6 +213,31 @@ class DesignerController extends AsyncNotifier<DesignerState> {
           cardMessage: () =>
               message == null || message.isEmpty ? null : message,
         ),
+      ),
+    );
+  }
+
+  /// "تعديل التصميم" in the cart: the line's spec becomes the design.
+  Future<void> startEditing(String lineId, Map<String, Object?> spec) async {
+    await edit((_) => BouquetSpec.fromJson(spec));
+    final current = await _current;
+    _set(
+      current.copyWith(
+        step: DesignerStep.flowers,
+        editingLineId: () => lineId,
+        withCard: spec['cardMessage'] != null,
+      ),
+    );
+  }
+
+  /// After the design went into the cart: the next one starts fresh.
+  Future<void> finishedAdding() async {
+    final catalog = (await ref.read(designerCatalogProvider.future)).data;
+    final current = await _current;
+    _set(
+      DesignerState(
+        spec: startingSpec(catalog),
+        undo: [...current.undo, current.spec],
       ),
     );
   }

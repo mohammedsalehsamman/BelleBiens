@@ -370,7 +370,7 @@ export class CartService {
     const result: CouponResultDto = {
       code: normalized,
       applied: problem === null,
-      problem,
+      ...(problem === null ? {} : { problem }),
       minOrderMinor: row?.minOrderMinor ?? 0,
     };
     if (problem !== null || !row) return { result, coupon: null };
@@ -472,7 +472,7 @@ export class CartService {
       syp: breakdown(syp),
       usd: breakdown(usd),
       usdRate,
-      coupon: coupon?.result ?? null,
+      ...(coupon ? { coupon: coupon.result } : {}),
       leadTimeHours,
       earliestAt: earliest.toISO() ?? '',
       earliestInDays: Math.round(

@@ -527,8 +527,7 @@ components:
         coupon:
           allOf:
             - $ref: "#/components/schemas/CouponResultDto"
-          nullable: true
-          type: object
+          description: Only when a code was sent
         earliestAt:
           description: Earliest delivery or pickup for the whole cart (FR-DLV-05)
           example: 2026-11-12T15:00:00.000+03:00
@@ -567,7 +566,6 @@ components:
         - syp
         - usd
         - usdRate
-        - coupon
         - leadTimeHours
         - earliestAt
         - earliestInDays
@@ -719,6 +717,7 @@ components:
         - value
       type: object
     CouponProblem:
+      description: Why it was not applied; absent when applied
       enum:
         - NOT_FOUND
         - EXPIRED
@@ -738,11 +737,10 @@ components:
         problem:
           allOf:
             - $ref: "#/components/schemas/CouponProblem"
-          nullable: true
+          description: Why it was not applied; absent when applied
       required:
         - code
         - applied
-        - problem
         - minOrderMinor
       type: object
     CreateProductDto:

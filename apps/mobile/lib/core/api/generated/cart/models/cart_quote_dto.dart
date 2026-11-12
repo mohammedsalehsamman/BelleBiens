@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'cart_quote_dto_coupon.dart';
+import 'coupon_result_dto.dart';
 import 'money_breakdown_dto.dart';
 import 'product_card_dto.dart';
 import 'quoted_line_dto.dart';
@@ -17,7 +17,9 @@ part 'cart_quote_dto.g.dart';
   disallowUnrecognizedKeys: false,
 )
 class const CartQuoteDto({
-  @JsonKey(required: true) required final CartQuoteDtoCoupon? coupon,
+  /// Only when a code was sent
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final CouponResultDto? coupon,
 
   /// Earliest delivery or pickup for the whole cart (FR-DLV-05)
   @JsonKey(required: true, disallowNullValue: true)

@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'coupon_problem.g.dart';
 
+/// Why it was not applied; absent when applied
 @JsonEnum(alwaysCreate: true, valueField: 'value')
 enum CouponProblem {
   notFound("NOT_FOUND"),

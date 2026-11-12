@@ -20,6 +20,10 @@ abstract final class Routes {
   static const today = '/today';
   static const branch = '/branch';
   static const favorites = '/account/favorites';
+
+  // Cart (screens 19, 20, 35)
+  static const cart = '/cart';
+  static const box = '/box';
   static String product(String slug) => '/p/$slug';
   static String occasion(String slug) => '/occasions/$slug';
   static String page(String slug) => '/pages/$slug';

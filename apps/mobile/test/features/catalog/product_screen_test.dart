@@ -1,5 +1,6 @@
 import 'package:belle_biens/app/router/router.dart';
 import 'package:belle_biens/features/auth/domain/session.dart';
+import 'package:belle_biens/features/cart/application/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -25,7 +26,7 @@ void tallWindow(WidgetTester tester) {
 }
 
 /// The add button's label, which carries the total.
-Finder addButton(String total) => find.text('أضف · $total');
+Finder addButton(String total) => find.text('أضف · \u2068$total\u2069');
 
 void main() {
   testWidgets('bouquet: sizes, included wraps, gift card and quantity '
@@ -79,14 +80,58 @@ void main() {
     expect(find.text('يُطلب قبل 24 ساعة'), findsWidgets);
   });
 
-  testWidgets('add to cart says the cart is coming (S4)', (tester) async {
-    await openProduct(tester, 'iced-rose-matcha-latte');
-    await tester.tap(addButton('540 ل.س'));
+  testWidgets('add to cart keeps the choices; the same choices add up '
+      '(FR-CRT-01)', (tester) async {
+    final t = await openProduct(tester, 'iced-rose-matcha-latte');
+    await tapText(tester, 'حليب الشوفان');
+    await tester.tap(addButton('600 ل.س'));
     await tester.pumpAndSettle();
     expect(
-      find.text('السلة قيد التجهيز وتصل في التحديث القادم.'),
+      find.text('أُضيف لاتيه الورد بالماتشا المثلج إلى السلة'),
       findsOneWidget,
     );
+    // The confirmation covers the button for a moment; a customer waits.
+    ScaffoldMessenger.of(tester.element(find.byType(Scaffold).last))
+        .removeCurrentSnackBar();
+    await tester.pumpAndSettle();
+    await tester.tap(addButton('600 ل.س'));
+    await tester.pumpAndSettle();
+
+    final lines = t.container.read(cartControllerProvider).value!;
+    expect(lines, hasLength(1));
+    expect(lines.single.qty, 2);
+    expect(lines.single.product!.options, contains(('milk', 'oat')));
+    await tester.pump(const Duration(seconds: 1));
+  });
+
+  testWidgets('cake: message with a counter, suggestions and a photo '
+      '(screen 13, FR-CKE-03/04)', (tester) async {
+    final t = await openProduct(tester, 'rose-pistachio-cake');
+    expect(find.text('رسالة على الكيك'), findsOneWidget);
+    expect(find.text('0 / 40'), findsOneWidget);
+    await tapText(tester, 'مبروك');
+    expect(find.text('5 / 40'), findsOneWidget);
+
+    await tapText(tester, 'أرفق صورة للتصميم المطلوب');
+    expect(find.text('أُرفقت الصورة'), findsOneWidget);
+    expect(t.server.to('/v1/uploads/reference-image'), hasLength(1));
+
+    await tapText(tester, 'وسط · 22 سم');
+    await tapText(tester, 'شمعة عيد ميلاد');
+    await tester.tap(addButton('3,360 ل.س'));
+    await tester.pumpAndSettle();
+    final choice = t.container
+        .read(cartControllerProvider)
+        .value!
+        .single
+        .product!;
+    expect(choice.inscription, 'مبروك');
+    expect(choice.referenceImageUrl, 'https://media.test/references/test.webp');
+    expect(
+      choice.options,
+      containsAll([('size', '22cm'), ('extras', 'birthday-candle')]),
+    );
+    await tester.pump(const Duration(seconds: 1));
   });
 
   testWidgets('a guest is asked to sign in to save a favorite', (tester) async {

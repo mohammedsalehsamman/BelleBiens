@@ -10,6 +10,8 @@ import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
+import 'package:belle_biens/features/cart/application/cart_controller.dart';
+import 'package:belle_biens/features/cart/presentation/cart_screen.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +102,8 @@ class _Header extends ConsumerWidget {
           ),
         ),
         const CurrencySwitch(),
+        const SizedBox(width: BBSpacing.sm),
+        const CartButton(),
       ],
     );
   }
@@ -235,6 +239,8 @@ class _HomeBody extends ConsumerWidget {
           const SizedBox(height: BBSpacing.sm),
           _Carousel(products: home.cakes),
         ],
+        const SizedBox(height: BBSpacing.section),
+        const _BoxCard(),
         const SizedBox(height: BBSpacing.section),
         BranchSummaryCard(branch: branch),
       ],
@@ -507,6 +513,48 @@ class BranchSummaryCard extends ConsumerWidget {
                       links.open(ExternalLinks.instagram(instagram)),
                 ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// "صندوق ورد وحلويات" on screen 06: opens the box builder (19).
+class _BoxCard extends ConsumerWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final money = ref.watch(moneyFormatProvider);
+    final from = ref.watch(boxCatalogProvider).value?.types.firstOrNull;
+    return BBCard(
+      onTap: () => context.push(Routes.box),
+      child: Row(
+        children: [
+          const BBIconBox(BBIcons.gift),
+          const SizedBox(width: BBSpacing.gutter),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.boxTitle, style: BBText.bodyBold),
+                Text(l10n.boxHomeBody, style: BBText.xs.muted),
+                if (from != null)
+                  Text(
+                    l10n.priceFrom(money.syp(from.fromPriceMinor)),
+                    style: BBText.price.merge(BBText.numeric),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: BBSpacing.sm),
+          BBButton(
+            label: l10n.boxHomeCta,
+            small: true,
+            variant: BBButtonVariant.soft,
+            onPressed: () => context.push(Routes.box),
           ),
         ],
       ),

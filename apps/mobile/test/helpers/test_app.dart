@@ -5,12 +5,14 @@ import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/launch/external_links.dart';
+import 'package:belle_biens/core/media/image_picker.dart';
 import 'package:belle_biens/core/storage/json_cache.dart';
 import 'package:belle_biens/core/storage/token_store.dart';
 import 'package:belle_biens/features/auth/data/auth_repository.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/notifications/notification_permission.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -102,6 +104,10 @@ Future<TestHarness> pumpTestApp(
       belleApiProvider.overrideWithValue(api),
       jsonCacheProvider.overrideWithValue(memory),
       externalLinksProvider.overrideWithValue(links),
+      // A small photo instead of the gallery.
+      imagePickerProvider.overrideWithValue(
+        () async => (bytes: Uint8List.fromList([1, 2, 3]), name: 'cake.jpg'),
+      ),
     ],
   );
   addTearDown(container.dispose);

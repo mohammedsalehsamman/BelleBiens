@@ -989,7 +989,7 @@ abstract class AppLocalizations {
   /// No description provided for @priceFrom.
   ///
   /// In ar, this message translates to:
-  /// **'من {price}'**
+  /// **'من ⁨{price}⁩'**
   String priceFrom(String price);
 
   /// No description provided for @priceApprox.
@@ -1409,7 +1409,7 @@ abstract class AppLocalizations {
   /// No description provided for @productAddWithTotal.
   ///
   /// In ar, this message translates to:
-  /// **'أضف · {price}'**
+  /// **'أضف · ⁨{price}⁩'**
   String productAddWithTotal(String price);
 
   /// No description provided for @productCartSoon.
@@ -1915,6 +1915,366 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{items}'**
   String substituteOption(String items);
+
+  /// No description provided for @cartTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'السلة'**
+  String get cartTitle;
+
+  /// No description provided for @cartTitleCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{السلة} =1{السلة · قطعة واحدة} =2{السلة · قطعتان} few{السلة · {count} قطع} other{السلة · {count} قطعة}}'**
+  String cartTitleCount(int count);
+
+  /// No description provided for @cartOpen.
+  ///
+  /// In ar, this message translates to:
+  /// **'السلة'**
+  String get cartOpen;
+
+  /// No description provided for @cartCheckout.
+  ///
+  /// In ar, this message translates to:
+  /// **'إتمام الطلب'**
+  String get cartCheckout;
+
+  /// No description provided for @cartEmptyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'سلتك فارغة'**
+  String get cartEmptyTitle;
+
+  /// No description provided for @cartEmptyBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ بباقة من ورد اليوم، أو صمّم باقتك بنفسك.'**
+  String get cartEmptyBody;
+
+  /// No description provided for @cartBrowseToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصفّح ورد اليوم'**
+  String get cartBrowseToday;
+
+  /// No description provided for @cartEditDesign.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل التصميم'**
+  String get cartEditDesign;
+
+  /// No description provided for @cartCardMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقة: «{message}»'**
+  String cartCardMessage(String message);
+
+  /// No description provided for @cartRemove.
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة {name}'**
+  String cartRemove(String name);
+
+  /// No description provided for @cartLeadNotice.
+  ///
+  /// In ar, this message translates to:
+  /// **'يحتاج بعض ما في سلتك {hours} ساعة للتجهيز، لذلك أقرب موعد للطلب كاملاً هو {when}.'**
+  String cartLeadNotice(int hours, String when);
+
+  /// No description provided for @cartWhenToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم {time}'**
+  String cartWhenToday(String time);
+
+  /// No description provided for @cartWhenTomorrow.
+  ///
+  /// In ar, this message translates to:
+  /// **'غداً {time}'**
+  String cartWhenTomorrow(String time);
+
+  /// No description provided for @cartWhenDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'{date} {time}'**
+  String cartWhenDate(String date, String time);
+
+  /// No description provided for @cartCoupon.
+  ///
+  /// In ar, this message translates to:
+  /// **'كوبون خصم'**
+  String get cartCoupon;
+
+  /// No description provided for @cartCouponApply.
+  ///
+  /// In ar, this message translates to:
+  /// **'تطبيق'**
+  String get cartCouponApply;
+
+  /// No description provided for @cartCouponRemove.
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة الكوبون'**
+  String get cartCouponRemove;
+
+  /// No description provided for @cartCouponApplied.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تطبيق {code}'**
+  String cartCouponApplied(String code);
+
+  /// No description provided for @cartCouponNotFound.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الكوبون غير صحيح.'**
+  String get cartCouponNotFound;
+
+  /// No description provided for @cartCouponExpired.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت صلاحية هذا الكوبون.'**
+  String get cartCouponExpired;
+
+  /// No description provided for @cartCouponUsedUp.
+  ///
+  /// In ar, this message translates to:
+  /// **'استُخدم هذا الكوبون بالكامل.'**
+  String get cartCouponUsedUp;
+
+  /// No description provided for @cartCouponMinOrder.
+  ///
+  /// In ar, this message translates to:
+  /// **'يعمل هذا الكوبون عند طلب بقيمة ⁨{amount}⁩ أو أكثر.'**
+  String cartCouponMinOrder(String amount);
+
+  /// No description provided for @cartProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنتجات'**
+  String get cartProducts;
+
+  /// No description provided for @cartDiscount.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخصم'**
+  String get cartDiscount;
+
+  /// No description provided for @cartDelivery.
+  ///
+  /// In ar, this message translates to:
+  /// **'التوصيل'**
+  String get cartDelivery;
+
+  /// No description provided for @cartDeliveryLater.
+  ///
+  /// In ar, this message translates to:
+  /// **'يُحسب حسب المنطقة'**
+  String get cartDeliveryLater;
+
+  /// No description provided for @cartRounding.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقريب'**
+  String get cartRounding;
+
+  /// No description provided for @cartSubtotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجموع الفرعي'**
+  String get cartSubtotal;
+
+  /// No description provided for @cartSuggestions.
+  ///
+  /// In ar, this message translates to:
+  /// **'قد يعجبك أيضاً'**
+  String get cartSuggestions;
+
+  /// No description provided for @cartContinue.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة للتوصيل'**
+  String get cartContinue;
+
+  /// No description provided for @cartCheckoutSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار التوصيل والدفع يصل في التحديث القادم.'**
+  String get cartCheckoutSoon;
+
+  /// No description provided for @cartFixIssues.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدّل ما في السلة قبل المتابعة.'**
+  String get cartFixIssues;
+
+  /// No description provided for @cartAdded.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُضيف إلى السلة'**
+  String get cartAdded;
+
+  /// No description provided for @cartView.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض السلة'**
+  String get cartView;
+
+  /// No description provided for @cartUpdated.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُدّثت الباقة في السلة'**
+  String get cartUpdated;
+
+  /// No description provided for @cartUpdateDesign.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّث الباقة في السلة'**
+  String get cartUpdateDesign;
+
+  /// No description provided for @issueProductUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير متوفر الآن.'**
+  String get issueProductUnavailable;
+
+  /// No description provided for @issueOptionUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'أحد الخيارات لم يعد متوفراً.'**
+  String get issueOptionUnavailable;
+
+  /// No description provided for @issueStock.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتوفر الآن {count} فقط.'**
+  String issueStock(int count);
+
+  /// No description provided for @issueItemUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعض محتويات هذه الباقة نفدت.'**
+  String get issueItemUnavailable;
+
+  /// No description provided for @issueStems.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد الورد لا يناسب الحجم.'**
+  String get issueStems;
+
+  /// No description provided for @issueBox.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى الصندوق لا يناسب أركانه.'**
+  String get issueBox;
+
+  /// No description provided for @issueInscription.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسالة على الكيك غير مقبولة لهذا المنتج.'**
+  String get issueInscription;
+
+  /// No description provided for @boxTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صندوق ورد وحلويات'**
+  String get boxTitle;
+
+  /// No description provided for @boxHomeBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر ورد ركن، وحلويات الركن الآخر.'**
+  String get boxHomeBody;
+
+  /// No description provided for @boxHomeCta.
+  ///
+  /// In ar, this message translates to:
+  /// **'ركّب صندوقك'**
+  String get boxHomeCta;
+
+  /// No description provided for @boxType.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع الصندوق'**
+  String get boxType;
+
+  /// No description provided for @boxUpTo.
+  ///
+  /// In ar, this message translates to:
+  /// **'حتى {count}'**
+  String boxUpTo(int count);
+
+  /// No description provided for @boxFilled.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} من {capacity}'**
+  String boxFilled(int count, int capacity);
+
+  /// No description provided for @boxPiece.
+  ///
+  /// In ar, this message translates to:
+  /// **'قطعة'**
+  String get boxPiece;
+
+  /// No description provided for @boxLeadNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدة التجهيز = أطول مدة بين محتويات الصندوق. يحسب النظام أقرب موعد تلقائياً.'**
+  String get boxLeadNote;
+
+  /// No description provided for @boxSummary.
+  ///
+  /// In ar, this message translates to:
+  /// **'{name} · {total}'**
+  String boxSummary(String name, String total);
+
+  /// No description provided for @cakeMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'رسالة على الكيك'**
+  String get cakeMessage;
+
+  /// No description provided for @cakeMessageCount.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} / {max}'**
+  String cakeMessageCount(int count, int max);
+
+  /// No description provided for @cakePhoto.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرفق صورة للتصميم المطلوب'**
+  String get cakePhoto;
+
+  /// No description provided for @cakePhotoHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختياري · JPG أو PNG'**
+  String get cakePhotoHint;
+
+  /// No description provided for @cakePhotoAttached.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُرفقت الصورة'**
+  String get cakePhotoAttached;
+
+  /// No description provided for @cakePhotoRemove.
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة الصورة'**
+  String get cakePhotoRemove;
+
+  /// No description provided for @cakePhotoFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر رفع الصورة. حاول مرة أخرى.'**
+  String get cakePhotoFailed;
+
+  /// No description provided for @productAdded.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُضيف {name} إلى السلة'**
+  String productAdded(String name);
 }
 
 class _AppLocalizationsDelegate

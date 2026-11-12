@@ -8,6 +8,7 @@ import 'package:belle_biens/core/widgets/bb_buttons.dart';
 import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
+import 'package:belle_biens/features/cart/presentation/cart_screen.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/filters_sheet.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
@@ -43,6 +44,8 @@ class ShopScreen extends ConsumerWidget {
                     ),
                   ),
                   const CurrencySwitch(),
+                  const SizedBox(width: BBSpacing.sm),
+                  const CartButton(),
                 ],
               ),
               const SizedBox(height: BBSpacing.md),

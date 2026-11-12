@@ -51,7 +51,7 @@ abstract mixin class $CouponResultDtoCopyWith<$Res>  {
   factory $CouponResultDtoCopyWith(CouponResultDto value, $Res Function(CouponResultDto) _then) = _$CouponResultDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(required: true, disallowNullValue: true) bool applied,@JsonKey(required: true, disallowNullValue: true) String code,@JsonKey(required: true, disallowNullValue: true, fromJson: CouponResultDto._read_minOrderMinor, toJson: CouponResultDto._write_minOrderMinor) int minOrderMinor,@JsonKey(required: true, fromJson: CouponResultDto._read_problem, toJson: CouponResultDto._write_problem) CartQuoteDtoCouponProblem problem,@JsonKey(readValue: CouponResultDto._extras, fromJson: CouponResultDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(required: true, disallowNullValue: true) bool applied,@JsonKey(required: true, disallowNullValue: true) String code,@JsonKey(required: true, disallowNullValue: true, fromJson: CouponResultDto._read_minOrderMinor, toJson: CouponResultDto._write_minOrderMinor) int minOrderMinor,@JsonKey(disallowNullValue: true, includeIfNull: false, fromJson: CouponResultDto._read_problem, toJson: CouponResultDto._write_problem) CouponProblem? problem,@JsonKey(readValue: CouponResultDto._extras, fromJson: CouponResultDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
@@ -68,13 +68,13 @@ class _$CouponResultDtoCopyWithImpl<$Res>
 
 /// Create a copy of CouponResultDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? applied = null,Object? code = null,Object? minOrderMinor = null,Object? problem = null,Object? additionalProperties = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? applied = null,Object? code = null,Object? minOrderMinor = null,Object? problem = freezed,Object? additionalProperties = null,}) {
   return _then(CouponResultDto(
 applied: null == applied ? _self.applied : applied // ignore: cast_nullable_to_non_nullable
 as bool,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,minOrderMinor: null == minOrderMinor ? _self.minOrderMinor : minOrderMinor // ignore: cast_nullable_to_non_nullable
-as int,problem: null == problem ? _self.problem : problem // ignore: cast_nullable_to_non_nullable
-as CartQuoteDtoCouponProblem,additionalProperties: null == additionalProperties ? _self.additionalProperties : additionalProperties // ignore: cast_nullable_to_non_nullable
+as int,problem: freezed == problem ? _self.problem : problem // ignore: cast_nullable_to_non_nullable
+as CouponProblem?,additionalProperties: null == additionalProperties ? _self.additionalProperties : additionalProperties // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>,
   ));
 }

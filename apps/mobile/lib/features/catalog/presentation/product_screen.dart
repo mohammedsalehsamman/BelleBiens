@@ -4,6 +4,7 @@ import 'package:belle_biens/app/theme/tokens.dart';
 import 'package:belle_biens/app/theme/typography.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/launch/external_links.dart';
+import 'package:belle_biens/core/media/image_picker.dart';
 import 'package:belle_biens/core/money/money.dart';
 import 'package:belle_biens/core/network/error_text.dart';
 import 'package:belle_biens/core/widgets/bb_buttons.dart';
@@ -12,11 +13,15 @@ import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
+import 'package:belle_biens/features/cart/application/cart_controller.dart';
+import 'package:belle_biens/features/cart/domain/cart_line.dart';
+import 'package:belle_biens/features/cart/presentation/cart_screen.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/today_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
 import 'package:belle_biens/features/designer/application/designer_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -105,6 +110,65 @@ class _ProductBodyState extends ConsumerState<_ProductBody> {
     widget.product.optionGroups,
   );
   int _quantity = 1;
+  final _inscription = TextEditingController();
+  String? _referenceUrl;
+  bool _uploading = false;
+
+  @override
+  void dispose() {
+    _inscription.dispose();
+    super.dispose();
+  }
+
+  /// FR-CRT-01: the product with the customer's choices; the same choices
+  /// again add to that line's quantity.
+  Future<void> _addToCart() async {
+    final l10n = AppLocalizations.of(context);
+    final text = _inscription.text.trim();
+    final choice = ProductChoice(
+      slug: _p.slug,
+      options: [
+        for (final group in _p.optionGroups)
+          for (final option in group.options)
+            if (_choice.isSelected(group.key, option.key))
+              (group.key, option.key),
+      ],
+      inscription: text.isEmpty ? null : text,
+      referenceImageUrl: _referenceUrl,
+    );
+    await ref
+        .read(cartControllerProvider.notifier)
+        .add(
+          CartLine(
+            id: CartLine.newId(),
+            kind: CartItemKind.product,
+            qty: _quantity,
+            product: choice,
+          ),
+        );
+    if (mounted) {
+      showAddedToCart(context, l10n.productAdded(_p.name.of(context)));
+    }
+  }
+
+  /// FR-CKE-04: a photo of the design wanted, uploaded right away.
+  Future<void> _pickPhoto() async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final picked = await ref.read(imagePickerProvider)();
+    if (picked == null) return;
+    setState(() => _uploading = true);
+    try {
+      final url = await ref
+          .read(cartRepositoryProvider)
+          .uploadReference(picked.bytes, picked.name);
+      if (mounted) setState(() => _referenceUrl = url);
+    } on Object {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.cakePhotoFailed)));
+    } finally {
+      if (mounted) setState(() => _uploading = false);
+    }
+  }
 
   ProductDetailDto get _p => widget.product;
 
@@ -190,6 +254,24 @@ class _ProductBodyState extends ConsumerState<_ProductBody> {
                       setState(() => _choice = _choice.pick(group, key)),
                 ),
               ],
+              if (_p.inscriptionMaxLength case final max?) ...[
+                const SizedBox(height: BBSpacing.section),
+                _InscriptionField(
+                  controller: _inscription,
+                  max: max,
+                  suggestions: _p.inscriptionSuggestions,
+                  onChanged: () => setState(() {}),
+                ),
+              ],
+              if (_p.allowsReferenceImage) ...[
+                const SizedBox(height: BBSpacing.md),
+                _PhotoPicker(
+                  attached: _referenceUrl != null,
+                  uploading: _uploading,
+                  onPick: _pickPhoto,
+                  onRemove: () => setState(() => _referenceUrl = null),
+                ),
+              ],
               if (_p.allergens.isNotEmpty) ...[
                 const SizedBox(height: BBSpacing.md),
                 BBNotice(
@@ -252,11 +334,7 @@ class _ProductBodyState extends ConsumerState<_ProductBody> {
                 ),
                 leading: BBIcons.bag,
                 expand: true,
-                onPressed: _p.available
-                    ? () => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.productCartSoon)),
-                      )
-                    : null,
+                onPressed: _p.available && !_uploading ? _addToCart : null,
               ),
             ),
           ],
@@ -562,3 +640,118 @@ ProductCardDto toCard(ProductDetailDto p) => ProductCardDto(
   stockLeft: p.stockLeft,
   leadTimeHours: p.leadTimeHours,
 );
+
+/// FR-CKE-03: a message on the cake, counted in characters, with ready ones.
+class _InscriptionField extends StatelessWidget {
+  const new({
+    required this.controller,
+    required this.max,
+    required this.suggestions,
+    required this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final int max;
+  final List<String> suggestions;
+  final VoidCallback onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        BBTextField(
+          label: l10n.cakeMessage,
+          controller: controller,
+          helper: l10n.cakeMessageCount(controller.text.runes.length, max),
+          inputFormatters: [_CharacterLimit(max)],
+          onChanged: (_) => onChanged(),
+        ),
+        const SizedBox(height: BBSpacing.sm),
+        Wrap(
+          spacing: BBSpacing.sm,
+          runSpacing: BBSpacing.sm,
+          children: [
+            for (final suggestion in suggestions)
+              BBChip(
+                label: suggestion,
+                selected: controller.text == suggestion,
+                onTap: () {
+                  controller.text = suggestion;
+                  onChanged();
+                },
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// Keeps text within [max] characters (code points).
+class _CharacterLimit extends TextInputFormatter {
+  new(this.max);
+
+  final int max;
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) => newValue.text.runes.length <= max ? newValue : oldValue;
+}
+
+/// FR-CKE-04: attach a photo of the design wanted.
+class _PhotoPicker extends StatelessWidget {
+  const new({
+    required this.attached,
+    required this.uploading,
+    required this.onPick,
+    required this.onRemove,
+  });
+
+  final bool attached;
+  final bool uploading;
+  final VoidCallback onPick;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return BBCard(
+      dashed: !attached,
+      onTap: uploading || attached ? null : onPick,
+      child: Row(
+        children: [
+          BBIconBox(attached ? BBIcons.check : BBIcons.camera),
+          const SizedBox(width: BBSpacing.gutter),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  attached ? l10n.cakePhotoAttached : l10n.cakePhoto,
+                  style: BBText.bodyBold,
+                ),
+                if (!attached) Text(l10n.cakePhotoHint, style: BBText.xs.muted),
+              ],
+            ),
+          ),
+          if (uploading)
+            const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          else if (attached)
+            BBIconButton(
+              icon: BBIcons.trash,
+              tooltip: l10n.cakePhotoRemove,
+              onPressed: onRemove,
+            ),
+        ],
+      ),
+    );
+  }
+}

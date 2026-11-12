@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'cart_quote_dto_coupon_problem.dart';
+import 'coupon_problem.dart';
 
 part 'coupon_result_dto.freezed.dart';
 part 'coupon_result_dto.g.dart';
@@ -27,12 +27,14 @@ class const CouponResultDto({
   )
   required final int minOrderMinor,
 
+  /// Why it was not applied; absent when applied
   @JsonKey(
-    required: true,
+    disallowNullValue: true,
+    includeIfNull: false,
     fromJson: CouponResultDto._read_problem,
     toJson: CouponResultDto._write_problem,
   )
-  required final CartQuoteDtoCouponProblem problem,
+  final CouponProblem? problem,
 
   @JsonKey(
     readValue: CouponResultDto._extras,
@@ -53,10 +55,9 @@ class const CouponResultDto({
 
   static int _read_minOrderMinor(Object? value) => value as int;
   static Object? _write_minOrderMinor(int value) => value;
-  static CartQuoteDtoCouponProblem _read_problem(Object? value) =>
-      CartQuoteDtoCouponProblem.fromJson(value);
-  static Object? _write_problem(CartQuoteDtoCouponProblem value) =>
-      value.toJson();
+  static CouponProblem? _read_problem(Object? value) =>
+      value == null ? null : CouponProblem.fromJson(value);
+  static Object? _write_problem(CouponProblem? value) => value?.toJson();
   static Object? _extras(Map map, String _) => {
     for (final entry in map.entries)
       if (!_knownKeys.contains(entry.key)) entry.key as String: entry.value,

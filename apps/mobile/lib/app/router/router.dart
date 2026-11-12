@@ -10,6 +10,8 @@ import 'package:belle_biens/features/auth/presentation/complete_profile_screen.d
 import 'package:belle_biens/features/auth/presentation/login_screen.dart';
 import 'package:belle_biens/features/auth/presentation/otp_screen.dart';
 import 'package:belle_biens/features/auth/presentation/register_screen.dart';
+import 'package:belle_biens/features/cart/presentation/box_screen.dart';
+import 'package:belle_biens/features/cart/presentation/cart_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/branch_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/favorites_screen.dart';
 import 'package:belle_biens/features/catalog/presentation/home_screen.dart';
@@ -95,6 +97,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.favorites,
         builder: (context, state) => const FavoritesScreen(),
       ),
+      GoRoute(
+        path: Routes.cart,
+        builder: (context, state) => const CartScreen(),
+      ),
+      GoRoute(path: Routes.box, builder: (context, state) => const BoxScreen()),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _TabShell(shell: shell),
         branches: [
@@ -178,16 +185,25 @@ class _TabShell extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: shell,
-      bottomNavigationBar: BBBottomNav(
-        currentIndex: shell.currentIndex,
-        onSelect: (index) =>
-            shell.goBranch(index, initialLocation: index == shell.currentIndex),
-        items: [
-          BBNavItem(icon: BBIcons.home, label: l10n.navHome),
-          BBNavItem(icon: BBIcons.grid, label: l10n.navShop),
-          BBNavItem(icon: BBIcons.flower, label: l10n.navDesigner),
-          BBNavItem(icon: BBIcons.receipt, label: l10n.navOrders),
-          BBNavItem(icon: BBIcons.user, label: l10n.navAccount),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // The cart capsule sits above the tabs on home and shop (06, 07).
+          if (shell.currentIndex <= 1) const CartCapsule(),
+          BBBottomNav(
+            currentIndex: shell.currentIndex,
+            onSelect: (index) => shell.goBranch(
+              index,
+              initialLocation: index == shell.currentIndex,
+            ),
+            items: [
+              BBNavItem(icon: BBIcons.home, label: l10n.navHome),
+              BBNavItem(icon: BBIcons.grid, label: l10n.navShop),
+              BBNavItem(icon: BBIcons.flower, label: l10n.navDesigner),
+              BBNavItem(icon: BBIcons.receipt, label: l10n.navOrders),
+              BBNavItem(icon: BBIcons.user, label: l10n.navAccount),
+            ],
+          ),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:belle_biens/app/router/router.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/cart_fixtures.dart';
 import '../../helpers/test_app.dart';
 
 /// Every catalog screen must lay out at 360 dp wide, in both languages, at
@@ -20,6 +21,8 @@ const _routes = [
   '/branch',
   '/pages/delivery',
   '/account/favorites',
+  '/cart',
+  '/box',
 ];
 
 void main() {
@@ -34,10 +37,17 @@ void main() {
         addTearDown(tester.view.reset);
         addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 
-        final t = await pumpTestApp(tester, language: language);
+        final t = await pumpTestApp(
+          tester,
+          language: language,
+          cache: cacheWithCart(readmeCart),
+        );
         final router = t.container.read(routerProvider);
         for (final route in _routes) {
           router.go(route);
+          await tester.pumpAndSettle();
+          // Let the cart quote arrive so the full cart is measured.
+          await tester.pump(const Duration(milliseconds: 450));
           await tester.pumpAndSettle();
           expect(
             tester.takeException(),
@@ -56,9 +66,12 @@ void main() {
           '/v1/products/iced-rose-matcha-latte',
           '/v1/branch',
           '/v1/pages/delivery',
+          '/v1/cart/quote',
+          '/v1/boxes/catalog',
         ]) {
           expect(t.server.to(path), isNotEmpty, reason: path);
         }
+        await tester.pump(const Duration(seconds: 1));
       });
     }
   }

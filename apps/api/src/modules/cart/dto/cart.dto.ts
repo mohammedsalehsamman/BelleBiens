@@ -182,15 +182,22 @@ export class QuotedLineDto {
   @ApiProperty({ type: [LineIssueDto] }) issues!: LineIssueDto[];
 }
 
+export const COUPON_PROBLEMS = [
+  'NOT_FOUND',
+  'EXPIRED',
+  'MIN_ORDER',
+  'USED_UP',
+] as const;
+
 export class CouponResultDto {
   @ApiProperty({ example: 'WELCOME10' }) code!: string;
   @ApiProperty() applied!: boolean;
-  @ApiProperty({
-    nullable: true,
-    enum: ['NOT_FOUND', 'EXPIRED', 'MIN_ORDER', 'USED_UP'],
+  @ApiPropertyOptional({
+    enum: COUPON_PROBLEMS,
     enumName: 'CouponProblem',
+    description: 'Why it was not applied; absent when applied',
   })
-  problem!: 'NOT_FOUND' | 'EXPIRED' | 'MIN_ORDER' | 'USED_UP' | null;
+  problem?: (typeof COUPON_PROBLEMS)[number];
   @ApiProperty({ type: 'integer', description: 'For MIN_ORDER' })
   minOrderMinor!: number;
 }
@@ -212,8 +219,11 @@ export class CartQuoteDto {
   @ApiProperty({ type: MoneyBreakdownDto, description: 'US cents (FR-PAY-05)' })
   usd!: MoneyBreakdownDto;
   @ApiProperty({ example: '120' }) usdRate!: string;
-  @ApiProperty({ nullable: true, type: CouponResultDto })
-  coupon!: CouponResultDto | null;
+  @ApiPropertyOptional({
+    type: CouponResultDto,
+    description: 'Only when a code was sent',
+  })
+  coupon?: CouponResultDto;
   @ApiProperty({
     type: 'integer',
     description: 'Longest lead time in the cart',

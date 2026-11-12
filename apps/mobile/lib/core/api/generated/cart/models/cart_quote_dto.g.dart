@@ -10,7 +10,6 @@ CartQuoteDto _$CartQuoteDtoFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
     requiredKeys: const [
-      'coupon',
       'earliestAt',
       'earliestInDays',
       'leadTimeHours',
@@ -22,6 +21,7 @@ CartQuoteDto _$CartQuoteDtoFromJson(Map<String, dynamic> json) {
       'usdRate',
     ],
     disallowNullValues: const [
+      'coupon',
       'earliestAt',
       'earliestInDays',
       'leadTimeHours',
@@ -36,7 +36,7 @@ CartQuoteDto _$CartQuoteDtoFromJson(Map<String, dynamic> json) {
   return CartQuoteDto(
     coupon: json['coupon'] == null
         ? null
-        : CartQuoteDtoCoupon.fromJson(json['coupon'] as Map<String, dynamic>),
+        : CouponResultDto.fromJson(json['coupon'] as Map<String, dynamic>),
     earliestAt: json['earliestAt'] as String,
     earliestInDays: CartQuoteDto._read_earliestInDays(json['earliestInDays']),
     leadTimeHours: CartQuoteDto._read_leadTimeHours(json['leadTimeHours']),
@@ -62,7 +62,7 @@ CartQuoteDto _$CartQuoteDtoFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CartQuoteDtoToJson(
   CartQuoteDto instance,
 ) => <String, dynamic>{
-  'coupon': instance.coupon?.toJson(),
+  'coupon': ?instance.coupon?.toJson(),
   'earliestAt': instance.earliestAt,
   'earliestInDays': ?CartQuoteDto._write_earliestInDays(
     instance.earliestInDays,

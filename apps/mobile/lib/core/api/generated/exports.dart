@@ -94,8 +94,6 @@ export 'cart/models/cart_line_input_dto.dart';
 export 'cart/models/cart_line_input_dto_spec.dart';
 export 'cart/models/cart_line_kind.dart';
 export 'cart/models/cart_quote_dto.dart';
-export 'cart/models/cart_quote_dto_coupon.dart';
-export 'cart/models/cart_quote_dto_coupon_problem.dart';
 export 'cart/models/cart_quote_request_dto.dart';
 export 'cart/models/coupon_problem.dart';
 export 'cart/models/coupon_result_dto.dart';

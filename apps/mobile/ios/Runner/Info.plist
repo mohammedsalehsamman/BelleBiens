@@ -20,6 +20,10 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>لإرفاق صورة للتصميم الذي تريده على الكيك أو إيصال الدفع.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>لتصوير التصميم الذي تريده على الكيك أو إيصال الدفع.</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>ar</string>

@@ -9,8 +9,8 @@ part of 'coupon_result_dto.dart';
 CouponResultDto _$CouponResultDtoFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['applied', 'code', 'minOrderMinor', 'problem'],
-    disallowNullValues: const ['applied', 'code', 'minOrderMinor'],
+    requiredKeys: const ['applied', 'code', 'minOrderMinor'],
+    disallowNullValues: const ['applied', 'code', 'minOrderMinor', 'problem'],
   );
   return CouponResultDto(
     applied: json['applied'] as bool,
@@ -33,5 +33,5 @@ Map<String, dynamic> _$CouponResultDtoToJson(CouponResultDto instance) =>
       'minOrderMinor': ?CouponResultDto._write_minOrderMinor(
         instance.minOrderMinor,
       ),
-      'problem': CouponResultDto._write_problem(instance.problem),
+      'problem': ?CouponResultDto._write_problem(instance.problem),
     };

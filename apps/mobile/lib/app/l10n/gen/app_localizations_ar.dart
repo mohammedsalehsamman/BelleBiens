@@ -501,7 +501,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String priceFrom(String price) {
-    return 'من $price';
+    return 'من ⁨$price⁩';
   }
 
   @override
@@ -795,7 +795,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String productAddWithTotal(String price) {
-    return 'أضف · $price';
+    return 'أضف · ⁨$price⁩';
   }
 
   @override
@@ -1106,5 +1106,225 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String substituteOption(String items) {
     return '$items';
+  }
+
+  @override
+  String get cartTitle => 'السلة';
+
+  @override
+  String cartTitleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'السلة · $count قطعة',
+      few: 'السلة · $count قطع',
+      two: 'السلة · قطعتان',
+      one: 'السلة · قطعة واحدة',
+      zero: 'السلة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cartOpen => 'السلة';
+
+  @override
+  String get cartCheckout => 'إتمام الطلب';
+
+  @override
+  String get cartEmptyTitle => 'سلتك فارغة';
+
+  @override
+  String get cartEmptyBody => 'ابدأ بباقة من ورد اليوم، أو صمّم باقتك بنفسك.';
+
+  @override
+  String get cartBrowseToday => 'تصفّح ورد اليوم';
+
+  @override
+  String get cartEditDesign => 'تعديل التصميم';
+
+  @override
+  String cartCardMessage(String message) {
+    return 'بطاقة: «$message»';
+  }
+
+  @override
+  String cartRemove(String name) {
+    return 'إزالة $name';
+  }
+
+  @override
+  String cartLeadNotice(int hours, String when) {
+    return 'يحتاج بعض ما في سلتك $hours ساعة للتجهيز، لذلك أقرب موعد للطلب كاملاً هو $when.';
+  }
+
+  @override
+  String cartWhenToday(String time) {
+    return 'اليوم $time';
+  }
+
+  @override
+  String cartWhenTomorrow(String time) {
+    return 'غداً $time';
+  }
+
+  @override
+  String cartWhenDate(String date, String time) {
+    return '$date $time';
+  }
+
+  @override
+  String get cartCoupon => 'كوبون خصم';
+
+  @override
+  String get cartCouponApply => 'تطبيق';
+
+  @override
+  String get cartCouponRemove => 'إزالة الكوبون';
+
+  @override
+  String cartCouponApplied(String code) {
+    return 'تم تطبيق $code';
+  }
+
+  @override
+  String get cartCouponNotFound => 'هذا الكوبون غير صحيح.';
+
+  @override
+  String get cartCouponExpired => 'انتهت صلاحية هذا الكوبون.';
+
+  @override
+  String get cartCouponUsedUp => 'استُخدم هذا الكوبون بالكامل.';
+
+  @override
+  String cartCouponMinOrder(String amount) {
+    return 'يعمل هذا الكوبون عند طلب بقيمة ⁨$amount⁩ أو أكثر.';
+  }
+
+  @override
+  String get cartProducts => 'المنتجات';
+
+  @override
+  String get cartDiscount => 'الخصم';
+
+  @override
+  String get cartDelivery => 'التوصيل';
+
+  @override
+  String get cartDeliveryLater => 'يُحسب حسب المنطقة';
+
+  @override
+  String get cartRounding => 'تقريب';
+
+  @override
+  String get cartSubtotal => 'المجموع الفرعي';
+
+  @override
+  String get cartSuggestions => 'قد يعجبك أيضاً';
+
+  @override
+  String get cartContinue => 'متابعة للتوصيل';
+
+  @override
+  String get cartCheckoutSoon => 'اختيار التوصيل والدفع يصل في التحديث القادم.';
+
+  @override
+  String get cartFixIssues => 'عدّل ما في السلة قبل المتابعة.';
+
+  @override
+  String get cartAdded => 'أُضيف إلى السلة';
+
+  @override
+  String get cartView => 'عرض السلة';
+
+  @override
+  String get cartUpdated => 'حُدّثت الباقة في السلة';
+
+  @override
+  String get cartUpdateDesign => 'حدّث الباقة في السلة';
+
+  @override
+  String get issueProductUnavailable => 'غير متوفر الآن.';
+
+  @override
+  String get issueOptionUnavailable => 'أحد الخيارات لم يعد متوفراً.';
+
+  @override
+  String issueStock(int count) {
+    return 'المتوفر الآن $count فقط.';
+  }
+
+  @override
+  String get issueItemUnavailable => 'بعض محتويات هذه الباقة نفدت.';
+
+  @override
+  String get issueStems => 'عدد الورد لا يناسب الحجم.';
+
+  @override
+  String get issueBox => 'محتوى الصندوق لا يناسب أركانه.';
+
+  @override
+  String get issueInscription => 'الرسالة على الكيك غير مقبولة لهذا المنتج.';
+
+  @override
+  String get boxTitle => 'صندوق ورد وحلويات';
+
+  @override
+  String get boxHomeBody => 'اختر ورد ركن، وحلويات الركن الآخر.';
+
+  @override
+  String get boxHomeCta => 'ركّب صندوقك';
+
+  @override
+  String get boxType => 'نوع الصندوق';
+
+  @override
+  String boxUpTo(int count) {
+    return 'حتى $count';
+  }
+
+  @override
+  String boxFilled(int count, int capacity) {
+    return '$count من $capacity';
+  }
+
+  @override
+  String get boxPiece => 'قطعة';
+
+  @override
+  String get boxLeadNote =>
+      'مدة التجهيز = أطول مدة بين محتويات الصندوق. يحسب النظام أقرب موعد تلقائياً.';
+
+  @override
+  String boxSummary(String name, String total) {
+    return '$name · $total';
+  }
+
+  @override
+  String get cakeMessage => 'رسالة على الكيك';
+
+  @override
+  String cakeMessageCount(int count, int max) {
+    return '$count / $max';
+  }
+
+  @override
+  String get cakePhoto => 'أرفق صورة للتصميم المطلوب';
+
+  @override
+  String get cakePhotoHint => 'اختياري · JPG أو PNG';
+
+  @override
+  String get cakePhotoAttached => 'أُرفقت الصورة';
+
+  @override
+  String get cakePhotoRemove => 'إزالة الصورة';
+
+  @override
+  String get cakePhotoFailed => 'تعذّر رفع الصورة. حاول مرة أخرى.';
+
+  @override
+  String productAdded(String name) {
+    return 'أُضيف $name إلى السلة';
   }
 }

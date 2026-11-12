@@ -11,8 +11,10 @@ import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
+import 'package:belle_biens/features/cart/presentation/cart_screen.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
+import 'package:belle_biens/features/designer/application/add_design_to_cart.dart';
 import 'package:belle_biens/features/designer/application/designer_controller.dart';
 import 'package:belle_biens/features/designer/domain/bouquet_spec.dart';
 import 'package:belle_biens/features/designer/domain/designer_estimate.dart';
@@ -803,13 +805,24 @@ class _BottomBar extends ConsumerWidget {
           ),
           Expanded(
             child: BBButton(
-              label: l10n.designerAddToCart,
+              label: state.editingLineId == null
+                  ? l10n.designerAddToCart
+                  : l10n.cartUpdateDesign,
               leading: BBIcons.bag,
               expand: true,
               onPressed: orderable
-                  ? () => ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.productCartSoon)),
-                    )
+                  ? () async {
+                      final updated = await addDesignToCart(
+                        ref,
+                        state,
+                        catalog,
+                      );
+                      if (!context.mounted) return;
+                      showAddedToCart(
+                        context,
+                        updated ? l10n.cartUpdated : l10n.cartAdded,
+                      );
+                    }
                   : null,
             ),
           ),

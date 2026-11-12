@@ -241,7 +241,7 @@
   "badgeTodayOnly": "متوفر اليوم فقط",
   "badgeLimited": "كمية محدودة",
   "badgeUnavailable": "غير متوفر اليوم",
-  "priceFrom": "من {price}",
+  "priceFrom": "من ⁨{price}⁩",
   "@priceFrom": {
     "placeholders": {
       "price": {
@@ -446,7 +446,7 @@
   "productAskBody": "راسل المحل على واتساب",
   "productTotal": "المجموع",
   "productAddToCart": "أضف إلى السلة",
-  "productAddWithTotal": "أضف · {price}",
+  "productAddWithTotal": "أضف · ⁨{price}⁩",
   "@productAddWithTotal": {
     "placeholders": {
       "price": {
@@ -711,6 +711,186 @@
   "@substituteOption": {
     "placeholders": {
       "items": {
+        "type": "String"
+      }
+    }
+  },
+  "cartTitle": "السلة",
+  "cartTitleCount": "{count, plural, =0{السلة} =1{السلة · قطعة واحدة} =2{السلة · قطعتان} few{السلة · {count} قطع} other{السلة · {count} قطعة}}",
+  "@cartTitleCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cartOpen": "السلة",
+  "cartCheckout": "إتمام الطلب",
+  "cartEmptyTitle": "سلتك فارغة",
+  "cartEmptyBody": "ابدأ بباقة من ورد اليوم، أو صمّم باقتك بنفسك.",
+  "cartBrowseToday": "تصفّح ورد اليوم",
+  "cartEditDesign": "تعديل التصميم",
+  "cartCardMessage": "بطاقة: «{message}»",
+  "@cartCardMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "cartRemove": "إزالة {name}",
+  "@cartRemove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "cartLeadNotice": "يحتاج بعض ما في سلتك {hours} ساعة للتجهيز، لذلك أقرب موعد للطلب كاملاً هو {when}.",
+  "@cartLeadNotice": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "cartWhenToday": "اليوم {time}",
+  "@cartWhenToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "cartWhenTomorrow": "غداً {time}",
+  "@cartWhenTomorrow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "cartWhenDate": "{date} {time}",
+  "@cartWhenDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "cartCoupon": "كوبون خصم",
+  "cartCouponApply": "تطبيق",
+  "cartCouponRemove": "إزالة الكوبون",
+  "cartCouponApplied": "تم تطبيق {code}",
+  "@cartCouponApplied": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "cartCouponNotFound": "هذا الكوبون غير صحيح.",
+  "cartCouponExpired": "انتهت صلاحية هذا الكوبون.",
+  "cartCouponUsedUp": "استُخدم هذا الكوبون بالكامل.",
+  "cartCouponMinOrder": "يعمل هذا الكوبون عند طلب بقيمة ⁨{amount}⁩ أو أكثر.",
+  "@cartCouponMinOrder": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "cartProducts": "المنتجات",
+  "cartDiscount": "الخصم",
+  "cartDelivery": "التوصيل",
+  "cartDeliveryLater": "يُحسب حسب المنطقة",
+  "cartRounding": "تقريب",
+  "cartSubtotal": "المجموع الفرعي",
+  "cartSuggestions": "قد يعجبك أيضاً",
+  "cartContinue": "متابعة للتوصيل",
+  "cartCheckoutSoon": "اختيار التوصيل والدفع يصل في التحديث القادم.",
+  "cartFixIssues": "عدّل ما في السلة قبل المتابعة.",
+  "cartAdded": "أُضيف إلى السلة",
+  "cartView": "عرض السلة",
+  "cartUpdated": "حُدّثت الباقة في السلة",
+  "cartUpdateDesign": "حدّث الباقة في السلة",
+  "issueProductUnavailable": "غير متوفر الآن.",
+  "issueOptionUnavailable": "أحد الخيارات لم يعد متوفراً.",
+  "issueStock": "المتوفر الآن {count} فقط.",
+  "@issueStock": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "issueItemUnavailable": "بعض محتويات هذه الباقة نفدت.",
+  "issueStems": "عدد الورد لا يناسب الحجم.",
+  "issueBox": "محتوى الصندوق لا يناسب أركانه.",
+  "issueInscription": "الرسالة على الكيك غير مقبولة لهذا المنتج.",
+  "boxTitle": "صندوق ورد وحلويات",
+  "boxHomeBody": "اختر ورد ركن، وحلويات الركن الآخر.",
+  "boxHomeCta": "ركّب صندوقك",
+  "boxType": "نوع الصندوق",
+  "boxUpTo": "حتى {count}",
+  "@boxUpTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "boxFilled": "{count} من {capacity}",
+  "@boxFilled": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "capacity": {
+        "type": "int"
+      }
+    }
+  },
+  "boxPiece": "قطعة",
+  "boxLeadNote": "مدة التجهيز = أطول مدة بين محتويات الصندوق. يحسب النظام أقرب موعد تلقائياً.",
+  "boxSummary": "{name} · {total}",
+  "@boxSummary": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "cakeMessage": "رسالة على الكيك",
+  "cakeMessageCount": "{count} / {max}",
+  "@cakeMessageCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "cakePhoto": "أرفق صورة للتصميم المطلوب",
+  "cakePhotoHint": "اختياري · JPG أو PNG",
+  "cakePhotoAttached": "أُرفقت الصورة",
+  "cakePhotoRemove": "إزالة الصورة",
+  "cakePhotoFailed": "تعذّر رفع الصورة. حاول مرة أخرى.",
+  "productAdded": "أُضيف {name} إلى السلة",
+  "@productAdded": {
+    "placeholders": {
+      "name": {
         "type": "String"
       }
     }

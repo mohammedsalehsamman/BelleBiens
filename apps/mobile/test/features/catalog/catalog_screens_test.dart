@@ -79,7 +79,7 @@ void main() {
       await _go(t, tester, '/shop');
       expect(find.text('20 منتجاً · مرتبة حسب: الأكثر طلباً'), findsOneWidget);
       expect(find.text('باقة الجوري الأحمر'), findsOneWidget);
-      expect(find.text('من 2,280 ل.س'), findsOneWidget);
+      expect(find.text('من \u20682,280 ل.س\u2069'), findsOneWidget);
 
       await tapText(tester, '20 منتجاً · مرتبة حسب: الأكثر طلباً');
       await tapText(tester, 'السعر: من الأقل');

@@ -1102,4 +1102,225 @@ class AppLocalizationsEn extends AppLocalizations {
   String substituteOption(String items) {
     return '$items';
   }
+
+  @override
+  String get cartTitle => 'Cart';
+
+  @override
+  String cartTitleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Cart · $count items',
+      one: 'Cart · 1 item',
+      zero: 'Cart',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cartOpen => 'Cart';
+
+  @override
+  String get cartCheckout => 'Checkout';
+
+  @override
+  String get cartEmptyTitle => 'Your cart is empty';
+
+  @override
+  String get cartEmptyBody =>
+      'Start with a bouquet from today\'s flowers, or design your own.';
+
+  @override
+  String get cartBrowseToday => 'Browse today\'s flowers';
+
+  @override
+  String get cartEditDesign => 'Edit the design';
+
+  @override
+  String cartCardMessage(String message) {
+    return 'Card: “$message”';
+  }
+
+  @override
+  String cartRemove(String name) {
+    return 'Remove $name';
+  }
+
+  @override
+  String cartLeadNotice(int hours, String when) {
+    return 'Some items need $hours hours to prepare, so the earliest time for the whole order is $when.';
+  }
+
+  @override
+  String cartWhenToday(String time) {
+    return 'today $time';
+  }
+
+  @override
+  String cartWhenTomorrow(String time) {
+    return 'tomorrow $time';
+  }
+
+  @override
+  String cartWhenDate(String date, String time) {
+    return '$date $time';
+  }
+
+  @override
+  String get cartCoupon => 'Discount code';
+
+  @override
+  String get cartCouponApply => 'Apply';
+
+  @override
+  String get cartCouponRemove => 'Remove code';
+
+  @override
+  String cartCouponApplied(String code) {
+    return '$code applied';
+  }
+
+  @override
+  String get cartCouponNotFound => 'This code is not valid.';
+
+  @override
+  String get cartCouponExpired => 'This code has expired.';
+
+  @override
+  String get cartCouponUsedUp => 'This code has been used up.';
+
+  @override
+  String cartCouponMinOrder(String amount) {
+    return 'This code works on orders of $amount or more.';
+  }
+
+  @override
+  String get cartProducts => 'Products';
+
+  @override
+  String get cartDiscount => 'Discount';
+
+  @override
+  String get cartDelivery => 'Delivery';
+
+  @override
+  String get cartDeliveryLater => 'Set by your area';
+
+  @override
+  String get cartRounding => 'Rounding';
+
+  @override
+  String get cartSubtotal => 'Subtotal';
+
+  @override
+  String get cartSuggestions => 'You may also like';
+
+  @override
+  String get cartContinue => 'Continue to delivery';
+
+  @override
+  String get cartCheckoutSoon =>
+      'Delivery and payment arrive in the next update.';
+
+  @override
+  String get cartFixIssues => 'Fix the items in your cart before continuing.';
+
+  @override
+  String get cartAdded => 'Added to the cart';
+
+  @override
+  String get cartView => 'View cart';
+
+  @override
+  String get cartUpdated => 'Bouquet updated in the cart';
+
+  @override
+  String get cartUpdateDesign => 'Update the bouquet in the cart';
+
+  @override
+  String get issueProductUnavailable => 'Not available right now.';
+
+  @override
+  String get issueOptionUnavailable =>
+      'One of the choices is no longer offered.';
+
+  @override
+  String issueStock(int count) {
+    return 'Only $count available now.';
+  }
+
+  @override
+  String get issueItemUnavailable => 'Something in this bouquet ran out.';
+
+  @override
+  String get issueStems => 'The stem count does not fit the size.';
+
+  @override
+  String get issueBox => 'The box contents do not fit its parts.';
+
+  @override
+  String get issueInscription => 'A message is not accepted for this product.';
+
+  @override
+  String get boxTitle => 'Flowers and sweets box';
+
+  @override
+  String get boxHomeBody => 'Flowers in one part, sweets in the other.';
+
+  @override
+  String get boxHomeCta => 'Build your box';
+
+  @override
+  String get boxType => 'Box type';
+
+  @override
+  String boxUpTo(int count) {
+    return 'Up to $count';
+  }
+
+  @override
+  String boxFilled(int count, int capacity) {
+    return '$count of $capacity';
+  }
+
+  @override
+  String get boxPiece => 'piece';
+
+  @override
+  String get boxLeadNote =>
+      'Preparation takes as long as the slowest item in the box; the earliest time is worked out for you.';
+
+  @override
+  String boxSummary(String name, String total) {
+    return '$name · $total';
+  }
+
+  @override
+  String get cakeMessage => 'Message on the cake';
+
+  @override
+  String cakeMessageCount(int count, int max) {
+    return '$count / $max';
+  }
+
+  @override
+  String get cakePhoto => 'Attach a photo of the design you want';
+
+  @override
+  String get cakePhotoHint => 'Optional · JPG or PNG';
+
+  @override
+  String get cakePhotoAttached => 'Photo attached';
+
+  @override
+  String get cakePhotoRemove => 'Remove photo';
+
+  @override
+  String get cakePhotoFailed => 'The photo could not be uploaded. Try again.';
+
+  @override
+  String productAdded(String name) {
+    return '$name added to the cart';
+  }
 }
