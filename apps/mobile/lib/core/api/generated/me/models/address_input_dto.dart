@@ -17,9 +17,16 @@ class const AddressInputDto({
   @JsonKey(disallowNullValue: true, includeIfNull: false)
   final String? building,
 
+  /// Screen 29 "اتصل قبل الوصول"
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final bool? callBeforeArrival,
+
   @JsonKey(disallowNullValue: true, includeIfNull: false) final String? details,
 
   @JsonKey(disallowNullValue: true, includeIfNull: false) final String? floor,
+
+  /// FR-ACC-04: start checkout with it
+  @JsonKey(disallowNullValue: true, includeIfNull: false) final bool? isDefault,
 
   @JsonKey(required: true, disallowNullValue: true) required final String label,
 
@@ -41,8 +48,10 @@ class const AddressInputDto({
   static const _knownKeys = <String>{
     "area",
     "building",
+    "callBeforeArrival",
     "details",
     "floor",
+    "isDefault",
     "label",
     "landmark",
     "latitude",

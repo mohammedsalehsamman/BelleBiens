@@ -166,7 +166,7 @@ export class AddressesController {
   async list(@CurrentUser() user: AuthUser): Promise<AddressDto[]> {
     const rows = await this.prisma.address.findMany({
       where: { userId: user.id },
-      orderBy: { createdAt: 'asc' },
+      orderBy: [{ isDefault: 'desc' }, { createdAt: 'asc' }],
     });
     return Promise.all(rows.map((r) => this.toDto(r)));
   }
@@ -178,15 +178,22 @@ export class AddressesController {
     @CurrentUser() user: AuthUser,
     @Body() dto: AddressInputDto,
   ): Promise<AddressDto> {
-    if (
-      (await this.prisma.address.count({ where: { userId: user.id } })) >= 20
-    ) {
+    const count = await this.prisma.address.count({
+      where: { userId: user.id },
+    });
+    if (count >= 20) {
       throw new AppError('VALIDATION_FAILED', {
         detail: 'at most 20 addresses',
       });
     }
-    const row = await this.prisma.address.create({
-      data: { userId: user.id, ...(await this.fields(dto)) },
+    const fields = await this.fields(dto);
+    // The first address is the default one.
+    const isDefault = count === 0 || dto.isDefault === true;
+    const row = await this.prisma.$transaction(async (tx) => {
+      if (isDefault) await this.clearDefault(tx, user.id);
+      return tx.address.create({
+        data: { userId: user.id, ...fields, isDefault },
+      });
     });
     return this.toDto(row);
   }
@@ -200,9 +207,16 @@ export class AddressesController {
     @Body() dto: AddressInputDto,
   ): Promise<AddressDto> {
     await this.own(user, id);
-    const row = await this.prisma.address.update({
-      where: { id },
-      data: await this.fields(dto),
+    const fields = await this.fields(dto);
+    const row = await this.prisma.$transaction(async (tx) => {
+      if (dto.isDefault === true) await this.clearDefault(tx, user.id);
+      return tx.address.update({
+        where: { id },
+        data: {
+          ...fields,
+          ...(dto.isDefault === true ? { isDefault: true } : {}),
+        },
+      });
     });
     return this.toDto(row);
   }
@@ -216,7 +230,32 @@ export class AddressesController {
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<void> {
     await this.own(user, id);
-    await this.prisma.address.delete({ where: { id } });
+    await this.prisma.$transaction(async (tx) => {
+      const removed = await tx.address.delete({ where: { id } });
+      // Another address takes over as the default.
+      if (removed.isDefault) {
+        const next = await tx.address.findFirst({
+          where: { userId: user.id },
+          orderBy: { createdAt: 'asc' },
+        });
+        if (next) {
+          await tx.address.update({
+            where: { id: next.id },
+            data: { isDefault: true },
+          });
+        }
+      }
+    });
+  }
+
+  private async clearDefault(
+    tx: Prisma.TransactionClient,
+    userId: string,
+  ): Promise<void> {
+    await tx.address.updateMany({
+      where: { userId, isDefault: true },
+      data: { isDefault: false },
+    });
   }
 
   private async own(user: AuthUser, id: string): Promise<void> {
@@ -238,6 +277,7 @@ export class AddressesController {
       building: dto.building?.trim() ?? '',
       floor: dto.floor?.trim() ?? '',
       details: dto.details?.trim() ?? '',
+      callBeforeArrival: dto.callBeforeArrival ?? false,
     };
   }
 
@@ -254,6 +294,8 @@ export class AddressesController {
       building: row.building,
       floor: row.floor,
       details: row.details,
+      isDefault: row.isDefault,
+      callBeforeArrival: row.callBeforeArrival,
       ...(zone ? { zone: toZoneDto(zone) } : {}),
     };
   }

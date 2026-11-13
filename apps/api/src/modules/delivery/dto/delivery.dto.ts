@@ -177,6 +177,16 @@ export class AddressInputDto extends PointDto {
   @IsString()
   @MaxLength(300)
   details?: string;
+
+  @ApiPropertyOptional({ description: 'FR-ACC-04: start checkout with it' })
+  @IsOptional()
+  @IsBoolean()
+  isDefault?: boolean;
+
+  @ApiPropertyOptional({ description: 'Screen 29 "اتصل قبل الوصول"' })
+  @IsOptional()
+  @IsBoolean()
+  callBeforeArrival?: boolean;
 }
 
 export class AddressDto {
@@ -189,6 +199,8 @@ export class AddressDto {
   @ApiProperty() building!: string;
   @ApiProperty() floor!: string;
   @ApiProperty() details!: string;
+  @ApiProperty() isDefault!: boolean;
+  @ApiProperty() callBeforeArrival!: boolean;
   @ApiPropertyOptional({
     type: ZoneDto,
     description: 'Absent: outside the zones now',

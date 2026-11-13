@@ -13,8 +13,10 @@ AddressInputDto _$AddressInputDtoFromJson(Map<String, dynamic> json) {
     disallowNullValues: const [
       'area',
       'building',
+      'callBeforeArrival',
       'details',
       'floor',
+      'isDefault',
       'label',
       'landmark',
       'latitude',
@@ -24,8 +26,10 @@ AddressInputDto _$AddressInputDtoFromJson(Map<String, dynamic> json) {
   return AddressInputDto(
     area: json['area'] as String?,
     building: json['building'] as String?,
+    callBeforeArrival: json['callBeforeArrival'] as bool?,
     details: json['details'] as String?,
     floor: json['floor'] as String?,
+    isDefault: json['isDefault'] as bool?,
     label: json['label'] as String,
     landmark: json['landmark'] as String?,
     latitude: json['latitude'] as num,
@@ -43,8 +47,10 @@ Map<String, dynamic> _$AddressInputDtoToJson(AddressInputDto instance) =>
     <String, dynamic>{
       'area': ?instance.area,
       'building': ?instance.building,
+      'callBeforeArrival': ?instance.callBeforeArrival,
       'details': ?instance.details,
       'floor': ?instance.floor,
+      'isDefault': ?instance.isDefault,
       'label': instance.label,
       'landmark': ?instance.landmark,
       'latitude': instance.latitude,

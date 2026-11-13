@@ -51,6 +51,8 @@ const Map<String, Object?> _user = {
   'language': 'ar',
   'numerals': 'western',
   'marketingOptIn': true,
+  'notifyOccasions': true,
+  'notifyWhatsapp': true,
   'homeArea': 'المزة',
   'termsAccepted': true,
   'profileComplete': true,

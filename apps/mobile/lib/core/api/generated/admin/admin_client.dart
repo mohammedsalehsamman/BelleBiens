@@ -38,6 +38,7 @@ import 'models/coupon_dto.dart' show CouponDto;
 import 'models/coupon_input_dto.dart' show CouponInputDto;
 import 'models/create_product_dto.dart' show CreateProductDto;
 import 'models/daily_stems_input_dto.dart' show DailyStemsInputDto;
+import 'models/dashboard_dto.dart' show DashboardDto;
 import 'models/delivery_settings_dto.dart' show DeliverySettingsDto;
 import 'models/designer_item_input_dto.dart' show DesignerItemInputDto;
 import 'models/designer_size_dto.dart' as models show DesignerSizeDto;
@@ -47,6 +48,13 @@ import 'models/media_controller_upload_kind.dart'
     show MediaControllerUploadKind;
 import 'models/media_dto.dart' as models show MediaDto;
 import 'models/order_status.dart' as models show OrderStatus;
+import 'models/reports_controller_sales_by.dart'
+    as models
+    show ReportsControllerSalesBy;
+import 'models/reports_controller_sales_format.dart'
+    as models
+    show ReportsControllerSalesFormat;
+import 'models/sales_report_dto.dart' as models show SalesReportDto;
 import 'models/shop_mode_dto.dart' show ShopModeDto;
 import 'models/size_limits_dto.dart' as models show SizeLimitsDto;
 import 'models/staff_note_dto.dart' show StaffNoteDto;
@@ -328,6 +336,48 @@ abstract class AdminClient {
         .map((item) => AdminProductDto.fromJson(item as Map<String, Object?>))
         .toList();
   }
+
+  Future<DashboardDto> _reportsControllerDashboardWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/dashboard",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return DashboardDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Today's orders, confirmations, revenue and low stock (FR-ADM-10)
+  @GET('/v1/admin/dashboard')
+  Future<DashboardDto> reportsControllerDashboard({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+  });
 
   /// Every zone, switched off ones too (FR-DLV-02)
   Future<List<AdminZoneDto>> adminDeliveryControllerZones({
@@ -1161,6 +1211,47 @@ abstract class AdminClient {
     @Path('id') required String id,
     @Body() required UpdateProductDto body,
   });
+
+  /// Sales by period, category, product, payment, zone and coupon; ?format=csv
+  Future<models.SalesReportDto> reportsControllerSales({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String from,
+    required String to,
+    models.ReportsControllerSalesBy? by,
+    models.ReportsControllerSalesFormat? format,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/admin/reports/sales",
+      options: _options,
+      queryParameters: <String, Object?>{
+        "from": from,
+        "to": to,
+        if (by != null) "by": by.toJson(),
+        if (format != null) "format": format.toJson(),
+      },
+      cancelToken: cancelToken,
+    );
+    return models.SalesReportDto.fromJson(
+      response.data as Map<String, Object?>,
+    );
+  }
+
   Future<DeliverySettingsDto>
   _adminDeliveryControllerDeliverySettingsWithOptions({
     Map<String, Object?> extra = const {
@@ -1539,6 +1630,32 @@ class _AdminClientWithOptions extends _AdminClient {
             cancelToken: cancelToken,
             options: options,
             body: body,
+          );
+  }
+
+  @override
+  Future<DashboardDto> reportsControllerDashboard({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) {
+    return options == null
+        ? super.reportsControllerDashboard(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          )
+        : _reportsControllerDashboardWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
           );
   }
 

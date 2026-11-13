@@ -4,7 +4,7 @@ import request from 'supertest';
 import type { App } from 'supertest/types.js';
 import { GoogleIdentityVerifier } from '../../src/adapters/identity/google-identity.js';
 import { Mailer } from '../../src/adapters/messaging/mailer.js';
-import { OrderNotifier } from '../../src/adapters/messaging/order-notifier.js';
+import { MessageGateway } from '../../src/adapters/messaging/message-gateway.js';
 import { OtpSender } from '../../src/adapters/messaging/otp-sender.js';
 import { MediaStorage } from '../../src/adapters/storage/media-storage.js';
 import { AppModule } from '../../src/app.module.js';
@@ -19,7 +19,7 @@ import { seedCatalog } from '../../prisma/seed-data/catalog.js';
 import { seedDelivery } from '../../prisma/seed-data/delivery.js';
 import {
   CapturingMailer,
-  CapturingOrderNotifier,
+  CapturingMessageGateway,
   CapturingOtpSender,
   FakeGoogleVerifier,
   MemoryMediaStorage,
@@ -37,7 +37,8 @@ export interface TestApp {
   mail: CapturingMailer;
   google: FakeGoogleVerifier;
   media: MemoryMediaStorage;
-  orders: CapturingOrderNotifier;
+  /** Messages the app would have sent (WhatsApp, SMS, push). */
+  messages: CapturingMessageGateway;
   /** Writes the screens' catalog and delivery zones (prisma/seed-data) with today's list for the test clock. */
   seedCatalog: () => Promise<void>;
   /** Empties every table except the append-only audit log, and resets the fakes. */
@@ -51,6 +52,9 @@ export interface TestApp {
 }
 
 const TABLES = [
+  'notification',
+  'occasion_reminder',
+  'saved_design',
   'payment_event',
   'idempotency_key',
   'stock_reservation',
@@ -90,7 +94,7 @@ export async function createTestApp(): Promise<TestApp> {
   const mail = new CapturingMailer();
   const google = new FakeGoogleVerifier();
   const media = new MemoryMediaStorage();
-  const orders = new CapturingOrderNotifier();
+  const messages = new CapturingMessageGateway();
 
   const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
     .overrideProvider(Clock)
@@ -103,8 +107,8 @@ export async function createTestApp(): Promise<TestApp> {
     .useValue(google)
     .overrideProvider(MediaStorage)
     .useValue(media)
-    .overrideProvider(OrderNotifier)
-    .useValue(orders)
+    .overrideProvider(MessageGateway)
+    .useValue(messages)
     .compile();
 
   const app = configureApp(
@@ -125,7 +129,7 @@ export async function createTestApp(): Promise<TestApp> {
     mail,
     google,
     media,
-    orders,
+    messages,
     async seedCatalog() {
       await seedCatalog(prisma, shopDate(clock.now()));
       await seedDelivery(prisma);
@@ -137,7 +141,8 @@ export async function createTestApp(): Promise<TestApp> {
       await prisma.$executeRawUnsafe(
         `ALTER SEQUENCE order_number_seq RESTART WITH 1001`,
       );
-      orders.sent.length = 0;
+      messages.sent.length = 0;
+      messages.failNext = 0;
       settings.invalidate();
       clock.set(TEST_NOW);
       otp.sent.length = 0;

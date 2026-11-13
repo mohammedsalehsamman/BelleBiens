@@ -113,7 +113,14 @@ describe('Payments (e2e)', () => {
         where: { action: 'order.payment.confirm', actorId: manager.id },
       });
       expect(audit).not.toBeNull();
-      expect(t.orders.sent.map((n) => n.status)).toEqual(['NEW', 'CONFIRMED']);
+      const notes = await t.prisma.notification.findMany({
+        orderBy: { createdAt: 'asc' },
+      });
+      // Same test second: compared without their order.
+      expect(notes.map((n) => n.template).sort()).toEqual([
+        'order.confirmed',
+        'order.placed.shamcash',
+      ]);
     });
 
     it('a receipt from somewhere else is not taken; a stranger cannot send one', async () => {

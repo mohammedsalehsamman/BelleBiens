@@ -306,6 +306,8 @@ void main() {
           'building': '7',
           'floor': '2',
           'details': '',
+          'isDefault': true,
+          'callBeforeArrival': false,
           'zone': zoneOf('abu-rummaneh'),
         },
       ];

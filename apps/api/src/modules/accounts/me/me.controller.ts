@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   HttpCode,
   HttpStatus,
   Param,
@@ -16,6 +17,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { AppError } from '../../../common/errors/app-error.js';
 import { type AuthUser, CurrentUser, Public } from '../auth/auth.decorators.js';
 import { MeDto, RegisterDeviceDto, UpdateMeDto } from './dto/me.dto.js';
@@ -74,5 +76,28 @@ export class MeController {
   ): Promise<void> {
     if (pushToken.length > 4096) throw new AppError('BAD_REQUEST');
     await this.me.removeDevice(user.id, pushToken);
+  }
+
+  @Get('export')
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  @Header(
+    'Content-Disposition',
+    'attachment; filename="belle-biens-my-data.json"',
+  )
+  @ApiOperation({ summary: 'Download all my data as JSON (FR-ACC-08)' })
+  @ApiOkResponse({ description: 'JSON document', schema: { type: 'object' } })
+  exportData(@CurrentUser() user: AuthUser): Promise<Record<string, unknown>> {
+    return this.me.exportData(user.id);
+  }
+
+  @Delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary:
+      'Delete my account: signed out now, erased after 30 days unless I sign in again (FR-ACC-08)',
+  })
+  @ApiNoContentResponse()
+  async remove(@CurrentUser() user: AuthUser): Promise<void> {
+    await this.me.requestDeletion(user.id);
   }
 }

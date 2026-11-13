@@ -129,9 +129,15 @@ describe('Orders (e2e)', () => {
         product: { inscription: 'كل عام وأنت بخير' },
       });
 
-      // The shop is told (UC-01 step 7).
-      expect(t.orders.sent).toEqual([
-        expect.objectContaining({ number: 'BB-1001', totalMinor: 726_600 }),
+      // The customer is told (FR-NTF-01, UC-01 step 7).
+      const notes = await t.prisma.notification.findMany();
+      expect(notes).toEqual([
+        expect.objectContaining({
+          template: 'order.placed',
+          channel: 'WHATSAPP',
+          recipient: '+963944123456',
+          orderNumber: 'BB-1001',
+        }),
       ]);
     });
 

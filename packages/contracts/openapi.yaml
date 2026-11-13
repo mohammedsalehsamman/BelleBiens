@@ -7,12 +7,16 @@ components:
           type: string
         building:
           type: string
+        callBeforeArrival:
+          type: boolean
         details:
           type: string
         floor:
           type: string
         id:
           type: string
+        isDefault:
+          type: boolean
         label:
           type: string
         landmark:
@@ -35,6 +39,8 @@ components:
         - building
         - floor
         - details
+        - isDefault
+        - callBeforeArrival
       type: object
     AddressInputDto:
       properties:
@@ -43,10 +49,16 @@ components:
           type: string
         building:
           type: string
+        callBeforeArrival:
+          description: Screen 29 "اتصل قبل الوصول"
+          type: boolean
         details:
           type: string
         floor:
           type: string
+        isDefault:
+          description: "FR-ACC-04: start checkout with it"
+          type: boolean
         label:
           example: البيت
           type: string
@@ -680,6 +692,22 @@ components:
         - status
         - pages
       type: object
+    BucketDto:
+      properties:
+        key:
+          type: string
+        orders:
+          type: integer
+        totalMinor:
+          type: integer
+        totalUsdCents:
+          type: integer
+      required:
+        - key
+        - orders
+        - totalMinor
+        - totalUsdCents
+      type: object
     CancelOrderDto:
       properties:
         phone:
@@ -873,6 +901,25 @@ components:
           type: string
       required:
         - role
+      type: object
+    CouponBucketDto:
+      properties:
+        discountMinor:
+          type: integer
+        key:
+          type: string
+        orders:
+          type: integer
+        totalMinor:
+          type: integer
+        totalUsdCents:
+          type: integer
+      required:
+        - key
+        - orders
+        - totalMinor
+        - totalUsdCents
+        - discountMinor
       type: object
     CouponDto:
       properties:
@@ -1219,6 +1266,39 @@ components:
           type: array
       required:
         - items
+      type: object
+    DashboardDto:
+      properties:
+        awaitingConfirmation:
+          description: Waiting for the shop to confirm
+          type: integer
+        date:
+          example: 2026-11-12
+          type: string
+        lowStock:
+          description: FR-INV-04
+          items:
+            $ref: "#/components/schemas/LowStockDto"
+          type: array
+        ordersToday:
+          description: To deliver or hand over today
+          type: integer
+        paymentsToCheck:
+          description: Sham Cash receipts to check
+          type: integer
+        revenueTodayMinor:
+          description: Orders placed today
+          type: integer
+        revenueTodayUsdCents:
+          type: integer
+      required:
+        - date
+        - ordersToday
+        - awaitingConfirmation
+        - paymentsToCheck
+        - revenueTodayMinor
+        - revenueTodayUsdCents
+        - lowStock
       type: object
     DaySlotsDto:
       properties:
@@ -1615,6 +1695,25 @@ components:
       required:
         - url
       type: object
+    LineBucketDto:
+      properties:
+        key:
+          type: string
+        qty:
+          type: integer
+        titleAr:
+          type: string
+        titleEn:
+          type: string
+        totalMinor:
+          type: integer
+      required:
+        - key
+        - titleAr
+        - titleEn
+        - qty
+        - totalMinor
+      type: object
     LineIssueDto:
       properties:
         available:
@@ -1666,6 +1765,30 @@ components:
         - email
         - password
       type: object
+    LowStockDto:
+      properties:
+        id:
+          example: white_gypsophila
+          type: string
+        left:
+          type: integer
+        nameAr:
+          type: string
+        nameEn:
+          type: string
+        source:
+          enum:
+            - daily
+            - stock
+            - product
+          type: string
+      required:
+        - id
+        - nameAr
+        - nameEn
+        - left
+        - source
+      type: object
     MeDto:
       properties:
         createdAt:
@@ -1688,11 +1811,17 @@ components:
             - en
           type: string
         marketingOptIn:
-          description: "FR-NTF-05: offers and occasion reminders"
+          description: 'FR-NTF-05: "ورد اليوم والعروض"'
           type: boolean
         name:
           example: سارة الأحمد
           type: string
+        notifyOccasions:
+          description: Occasion reminders (screen 33)
+          type: boolean
+        notifyWhatsapp:
+          description: Order messages on WhatsApp; SMS when off (screen 33)
+          type: boolean
         numerals:
           description: FR-LOC-02
           enum:
@@ -1726,6 +1855,8 @@ components:
         - language
         - numerals
         - marketingOptIn
+        - notifyOccasions
+        - notifyWhatsapp
         - homeArea
         - termsAccepted
         - profileComplete
@@ -1831,6 +1962,65 @@ components:
         - occasion
         - products
       type: object
+    OccasionReminderDto:
+      properties:
+        date:
+          example: 1965-11-19
+          type: string
+        daysLeft:
+          description: Days until next
+          example: 9
+          type: integer
+        id:
+          type: string
+        next:
+          description: The next time it falls
+          example: 2026-11-19
+          type: string
+        person:
+          type: string
+        remindDaysBefore:
+          type: integer
+        type:
+          allOf:
+            - $ref: "#/components/schemas/OccasionType"
+      required:
+        - id
+        - person
+        - type
+        - date
+        - remindDaysBefore
+        - next
+        - daysLeft
+      type: object
+    OccasionReminderInputDto:
+      properties:
+        date:
+          description: Only month and day repeat
+          example: 1965-11-19
+          type: string
+        person:
+          example: ماما
+          type: string
+        remindDaysBefore:
+          description: Default 7
+          example: 7
+          type: integer
+        type:
+          allOf:
+            - $ref: "#/components/schemas/OccasionType"
+      required:
+        - person
+        - type
+        - date
+      type: object
+    OccasionType:
+      enum:
+        - BIRTHDAY
+        - ANNIVERSARY
+        - GRADUATION
+        - OTHER
+      type: string
     OptionChoiceDto:
       properties:
         group:
@@ -2887,6 +3077,52 @@ components:
       required:
         - phone
       type: object
+    SalesReportDto:
+      properties:
+        byCategory:
+          items:
+            $ref: "#/components/schemas/LineBucketDto"
+          type: array
+        byPaymentMethod:
+          items:
+            $ref: "#/components/schemas/BucketDto"
+          type: array
+        byProduct:
+          description: The top 20
+          items:
+            $ref: "#/components/schemas/LineBucketDto"
+          type: array
+        byZone:
+          description: '"pickup" for the branch'
+          items:
+            $ref: "#/components/schemas/BucketDto"
+          type: array
+        coupons:
+          description: FR-RPT-04
+          items:
+            $ref: "#/components/schemas/CouponBucketDto"
+          type: array
+        orders:
+          type: integer
+        periods:
+          items:
+            $ref: "#/components/schemas/BucketDto"
+          type: array
+        totalMinor:
+          type: integer
+        totalUsdCents:
+          type: integer
+      required:
+        - orders
+        - totalMinor
+        - totalUsdCents
+        - periods
+        - byPaymentMethod
+        - byZone
+        - byCategory
+        - byProduct
+        - coupons
+      type: object
     SaveCartDto:
       properties:
         lines:
@@ -2895,6 +3131,58 @@ components:
           type: array
       required:
         - lines
+      type: object
+    SavedDesignDto:
+      properties:
+        available:
+          description: Everything in it can be ordered today
+          type: boolean
+        id:
+          type: string
+        name:
+          type: string
+        previewUrl:
+          type: string
+        priceMinor:
+          description: "Today's price: flowers and stock change (screen 30)"
+          example: 267600
+          type: integer
+        spec:
+          description: BouquetSpec v1, as saved
+          type: object
+        stems:
+          example: 18
+          type: integer
+        updatedAt:
+          format: date-time
+          type: string
+        wrap:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextDto"
+          description: The wrap
+      required:
+        - id
+        - name
+        - spec
+        - stems
+        - priceMinor
+        - available
+        - updatedAt
+      type: object
+    SavedDesignInputDto:
+      properties:
+        name:
+          example: عيد ميلاد لين
+          type: string
+        previewUrl:
+          description: From POST /v1/designer/preview-image
+          type: string
+        spec:
+          description: BouquetSpec v1
+          type: object
+      required:
+        - name
+        - spec
       type: object
     SearchFacetDto:
       properties:
@@ -3357,6 +3645,10 @@ components:
         name:
           example: سارة الأحمد
           type: string
+        notifyOccasions:
+          type: boolean
+        notifyWhatsapp:
+          type: boolean
         numerals:
           enum:
             - western
@@ -3766,6 +4058,22 @@ paths:
       security:
         - bearer: []
       summary: Set today's product list (FR-DLY-02)
+      tags:
+        - admin
+  /v1/admin/dashboard:
+    get:
+      operationId: ReportsController_dashboard
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Today's orders, confirmations, revenue and low stock (FR-ADM-10)
       tags:
         - admin
   /v1/admin/delivery/zones:
@@ -4197,6 +4505,53 @@ paths:
       security:
         - bearer: []
       summary: Change a product; optionGroups and images replace the old ones
+      tags:
+        - admin
+  /v1/admin/reports/sales:
+    get:
+      operationId: ReportsController_sales
+      parameters:
+        - in: query
+          name: from
+          required: true
+          schema:
+            example: 2026-11-01
+            type: string
+        - in: query
+          name: to
+          required: true
+          schema:
+            example: 2026-11-30
+            type: string
+        - in: query
+          name: by
+          required: false
+          schema:
+            default: day
+            enum:
+              - day
+              - week
+              - month
+            type: string
+        - in: query
+          name: format
+          required: false
+          schema:
+            default: json
+            enum:
+              - json
+              - csv
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesReportDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Sales by period, category, product, payment, zone and coupon; ?format=csv
       tags:
         - admin
   /v1/admin/settings/delivery:
@@ -4973,6 +5328,17 @@ paths:
       tags:
         - catalog
   /v1/me:
+    delete:
+      operationId: MeController_remove
+      parameters: []
+      responses:
+        "204":
+          description: ""
+      security:
+        - bearer: []
+      summary: "Delete my account: signed out now, erased after 30 days unless I sign in again (FR-ACC-08)"
+      tags:
+        - me
     get:
       operationId: MeController_get
       parameters: []
@@ -5128,6 +5494,88 @@ paths:
       summary: Replace the saved cart (the app merges first)
       tags:
         - me
+  /v1/me/designs:
+    get:
+      operationId: SavedDesignsController_list
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/SavedDesignDto"
+                type: array
+          description: ""
+      security:
+        - bearer: []
+      summary: My designs, newest first, at today's prices
+      tags:
+        - me
+    post:
+      operationId: SavedDesignsController_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SavedDesignInputDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SavedDesignDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Save a design (FR-DSG-12)
+      tags:
+        - me
+  /v1/me/designs/{id}:
+    delete:
+      operationId: SavedDesignsController_remove
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: ""
+      security:
+        - bearer: []
+      summary: Remove a saved design
+      tags:
+        - me
+    put:
+      operationId: SavedDesignsController_update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SavedDesignInputDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SavedDesignDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Rename or replace a saved design
+      tags:
+        - me
   /v1/me/devices:
     put:
       operationId: MeController_registerDevice
@@ -5161,6 +5609,22 @@ paths:
       security:
         - bearer: []
       summary: Stop sending this account notifications to this phone
+      tags:
+        - me
+  /v1/me/export:
+    get:
+      operationId: MeController_exportData
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: JSON document
+      security:
+        - bearer: []
+      summary: Download all my data as JSON (FR-ACC-08)
       tags:
         - me
   /v1/me/favorites:
@@ -5212,6 +5676,88 @@ paths:
       security:
         - bearer: []
       summary: Save a product
+      tags:
+        - me
+  /v1/me/occasions:
+    get:
+      operationId: OccasionsController_list
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/OccasionReminderDto"
+                type: array
+          description: ""
+      security:
+        - bearer: []
+      summary: My occasions, soonest first
+      tags:
+        - me
+    post:
+      operationId: OccasionsController_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OccasionReminderInputDto"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OccasionReminderDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Add an occasion (screen 31 "حفظ المناسبة")
+      tags:
+        - me
+  /v1/me/occasions/{id}:
+    delete:
+      operationId: OccasionsController_remove
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: ""
+      security:
+        - bearer: []
+      summary: Remove an occasion
+      tags:
+        - me
+    put:
+      operationId: OccasionsController_update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OccasionReminderInputDto"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OccasionReminderDto"
+          description: ""
+      security:
+        - bearer: []
+      summary: Change an occasion
       tags:
         - me
   /v1/me/orders:

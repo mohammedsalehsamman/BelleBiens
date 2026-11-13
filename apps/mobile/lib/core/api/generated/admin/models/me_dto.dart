@@ -38,11 +38,19 @@ class const MeDto({
   )
   required final MeDtoLanguage language,
 
-  /// FR-NTF-05: offers and occasion reminders
+  /// FR-NTF-05: "ورد اليوم والعروض"
   @JsonKey(required: true, disallowNullValue: true)
   required final bool marketingOptIn,
 
   @JsonKey(required: true, disallowNullValue: true) required final String name,
+
+  /// Occasion reminders (screen 33)
+  @JsonKey(required: true, disallowNullValue: true)
+  required final bool notifyOccasions,
+
+  /// Order messages on WhatsApp; SMS when off (screen 33)
+  @JsonKey(required: true, disallowNullValue: true)
+  required final bool notifyWhatsapp,
 
   /// FR-LOC-02
   @JsonKey(
@@ -86,6 +94,8 @@ class const MeDto({
     "language",
     "marketingOptIn",
     "name",
+    "notifyOccasions",
+    "notifyWhatsapp",
     "numerals",
     "phone",
     "profileComplete",

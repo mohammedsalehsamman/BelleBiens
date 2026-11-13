@@ -31,8 +31,14 @@ export class MeDto {
   @ApiProperty({ enum: ['ar', 'en'] }) language!: 'ar' | 'en';
   @ApiProperty({ enum: ['western', 'arabic'], description: 'FR-LOC-02' })
   numerals!: 'western' | 'arabic';
-  @ApiProperty({ description: 'FR-NTF-05: offers and occasion reminders' })
+  @ApiProperty({ description: 'FR-NTF-05: "ورد اليوم والعروض"' })
   marketingOptIn!: boolean;
+  @ApiProperty({ description: 'Occasion reminders (screen 33)' })
+  notifyOccasions!: boolean;
+  @ApiProperty({
+    description: 'Order messages on WhatsApp; SMS when off (screen 33)',
+  })
+  notifyWhatsapp!: boolean;
   @ApiProperty({ nullable: true, type: String, example: 'أبو رمانة' })
   homeArea!: string | null;
   @ApiProperty({
@@ -55,6 +61,8 @@ export class MeDto {
       language: user.language,
       numerals: user.numerals,
       marketingOptIn: user.marketingOptIn,
+      notifyOccasions: user.notifyOccasions,
+      notifyWhatsapp: user.notifyWhatsapp,
       homeArea: user.homeArea,
       termsAccepted: user.termsAcceptedAt !== null,
       profileComplete:
@@ -92,6 +100,16 @@ export class UpdateMeDto {
   @IsOptional()
   @IsBoolean()
   marketingOptIn?: boolean;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
+  notifyOccasions?: boolean;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
+  notifyWhatsapp?: boolean;
 
   @ApiPropertyOptional({ example: 'المزة' })
   @IsOptional()

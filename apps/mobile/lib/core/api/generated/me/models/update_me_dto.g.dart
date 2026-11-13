@@ -16,6 +16,8 @@ UpdateMeDto _$UpdateMeDtoFromJson(Map<String, dynamic> json) {
       'language',
       'marketingOptIn',
       'name',
+      'notifyOccasions',
+      'notifyWhatsapp',
       'numerals',
     ],
   );
@@ -26,6 +28,8 @@ UpdateMeDto _$UpdateMeDtoFromJson(Map<String, dynamic> json) {
     language: UpdateMeDto._read_language(json['language']),
     marketingOptIn: json['marketingOptIn'] as bool?,
     name: json['name'] as String?,
+    notifyOccasions: json['notifyOccasions'] as bool?,
+    notifyWhatsapp: json['notifyWhatsapp'] as bool?,
     numerals: UpdateMeDto._read_numerals(json['numerals']),
     additionalProperties:
         UpdateMeDto._extras(json, 'additionalProperties') == null
@@ -44,5 +48,7 @@ Map<String, dynamic> _$UpdateMeDtoToJson(UpdateMeDto instance) =>
       'language': ?UpdateMeDto._write_language(instance.language),
       'marketingOptIn': ?instance.marketingOptIn,
       'name': ?instance.name,
+      'notifyOccasions': ?instance.notifyOccasions,
+      'notifyWhatsapp': ?instance.notifyWhatsapp,
       'numerals': ?UpdateMeDto._write_numerals(instance.numerals),
     };

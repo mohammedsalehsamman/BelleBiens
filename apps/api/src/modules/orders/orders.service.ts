@@ -388,9 +388,12 @@ export class OrdersService {
 
       if (ownHold) await tx.slotHold.delete({ where: { id: ownHold } });
       if (user && address && dto.address?.save) {
+        const saved = await tx.address.count({ where: { userId: user.id } });
         await tx.address.create({
           data: {
             userId: user.id,
+            isDefault: saved === 0,
+            callBeforeArrival: dto.callBeforeArrival ?? false,
             label: address.label || 'العنوان',
             latitude: address.latitude,
             longitude: address.longitude,

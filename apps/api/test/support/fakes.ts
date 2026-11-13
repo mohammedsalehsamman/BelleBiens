@@ -1,7 +1,7 @@
 import {
-  type OrderNotice,
-  OrderNotifier,
-} from '../../src/adapters/messaging/order-notifier.js';
+  MessageGateway,
+  type OutgoingMessage,
+} from '../../src/adapters/messaging/message-gateway.js';
 import {
   type GoogleIdentity,
   GoogleIdentityVerifier,
@@ -71,17 +71,18 @@ export class MemoryMediaStorage extends MediaStorage {
   }
 }
 
-/** Keeps order notices so tests can see what the shop was told. */
-export class CapturingOrderNotifier extends OrderNotifier {
-  readonly sent: (OrderNotice & { from?: string })[] = [];
+/** Keeps every message instead of sending it; can fail the next sends. */
+export class CapturingMessageGateway extends MessageGateway {
+  readonly sent: OutgoingMessage[] = [];
+  /** How many of the next sends throw, as a provider outage would. */
+  failNext = 0;
 
-  async orderPlaced(notice: OrderNotice): Promise<void> {
-    this.sent.push(notice);
-    await Promise.resolve();
-  }
-
-  async statusChanged(notice: OrderNotice & { from: string }): Promise<void> {
-    this.sent.push(notice);
+  async send(message: OutgoingMessage): Promise<void> {
+    if (this.failNext > 0) {
+      this.failNext -= 1;
+      throw new Error('provider down (test)');
+    }
+    this.sent.push(message);
     await Promise.resolve();
   }
 }

@@ -8,8 +8,10 @@ import { AuthService } from './auth/auth.service.js';
 import { OtpService } from './auth/otp.service.js';
 import { PasswordService } from './auth/password.service.js';
 import { TokenService } from './auth/token.service.js';
+import { AccountJobs } from './me/account-jobs.js';
 import { MeController } from './me/me.controller.js';
 import { MeService } from './me/me.service.js';
+import { OccasionsController } from './me/occasions.controller.js';
 
 @Module({
   imports: [
@@ -22,13 +24,19 @@ import { MeService } from './me/me.service.js';
       }),
     }),
   ],
-  controllers: [AuthController, MeController, AdminUsersController],
+  controllers: [
+    AuthController,
+    MeController,
+    OccasionsController,
+    AdminUsersController,
+  ],
   providers: [
     AuthService,
     OtpService,
     PasswordService,
     TokenService,
     MeService,
+    AccountJobs,
   ],
   exports: [TokenService],
 })

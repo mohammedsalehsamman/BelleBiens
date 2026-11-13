@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { OrderNotifier } from '../../../adapters/messaging/order-notifier.js';
 import { MediaStorage } from '../../../adapters/storage/media-storage.js';
 import { Clock } from '../../../common/clock/clock.js';
 import { AppError } from '../../../common/errors/app-error.js';
@@ -32,6 +33,7 @@ export class PaymentsService {
     private readonly providers: PaymentProviders,
     private readonly audit: AuditService,
     private readonly media: MediaStorage,
+    private readonly notifier: OrderNotifier,
   ) {}
 
   private event(
@@ -239,6 +241,11 @@ export class PaymentsService {
         tx,
       );
     });
+    try {
+      await this.notifier.paymentRejected(number);
+    } catch (error) {
+      this.logger.error(`payment rejected notice failed: ${String(error)}`);
+    }
     return this.orders.forStaff(number, actor.role);
   }
 

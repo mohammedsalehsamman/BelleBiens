@@ -33,6 +33,8 @@ export const SETTING_DEFAULTS = {
   'delivery.windowDays': 60 as number,
   /** FR-DLV-04: how long a chosen slot is kept during checkout. */
   'delivery.slotHoldMinutes': 15 as number,
+  /** FR-INV-04: the dashboard lists items with this many or fewer left. */
+  'inventory.lowStockThreshold': 5 as number,
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;

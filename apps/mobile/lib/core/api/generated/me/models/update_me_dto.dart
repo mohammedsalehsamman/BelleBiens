@@ -37,6 +37,12 @@ class const UpdateMeDto({
 
   @JsonKey(disallowNullValue: true, includeIfNull: false) final String? name,
 
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final bool? notifyOccasions,
+
+  @JsonKey(disallowNullValue: true, includeIfNull: false)
+  final bool? notifyWhatsapp,
+
   @JsonKey(
     disallowNullValue: true,
     includeIfNull: false,
@@ -59,6 +65,8 @@ class const UpdateMeDto({
     "language",
     "marketingOptIn",
     "name",
+    "notifyOccasions",
+    "notifyWhatsapp",
     "numerals",
   };
 

@@ -10,10 +10,10 @@ import 'package:retrofit/retrofit.dart'
         Extras,
         CancelRequest,
         GET,
+        DELETE,
         PATCH,
         POST,
         PUT,
-        DELETE,
         ParseErrorLogger,
         Body,
         Headers,
@@ -24,9 +24,15 @@ import '../cart/models/product_card_dto.dart' as models show ProductCardDto;
 import 'models/address_dto.dart' show AddressDto;
 import 'models/address_input_dto.dart' show AddressInputDto;
 import 'models/cart_dto.dart' show CartDto;
+import 'models/me_controller_export_data_response200.dart'
+    show MeControllerExportDataResponse200;
+import 'models/occasion_reminder_dto.dart' show OccasionReminderDto;
+import 'models/occasion_reminder_input_dto.dart' show OccasionReminderInputDto;
 import 'models/order_summary_dto.dart' as models show OrderSummaryDto;
 import 'models/register_device_dto.dart' show RegisterDeviceDto;
 import 'models/save_cart_dto.dart' show SaveCartDto;
+import 'models/saved_design_dto.dart' show SavedDesignDto;
+import 'models/saved_design_input_dto.dart' show SavedDesignInputDto;
 import 'models/update_me_dto.dart' show UpdateMeDto;
 
 part 'me_client.g.dart';
@@ -68,6 +74,46 @@ abstract class MeClient {
   /// The signed-in profile
   @GET('/v1/me')
   Future<MeDto> meControllerGet({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+  });
+  Future<void> _meControllerRemoveWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "DELETE",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    await _transport.request<dynamic>(
+      "/v1/me",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Delete my account: signed out now, erased after 30 days unless I sign in again (FR-ACC-08)
+  @DELETE('/v1/me')
+  Future<void> meControllerRemove({
     @Extras()
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -400,6 +446,183 @@ abstract class MeClient {
     Options? options,
     @Body() required SaveCartDto body,
   });
+
+  /// My designs, newest first, at today's prices
+  Future<List<SavedDesignDto>> savedDesignsControllerList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/designs",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map((item) => SavedDesignDto.fromJson(item as Map<String, Object?>))
+        .toList();
+  }
+
+  Future<SavedDesignDto> _savedDesignsControllerCreateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required SavedDesignInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/designs",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return SavedDesignDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Save a design (FR-DSG-12)
+  @POST('/v1/me/designs')
+  @Headers({'Content-Type': 'application/json'})
+  Future<SavedDesignDto> savedDesignsControllerCreate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required SavedDesignInputDto body,
+  });
+  Future<SavedDesignDto> _savedDesignsControllerUpdateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required SavedDesignInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/designs/" + id.toString(),
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return SavedDesignDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Rename or replace a saved design
+  @PUT('/v1/me/designs/{id}')
+  @Headers({'Content-Type': 'application/json'})
+  Future<SavedDesignDto> savedDesignsControllerUpdate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+    @Body() required SavedDesignInputDto body,
+  });
+  Future<void> _savedDesignsControllerRemoveWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "DELETE",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    await _transport.request<dynamic>(
+      "/v1/me/designs/" + id.toString(),
+      options: _options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Remove a saved design
+  @DELETE('/v1/me/designs/{id}')
+  Future<void> savedDesignsControllerRemove({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+  });
   Future<void> _meControllerRegisterDeviceWithOptions({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -491,6 +714,49 @@ abstract class MeClient {
     @CancelRequest() CancelToken? cancelToken,
     Options? options,
     @Path('pushToken') required String pushToken,
+  });
+  Future<MeControllerExportDataResponse200> _meControllerExportDataWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/export",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return MeControllerExportDataResponse200.fromJson(
+      response.data as Map<String, Object?>,
+    );
+  }
+
+  /// Download all my data as JSON (FR-ACC-08)
+  @GET('/v1/me/export')
+  Future<MeControllerExportDataResponse200> meControllerExportData({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
   });
 
   /// Saved products (screen 32, FR-ACC-06)
@@ -611,6 +877,185 @@ abstract class MeClient {
     @Path('slug') required String slug,
   });
 
+  /// My occasions, soonest first
+  Future<List<OccasionReminderDto>> occasionsControllerList({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "GET",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+      validateStatus: (status) => status != null && (status == 200),
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/occasions",
+      options: _options,
+      cancelToken: cancelToken,
+    );
+    return (response.data as List<Object?>)
+        .map(
+          (item) => OccasionReminderDto.fromJson(item as Map<String, Object?>),
+        )
+        .toList();
+  }
+
+  Future<OccasionReminderDto> _occasionsControllerCreateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required OccasionReminderInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "POST",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/occasions",
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return OccasionReminderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Add an occasion (screen 31 "حفظ المناسبة")
+  @POST('/v1/me/occasions')
+  @Headers({'Content-Type': 'application/json'})
+  Future<OccasionReminderDto> occasionsControllerCreate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Body() required OccasionReminderInputDto body,
+  });
+  Future<OccasionReminderDto> _occasionsControllerUpdateWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required OccasionReminderInputDto body,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "PUT",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      contentType: "application/json",
+      headers: {
+        for (final entry
+            in (options?.headers ?? const <String, Object?>{}).entries)
+          if (entry.key.toLowerCase() != 'content-type') entry.key: entry.value,
+        'Accept': "application/json",
+      },
+    );
+    final response = await _transport.request<dynamic>(
+      "/v1/me/occasions/" + id.toString(),
+      options: _options,
+      data: convert.jsonEncode(body),
+      cancelToken: cancelToken,
+    );
+    return OccasionReminderDto.fromJson(response.data as Map<String, Object?>);
+  }
+
+  /// Change an occasion
+  @PUT('/v1/me/occasions/{id}')
+  @Headers({'Content-Type': 'application/json'})
+  Future<OccasionReminderDto> occasionsControllerUpdate({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+    @Body() required OccasionReminderInputDto body,
+  });
+  Future<void> _occasionsControllerRemoveWithOptions({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+  }) async {
+    final _options = (options ?? Options()).copyWith(
+      method: "DELETE",
+      responseType: ResponseType.json,
+      extra: {...?options?.extra, ...extra},
+      headers: {...?options?.headers, 'Accept': "application/json"},
+    );
+    await _transport.request<dynamic>(
+      "/v1/me/occasions/" + id.toString(),
+      options: _options,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Remove an occasion
+  @DELETE('/v1/me/occasions/{id}')
+  Future<void> occasionsControllerRemove({
+    @Extras()
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    @CancelRequest() CancelToken? cancelToken,
+    Options? options,
+    @Path('id') required String id,
+  });
+
   /// My orders, newest first (screen 26)
   Future<List<models.OrderSummaryDto>> myOrdersControllerList({
     Map<String, Object?> extra = const {
@@ -668,6 +1113,32 @@ class _MeClientWithOptions extends _MeClient {
             options: options,
           )
         : _meControllerGetWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          );
+  }
+
+  @override
+  Future<void> meControllerRemove({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) {
+    return options == null
+        ? super.meControllerRemove(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          )
+        : _meControllerRemoveWithOptions(
             extra: extra,
             cancelToken: cancelToken,
             options: options,
@@ -849,6 +1320,96 @@ class _MeClientWithOptions extends _MeClient {
   }
 
   @override
+  Future<SavedDesignDto> savedDesignsControllerCreate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required SavedDesignInputDto body,
+  }) {
+    return options == null
+        ? super.savedDesignsControllerCreate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _savedDesignsControllerCreateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<SavedDesignDto> savedDesignsControllerUpdate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required SavedDesignInputDto body,
+  }) {
+    return options == null
+        ? super.savedDesignsControllerUpdate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          )
+        : _savedDesignsControllerUpdateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          );
+  }
+
+  @override
+  Future<void> savedDesignsControllerRemove({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+  }) {
+    return options == null
+        ? super.savedDesignsControllerRemove(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+          )
+        : _savedDesignsControllerRemoveWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+          );
+  }
+
+  @override
   Future<void> meControllerRegisterDevice({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -907,6 +1468,32 @@ class _MeClientWithOptions extends _MeClient {
   }
 
   @override
+  Future<MeControllerExportDataResponse200> meControllerExportData({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+  }) {
+    return options == null
+        ? super.meControllerExportData(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          )
+        : _meControllerExportDataWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+          );
+  }
+
+  @override
   Future<void> favoritesControllerAdd({
     Map<String, Object?> extra = const {
       "openapi.security": [
@@ -961,6 +1548,96 @@ class _MeClientWithOptions extends _MeClient {
             cancelToken: cancelToken,
             options: options,
             slug: slug,
+          );
+  }
+
+  @override
+  Future<OccasionReminderDto> occasionsControllerCreate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required OccasionReminderInputDto body,
+  }) {
+    return options == null
+        ? super.occasionsControllerCreate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          )
+        : _occasionsControllerCreateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            body: body,
+          );
+  }
+
+  @override
+  Future<OccasionReminderDto> occasionsControllerUpdate({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+    required OccasionReminderInputDto body,
+  }) {
+    return options == null
+        ? super.occasionsControllerUpdate(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          )
+        : _occasionsControllerUpdateWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+            body: body,
+          );
+  }
+
+  @override
+  Future<void> occasionsControllerRemove({
+    Map<String, Object?> extra = const {
+      "openapi.security": [
+        {"bearer": []},
+      ],
+      "openapi.securitySchemes": {
+        "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+      },
+    },
+    CancelToken? cancelToken,
+    Options? options,
+    required String id,
+  }) {
+    return options == null
+        ? super.occasionsControllerRemove(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
+          )
+        : _occasionsControllerRemoveWithOptions(
+            extra: extra,
+            cancelToken: cancelToken,
+            options: options,
+            id: id,
           );
   }
 }

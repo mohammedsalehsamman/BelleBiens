@@ -66,7 +66,8 @@ class PaymentsConfigDto {
   @ApiProperty({
     type: 'integer',
     example: 120,
-    description: 'FR-PAY-10: minutes to pay online before the order is cancelled',
+    description:
+      'FR-PAY-10: minutes to pay online before the order is cancelled',
   })
   unpaidTimeoutMinutes!: number;
 }

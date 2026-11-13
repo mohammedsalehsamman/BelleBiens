@@ -20,11 +20,17 @@ class const AddressDto({
   required final String building,
 
   @JsonKey(required: true, disallowNullValue: true)
+  required final bool callBeforeArrival,
+
+  @JsonKey(required: true, disallowNullValue: true)
   required final String details,
 
   @JsonKey(required: true, disallowNullValue: true) required final String floor,
 
   @JsonKey(required: true, disallowNullValue: true) required final String id,
+
+  @JsonKey(required: true, disallowNullValue: true)
+  required final bool isDefault,
 
   @JsonKey(required: true, disallowNullValue: true) required final String label,
 
@@ -49,9 +55,11 @@ class const AddressDto({
   static const _knownKeys = <String>{
     "area",
     "building",
+    "callBeforeArrival",
     "details",
     "floor",
     "id",
+    "isDefault",
     "label",
     "landmark",
     "latitude",

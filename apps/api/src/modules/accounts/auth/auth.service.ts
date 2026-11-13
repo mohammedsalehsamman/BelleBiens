@@ -61,6 +61,7 @@ export class AuthService {
         where: { id: existing.id },
         data: { phoneVerifiedAt: now },
       });
+      await this.claimGuestOrders(user.id, phone);
       return this.session(user, false);
     }
 
@@ -77,7 +78,19 @@ export class AuthService {
         createdAt: now,
       },
     });
+    await this.claimGuestOrders(user.id, phone);
     return this.session(user, true);
+  }
+
+  /**
+   * FR-ACC-09: orders placed as a guest with this phone join the account,
+   * only after the code proved the phone is theirs.
+   */
+  private async claimGuestOrders(userId: string, phone: string): Promise<void> {
+    await this.prisma.order.updateMany({
+      where: { userId: null, customerPhone: phone },
+      data: { userId },
+    });
   }
 
   async register(
@@ -245,9 +258,17 @@ export class AuthService {
   }
 
   private async session(
-    user: User,
+    current: User,
     isNewUser: boolean,
   ): Promise<AuthSessionDto> {
+    // FR-ACC-08: signing in again inside the 30 days keeps the account.
+    const user =
+      current.status === 'DELETION_REQUESTED'
+        ? await this.prisma.user.update({
+            where: { id: current.id },
+            data: { status: 'ACTIVE', deletionRequestedAt: null },
+          })
+        : current;
     const tokens = await this.tokens.issue(user);
     return { ...tokens, isNewUser, user: MeDto.from(user) };
   }

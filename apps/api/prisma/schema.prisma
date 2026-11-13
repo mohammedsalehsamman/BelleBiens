@@ -95,24 +95,31 @@ enum DevicePlatform {
 
 /// DR-01. Phone is unique per account and stored in E.164 (FR-CRT-09); email is stored lowercased.
 model User {
-  id              String     @id @default(uuid()) @db.Uuid
-  name            String     @default("")
-  phone           String?    @unique
-  email           String?    @unique
-  passwordHash    String?    @map("password_hash")
-  googleSub       String?    @unique @map("google_sub")
-  role            Role       @default(CUSTOMER)
-  status          UserStatus @default(ACTIVE)
-  language        Language   @default(ar)
-  numerals        Numerals   @default(western)
+  id                  String     @id @default(uuid()) @db.Uuid
+  name                String     @default("")
+  phone               String?    @unique
+  email               String?    @unique
+  passwordHash        String?    @map("password_hash")
+  googleSub           String?    @unique @map("google_sub")
+  role                Role       @default(CUSTOMER)
+  status              UserStatus @default(ACTIVE)
+  language            Language   @default(ar)
+  numerals            Numerals   @default(western)
   /// FR-NTF-05: marketing and reminder messages need opt-in; order messages do not.
-  marketingOptIn  Boolean    @default(false) @map("marketing_opt_in")
+  marketingOptIn      Boolean    @default(false) @map("marketing_opt_in")
+  /// Occasion reminders (screen 33); on until the customer turns them off.
+  notifyOccasions     Boolean    @default(true) @map("notify_occasions")
+  /// Order messages on WhatsApp besides push (screen 33 "رسائل واتساب").
+  notifyWhatsapp      Boolean    @default(true) @map("notify_whatsapp")
   /// Free-text area picked at sign-up to suggest delivery (screen 03). Becomes a zone id in S5.
-  homeArea        String?    @map("home_area")
-  phoneVerifiedAt DateTime?  @map("phone_verified_at") @db.Timestamptz(3)
-  termsAcceptedAt DateTime?  @map("terms_accepted_at") @db.Timestamptz(3)
-  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+  homeArea            String?    @map("home_area")
+  phoneVerifiedAt     DateTime?  @map("phone_verified_at") @db.Timestamptz(3)
+  termsAcceptedAt     DateTime?  @map("terms_accepted_at") @db.Timestamptz(3)
+  /// FR-ACC-08: when the customer asked to delete the account; personal
+  /// data is erased 30 days later (time to change one's mind).
+  deletionRequestedAt DateTime?  @map("deletion_requested_at") @db.Timestamptz(3)
+  createdAt           DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt           DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   refreshTokens       RefreshToken[]
   passwordResetTokens PasswordResetToken[]
@@ -121,6 +128,8 @@ model User {
   cart                Cart?
   addresses           Address[]
   orders              Order[]
+  occasions           OccasionReminder[]
+  designs             SavedDesign[]
 
   @@map("app_user")
 }
@@ -605,19 +614,23 @@ model SlotHold {
 
 /// FR-ACC-04: saved addresses (screen 22 "احفظ العنوان", screen 29 in S7).
 model Address {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @map("user_id") @db.Uuid
-  label     String
-  latitude  Float
-  longitude Float
-  zoneSlug  String?  @map("zone_slug")
-  area      String   @default("")
-  landmark  String   @default("")
-  building  String   @default("")
-  floor     String   @default("")
-  details   String   @default("")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  id                String   @id @default(uuid()) @db.Uuid
+  userId            String   @map("user_id") @db.Uuid
+  label             String
+  latitude          Float
+  longitude         Float
+  zoneSlug          String?  @map("zone_slug")
+  area              String   @default("")
+  landmark          String   @default("")
+  building          String   @default("")
+  floor             String   @default("")
+  details           String   @default("")
+  /// FR-ACC-04: the one checkout starts with.
+  isDefault         Boolean  @default(false) @map("is_default")
+  /// Screen 29 "اتصل قبل الوصول", remembered with the address.
+  callBeforeArrival Boolean  @default(false) @map("call_before_arrival")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -803,4 +816,92 @@ model PaymentEvent {
 
   @@index([orderId])
   @@map("payment_event")
+}
+
+// ---------------------------------------------------------------------------
+// Account extras and notifications (S7): FR-ACC-07, FR-DSG-12, FR-NTF-*
+// ---------------------------------------------------------------------------
+
+enum OccasionType {
+  BIRTHDAY
+  ANNIVERSARY
+  GRADUATION
+  OTHER
+}
+
+/// FR-ACC-07: a person's occasion, reminded some days before, every year.
+model OccasionReminder {
+  id               String       @id @default(uuid()) @db.Uuid
+  userId           String       @map("user_id") @db.Uuid
+  person           String
+  type             OccasionType
+  /// The day as the customer gave it; only month and day repeat.
+  date             DateTime     @db.Date
+  remindDaysBefore Int          @default(7) @map("remind_days_before")
+  /// The occurrence already reminded, so a reminder goes out once a year.
+  remindedFor      DateTime?    @map("reminded_for") @db.Date
+  createdAt        DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt        DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("occasion_reminder")
+}
+
+/// FR-DSG-12: a bouquet kept under "تصاميمي". Only the spec is kept; prices
+/// and availability are worked out again each time it is opened.
+model SavedDesign {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  name       String
+  spec       Json
+  previewUrl String?  @map("preview_url")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("saved_design")
+}
+
+enum NotificationChannel {
+  WHATSAPP
+  SMS
+  PUSH
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+/// FR-NTF-07: every message the system sends, its tries and its outcome.
+/// Also the queue: PENDING rows are sent again at nextAttemptAt.
+model Notification {
+  id            String              @id @default(uuid()) @db.Uuid
+  userId        String?             @map("user_id") @db.Uuid
+  orderNumber   String?             @map("order_number")
+  channel       NotificationChannel
+  template      String
+  /// E.164 phone for WhatsApp and SMS, the device token for push.
+  recipient     String
+  language      Language            @default(ar)
+  title         String              @default("")
+  body          String
+  /// What the app opens on a tap, e.g. {"route": "/orders/BB-1001"}.
+  data          Json?
+  status        NotificationStatus  @default(PENDING)
+  attempts      Int                 @default(0)
+  nextAttemptAt DateTime?           @map("next_attempt_at") @db.Timestamptz(3)
+  lastError     String?             @map("last_error")
+  createdAt     DateTime            @default(now()) @map("created_at") @db.Timestamptz(3)
+  sentAt        DateTime?           @map("sent_at") @db.Timestamptz(3)
+
+  @@index([status, nextAttemptAt])
+  @@index([orderNumber])
+  @@index([userId])
+  @@map("notification")
 }

@@ -47,7 +47,8 @@ class _RefreshServer implements HttpClientAdapter {
   String _userJson() =>
       '{"id":"u1","name":"سارة","phone":"+963944123456","email":null,'
       '"role":"CUSTOMER","language":"ar","numerals":"western",'
-      '"marketingOptIn":false,"homeArea":null,"termsAccepted":true,'
+      '"marketingOptIn":false,"notifyOccasions":true,"notifyWhatsapp":true,'
+      '"homeArea":null,"termsAccepted":true,'
       '"profileComplete":true,"createdAt":"2026-11-11T00:00:00.000Z"}';
 
   @override

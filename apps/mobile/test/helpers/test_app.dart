@@ -148,6 +148,8 @@ MeDto testUser({
   language: MeDtoLanguage.ar,
   numerals: MeDtoNumerals.western,
   marketingOptIn: false,
+  notifyOccasions: true,
+  notifyWhatsapp: true,
   homeArea: null,
   termsAccepted: profileComplete,
   profileComplete: profileComplete,

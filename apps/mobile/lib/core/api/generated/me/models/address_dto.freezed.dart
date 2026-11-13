@@ -27,20 +27,20 @@ $AddressDtoCopyWith<AddressDto> get copyWith => _$AddressDtoCopyWithImpl<Address
 @override
 bool operator ==(Object other) {
   final _this = this as AddressDto;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressDto&&(identical(other.area, _this.area) || other.area == _this.area)&&(identical(other.building, _this.building) || other.building == _this.building)&&(identical(other.details, _this.details) || other.details == _this.details)&&(identical(other.floor, _this.floor) || other.floor == _this.floor)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.label, _this.label) || other.label == _this.label)&&(identical(other.landmark, _this.landmark) || other.landmark == _this.landmark)&&(identical(other.latitude, _this.latitude) || other.latitude == _this.latitude)&&(identical(other.longitude, _this.longitude) || other.longitude == _this.longitude)&&(identical(other.zone, _this.zone) || other.zone == _this.zone)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressDto&&(identical(other.area, _this.area) || other.area == _this.area)&&(identical(other.building, _this.building) || other.building == _this.building)&&(identical(other.callBeforeArrival, _this.callBeforeArrival) || other.callBeforeArrival == _this.callBeforeArrival)&&(identical(other.details, _this.details) || other.details == _this.details)&&(identical(other.floor, _this.floor) || other.floor == _this.floor)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.isDefault, _this.isDefault) || other.isDefault == _this.isDefault)&&(identical(other.label, _this.label) || other.label == _this.label)&&(identical(other.landmark, _this.landmark) || other.landmark == _this.landmark)&&(identical(other.latitude, _this.latitude) || other.latitude == _this.latitude)&&(identical(other.longitude, _this.longitude) || other.longitude == _this.longitude)&&(identical(other.zone, _this.zone) || other.zone == _this.zone)&&const DeepCollectionEquality().equals(other.additionalProperties, _this.additionalProperties));
 }
 
 
 @override
 int get hashCode {
   final _this = this as AddressDto;
-  return Object.hash(runtimeType,_this.area,_this.building,_this.details,_this.floor,_this.id,_this.label,_this.landmark,_this.latitude,_this.longitude,_this.zone,const DeepCollectionEquality().hash(_this.additionalProperties));
+  return Object.hash(runtimeType,_this.area,_this.building,_this.callBeforeArrival,_this.details,_this.floor,_this.id,_this.isDefault,_this.label,_this.landmark,_this.latitude,_this.longitude,_this.zone,const DeepCollectionEquality().hash(_this.additionalProperties));
 }
 
 @override
 String toString() {
   final _this = this as AddressDto;
-  return 'AddressDto(area: ${_this.area}, building: ${_this.building}, details: ${_this.details}, floor: ${_this.floor}, id: ${_this.id}, label: ${_this.label}, landmark: ${_this.landmark}, latitude: ${_this.latitude}, longitude: ${_this.longitude}, zone: ${_this.zone}, additionalProperties: ${_this.additionalProperties})';
+  return 'AddressDto(area: ${_this.area}, building: ${_this.building}, callBeforeArrival: ${_this.callBeforeArrival}, details: ${_this.details}, floor: ${_this.floor}, id: ${_this.id}, isDefault: ${_this.isDefault}, label: ${_this.label}, landmark: ${_this.landmark}, latitude: ${_this.latitude}, longitude: ${_this.longitude}, zone: ${_this.zone}, additionalProperties: ${_this.additionalProperties})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $AddressDtoCopyWith<$Res>  {
   factory $AddressDtoCopyWith(AddressDto value, $Res Function(AddressDto) _then) = _$AddressDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(required: true, disallowNullValue: true) String area,@JsonKey(required: true, disallowNullValue: true) String building,@JsonKey(required: true, disallowNullValue: true) String details,@JsonKey(required: true, disallowNullValue: true) String floor,@JsonKey(required: true, disallowNullValue: true) String id,@JsonKey(required: true, disallowNullValue: true) String label,@JsonKey(required: true, disallowNullValue: true) String landmark,@JsonKey(required: true, disallowNullValue: true) num latitude,@JsonKey(required: true, disallowNullValue: true) num longitude,@JsonKey(disallowNullValue: true, includeIfNull: false) ZoneDto? zone,@JsonKey(readValue: AddressDto._extras, fromJson: AddressDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
+@JsonKey(required: true, disallowNullValue: true) String area,@JsonKey(required: true, disallowNullValue: true) String building,@JsonKey(required: true, disallowNullValue: true) bool callBeforeArrival,@JsonKey(required: true, disallowNullValue: true) String details,@JsonKey(required: true, disallowNullValue: true) String floor,@JsonKey(required: true, disallowNullValue: true) String id,@JsonKey(required: true, disallowNullValue: true) bool isDefault,@JsonKey(required: true, disallowNullValue: true) String label,@JsonKey(required: true, disallowNullValue: true) String landmark,@JsonKey(required: true, disallowNullValue: true) num latitude,@JsonKey(required: true, disallowNullValue: true) num longitude,@JsonKey(disallowNullValue: true, includeIfNull: false) ZoneDto? zone,@JsonKey(readValue: AddressDto._extras, fromJson: AddressDto._readExtras, includeToJson: false) Map<String, Object?> additionalProperties
 });
 
 
@@ -68,14 +68,16 @@ class _$AddressDtoCopyWithImpl<$Res>
 
 /// Create a copy of AddressDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? area = null,Object? building = null,Object? details = null,Object? floor = null,Object? id = null,Object? label = null,Object? landmark = null,Object? latitude = null,Object? longitude = null,Object? zone = freezed,Object? additionalProperties = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? area = null,Object? building = null,Object? callBeforeArrival = null,Object? details = null,Object? floor = null,Object? id = null,Object? isDefault = null,Object? label = null,Object? landmark = null,Object? latitude = null,Object? longitude = null,Object? zone = freezed,Object? additionalProperties = null,}) {
   return _then(AddressDto(
 area: null == area ? _self.area : area // ignore: cast_nullable_to_non_nullable
 as String,building: null == building ? _self.building : building // ignore: cast_nullable_to_non_nullable
-as String,details: null == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
+as String,callBeforeArrival: null == callBeforeArrival ? _self.callBeforeArrival : callBeforeArrival // ignore: cast_nullable_to_non_nullable
+as bool,details: null == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String,floor: null == floor ? _self.floor : floor // ignore: cast_nullable_to_non_nullable
 as String,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String,isDefault: null == isDefault ? _self.isDefault : isDefault // ignore: cast_nullable_to_non_nullable
+as bool,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,landmark: null == landmark ? _self.landmark : landmark // ignore: cast_nullable_to_non_nullable
 as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as num,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
