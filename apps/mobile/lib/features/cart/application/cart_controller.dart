@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belle_biens/core/analytics/analytics.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/network/api_error.dart';
@@ -57,8 +58,13 @@ class CartController extends AsyncNotifier<List<CartLine>> {
     unawaited(_pushToAccount(lines));
   }
 
-  Future<void> add(CartLine line) async =>
-      await _set(addLine(await _current, line));
+  Future<void> add(CartLine line) async {
+    await _set(addLine(await _current, line));
+    ref.read(analyticsProvider).log(AnalyticsEvent.addToCart, {
+      'kind': line.kind.name,
+      'qty': line.qty,
+    });
+  }
 
   Future<void> setQty(String id, int qty) async {
     final lines = await _current;

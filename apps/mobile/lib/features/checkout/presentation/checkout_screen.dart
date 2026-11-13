@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:belle_biens/app/l10n/gen/app_localizations.dart';
 import 'package:belle_biens/app/router/routes.dart';
 import 'package:belle_biens/app/theme/tokens.dart';
 import 'package:belle_biens/app/theme/typography.dart';
+import 'package:belle_biens/core/analytics/analytics.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/network/api_error.dart';
 import 'package:belle_biens/core/network/error_text.dart';
@@ -11,6 +14,7 @@ import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
+import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
 import 'package:belle_biens/features/checkout/application/checkout_controller.dart';
@@ -43,6 +47,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   void initState() {
     super.initState();
+    ref.read(analyticsProvider).log(AnalyticsEvent.checkoutStarted);
+    unawaited(_useDefaultAddress());
     final d = ref.read(checkoutControllerProvider);
     _name.text = d.customerName;
     _phone.text = d.customerPhone;
@@ -57,6 +63,26 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       c.dispose();
     }
     super.dispose();
+  }
+
+  /// FR-ACC-04: a signed-in customer starts with their default address,
+  /// when it is inside the zones.
+  Future<void> _useDefaultAddress() async {
+    if (ref.read(checkoutControllerProvider).address != null) return;
+    if (ref.read(sessionControllerProvider).value == null) return;
+    try {
+      final saved = await ref.read(checkoutRepositoryProvider).savedAddresses();
+      final pick = saved
+          .where((a) => a.isDefault && a.zone != null)
+          .firstOrNull;
+      if (pick == null || !mounted) return;
+      if (ref.read(checkoutControllerProvider).address != null) return;
+      _checkout
+        ..address(DraftAddress.fromSaved(pick))
+        ..edit((d) => d.copyWith(callBeforeArrival: pick.callBeforeArrival));
+    } on Object {
+      // Offline or signed out meanwhile: the customer picks on the map.
+    }
   }
 
   CheckoutController get _checkout =>

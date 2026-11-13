@@ -494,11 +494,17 @@ class BBChip extends StatelessWidget {
                       BBIcon(icon!, size: 16, color: fg),
                       const SizedBox(width: 6),
                     ],
-                    Text(
-                      label,
-                      style: BBText.label.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: fg,
+                    // A long label (an address, large text) shortens instead
+                    // of overflowing its row.
+                    Flexible(
+                      child: Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: BBText.label.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: fg,
+                        ),
                       ),
                     ),
                   ],

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart' show DateFormat;
 /// The Levantine month names the screens use ("11 تشرين الثاني",
 /// FR-LOC-03). intl's Arabic gives the Egyptian names and Arabic-Indic
 /// digits, which are not how the shop writes dates.
-const _levantineMonths = [
+const levantineMonths = [
   'كانون الثاني',
   'شباط',
   'آذار',
@@ -29,7 +29,7 @@ String dayMonthText(
   final day = DateTime.parse(date);
   if (language == 'en') return DateFormat.MMMMd('en').format(day);
   return localizeDigits(
-    '${day.day} ${_levantineMonths[day.month - 1]}',
+    '${day.day} ${levantineMonths[day.month - 1]}',
     numerals,
   );
 }

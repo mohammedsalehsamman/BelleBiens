@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:belle_biens/core/analytics/analytics.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/features/cart/application/cart_controller.dart';
 import 'package:belle_biens/features/cart/domain/cart_line.dart';
@@ -28,6 +29,9 @@ Future<bool> addDesignToCart(
     spec: spec.toJson(),
   );
   final cart = ref.read(cartControllerProvider.notifier);
+  ref.read(analyticsProvider).log(AnalyticsEvent.designerCompleted, {
+    'stems': spec.flowers.fold<int>(0, (s, f) => s + f.qty),
+  });
   if (editing != null) {
     await cart.replace(editing, line);
   } else {

@@ -14,6 +14,7 @@ import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
+import 'package:belle_biens/features/account/application/account_providers.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
@@ -33,8 +34,16 @@ const _branch = LatLng(33.5155, 36.284);
 /// Screen 22: a pin on the map, a landmark and the building (FR-DLV-01/06).
 /// The pin stays in the middle; moving the map moves the address, and the
 /// server says which zone it falls in.
+///
+/// With [forAccount], it adds or changes a saved address instead (screen
+/// 29): an address outside the zones is kept, only flagged.
 class AddressScreen extends ConsumerStatefulWidget {
-  const new({super.key});
+  const new({super.key, this.forAccount = false, this.editing});
+
+  final bool forAccount;
+
+  /// The saved address being changed (screen 29 "تعديل").
+  final AddressDto? editing;
 
   @override
   ConsumerState<AddressScreen> createState() => _AddressScreenState();
@@ -53,6 +62,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
   late LatLng _center;
   _Label _label = _Label.home;
   bool _save = false;
+  bool _isDefault = false;
+  bool _callBefore = false;
+  bool _saving = false;
 
   /// The zone at the pin; null outside every zone.
   ZoneDto? _zone;
@@ -65,8 +77,10 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
   @override
   void initState() {
     super.initState();
-    final a = ref.read(checkoutControllerProvider).address;
+    final a = _start;
     _center = a == null ? _branch : LatLng(a.latitude, a.longitude);
+    _isDefault = widget.editing?.isDefault ?? false;
+    _callBefore = widget.editing?.callBeforeArrival ?? false;
     _checking = true;
     WidgetsBinding.instance.addPostFrameCallback((_) => _checkZone());
   }
@@ -79,8 +93,17 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     // The label names need the app's language, so the fields fill here.
     if (_filled) return;
     _filled = true;
-    final a = ref.read(checkoutControllerProvider).address;
+    final a = _start;
     if (a != null) _fill(a);
+  }
+
+  /// Where the screen starts: the saved address being changed, or the one
+  /// already chosen at checkout.
+  DraftAddress? get _start {
+    final editing = widget.editing;
+    if (editing != null) return DraftAddress.fromSaved(editing);
+    if (widget.forAccount) return null;
+    return ref.read(checkoutControllerProvider).address;
   }
 
   @override
@@ -177,7 +200,37 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     _goTo(LatLng(lat, lng));
   }
 
+  /// Screen 29: saves the address to the account, inside the zones or not.
+  Future<void> _saveToAccount() async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() => _saving = true);
+    try {
+      await ref.read(accountRepositoryProvider).saveAddress({
+        'latitude': _center.latitude,
+        'longitude': _center.longitude,
+        'label': _labelText(l10n),
+        'landmark': _landmark.text.trim(),
+        'building': _building.text.trim(),
+        'floor': _floor.text.trim(),
+        'details': _details.text.trim(),
+        'isDefault': _isDefault,
+        'callBeforeArrival': _callBefore,
+      }, id: widget.editing?.id);
+      ref
+        ..invalidate(myAddressesProvider)
+        ..invalidate(savedAddressesProvider);
+      messenger.showSnackBar(SnackBar(content: Text(l10n.addressesSaved)));
+      if (mounted) context.pop();
+    } on Object catch (error) {
+      messenger.showSnackBar(SnackBar(content: Text(errorText(l10n, error))));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
   Future<void> _confirm() async {
+    if (widget.forAccount) return await _saveToAccount();
     final l10n = AppLocalizations.of(context);
     final address = DraftAddress(
       latitude: _center.latitude,
@@ -405,7 +458,20 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                       ),
                   ],
                 ),
-                if (signedIn) ...[
+                if (widget.forAccount) ...[
+                  const SizedBox(height: BBSpacing.sm),
+                  ToggleRow(
+                    label: l10n.checkoutCallBefore,
+                    value: _callBefore,
+                    onChanged: (v) => setState(() => _callBefore = v),
+                  ),
+                  if (widget.editing?.isDefault != true)
+                    ToggleRow(
+                      label: l10n.addressDefaultToggle,
+                      value: _isDefault,
+                      onChanged: (v) => setState(() => _isDefault = v),
+                    ),
+                ] else if (signedIn) ...[
                   const SizedBox(height: BBSpacing.sm),
                   ToggleRow(
                     label: l10n.addressSave,
@@ -423,9 +489,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
         children: [
           Expanded(
             child: BBButton(
-              label: l10n.addressConfirm,
+              label: widget.forAccount ? l10n.profileSave : l10n.addressConfirm,
               expand: true,
-              loading: _checking,
+              loading: _checking || _saving,
               onPressed: _confirm,
             ),
           ),

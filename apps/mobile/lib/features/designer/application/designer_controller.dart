@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belle_biens/core/analytics/analytics.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
@@ -107,6 +108,7 @@ class DesignerController extends AsyncNotifier<DesignerState> {
 
   @override
   Future<DesignerState> build() async {
+    ref.read(analyticsProvider).log(AnalyticsEvent.designerStarted);
     // Read, not watch: a catalog refresh must not throw the design away.
     final catalog = (await ref.read(designerCatalogProvider.future)).data;
     final draft = await _repo.readDraft();

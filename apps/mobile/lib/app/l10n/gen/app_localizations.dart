@@ -1790,12 +1790,6 @@ abstract class AppLocalizations {
   /// **'احفظ في تصاميمي'**
   String get designerSave;
 
-  /// No description provided for @designerSaveSoon.
-  ///
-  /// In ar, this message translates to:
-  /// **'حفظ التصاميم في حسابك يصل قريباً. تصميمك محفوظ على هذا الهاتف.'**
-  String get designerSaveSoon;
-
   /// No description provided for @designerSend.
   ///
   /// In ar, this message translates to:
@@ -3474,6 +3468,534 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'انتهت مواعيد اليوم. اختر يوماً آخر.'**
   String get checkoutTodayOver;
+
+  /// No description provided for @accountTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابي'**
+  String get accountTitle;
+
+  /// No description provided for @accountOrdersCurrent.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{لا طلب حالي} =1{طلب حالي} =2{طلبان حاليان} few{{count} طلبات حالية} other{{count} طلباً حالياً}}'**
+  String accountOrdersCurrent(int count);
+
+  /// No description provided for @accountAddresses.
+  ///
+  /// In ar, this message translates to:
+  /// **'عناويني'**
+  String get accountAddresses;
+
+  /// No description provided for @accountDesigns.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصاميمي'**
+  String get accountDesigns;
+
+  /// No description provided for @accountOccasions.
+  ///
+  /// In ar, this message translates to:
+  /// **'مناسباتي'**
+  String get accountOccasions;
+
+  /// No description provided for @accountOccasionNext.
+  ///
+  /// In ar, this message translates to:
+  /// **'{when}: {occasion} {person}'**
+  String accountOccasionNext(String when, String occasion, String person);
+
+  /// No description provided for @accountSettings.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإعدادات واللغة والعملة'**
+  String get accountSettings;
+
+  /// No description provided for @accountPrivacy.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخصوصية والشروط'**
+  String get accountPrivacy;
+
+  /// No description provided for @accountEditProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الملف'**
+  String get accountEditProfile;
+
+  /// No description provided for @accountDeletionPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبت حذف الحساب. سجّل الدخول خلال 30 يوماً لإلغاء الطلب.'**
+  String get accountDeletionPending;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف الشخصي'**
+  String get profileTitle;
+
+  /// No description provided for @profileEmail.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني (اختياري)'**
+  String get profileEmail;
+
+  /// No description provided for @profileSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ'**
+  String get profileSave;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظت التغييرات'**
+  String get profileSaved;
+
+  /// No description provided for @profilePhoneNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'لتغيير رقم الهاتف سجّل الدخول بالرقم الجديد، أو راسل المحل.'**
+  String get profilePhoneNote;
+
+  /// No description provided for @addressesDefault.
+  ///
+  /// In ar, this message translates to:
+  /// **'افتراضي'**
+  String get addressesDefault;
+
+  /// No description provided for @addressesAdd.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة عنوان جديد'**
+  String get addressesAdd;
+
+  /// No description provided for @addressesOutNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'العناوين خارج مناطق التوصيل تُحفظ لكنها لا تظهر عند الدفع.'**
+  String get addressesOutNote;
+
+  /// No description provided for @addressesOutBadge.
+  ///
+  /// In ar, this message translates to:
+  /// **'خارج مناطق التوصيل'**
+  String get addressesOutBadge;
+
+  /// No description provided for @addressesMakeDefault.
+  ///
+  /// In ar, this message translates to:
+  /// **'اجعله الافتراضي'**
+  String get addressesMakeDefault;
+
+  /// No description provided for @addressesEdit.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل'**
+  String get addressesEdit;
+
+  /// No description provided for @addressesDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف'**
+  String get addressesDelete;
+
+  /// No description provided for @addressesDeleteAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف العنوان «{label}»؟'**
+  String addressesDeleteAsk(String label);
+
+  /// No description provided for @addressesEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا عناوين محفوظة بعد.'**
+  String get addressesEmpty;
+
+  /// No description provided for @addressesSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظ العنوان'**
+  String get addressesSaved;
+
+  /// No description provided for @addressDefaultToggle.
+  ///
+  /// In ar, this message translates to:
+  /// **'العنوان الافتراضي عند الطلب'**
+  String get addressDefaultToggle;
+
+  /// No description provided for @designsPreview.
+  ///
+  /// In ar, this message translates to:
+  /// **'معاينة التصميم'**
+  String get designsPreview;
+
+  /// No description provided for @designsStems.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{وردة واحدة} =2{وردتان} few{{count} ورود} other{{count} وردة}}'**
+  String designsStems(int count);
+
+  /// No description provided for @designsOpen.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح'**
+  String get designsOpen;
+
+  /// No description provided for @designsNew.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصميم جديد'**
+  String get designsNew;
+
+  /// No description provided for @designsPriceNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُحدّث الأسعار عند فتح التصميم حسب ورد اليوم. الورد غير المتوفر يظهر مع بديل مقترح.'**
+  String get designsPriceNote;
+
+  /// No description provided for @designsUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعض الورد غير متوفر اليوم'**
+  String get designsUnavailable;
+
+  /// No description provided for @designsEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تحفظ أي تصميم بعد. احفظ تصميمك من الخطوة الأخيرة في المصمّم.'**
+  String get designsEmpty;
+
+  /// No description provided for @designsDeleteAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف التصميم «{name}»؟'**
+  String designsDeleteAsk(String name);
+
+  /// No description provided for @designSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'احفظ في تصاميمي'**
+  String get designSave;
+
+  /// No description provided for @designSaveName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم التصميم'**
+  String get designSaveName;
+
+  /// No description provided for @designSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظ التصميم في تصاميمي'**
+  String get designSaved;
+
+  /// No description provided for @designSaveSignIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل الدخول لتحفظ تصاميمك.'**
+  String get designSaveSignIn;
+
+  /// No description provided for @occasionsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مناسباتي'**
+  String get occasionsTitle;
+
+  /// No description provided for @occasionsWhen.
+  ///
+  /// In ar, this message translates to:
+  /// **'{date} · {left}'**
+  String occasionsWhen(String date, String left);
+
+  /// No description provided for @occasionsToday.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get occasionsToday;
+
+  /// No description provided for @occasionsTomorrow.
+  ///
+  /// In ar, this message translates to:
+  /// **'غداً'**
+  String get occasionsTomorrow;
+
+  /// No description provided for @occasionsInDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =2{بعد يومين} few{بعد {count} أيام} other{بعد {count} يوماً}}'**
+  String occasionsInDays(int count);
+
+  /// No description provided for @occasionsRemind.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =0{تذكير في اليوم نفسه} =1{تذكير قبل يوم} =2{تذكير قبل يومين} few{تذكير قبل {count} أيام} other{تذكير قبل {count} يوماً}}'**
+  String occasionsRemind(int count);
+
+  /// No description provided for @occasionsDesign.
+  ///
+  /// In ar, this message translates to:
+  /// **'صمّم باقة'**
+  String get occasionsDesign;
+
+  /// No description provided for @occasionsAdd.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة مناسبة'**
+  String get occasionsAdd;
+
+  /// No description provided for @occasionsPerson.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشخص'**
+  String get occasionsPerson;
+
+  /// No description provided for @occasionsPersonHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: ماما'**
+  String get occasionsPersonHint;
+
+  /// No description provided for @occasionsType.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع المناسبة'**
+  String get occasionsType;
+
+  /// No description provided for @occasionBirthday.
+  ///
+  /// In ar, this message translates to:
+  /// **'عيد ميلاد'**
+  String get occasionBirthday;
+
+  /// No description provided for @occasionAnniversary.
+  ///
+  /// In ar, this message translates to:
+  /// **'ذكرى'**
+  String get occasionAnniversary;
+
+  /// No description provided for @occasionGraduation.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخرج'**
+  String get occasionGraduation;
+
+  /// No description provided for @occasionOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى'**
+  String get occasionOther;
+
+  /// No description provided for @occasionsDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'التاريخ'**
+  String get occasionsDate;
+
+  /// No description provided for @occasionsPickDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر التاريخ'**
+  String get occasionsPickDate;
+
+  /// No description provided for @occasionsRemindBefore.
+  ///
+  /// In ar, this message translates to:
+  /// **'ذكّرني قبل'**
+  String get occasionsRemindBefore;
+
+  /// No description provided for @occasionsDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{يوم} =2{يومان} few{{count} أيام} other{{count} يوماً}}'**
+  String occasionsDays(int count);
+
+  /// No description provided for @occasionsSave.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ المناسبة'**
+  String get occasionsSave;
+
+  /// No description provided for @occasionsNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'التذكير يصلك كإشعار. يمكنك إيقافه من الإعدادات.'**
+  String get occasionsNote;
+
+  /// No description provided for @occasionsEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف أعياد الميلاد والذكريات، ونذكّرك قبلها لتطلب باقة في وقتها.'**
+  String get occasionsEmpty;
+
+  /// No description provided for @occasionsDeleteAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المناسبة «{person}»؟'**
+  String occasionsDeleteAsk(String person);
+
+  /// No description provided for @occasionsNeedFields.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتب الاسم واختر التاريخ.'**
+  String get occasionsNeedFields;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإعدادات'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsDisplay.
+  ///
+  /// In ar, this message translates to:
+  /// **'العرض'**
+  String get settingsDisplay;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsCurrency.
+  ///
+  /// In ar, this message translates to:
+  /// **'العملة'**
+  String get settingsCurrency;
+
+  /// No description provided for @settingsCurrencySyp.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليرة سورية (ل.س)'**
+  String get settingsCurrencySyp;
+
+  /// No description provided for @settingsCurrencyUsd.
+  ///
+  /// In ar, this message translates to:
+  /// **'دولار (\$)'**
+  String get settingsCurrencyUsd;
+
+  /// No description provided for @settingsCurrencyNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدفع يتم بعملة طريقة الدفع؛ الدولار للعرض وStripe فقط.'**
+  String get settingsCurrencyNote;
+
+  /// No description provided for @settingsDigits.
+  ///
+  /// In ar, this message translates to:
+  /// **'شكل الأرقام'**
+  String get settingsDigits;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsOrderStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'حالة الطلب'**
+  String get settingsOrderStatus;
+
+  /// No description provided for @settingsOrderStatusNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يمكن إيقافها أثناء وجود طلب حالي'**
+  String get settingsOrderStatusNote;
+
+  /// No description provided for @settingsOccasions.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير المناسبات'**
+  String get settingsOccasions;
+
+  /// No description provided for @settingsOffers.
+  ///
+  /// In ar, this message translates to:
+  /// **'ورد اليوم والعروض'**
+  String get settingsOffers;
+
+  /// No description provided for @settingsWhatsapp.
+  ///
+  /// In ar, this message translates to:
+  /// **'رسائل واتساب'**
+  String get settingsWhatsapp;
+
+  /// No description provided for @settingsWhatsappNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الطلب والتوصيل'**
+  String get settingsWhatsappNote;
+
+  /// No description provided for @settingsPrivacy.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخصوصية'**
+  String get settingsPrivacy;
+
+  /// No description provided for @settingsAnalytics.
+  ///
+  /// In ar, this message translates to:
+  /// **'التحليلات وتحسين التطبيق'**
+  String get settingsAnalytics;
+
+  /// No description provided for @settingsExport.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصدير بياناتي'**
+  String get settingsExport;
+
+  /// No description provided for @settingsExported.
+  ///
+  /// In ar, this message translates to:
+  /// **'جُهّز ملف بياناتك'**
+  String get settingsExported;
+
+  /// No description provided for @settingsDelete.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الحساب'**
+  String get settingsDelete;
+
+  /// No description provided for @settingsDeleteAsk.
+  ///
+  /// In ar, this message translates to:
+  /// **'نحذف حسابك وعناوينك وتصاميمك ومناسباتك بعد 30 يوماً. إن سجّلت الدخول خلال هذه المدة يبقى حسابك. تبقى الطلبات السابقة لدى المحل دون بياناتك الشخصية.'**
+  String get settingsDeleteAsk;
+
+  /// No description provided for @settingsDeleteYes.
+  ///
+  /// In ar, this message translates to:
+  /// **'احذف حسابي'**
+  String get settingsDeleteYes;
+
+  /// No description provided for @settingsDeleteNo.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get settingsDeleteNo;
+
+  /// No description provided for @settingsDeleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبنا حذف حسابك وسجّلنا خروجك.'**
+  String get settingsDeleted;
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإصدار {version}'**
+  String settingsVersion(String version);
+
+  /// No description provided for @settingsSignInFor.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجّل الدخول لضبط الإشعارات وبياناتك.'**
+  String get settingsSignInFor;
 }
 
 class _AppLocalizationsDelegate

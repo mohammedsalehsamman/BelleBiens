@@ -17,6 +17,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -76,6 +77,7 @@ Future<TestHarness> pumpTestApp(
   FixtureServer? server,
   MemoryJsonCache? cache,
   Map<String, Object>? preferences,
+  List<Override> overrides = const [],
 }) async {
   final prefs = MemoryPreferencesBackend({
     AppPreferences.onboardingSeenKey: onboardingSeen,
@@ -110,6 +112,7 @@ Future<TestHarness> pumpTestApp(
       mapTilesProvider.overrideWithValue(null),
       // 15:05 in Damascus on 11 November 2026, as in the API tests.
       clockProvider.overrideWithValue(() => DateTime.utc(2026, 11, 11, 12, 5)),
+      ...overrides,
       // A small photo instead of the gallery.
       imagePickerProvider.overrideWithValue(
         () async => (bytes: Uint8List.fromList([1, 2, 3]), name: 'cake.jpg'),

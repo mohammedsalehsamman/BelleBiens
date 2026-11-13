@@ -136,13 +136,15 @@ class ToggleRow extends StatelessWidget {
   final String label;
   final String? subtitle;
   final bool value;
-  final ValueChanged<bool> onChanged;
+
+  /// Null shows the switch locked (screen 33: order messages stay on).
+  final ValueChanged<bool>? onChanged;
 
   @override
   Widget build(BuildContext context) => Semantics(
     container: true,
     child: InkWell(
-      onTap: () => onChanged(!value),
+      onTap: onChanged == null ? null : () => onChanged!(!value),
       borderRadius: BorderRadius.circular(BBRadius.option),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: BBSizes.minTouch),

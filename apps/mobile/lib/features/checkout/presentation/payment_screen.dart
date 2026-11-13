@@ -2,6 +2,7 @@ import 'package:belle_biens/app/l10n/gen/app_localizations.dart';
 import 'package:belle_biens/app/router/routes.dart';
 import 'package:belle_biens/app/theme/tokens.dart';
 import 'package:belle_biens/app/theme/typography.dart';
+import 'package:belle_biens/core/analytics/analytics.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/launch/external_links.dart';
 import 'package:belle_biens/core/money/money.dart';
@@ -54,6 +55,11 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
     setState(() => _placing = true);
     try {
       final order = await ref.read(checkoutControllerProvider.notifier).place();
+      ref.read(analyticsProvider).log(AnalyticsEvent.purchase, {
+        'value': order.syp.totalMinor ~/ 100,
+        'currency': 'SYP',
+        'method': order.paymentMethod.name,
+      });
       ref.read(checkoutControllerProvider.notifier).reset();
       // Sham Cash is paid next (screen 24); cash is done (screen 25).
       if (order.paymentMethod == PaymentMethod.shamcash) {

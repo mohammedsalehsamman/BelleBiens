@@ -223,7 +223,7 @@ class OrderConfirmedScreen extends ConsumerWidget {
                       ),
                     ),
                     const BBIcon(
-                      BBIcons.chevronLeft,
+                      BBIcons.chevronRight,
                       color: BBColors.textMuted,
                     ),
                   ],

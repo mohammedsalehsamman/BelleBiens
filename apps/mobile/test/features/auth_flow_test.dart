@@ -199,7 +199,8 @@ void main() {
     final t = await pumpTestApp(tester, storedSession: session.toJson());
 
     await tapText(tester, 'حسابي', last: true);
-    expect(find.text('أهلاً سارة'), findsOneWidget);
+    expect(find.text('سارة'), findsOneWidget);
+    expect(find.text('+963 944 *** 456'), findsOneWidget);
 
     await tapText(tester, 'تسجيل الخروج');
     expect(t.tokens.value, isNull);

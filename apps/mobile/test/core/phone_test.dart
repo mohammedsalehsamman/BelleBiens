@@ -39,7 +39,10 @@ void main() {
     });
 
     test('localizeDigits writes Arabic-Indic digits on request', () {
-      expect(localizeDigits('7,266 ل.س', Numerals.arabic), '٧,٢٦٦ ل.س');
+      expect(localizeDigits('7,266 ل.س', Numerals.arabic), '٧٬٢٦٦ ل.س');
+      expect(localizeDigits(r'$60.55', Numerals.arabic), r'$٦٠٫٥٥');
+      // Only between digits: the "ل.س" point and a trailing comma stay.
+      expect(localizeDigits('3, 4.', Numerals.arabic), '٣, ٤.');
       expect(localizeDigits('00:42', Numerals.arabic), '٠٠:٤٢');
     });
 

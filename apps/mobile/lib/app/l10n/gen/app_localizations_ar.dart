@@ -1033,10 +1033,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get designerSave => 'احفظ في تصاميمي';
 
   @override
-  String get designerSaveSoon =>
-      'حفظ التصاميم في حسابك يصل قريباً. تصميمك محفوظ على هذا الهاتف.';
-
-  @override
   String get designerSend => 'أرسل للمحل';
 
   @override
@@ -2011,4 +2007,339 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checkoutTodayOver => 'انتهت مواعيد اليوم. اختر يوماً آخر.';
+
+  @override
+  String get accountTitle => 'حسابي';
+
+  @override
+  String accountOrdersCurrent(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count طلباً حالياً',
+      few: '$count طلبات حالية',
+      two: 'طلبان حاليان',
+      one: 'طلب حالي',
+      zero: 'لا طلب حالي',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get accountAddresses => 'عناويني';
+
+  @override
+  String get accountDesigns => 'تصاميمي';
+
+  @override
+  String get accountOccasions => 'مناسباتي';
+
+  @override
+  String accountOccasionNext(String when, String occasion, String person) {
+    return '$when: $occasion $person';
+  }
+
+  @override
+  String get accountSettings => 'الإعدادات واللغة والعملة';
+
+  @override
+  String get accountPrivacy => 'الخصوصية والشروط';
+
+  @override
+  String get accountEditProfile => 'تعديل الملف';
+
+  @override
+  String get accountDeletionPending =>
+      'طلبت حذف الحساب. سجّل الدخول خلال 30 يوماً لإلغاء الطلب.';
+
+  @override
+  String get profileTitle => 'الملف الشخصي';
+
+  @override
+  String get profileEmail => 'البريد الإلكتروني (اختياري)';
+
+  @override
+  String get profileSave => 'حفظ';
+
+  @override
+  String get profileSaved => 'حُفظت التغييرات';
+
+  @override
+  String get profilePhoneNote =>
+      'لتغيير رقم الهاتف سجّل الدخول بالرقم الجديد، أو راسل المحل.';
+
+  @override
+  String get addressesDefault => 'افتراضي';
+
+  @override
+  String get addressesAdd => 'إضافة عنوان جديد';
+
+  @override
+  String get addressesOutNote =>
+      'العناوين خارج مناطق التوصيل تُحفظ لكنها لا تظهر عند الدفع.';
+
+  @override
+  String get addressesOutBadge => 'خارج مناطق التوصيل';
+
+  @override
+  String get addressesMakeDefault => 'اجعله الافتراضي';
+
+  @override
+  String get addressesEdit => 'تعديل';
+
+  @override
+  String get addressesDelete => 'حذف';
+
+  @override
+  String addressesDeleteAsk(String label) {
+    return 'حذف العنوان «$label»؟';
+  }
+
+  @override
+  String get addressesEmpty => 'لا عناوين محفوظة بعد.';
+
+  @override
+  String get addressesSaved => 'حُفظ العنوان';
+
+  @override
+  String get addressDefaultToggle => 'العنوان الافتراضي عند الطلب';
+
+  @override
+  String get designsPreview => 'معاينة التصميم';
+
+  @override
+  String designsStems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count وردة',
+      few: '$count ورود',
+      two: 'وردتان',
+      one: 'وردة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get designsOpen => 'فتح';
+
+  @override
+  String get designsNew => 'تصميم جديد';
+
+  @override
+  String get designsPriceNote =>
+      'تُحدّث الأسعار عند فتح التصميم حسب ورد اليوم. الورد غير المتوفر يظهر مع بديل مقترح.';
+
+  @override
+  String get designsUnavailable => 'بعض الورد غير متوفر اليوم';
+
+  @override
+  String get designsEmpty =>
+      'لم تحفظ أي تصميم بعد. احفظ تصميمك من الخطوة الأخيرة في المصمّم.';
+
+  @override
+  String designsDeleteAsk(String name) {
+    return 'حذف التصميم «$name»؟';
+  }
+
+  @override
+  String get designSave => 'احفظ في تصاميمي';
+
+  @override
+  String get designSaveName => 'اسم التصميم';
+
+  @override
+  String get designSaved => 'حُفظ التصميم في تصاميمي';
+
+  @override
+  String get designSaveSignIn => 'سجّل الدخول لتحفظ تصاميمك.';
+
+  @override
+  String get occasionsTitle => 'مناسباتي';
+
+  @override
+  String occasionsWhen(String date, String left) {
+    return '$date · $left';
+  }
+
+  @override
+  String get occasionsToday => 'اليوم';
+
+  @override
+  String get occasionsTomorrow => 'غداً';
+
+  @override
+  String occasionsInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'بعد $count يوماً',
+      few: 'بعد $count أيام',
+      two: 'بعد يومين',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String occasionsRemind(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تذكير قبل $count يوماً',
+      few: 'تذكير قبل $count أيام',
+      two: 'تذكير قبل يومين',
+      one: 'تذكير قبل يوم',
+      zero: 'تذكير في اليوم نفسه',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get occasionsDesign => 'صمّم باقة';
+
+  @override
+  String get occasionsAdd => 'إضافة مناسبة';
+
+  @override
+  String get occasionsPerson => 'الشخص';
+
+  @override
+  String get occasionsPersonHint => 'مثال: ماما';
+
+  @override
+  String get occasionsType => 'نوع المناسبة';
+
+  @override
+  String get occasionBirthday => 'عيد ميلاد';
+
+  @override
+  String get occasionAnniversary => 'ذكرى';
+
+  @override
+  String get occasionGraduation => 'تخرج';
+
+  @override
+  String get occasionOther => 'أخرى';
+
+  @override
+  String get occasionsDate => 'التاريخ';
+
+  @override
+  String get occasionsPickDate => 'اختر التاريخ';
+
+  @override
+  String get occasionsRemindBefore => 'ذكّرني قبل';
+
+  @override
+  String occasionsDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوماً',
+      few: '$count أيام',
+      two: 'يومان',
+      one: 'يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get occasionsSave => 'حفظ المناسبة';
+
+  @override
+  String get occasionsNote => 'التذكير يصلك كإشعار. يمكنك إيقافه من الإعدادات.';
+
+  @override
+  String get occasionsEmpty =>
+      'أضف أعياد الميلاد والذكريات، ونذكّرك قبلها لتطلب باقة في وقتها.';
+
+  @override
+  String occasionsDeleteAsk(String person) {
+    return 'حذف المناسبة «$person»؟';
+  }
+
+  @override
+  String get occasionsNeedFields => 'اكتب الاسم واختر التاريخ.';
+
+  @override
+  String get settingsTitle => 'الإعدادات';
+
+  @override
+  String get settingsDisplay => 'العرض';
+
+  @override
+  String get settingsLanguage => 'اللغة';
+
+  @override
+  String get settingsCurrency => 'العملة';
+
+  @override
+  String get settingsCurrencySyp => 'ليرة سورية (ل.س)';
+
+  @override
+  String get settingsCurrencyUsd => 'دولار (\$)';
+
+  @override
+  String get settingsCurrencyNote =>
+      'الدفع يتم بعملة طريقة الدفع؛ الدولار للعرض وStripe فقط.';
+
+  @override
+  String get settingsDigits => 'شكل الأرقام';
+
+  @override
+  String get settingsNotifications => 'الإشعارات';
+
+  @override
+  String get settingsOrderStatus => 'حالة الطلب';
+
+  @override
+  String get settingsOrderStatusNote => 'لا يمكن إيقافها أثناء وجود طلب حالي';
+
+  @override
+  String get settingsOccasions => 'تذكير المناسبات';
+
+  @override
+  String get settingsOffers => 'ورد اليوم والعروض';
+
+  @override
+  String get settingsWhatsapp => 'رسائل واتساب';
+
+  @override
+  String get settingsWhatsappNote => 'تأكيد الطلب والتوصيل';
+
+  @override
+  String get settingsPrivacy => 'الخصوصية';
+
+  @override
+  String get settingsAnalytics => 'التحليلات وتحسين التطبيق';
+
+  @override
+  String get settingsExport => 'تصدير بياناتي';
+
+  @override
+  String get settingsExported => 'جُهّز ملف بياناتك';
+
+  @override
+  String get settingsDelete => 'حذف الحساب';
+
+  @override
+  String get settingsDeleteAsk =>
+      'نحذف حسابك وعناوينك وتصاميمك ومناسباتك بعد 30 يوماً. إن سجّلت الدخول خلال هذه المدة يبقى حسابك. تبقى الطلبات السابقة لدى المحل دون بياناتك الشخصية.';
+
+  @override
+  String get settingsDeleteYes => 'احذف حسابي';
+
+  @override
+  String get settingsDeleteNo => 'تراجع';
+
+  @override
+  String get settingsDeleted => 'طلبنا حذف حسابك وسجّلنا خروجك.';
+
+  @override
+  String settingsVersion(String version) {
+    return 'الإصدار $version';
+  }
+
+  @override
+  String get settingsSignInFor => 'سجّل الدخول لضبط الإشعارات وبياناتك.';
 }

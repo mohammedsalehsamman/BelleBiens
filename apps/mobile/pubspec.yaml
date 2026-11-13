@@ -51,6 +51,7 @@ dependencies:
   retrofit: ^4.10.0
   riverpod_annotation: ^4.0.8
   sentry_flutter: ^10.3.0
+  share_plus: ^13.3.1
   shared_preferences: ^2.5.6
   url_launcher: ^6.3.3
 

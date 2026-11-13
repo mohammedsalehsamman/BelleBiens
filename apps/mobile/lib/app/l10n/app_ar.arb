@@ -650,7 +650,6 @@
   },
   "designerAssemblyFee": "رسوم التنسيق",
   "designerSave": "احفظ في تصاميمي",
-  "designerSaveSoon": "حفظ التصاميم في حسابك يصل قريباً. تصميمك محفوظ على هذا الهاتف.",
   "designerSend": "أرسل للمحل",
   "designerSendNoNumber": "يضيف المحل رقم واتساب قريباً.",
   "designerWhatsappIntro": "مرحباً، صمّمت هذه الباقة في تطبيق Belle Biens:",
@@ -1323,5 +1322,179 @@
       }
     }
   },
-  "checkoutTodayOver": "انتهت مواعيد اليوم. اختر يوماً آخر."
+  "checkoutTodayOver": "انتهت مواعيد اليوم. اختر يوماً آخر.",
+  "accountTitle": "حسابي",
+  "accountOrdersCurrent": "{count, plural, =0{لا طلب حالي} =1{طلب حالي} =2{طلبان حاليان} few{{count} طلبات حالية} other{{count} طلباً حالياً}}",
+  "@accountOrdersCurrent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "accountAddresses": "عناويني",
+  "accountDesigns": "تصاميمي",
+  "accountOccasions": "مناسباتي",
+  "accountOccasionNext": "{when}: {occasion} {person}",
+  "@accountOccasionNext": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "occasion": {
+        "type": "String"
+      },
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "accountSettings": "الإعدادات واللغة والعملة",
+  "accountPrivacy": "الخصوصية والشروط",
+  "accountEditProfile": "تعديل الملف",
+  "accountDeletionPending": "طلبت حذف الحساب. سجّل الدخول خلال 30 يوماً لإلغاء الطلب.",
+  "profileTitle": "الملف الشخصي",
+  "profileEmail": "البريد الإلكتروني (اختياري)",
+  "profileSave": "حفظ",
+  "profileSaved": "حُفظت التغييرات",
+  "profilePhoneNote": "لتغيير رقم الهاتف سجّل الدخول بالرقم الجديد، أو راسل المحل.",
+  "addressesDefault": "افتراضي",
+  "addressesAdd": "إضافة عنوان جديد",
+  "addressesOutNote": "العناوين خارج مناطق التوصيل تُحفظ لكنها لا تظهر عند الدفع.",
+  "addressesOutBadge": "خارج مناطق التوصيل",
+  "addressesMakeDefault": "اجعله الافتراضي",
+  "addressesEdit": "تعديل",
+  "addressesDelete": "حذف",
+  "addressesDeleteAsk": "حذف العنوان «{label}»؟",
+  "@addressesDeleteAsk": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "addressesEmpty": "لا عناوين محفوظة بعد.",
+  "addressesSaved": "حُفظ العنوان",
+  "addressDefaultToggle": "العنوان الافتراضي عند الطلب",
+  "designsPreview": "معاينة التصميم",
+  "designsStems": "{count, plural, =1{وردة واحدة} =2{وردتان} few{{count} ورود} other{{count} وردة}}",
+  "@designsStems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "designsOpen": "فتح",
+  "designsNew": "تصميم جديد",
+  "designsPriceNote": "تُحدّث الأسعار عند فتح التصميم حسب ورد اليوم. الورد غير المتوفر يظهر مع بديل مقترح.",
+  "designsUnavailable": "بعض الورد غير متوفر اليوم",
+  "designsEmpty": "لم تحفظ أي تصميم بعد. احفظ تصميمك من الخطوة الأخيرة في المصمّم.",
+  "designsDeleteAsk": "حذف التصميم «{name}»؟",
+  "@designsDeleteAsk": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "designSave": "احفظ في تصاميمي",
+  "designSaveName": "اسم التصميم",
+  "designSaved": "حُفظ التصميم في تصاميمي",
+  "designSaveSignIn": "سجّل الدخول لتحفظ تصاميمك.",
+  "occasionsTitle": "مناسباتي",
+  "occasionsWhen": "{date} · {left}",
+  "@occasionsWhen": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "left": {
+        "type": "String"
+      }
+    }
+  },
+  "occasionsToday": "اليوم",
+  "occasionsTomorrow": "غداً",
+  "occasionsInDays": "{count, plural, =2{بعد يومين} few{بعد {count} أيام} other{بعد {count} يوماً}}",
+  "@occasionsInDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "occasionsRemind": "{count, plural, =0{تذكير في اليوم نفسه} =1{تذكير قبل يوم} =2{تذكير قبل يومين} few{تذكير قبل {count} أيام} other{تذكير قبل {count} يوماً}}",
+  "@occasionsRemind": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "occasionsDesign": "صمّم باقة",
+  "occasionsAdd": "إضافة مناسبة",
+  "occasionsPerson": "الشخص",
+  "occasionsPersonHint": "مثال: ماما",
+  "occasionsType": "نوع المناسبة",
+  "occasionBirthday": "عيد ميلاد",
+  "occasionAnniversary": "ذكرى",
+  "occasionGraduation": "تخرج",
+  "occasionOther": "أخرى",
+  "occasionsDate": "التاريخ",
+  "occasionsPickDate": "اختر التاريخ",
+  "occasionsRemindBefore": "ذكّرني قبل",
+  "occasionsDays": "{count, plural, =1{يوم} =2{يومان} few{{count} أيام} other{{count} يوماً}}",
+  "@occasionsDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "occasionsSave": "حفظ المناسبة",
+  "occasionsNote": "التذكير يصلك كإشعار. يمكنك إيقافه من الإعدادات.",
+  "occasionsEmpty": "أضف أعياد الميلاد والذكريات، ونذكّرك قبلها لتطلب باقة في وقتها.",
+  "occasionsDeleteAsk": "حذف المناسبة «{person}»؟",
+  "@occasionsDeleteAsk": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "occasionsNeedFields": "اكتب الاسم واختر التاريخ.",
+  "settingsTitle": "الإعدادات",
+  "settingsDisplay": "العرض",
+  "settingsLanguage": "اللغة",
+  "settingsCurrency": "العملة",
+  "settingsCurrencySyp": "ليرة سورية (ل.س)",
+  "settingsCurrencyUsd": "دولار ($)",
+  "settingsCurrencyNote": "الدفع يتم بعملة طريقة الدفع؛ الدولار للعرض وStripe فقط.",
+  "settingsDigits": "شكل الأرقام",
+  "settingsNotifications": "الإشعارات",
+  "settingsOrderStatus": "حالة الطلب",
+  "settingsOrderStatusNote": "لا يمكن إيقافها أثناء وجود طلب حالي",
+  "settingsOccasions": "تذكير المناسبات",
+  "settingsOffers": "ورد اليوم والعروض",
+  "settingsWhatsapp": "رسائل واتساب",
+  "settingsWhatsappNote": "تأكيد الطلب والتوصيل",
+  "settingsPrivacy": "الخصوصية",
+  "settingsAnalytics": "التحليلات وتحسين التطبيق",
+  "settingsExport": "تصدير بياناتي",
+  "settingsExported": "جُهّز ملف بياناتك",
+  "settingsDelete": "حذف الحساب",
+  "settingsDeleteAsk": "نحذف حسابك وعناوينك وتصاميمك ومناسباتك بعد 30 يوماً. إن سجّلت الدخول خلال هذه المدة يبقى حسابك. تبقى الطلبات السابقة لدى المحل دون بياناتك الشخصية.",
+  "settingsDeleteYes": "احذف حسابي",
+  "settingsDeleteNo": "تراجع",
+  "settingsDeleted": "طلبنا حذف حسابك وسجّلنا خروجك.",
+  "settingsVersion": "الإصدار {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsSignInFor": "سجّل الدخول لضبط الإشعارات وبياناتك."
 }

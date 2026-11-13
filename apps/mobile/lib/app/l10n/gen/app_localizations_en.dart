@@ -1026,10 +1026,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get designerSave => 'Save to my designs';
 
   @override
-  String get designerSaveSoon =>
-      'Saving designs to your account is coming soon. Your design is kept on this phone.';
-
-  @override
   String get designerSend => 'Send to the shop';
 
   @override
@@ -2019,4 +2015,332 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get checkoutTodayOver =>
       'Today has no times left. Choose another day.';
+
+  @override
+  String get accountTitle => 'My account';
+
+  @override
+  String accountOrdersCurrent(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count current',
+      one: '1 current',
+      zero: 'No current order',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get accountAddresses => 'My addresses';
+
+  @override
+  String get accountDesigns => 'My designs';
+
+  @override
+  String get accountOccasions => 'My occasions';
+
+  @override
+  String accountOccasionNext(String when, String occasion, String person) {
+    return '$when: $person\'s $occasion';
+  }
+
+  @override
+  String get accountSettings => 'Settings, language and currency';
+
+  @override
+  String get accountPrivacy => 'Privacy and terms';
+
+  @override
+  String get accountEditProfile => 'Edit profile';
+
+  @override
+  String get accountDeletionPending =>
+      'You asked to delete the account. Sign in within 30 days to cancel.';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileEmail => 'Email (optional)';
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get profileSaved => 'Changes saved';
+
+  @override
+  String get profilePhoneNote =>
+      'To change the phone number, sign in with the new number or message the shop.';
+
+  @override
+  String get addressesDefault => 'Default';
+
+  @override
+  String get addressesAdd => 'Add a new address';
+
+  @override
+  String get addressesOutNote =>
+      'Addresses outside the delivery areas are kept but not offered at checkout.';
+
+  @override
+  String get addressesOutBadge => 'Outside the delivery areas';
+
+  @override
+  String get addressesMakeDefault => 'Make it the default';
+
+  @override
+  String get addressesEdit => 'Edit';
+
+  @override
+  String get addressesDelete => 'Delete';
+
+  @override
+  String addressesDeleteAsk(String label) {
+    return 'Delete the address “$label”?';
+  }
+
+  @override
+  String get addressesEmpty => 'No saved addresses yet.';
+
+  @override
+  String get addressesSaved => 'Address saved';
+
+  @override
+  String get addressDefaultToggle => 'Default address at checkout';
+
+  @override
+  String get designsPreview => 'Design preview';
+
+  @override
+  String designsStems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stems',
+      one: '1 stem',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get designsOpen => 'Open';
+
+  @override
+  String get designsNew => 'New design';
+
+  @override
+  String get designsPriceNote =>
+      'Prices are updated from today\'s flowers when you open a design. A flower that ran out shows with a suggested substitute.';
+
+  @override
+  String get designsUnavailable => 'Some flowers are not available today';
+
+  @override
+  String get designsEmpty =>
+      'No saved designs yet. Save one from the last step of the designer.';
+
+  @override
+  String designsDeleteAsk(String name) {
+    return 'Delete the design “$name”?';
+  }
+
+  @override
+  String get designSave => 'Save to my designs';
+
+  @override
+  String get designSaveName => 'Design name';
+
+  @override
+  String get designSaved => 'Saved to my designs';
+
+  @override
+  String get designSaveSignIn => 'Sign in to save your designs.';
+
+  @override
+  String get occasionsTitle => 'My occasions';
+
+  @override
+  String occasionsWhen(String date, String left) {
+    return '$date · $left';
+  }
+
+  @override
+  String get occasionsToday => 'today';
+
+  @override
+  String get occasionsTomorrow => 'tomorrow';
+
+  @override
+  String occasionsInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String occasionsRemind(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Reminder $count days before',
+      one: 'Reminder 1 day before',
+      zero: 'Reminder on the day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get occasionsDesign => 'Design a bouquet';
+
+  @override
+  String get occasionsAdd => 'Add an occasion';
+
+  @override
+  String get occasionsPerson => 'Person';
+
+  @override
+  String get occasionsPersonHint => 'For example: Mum';
+
+  @override
+  String get occasionsType => 'Occasion';
+
+  @override
+  String get occasionBirthday => 'Birthday';
+
+  @override
+  String get occasionAnniversary => 'Anniversary';
+
+  @override
+  String get occasionGraduation => 'Graduation';
+
+  @override
+  String get occasionOther => 'Other';
+
+  @override
+  String get occasionsDate => 'Date';
+
+  @override
+  String get occasionsPickDate => 'Choose the date';
+
+  @override
+  String get occasionsRemindBefore => 'Remind me before';
+
+  @override
+  String occasionsDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get occasionsSave => 'Save the occasion';
+
+  @override
+  String get occasionsNote =>
+      'The reminder comes as a notification. You can turn it off in settings.';
+
+  @override
+  String get occasionsEmpty =>
+      'Add birthdays and anniversaries, and we remind you in time to order flowers.';
+
+  @override
+  String occasionsDeleteAsk(String person) {
+    return 'Delete the occasion “$person”?';
+  }
+
+  @override
+  String get occasionsNeedFields => 'Write the name and choose the date.';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsDisplay => 'Display';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsCurrency => 'Currency';
+
+  @override
+  String get settingsCurrencySyp => 'Syrian pound (SYP)';
+
+  @override
+  String get settingsCurrencyUsd => 'Dollar (\$)';
+
+  @override
+  String get settingsCurrencyNote =>
+      'You pay in the payment method\'s currency; dollars are for display and Stripe only.';
+
+  @override
+  String get settingsDigits => 'Digits';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsOrderStatus => 'Order status';
+
+  @override
+  String get settingsOrderStatusNote =>
+      'Cannot be turned off while an order is on its way';
+
+  @override
+  String get settingsOccasions => 'Occasion reminders';
+
+  @override
+  String get settingsOffers => 'Today\'s flowers and offers';
+
+  @override
+  String get settingsWhatsapp => 'WhatsApp messages';
+
+  @override
+  String get settingsWhatsappNote => 'Order confirmation and delivery';
+
+  @override
+  String get settingsPrivacy => 'Privacy';
+
+  @override
+  String get settingsAnalytics => 'Analytics and app improvement';
+
+  @override
+  String get settingsExport => 'Export my data';
+
+  @override
+  String get settingsExported => 'Your data file is ready';
+
+  @override
+  String get settingsDelete => 'Delete the account';
+
+  @override
+  String get settingsDeleteAsk =>
+      'We delete your account, addresses, designs and occasions after 30 days. Signing in during that time keeps your account. Past orders stay with the shop without your personal details.';
+
+  @override
+  String get settingsDeleteYes => 'Delete my account';
+
+  @override
+  String get settingsDeleteNo => 'Keep it';
+
+  @override
+  String get settingsDeleted =>
+      'Your account deletion is requested and you are signed out.';
+
+  @override
+  String settingsVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get settingsSignInFor => 'Sign in to set notifications and your data.';
 }

@@ -11,6 +11,7 @@ import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
+import 'package:belle_biens/features/account/presentation/designs_screen.dart';
 import 'package:belle_biens/features/cart/presentation/cart_screen.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
@@ -723,9 +724,14 @@ class _CardStepState extends ConsumerState<_CardStep> {
                 label: l10n.designerSave,
                 variant: BBButtonVariant.secondary,
                 expand: true,
-                onPressed: () => ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(l10n.designerSaveSoon))),
+                // FR-DSG-12: kept under "تصاميمي" (screen 30).
+                onPressed: state.spec.flowers.isEmpty
+                    ? null
+                    : () => saveDesignToAccount(
+                        context,
+                        ref,
+                        state.spec.toJson(),
+                      ),
               ),
             ),
             const SizedBox(width: BBSpacing.sm),

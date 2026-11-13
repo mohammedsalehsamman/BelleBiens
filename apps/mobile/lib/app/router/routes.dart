@@ -21,6 +21,15 @@ abstract final class Routes {
   static const branch = '/branch';
   static const favorites = '/account/favorites';
 
+  // Account (screens 28-31, 33)
+  static const profile = '/account/profile';
+  static const addresses = '/account/addresses';
+  static const newAddress = '/account/addresses/new';
+  static const designs = '/account/designs';
+  static const occasions = '/account/occasions';
+  static const settings = '/account/settings';
+  static String editAddress(String id) => '/account/addresses/$id';
+
   // Cart (screens 19, 20, 35)
   static const cart = '/cart';
   static const box = '/box';

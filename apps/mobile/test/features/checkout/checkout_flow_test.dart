@@ -320,10 +320,16 @@ void main() {
       t.container.read(checkoutControllerProvider).customerPhone,
       '+963944123456',
     );
-    await tapText(tester, 'حدّد العنوان على الخريطة');
+    // The default address is already chosen (FR-ACC-04).
+    expect(find.text('العمل · أبو رمانة'), findsOneWidget);
+    expect(
+      t.container.read(checkoutControllerProvider).address?.landmark,
+      'قرب المكتبة',
+    );
+    await tapText(tester, 'تغيير');
     await _settle(tester);
     expect(find.text('احفظ العنوان لطلباتي القادمة'), findsOneWidget);
-    await tapText(tester, 'العمل · أبو رمانة');
+    await tapText(tester, 'العمل · أبو رمانة', last: true);
     await _settle(tester);
     expect(find.text('قرب المكتبة'), findsOneWidget);
     await tapText(tester, 'تأكيد العنوان');

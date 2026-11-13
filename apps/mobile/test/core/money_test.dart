@@ -48,7 +48,7 @@ void main() {
 
     test('Arabic-Indic digits as a setting (FR-LOC-02)', () {
       const arabic = MoneyFormat(usdRate: '120', numerals: Numerals.arabic);
-      expect(arabic.syp(240000), '٢,٤٠٠ ل.س');
+      expect(arabic.syp(240000), '٢٬٤٠٠ ل.س');
       expect(arabic.count(120), '١٢٠');
     });
 

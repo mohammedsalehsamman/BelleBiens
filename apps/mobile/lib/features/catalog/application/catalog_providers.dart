@@ -3,11 +3,13 @@ import 'dart:convert';
 
 import 'package:belle_biens/app/locale/app_locale.dart';
 import 'package:belle_biens/app/preferences.dart';
+import 'package:belle_biens/core/analytics/analytics.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/money/money.dart';
 import 'package:belle_biens/core/network/api_error.dart';
 import 'package:belle_biens/core/storage/json_cache.dart';
+import 'package:belle_biens/features/account/application/account_providers.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:belle_biens/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,7 +71,7 @@ final moneyFormatProvider = Provider<MoneyFormat>((ref) {
   final english = ref.watch(appLocaleProvider).languageCode == 'en';
   return MoneyFormat(
     usdRate: rate ?? fallbackUsdRate,
-    numerals: ref.watch(appPreferencesProvider).numerals,
+    numerals: ref.watch(numeralsProvider),
     currency: ref.watch(displayCurrencyProvider),
     sypSymbol: english ? 'SYP' : 'ل.س',
   );
@@ -80,9 +82,16 @@ final homeProvider = FutureProvider<Cached<HomeDto>>(
 );
 
 final FutureProviderFamily<Cached<ProductDetailDto>, String> productProvider =
-    FutureProvider.autoDispose.family<Cached<ProductDetailDto>, String>(
-      (ref, slug) => ref.watch(catalogRepositoryProvider).product(slug),
-    );
+    FutureProvider.autoDispose.family<Cached<ProductDetailDto>, String>((
+      ref,
+      slug,
+    ) async {
+      final product = await ref.watch(catalogRepositoryProvider).product(slug);
+      ref.read(analyticsProvider).log(AnalyticsEvent.productView, {
+        'slug': slug,
+      });
+      return product;
+    });
 
 final FutureProvider<Cached<DailyFlowersDto>> dailyFlowersProvider =
     FutureProvider.autoDispose(

@@ -5,6 +5,10 @@ import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/widgets/bb_bottom_nav.dart';
 import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/features/account/presentation/account_screen.dart';
+import 'package:belle_biens/features/account/presentation/addresses_screen.dart';
+import 'package:belle_biens/features/account/presentation/designs_screen.dart';
+import 'package:belle_biens/features/account/presentation/occasions_screen.dart';
+import 'package:belle_biens/features/account/presentation/settings_screen.dart';
 import 'package:belle_biens/features/auth/domain/otp_challenge.dart';
 import 'package:belle_biens/features/auth/presentation/complete_profile_screen.dart';
 import 'package:belle_biens/features/auth/presentation/login_screen.dart';
@@ -104,6 +108,40 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: Routes.favorites,
         builder: (context, state) => const FavoritesScreen(),
+      ),
+      // Account (screens 28-31, 33).
+      GoRoute(
+        path: Routes.profile,
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: Routes.addresses,
+        builder: (context, state) => const AddressesScreen(),
+      ),
+      GoRoute(
+        path: Routes.newAddress,
+        builder: (context, state) => const AddressScreen(forAccount: true),
+      ),
+      GoRoute(
+        path: '/account/addresses/:id',
+        builder: (context, state) => AddressScreen(
+          forAccount: true,
+          editing: state.extra is AddressDto
+              ? state.extra! as AddressDto
+              : null,
+        ),
+      ),
+      GoRoute(
+        path: Routes.designs,
+        builder: (context, state) => const DesignsScreen(),
+      ),
+      GoRoute(
+        path: Routes.occasions,
+        builder: (context, state) => const OccasionsScreen(),
+      ),
+      GoRoute(
+        path: Routes.settings,
+        builder: (context, state) => const SettingsScreen(),
       ),
       GoRoute(
         path: Routes.cart,

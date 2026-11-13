@@ -62,6 +62,7 @@ class AppPreferences {
   static const numeralsKey = 'locale.numerals';
   static const displayCurrencyKey = 'display.currency';
   static const recentSearchesKey = 'search.recent';
+  static const analyticsConsentKey = 'analytics.consent';
 
   static const Set<String> keys = {
     onboardingSeenKey,
@@ -70,6 +71,7 @@ class AppPreferences {
     numeralsKey,
     displayCurrencyKey,
     recentSearchesKey,
+    analyticsConsentKey,
   };
 
   bool get onboardingSeen => _backend.getBool(onboardingSeenKey) ?? false;
@@ -96,6 +98,11 @@ class AppPreferences {
   String? get displayCurrency => _backend.getString(displayCurrencyKey);
   Future<void> setDisplayCurrency(String value) =>
       _backend.setString(displayCurrencyKey, value);
+
+  /// FR-ANL-01: off until the customer turns it on (screen 33).
+  bool get analyticsConsent => _backend.getBool(analyticsConsentKey) ?? false;
+  Future<void> setAnalyticsConsent({required bool value}) =>
+      _backend.setBool(analyticsConsentKey, value: value);
 
   /// JSON list of the latest searches (screen 08).
   String? get recentSearches => _backend.getString(recentSearchesKey);
