@@ -68,5 +68,9 @@ describe('order status moves (FR-ORD-02, UC-04)', () => {
     ]);
     expect(customerCanCancel('NEW')).toBe(true);
     expect(customerCanCancel('CONFIRMED')).toBe(false);
+    // A Sham Cash receipt sent or money confirmed: refunds go through the shop.
+    expect(customerCanCancel('NEW', 'SUBMITTED')).toBe(false);
+    expect(customerCanCancel('NEW', 'PAID')).toBe(false);
+    expect(customerCanCancel('NEW', 'FAILED')).toBe(true);
   });
 });

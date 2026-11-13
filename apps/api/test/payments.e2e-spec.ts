@@ -88,6 +88,12 @@ describe('Payments (e2e)', () => {
       }).expect(200);
       expect(sent.body.paymentStatus).toBe('SUBMITTED');
       expect(sent.body).not.toHaveProperty('paymentDueAt');
+      // Money is on its way: the customer asks the shop, not the app, to cancel.
+      expect(sent.body.canCancel).toBe(false);
+      const cancel = await post('/v1/orders/BB-1001/cancel', {
+        phone: '0944123456',
+      }).expect(409);
+      expect(cancel.body.code).toBe('ORDER_NOT_CANCELLABLE');
 
       const manager = await t.signInAs('MANAGER');
       const confirmed = await post(

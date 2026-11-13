@@ -744,7 +744,7 @@ export class OrdersService {
   ): Promise<void> {
     const now = this.clock.now();
     if (by === 'customer') {
-      if (!customerCanCancel(current.status))
+      if (!customerCanCancel(current.status, current.paymentStatus))
         throw new AppError('ORDER_NOT_CANCELLABLE');
     } else if (by === 'staff') {
       const check = checkMove(
@@ -1076,7 +1076,7 @@ export class OrdersService {
       },
       totalUsdCents: row.totalUsdCents,
       usdRate: row.usdRate,
-      canCancel: customerCanCancel(row.status),
+      canCancel: customerCanCancel(row.status, row.paymentStatus),
       history: row.history.map((h) => ({ status: h.to, at: h.createdAt })),
       // The deadline matters only while the payment is still owed.
       ...(row.paymentDueAt &&

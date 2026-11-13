@@ -1,6 +1,7 @@
 import type {
   Fulfillment,
   OrderStatus,
+  PaymentStatus,
   Role,
 } from '../../../generated/prisma/client.js';
 
@@ -83,8 +84,17 @@ export function nextStatuses(
 }
 
 /** FR-ORD-05: the customer may cancel until the shop confirms. */
-export function customerCanCancel(status: OrderStatus): boolean {
-  return status === 'NEW';
+export function customerCanCancel(
+  status: OrderStatus,
+  paymentStatus: PaymentStatus = 'PENDING',
+): boolean {
+  // Money already sent (a Sham Cash receipt) needs the shop to refund it, so
+  // the customer talks to the shop instead of cancelling here.
+  return (
+    status === 'NEW' &&
+    paymentStatus !== 'SUBMITTED' &&
+    paymentStatus !== 'PAID'
+  );
 }
 
 /** Stock and the slot go back when an order ends this way (FR-INV-02). */
