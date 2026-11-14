@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import type { Env } from '../config/env.schema.js';
 import { ProblemDetailsFilter } from '../common/errors/problem-details.filter.js';
+import { NoNullBytesPipe } from '../common/validation/no-null-bytes.pipe.js';
 
 /** URL prefix of the versioned REST API (EI-CM-02). */
 export const API_PREFIX = 'v1';
@@ -27,6 +28,8 @@ export function configureApp(app: INestApplication): INestApplication {
   ).set('trust proxy', config.get('TRUST_PROXY', { infer: true }));
   app.use(helmet());
   app.useGlobalPipes(
+    // Before anything reaches the database (Postgres refuses NUL in text).
+    new NoNullBytesPipe(),
     new ValidationPipe({
       // Unknown fields are rejected, so a client can never slip in a price (NFR-SEC-06).
       whitelist: true,
