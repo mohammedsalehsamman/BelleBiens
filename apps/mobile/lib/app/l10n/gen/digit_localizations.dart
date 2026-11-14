@@ -1995,4 +1995,19 @@ class DigitLocalizations extends AppLocalizations {
 
   @override
   String get settingsSignInFor => _base.settingsSignInFor;
+
+  @override
+  String get updateTitle => _base.updateTitle;
+
+  @override
+  String get updateHeadline => _base.updateHeadline;
+
+  @override
+  String get updateBody => _base.updateBody;
+
+  @override
+  String get updateNow => _base.updateNow;
+
+  @override
+  String get updateNoLink => _base.updateNoLink;
 }

@@ -7,7 +7,12 @@ enum AppFlavor { dev, stg, prod }
 /// `--dart-define-from-file=env/<flavor>.json`.
 /// Nothing secret lives here: API keys stay on the server (NFR-SEC-05).
 class AppEnv {
-  const new({required this.flavor, required this.apiBaseUrl, this.sentryDsn});
+  const new({
+    required this.flavor,
+    required this.apiBaseUrl,
+    this.sentryDsn,
+    this.updateUrl,
+  });
 
   factory fromDefines() {
     const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
@@ -17,16 +22,22 @@ class AppEnv {
       defaultValue: 'http://10.0.2.2:3000',
     );
     const dsn = String.fromEnvironment('SENTRY_DSN');
+    const update = String.fromEnvironment('UPDATE_URL');
     return AppEnv(
       flavor: AppFlavor.values.byName(flavor),
       apiBaseUrl: Uri.parse(api),
       sentryDsn: dsn.isEmpty ? null : dsn,
+      updateUrl: update.isEmpty ? null : Uri.parse(update),
     );
   }
 
   final AppFlavor flavor;
   final Uri apiBaseUrl;
   final String? sentryDsn;
+
+  /// Where the update screen sends people (NFR-CMP-01); see
+  /// `updateLinkProvider`.
+  final Uri? updateUrl;
 
   bool get isProduction => flavor == AppFlavor.prod;
 }

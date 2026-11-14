@@ -2,6 +2,7 @@ import 'package:belle_biens/app/l10n/gen/app_localizations.dart';
 import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/app/router/routes.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
+import 'package:belle_biens/core/version/update_required.dart';
 import 'package:belle_biens/core/widgets/bb_bottom_nav.dart';
 import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/features/account/presentation/account_screen.dart';
@@ -35,6 +36,7 @@ import 'package:belle_biens/features/onboarding/presentation/onboarding_screen.d
 import 'package:belle_biens/features/orders/presentation/order_track_screen.dart';
 import 'package:belle_biens/features/orders/presentation/orders_screen.dart';
 import 'package:belle_biens/features/orders/presentation/shamcash_screen.dart';
+import 'package:belle_biens/features/system/presentation/update_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +51,10 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: Routes.home,
     // The welcome screen comes first, once (screen 01).
     redirect: (context, state) {
+      // An app the server no longer serves shows only the update screen.
+      if (ref.read(updateRequiredProvider)) {
+        return state.matchedLocation == Routes.update ? null : Routes.update;
+      }
       final prefs = ref.read(appPreferencesProvider);
       if (!prefs.onboardingSeen &&
           !Routes.isPreOnboarding(state.matchedLocation)) {
@@ -57,6 +63,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: Routes.update,
+        builder: (context, state) => const UpdateScreen(),
+      ),
       GoRoute(
         path: Routes.onboarding,
         builder: (context, state) => const OnboardingScreen(),
@@ -241,7 +251,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
-  ref.onDispose(router.dispose);
+  // A 426 from any call moves the app to the update screen at once.
+  ref
+    ..listen(updateRequiredProvider, (_, required) {
+      if (required) router.go(Routes.update);
+    })
+    ..onDispose(router.dispose);
   return router;
 });
 

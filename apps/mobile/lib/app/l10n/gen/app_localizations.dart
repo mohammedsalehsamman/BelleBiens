@@ -3996,6 +3996,36 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'سجّل الدخول لضبط الإشعارات وبياناتك.'**
   String get settingsSignInFor;
+
+  /// No description provided for @updateTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّث التطبيق'**
+  String get updateTitle;
+
+  /// No description provided for @updateHeadline.
+  ///
+  /// In ar, this message translates to:
+  /// **'يوجد إصدار أحدث من Belle Biens'**
+  String get updateHeadline;
+
+  /// No description provided for @updateBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الإصدار لم يعد يعمل مع المحل. حدّث التطبيق لتتابع الطلب؛ سلتك وتصميمك يبقيان على هاتفك.'**
+  String get updateBody;
+
+  /// No description provided for @updateNow.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدّث الآن'**
+  String get updateNow;
+
+  /// No description provided for @updateNoLink.
+  ///
+  /// In ar, this message translates to:
+  /// **'اطلب رابط الإصدار الجديد من المحل.'**
+  String get updateNoLink;
 }
 
 class _AppLocalizationsDelegate

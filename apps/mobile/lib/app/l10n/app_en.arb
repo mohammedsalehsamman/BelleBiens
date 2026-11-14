@@ -648,5 +648,10 @@
   "settingsDeleteNo": "Keep it",
   "settingsDeleted": "Your account deletion is requested and you are signed out.",
   "settingsVersion": "Version {version}",
-  "settingsSignInFor": "Sign in to set notifications and your data."
+  "settingsSignInFor": "Sign in to set notifications and your data.",
+  "updateTitle": "Update the app",
+  "updateHeadline": "A newer Belle Biens is out",
+  "updateBody": "This version no longer works with the shop. Update the app to keep ordering; your cart and design stay on your phone.",
+  "updateNow": "Update now",
+  "updateNoLink": "Ask the shop for the new version."
 }

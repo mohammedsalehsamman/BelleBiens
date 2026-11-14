@@ -2342,4 +2342,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsSignInFor => 'سجّل الدخول لضبط الإشعارات وبياناتك.';
+
+  @override
+  String get updateTitle => 'حدّث التطبيق';
+
+  @override
+  String get updateHeadline => 'يوجد إصدار أحدث من Belle Biens';
+
+  @override
+  String get updateBody =>
+      'هذا الإصدار لم يعد يعمل مع المحل. حدّث التطبيق لتتابع الطلب؛ سلتك وتصميمك يبقيان على هاتفك.';
+
+  @override
+  String get updateNow => 'حدّث الآن';
+
+  @override
+  String get updateNoLink => 'اطلب رابط الإصدار الجديد من المحل.';
 }

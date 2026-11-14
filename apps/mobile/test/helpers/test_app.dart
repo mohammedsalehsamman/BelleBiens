@@ -9,6 +9,7 @@ import 'package:belle_biens/core/map/map_tiles.dart';
 import 'package:belle_biens/core/media/image_picker.dart';
 import 'package:belle_biens/core/storage/json_cache.dart';
 import 'package:belle_biens/core/storage/token_store.dart';
+import 'package:belle_biens/core/version/update_required.dart';
 import 'package:belle_biens/features/auth/data/auth_repository.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/notifications/notification_permission.dart';
@@ -91,10 +92,9 @@ Future<TestHarness> pumpTestApp(
   final fixtures = server ?? FixtureServer();
   final memory = cache ?? MemoryJsonCache();
   final links = FakeExternalLinks();
-  final api = BelleApi(
-    Dio(BaseOptions(baseUrl: 'http://localhost:3000'))
-      ..httpClientAdapter = fixtures,
-  );
+  final dio = Dio(BaseOptions(baseUrl: 'http://localhost:3000'))
+    ..httpClientAdapter = fixtures;
+  final api = BelleApi(dio);
 
   final container = ProviderContainer(
     retry: appRetry,
@@ -120,6 +120,12 @@ Future<TestHarness> pumpTestApp(
     ],
   );
   addTearDown(container.dispose);
+  // As in the app: a 426 from any call shows the update screen.
+  dio.interceptors.add(
+    UpgradeInterceptor(
+      () => container.read(updateRequiredProvider.notifier).require(),
+    ),
+  );
 
   await tester.pumpWidget(
     UncontrolledProviderScope(container: container, child: const BelleApp()),

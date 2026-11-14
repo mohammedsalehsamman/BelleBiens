@@ -49,6 +49,10 @@ abstract final class Routes {
   static String occasion(String slug) => '/occasions/$slug';
   static String page(String slug) => '/pages/$slug';
 
+  // System
+  /// The app is too old for the server (NFR-CMP-01).
+  static const update = '/system/update';
+
   /// Routes reachable before the welcome screen was seen.
   static bool isPreOnboarding(String location) =>
       location == onboarding ||

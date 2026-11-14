@@ -2,6 +2,7 @@ import 'package:belle_biens/app/env.dart';
 import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/network/api_error.dart';
+import 'package:belle_biens/core/version/update_required.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -25,6 +26,7 @@ Future<List<Override>> appOverrides(AppEnv env) async {
     appVersionProvider.overrideWithValue(
       '${package.version}+${package.buildNumber}',
     ),
+    appPackageProvider.overrideWithValue(package.packageName),
   ];
 }
 

@@ -2343,4 +2343,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSignInFor => 'Sign in to set notifications and your data.';
+
+  @override
+  String get updateTitle => 'Update the app';
+
+  @override
+  String get updateHeadline => 'A newer Belle Biens is out';
+
+  @override
+  String get updateBody =>
+      'This version no longer works with the shop. Update the app to keep ordering; your cart and design stay on your phone.';
+
+  @override
+  String get updateNow => 'Update now';
+
+  @override
+  String get updateNoLink => 'Ask the shop for the new version.';
 }

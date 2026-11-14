@@ -3,6 +3,7 @@ import 'package:belle_biens/app/locale/app_locale.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/network/interceptors.dart';
 import 'package:belle_biens/core/storage/token_store.dart';
+import 'package:belle_biens/core/version/update_required.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,9 +29,13 @@ ContextHeadersInterceptor _contextHeaders(Ref ref) => ContextHeadersInterceptor(
 
 /// Without the auth interceptor: used for token refresh and for retries, so a
 /// refresh can never trigger another refresh.
+UpgradeInterceptor _upgrade(Ref ref) => UpgradeInterceptor(
+  () => ref.read(updateRequiredProvider.notifier).require(),
+);
+
 final plainDioProvider = Provider<Dio>((ref) {
   final dio = Dio(_options(ref.watch(appEnvProvider)))
-    ..interceptors.add(_contextHeaders(ref));
+    ..interceptors.addAll([_contextHeaders(ref), _upgrade(ref)]);
   ref.onDispose(dio.close);
   return dio;
 });
@@ -40,6 +45,7 @@ final dioProvider = Provider<Dio>((ref) {
   final dio = Dio(_options(ref.watch(appEnvProvider)))
     ..interceptors.addAll([
       _contextHeaders(ref),
+      _upgrade(ref),
       AuthInterceptor(tokens: SessionTokenAccess(ref), retry: plain.fetch),
     ]);
   ref.onDispose(dio.close);
