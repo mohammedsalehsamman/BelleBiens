@@ -150,18 +150,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
                 const SizedBox(height: BBSpacing.xs),
                 Text(l10n.settingsCurrencyNote, style: BBText.xs.muted),
-                const SizedBox(height: BBSpacing.gutter),
-                Text(l10n.settingsDigits, style: BBText.label),
-                const SizedBox(height: BBSpacing.xs),
-                BBSegmented<Numerals>(
-                  segments: const [
-                    (Numerals.western, '1, 2, 3'),
-                    (Numerals.arabic, '١، ٢، ٣'),
-                  ],
-                  selected: numerals,
-                  onChanged: (n) =>
-                      ref.read(numeralsProvider.notifier).select(n),
-                ),
+                // Arabic-Indic digits are for the Arabic app only.
+                if (ref.watch(appLocaleProvider).languageCode == 'ar') ...[
+                  const SizedBox(height: BBSpacing.gutter),
+                  Text(l10n.settingsDigits, style: BBText.label),
+                  const SizedBox(height: BBSpacing.xs),
+                  BBSegmented<Numerals>(
+                    segments: const [
+                      (Numerals.western, '1, 2, 3'),
+                      (Numerals.arabic, '١، ٢، ٣'),
+                    ],
+                    selected: numerals,
+                    onChanged: (n) =>
+                        ref.read(numeralsProvider.notifier).select(n),
+                  ),
+                ],
               ],
             ),
           ),

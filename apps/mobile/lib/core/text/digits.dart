@@ -6,17 +6,20 @@ const _arabicIndic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'
 
 /// Rewrites every Western digit in [text] for display. With Arabic-Indic
 /// digits, a comma or point between two digits becomes the Arabic thousands
-/// (U+066C) or decimal (U+066B) separator, so "7,266.50" reads "٧٬٢٦٦٫٥٠".
+/// (U+066C) or decimal (U+066B) separator, so "7,266.50" reads "٧٬٢٦٦٫٥٠",
+/// and the " · " between parts becomes "، ": next to Arabic-Indic digits the
+/// middle dot looks like a zero ("الحالية · ١" would read "١٠").
 String localizeDigits(String text, Numerals numerals) {
   if (numerals == Numerals.western) return text;
+  final source = text.replaceAll(' · ', '، ');
   bool digit(int i) =>
       i >= 0 &&
-      i < text.length &&
-      text.codeUnitAt(i) >= 0x30 &&
-      text.codeUnitAt(i) <= 0x39;
+      i < source.length &&
+      source.codeUnitAt(i) >= 0x30 &&
+      source.codeUnitAt(i) <= 0x39;
   final buffer = StringBuffer();
-  for (var i = 0; i < text.length; i++) {
-    final unit = text.codeUnitAt(i);
+  for (var i = 0; i < source.length; i++) {
+    final unit = source.codeUnitAt(i);
     if (digit(i)) {
       buffer.write(_arabicIndic[unit - 0x30]);
     } else if ((unit == 0x2C || unit == 0x2E) && digit(i - 1) && digit(i + 1)) {

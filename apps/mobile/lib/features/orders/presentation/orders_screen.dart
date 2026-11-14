@@ -136,7 +136,7 @@ class _CurrentCard extends ConsumerWidget {
           ),
           const SizedBox(height: BBSpacing.xs),
           Text(
-            '${l10n.ordersPieces(order.itemCount)} · $when',
+            money.digits('${l10n.ordersPieces(order.itemCount)} · $when'),
             style: BBText.small.muted.merge(BBText.numeric),
           ),
           const SizedBox(height: BBSpacing.sm),
@@ -205,10 +205,14 @@ class _PastCardState extends ConsumerState<_PastCard> {
               children: [
                 Text(o.number, style: BBText.bodyBold.merge(BBText.numeric)),
                 Text(
-                  [
-                    dayMonthText(locale, shopDateOf(o.createdAt)),
-                    if (title.isNotEmpty) title,
-                  ].join(' · '),
+                  ref
+                      .watch(moneyFormatProvider)
+                      .digits(
+                        [
+                          dayMonthText(locale, shopDateOf(o.createdAt)),
+                          if (title.isNotEmpty) title,
+                        ].join(' · '),
+                      ),
                   style: BBText.xs.muted,
                 ),
                 const SizedBox(height: BBSpacing.xs),

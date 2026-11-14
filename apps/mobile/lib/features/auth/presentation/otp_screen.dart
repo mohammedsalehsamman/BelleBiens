@@ -12,6 +12,7 @@ import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
+import 'package:belle_biens/features/account/application/account_providers.dart';
 import 'package:belle_biens/features/auth/application/after_sign_in.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:belle_biens/features/auth/data/auth_repository.dart';
@@ -123,7 +124,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final numerals = ref.watch(appPreferencesProvider).numerals;
+    final numerals = ref.watch(displayNumeralsProvider);
     final minutes = (_secondsLeft ~/ 60).toString().padLeft(2, '0');
     final seconds = (_secondsLeft % 60).toString().padLeft(2, '0');
     final canResend = _secondsLeft == 0 && !_busy;

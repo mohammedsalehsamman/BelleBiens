@@ -14,6 +14,7 @@ import 'package:belle_biens/core/widgets/bb_icon.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_layout.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
+import 'package:belle_biens/features/account/application/account_providers.dart';
 import 'package:belle_biens/features/auth/application/session_controller.dart';
 import 'package:belle_biens/features/catalog/application/catalog_providers.dart';
 import 'package:belle_biens/features/catalog/presentation/widgets/catalog_widgets.dart';
@@ -460,6 +461,7 @@ class _DaySection extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
     final controller = ref.read(checkoutControllerProvider.notifier);
+    final numerals = ref.watch(displayNumeralsProvider);
     final title = draft.delivery
         ? l10n.checkoutDayTitle
         : l10n.checkoutPickupDayTitle;
@@ -502,8 +504,9 @@ class _DaySection extends ConsumerWidget {
       }
     }
 
-    String sub(DeliveryDayDto day) =>
-        day.available ? dayText(locale, day.date) : l10n.checkoutUnavailable;
+    String sub(DeliveryDayDto day) => day.available
+        ? dayText(locale, day.date, numerals)
+        : l10n.checkoutUnavailable;
 
     return CheckoutSection(
       title: title,
@@ -540,7 +543,7 @@ class _DaySection extends ConsumerWidget {
                 child: DayOption(
                   title: l10n.checkoutOtherDate,
                   subtitle: later
-                      ? dayText(locale, date!)
+                      ? dayText(locale, date!, numerals)
                       : l10n.checkoutUpToDays(cal.windowDays),
                   selected: later,
                   onTap: pickDate,

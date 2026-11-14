@@ -1,3 +1,4 @@
+import 'package:belle_biens/app/l10n/app_texts_delegate.dart';
 import 'package:belle_biens/app/l10n/gen/app_localizations.dart';
 import 'package:belle_biens/app/l10n/levantine_material_localizations.dart';
 import 'package:belle_biens/app/locale/app_locale.dart';
@@ -21,6 +22,7 @@ class BelleApp extends ConsumerWidget {
         final route = next.value;
         if (route != null) ref.read(routerProvider).push(route).ignore();
       });
+    final numerals = ref.watch(displayNumeralsProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,
@@ -28,8 +30,8 @@ class BelleApp extends ConsumerWidget {
       locale: ref.watch(appLocaleProvider),
       supportedLocales: supportedAppLocales,
       localizationsDelegates: [
-        AppLocalizations.delegate,
-        BBMaterialLocalizationsDelegate(numerals: ref.watch(numeralsProvider)),
+        AppTextsDelegate(numerals: numerals),
+        BBMaterialLocalizationsDelegate(numerals: numerals),
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],

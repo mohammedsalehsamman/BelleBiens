@@ -271,7 +271,11 @@ class _OccasionFormState extends ConsumerState<_OccasionForm> {
           BBButton(
             label: _date == null
                 ? l10n.occasionsPickDate
-                : dayMonthText(locale, _date!),
+                : dayMonthText(
+                    locale,
+                    _date!,
+                    numerals: ref.watch(displayNumeralsProvider),
+                  ),
             leading: BBIcons.calendar,
             variant: BBButtonVariant.secondary,
             expand: true,

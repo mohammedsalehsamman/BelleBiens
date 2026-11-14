@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belle_biens/app/locale/app_locale.dart';
 import 'package:belle_biens/app/router/router.dart';
 import 'package:belle_biens/core/analytics/analytics.dart';
 import 'package:belle_biens/features/account/presentation/settings_screen.dart';
@@ -361,10 +362,19 @@ void main() {
     t.container.read(routerProvider).go('/account/designs');
     await _settle(tester);
     expect(find.text('٢٬٦٧٦ ل.س'), findsOneWidget);
+    // Numbers inside messages too.
+    expect(find.text('١٨ وردة · ساتان بوردو'), findsOneWidget);
     expect(
       t.server.to('/v1/me').where((r) => r.method == 'PATCH').single.data,
       {'numerals': 'arabic'},
     );
+
+    // English keeps Western digits: Arabic-Indic ones would be reordered
+    // inside left-to-right text.
+    t.container.read(appLocaleProvider.notifier).select(const Locale('en'));
+    await _settle(tester);
+    expect(find.textContaining('2,676'), findsOneWidget);
+    expect(find.textContaining('٢'), findsNothing);
   });
 
   _testAccount('screen 33: export my data to share, and delete the account '

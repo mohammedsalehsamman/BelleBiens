@@ -71,7 +71,7 @@ final moneyFormatProvider = Provider<MoneyFormat>((ref) {
   final english = ref.watch(appLocaleProvider).languageCode == 'en';
   return MoneyFormat(
     usdRate: rate ?? fallbackUsdRate,
-    numerals: ref.watch(numeralsProvider),
+    numerals: ref.watch(displayNumeralsProvider),
     currency: ref.watch(displayCurrencyProvider),
     sypSymbol: english ? 'SYP' : 'ل.س',
   );

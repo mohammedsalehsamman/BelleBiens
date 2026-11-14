@@ -44,6 +44,9 @@ void main() {
       // Only between digits: the "ل.س" point and a trailing comma stay.
       expect(localizeDigits('3, 4.', Numerals.arabic), '٣, ٤.');
       expect(localizeDigits('00:42', Numerals.arabic), '٠٠:٤٢');
+      // The middle dot would read as a zero beside Arabic-Indic digits.
+      expect(localizeDigits('الحالية · 1', Numerals.arabic), 'الحالية، ١');
+      expect(localizeDigits('الحالية · 1', Numerals.western), 'الحالية · 1');
     });
 
     test('westernizeDigits reads both Arabic digit sets', () {

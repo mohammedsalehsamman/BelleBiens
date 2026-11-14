@@ -87,4 +87,8 @@ class MoneyFormat {
 
   /// A plain count, "120", in the customer's digits.
   String count(int value) => _digits(_whole.format(value));
+
+  /// Any shown text that holds numbers, such as parts joined with " · ", in
+  /// the customer's digits (see [localizeDigits]).
+  String digits(String text) => _digits(text);
 }

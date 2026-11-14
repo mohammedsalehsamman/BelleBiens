@@ -2,6 +2,7 @@ import 'package:belle_biens/app/l10n/gen/app_localizations.dart';
 import 'package:belle_biens/app/theme/tokens.dart';
 import 'package:belle_biens/app/theme/typography.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
+import 'package:belle_biens/core/text/digits.dart';
 import 'package:belle_biens/core/time/date_text.dart';
 import 'package:belle_biens/core/widgets/bb_inputs.dart';
 import 'package:belle_biens/core/widgets/bb_surfaces.dart';
@@ -26,7 +27,11 @@ String slotWhenText(
 }
 
 /// "11 تشرين الثاني" (the screens' Levantine month names).
-String dayText(String locale, String date) => dayMonthText(locale, date);
+String dayText(
+  String locale,
+  String date, [
+  Numerals numerals = Numerals.western,
+]) => dayMonthText(locale, date, numerals: numerals);
 
 /// "البيت · أبو رمانة".
 String addressTitle(BuildContext context, String label, ZoneDto? zone) {

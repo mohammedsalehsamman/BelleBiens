@@ -6,6 +6,7 @@ import 'package:belle_biens/app/theme/tokens.dart';
 import 'package:belle_biens/app/theme/typography.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
 import 'package:belle_biens/core/launch/external_links.dart';
+import 'package:belle_biens/core/money/money.dart';
 import 'package:belle_biens/core/network/error_text.dart';
 import 'package:belle_biens/core/time/date_text.dart';
 import 'package:belle_biens/core/time/shop_time.dart';
@@ -165,7 +166,7 @@ class _Body extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: BBSpacing.section),
-        _Timeline(order: order),
+        _Timeline(order: order, money: money),
         const SizedBox(height: BBSpacing.section),
         CheckoutSection(
           title: slotWhenText(
@@ -324,9 +325,12 @@ String _explain(AppLocalizations l10n, OrderDto o) {
 
 /// The steps of screen 27, the ones passed with their time.
 class _Timeline extends StatelessWidget {
-  const new({required this.order});
+  const new({required this.order, required this.money});
 
   final OrderDto order;
+
+  /// For the times in the customer's digits.
+  final MoneyFormat money;
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +361,7 @@ class _Timeline extends StatelessWidget {
       final time =
           '${local.hour.toString().padLeft(2, '0')}:'
           '${local.minute.toString().padLeft(2, '0')}';
-      return '${dayMonthText(locale, shopDateOf(t))} · $time';
+      return money.digits('${dayMonthText(locale, shopDateOf(t))} · $time');
     }
 
     final rows = [

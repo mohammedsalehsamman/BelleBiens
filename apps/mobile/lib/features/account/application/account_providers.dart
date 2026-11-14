@@ -1,3 +1,4 @@
+import 'package:belle_biens/app/locale/app_locale.dart';
 import 'package:belle_biens/app/preferences.dart';
 import 'package:belle_biens/core/api/api_providers.dart';
 import 'package:belle_biens/core/api/generated/belle_api.dart';
@@ -57,4 +58,13 @@ class NumeralsController extends Notifier<Numerals> {
 
 final numeralsProvider = NotifierProvider<NumeralsController, Numerals>(
   NumeralsController.new,
+);
+
+/// The digits on screen. The setting is for Arabic: in English the app keeps
+/// Western digits, since Arabic-Indic digits inside left-to-right text are
+/// reordered ("November 12 · 20:00" would read "٢٠:٠٠ ١٢").
+final displayNumeralsProvider = Provider<Numerals>(
+  (ref) => ref.watch(appLocaleProvider).languageCode == 'ar'
+      ? ref.watch(numeralsProvider)
+      : Numerals.western,
 );

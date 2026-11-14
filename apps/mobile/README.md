@@ -29,7 +29,7 @@ env/                   non-secret build settings per flavor
 
 ## Rules
 
-- Every user-facing string goes in `lib/app/l10n/app_ar.arb` and `app_en.arb` (EI-UI-01).
+- Every user-facing string goes in `lib/app/l10n/app_ar.arb` and `app_en.arb` (EI-UI-01). After changing them, run `dart run tool/gen_digit_localizations.dart`: it writes the wrapper that shows numbers inside messages in the customer's digits (FR-LOC-02), and `test/app/digit_localizations_test.dart` fails until you do. Times and dates passed as text are converted when the placeholder is named `time`, `date`, `when`, `start`, `end`, `open`, `close`, `left`, `eta`, `stems` or `count`.
 - Colors, radii and spacing come from `lib/app/theme/tokens.dart`. Text pairs must stay at 4.5:1 or more; `test/app/theme_test.dart` checks this.
 - Touch targets are at least 48 dp, and layouts must fit 360 dp without overflow. The widget tests check both.
 - Directional icons mirror in Arabic; universal icons (search, cart, camera) do not (FR-LOC-01). Use `BBIcons.forward` / `BBIcons.back`, not left/right.
