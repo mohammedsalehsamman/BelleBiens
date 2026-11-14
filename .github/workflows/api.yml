@@ -2,10 +2,10 @@ name: api
 
 on:
   pull_request:
-    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".dockerignore", ".github/workflows/api.yml"]
+    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".dockerignore", "infra/backup/**", ".github/workflows/api.yml"]
   push:
     branches: [main]
-    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".dockerignore", ".github/workflows/api.yml"]
+    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".dockerignore", "infra/backup/**", ".github/workflows/api.yml"]
 
 concurrency:
   group: api-${{ github.ref }}
@@ -77,5 +77,43 @@ jobs:
           done
           docker logs api
           exit 1
+
+  backup:
+    # A backup of a migrated, seeded database restores and passes its checks
+    # (NFR-REL-02), so a new migration cannot quietly break restores.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: belle
+          POSTGRES_PASSWORD: belle
+          POSTGRES_DB: belle
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U belle -d belle"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://belle:belle@localhost:5432/belle?schema=public
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --filter "@belle/api..."
+      - name: Migrate and seed
+        run: |
+          pnpm --filter @belle/api exec prisma migrate deploy
+          pnpm --filter @belle/api seed
+      - name: Back up, restore, check
+        run: |
+          docker build -t belle-backup:ci infra/backup
+          mkdir -p keys backups
+          docker run --rm -v "$PWD/keys:/keys" belle-backup:ci             sh -c 'age-keygen -o /keys/ci.key 2>&1 | sed "s/Public key: //"' > keys/ci.pub
+          docker run --rm --network host -e DATABASE_URL -e BACKUP_AGE_RECIPIENT="$(cat keys/ci.pub)"             -v "$PWD/backups:/backups" belle-backup:ci backup.sh
+          docker run --rm --network host -e DATABASE_URL -e BACKUP_AGE_IDENTITY=/keys/ci.key             -v "$PWD/backups:/backups" -v "$PWD/keys:/keys" belle-backup:ci restore-check.sh
 
   # Staging deploy is added once the hosting provider is chosen (OI-04).
