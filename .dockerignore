@@ -1,0 +1,12 @@
+# Only the API and the shared packages go into images.
+**/node_modules
+**/dist
+**/coverage
+**/.env
+**/.env.*
+!**/.env.example
+.git
+apps/mobile
+docs
+infra
+**/*.log

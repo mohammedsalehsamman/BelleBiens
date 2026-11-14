@@ -18,6 +18,12 @@ export const envSchema = z
         /^postgres(ql)?:\/\//,
         'DATABASE_URL must be a postgres:// or postgresql:// URL',
       ),
+    /**
+     * Database connections per API process (pg pool). Each request runs a few
+     * queries; with too few connections, busy moments queue behind the pool
+     * (infra/k6). Keep processes x size under Postgres max_connections.
+     */
+    DATABASE_POOL_SIZE: z.coerce.number().int().min(1).max(100).default(10),
     REDIS_URL: z
       .string()
       .regex(/^rediss?:\/\//, 'REDIS_URL must be a redis:// or rediss:// URL')
@@ -58,6 +64,11 @@ export const envSchema = z
       .string()
       .regex(/^\d{4,8}$/, 'OTP_FIXED_CODE must be 4 to 8 digits')
       .optional(),
+    /**
+     * Requests per minute per IP on every endpoint (NFR-SEC-03). Raised only
+     * for load tests run from one machine (infra/k6).
+     */
+    RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(1).default(300),
     /** Requests per minute per IP on sign-in endpoints (NFR-SEC-03). */
     AUTH_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(1).default(10),
     /** Comma-separated OAuth client ids allowed to sign in with Google (EI-SW-06). Empty disables it. */

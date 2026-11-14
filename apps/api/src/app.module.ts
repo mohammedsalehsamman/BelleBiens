@@ -70,7 +70,11 @@ function isAuthRateLimited(context: ExecutionContext): boolean {
       inject: [ConfigService],
       useFactory: (config: ConfigService<Env, true>) => ({
         throttlers: [
-          { name: 'default', ttl: 60_000, limit: 300 },
+          {
+            name: 'default',
+            ttl: 60_000,
+            limit: config.get('RATE_LIMIT_PER_MINUTE', { infer: true }),
+          },
           {
             name: 'auth',
             ttl: 60_000,

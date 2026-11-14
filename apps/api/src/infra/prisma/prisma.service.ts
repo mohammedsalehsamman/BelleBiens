@@ -14,6 +14,7 @@ export class PrismaService extends PrismaClient implements OnModuleDestroy {
     super({
       adapter: new PrismaPg({
         connectionString: config.get('DATABASE_URL', { infer: true }),
+        max: config.get('DATABASE_POOL_SIZE', { infer: true }),
       }),
     });
   }

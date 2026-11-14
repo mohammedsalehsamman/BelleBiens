@@ -2,10 +2,10 @@ name: api
 
 on:
   pull_request:
-    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".github/workflows/api.yml"]
+    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".dockerignore", ".github/workflows/api.yml"]
   push:
     branches: [main]
-    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".github/workflows/api.yml"]
+    paths: ["apps/api/**", "packages/contracts/**", "pnpm-lock.yaml", ".dockerignore", ".github/workflows/api.yml"]
 
 concurrency:
   group: api-${{ github.ref }}
@@ -59,5 +59,23 @@ jobs:
           pnpm --filter @belle/api openapi:export
           git diff --exit-code packages/contracts/openapi.yaml \
             || (echo "::error::openapi.yaml is out of date. Run: pnpm --filter @belle/api openapi:export" && exit 1)
+
+  image:
+    # The API image builds and answers its health check (plan 3.8).
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the image
+        run: docker build -f apps/api/Dockerfile -t belle-api:ci .
+      - name: Starts and is healthy
+        run: |
+          docker run -d --name api -p 3000:3000             -e NODE_ENV=staging             -e DATABASE_URL=postgresql://belle:belle@localhost:5432/belle             -e REDIS_URL=redis://localhost:6379             -e JWT_ACCESS_SECRET=ci-only-secret-ci-only-secret-ci-only-0000             belle-api:ci
+          for i in $(seq 1 30); do
+            curl -fs localhost:3000/v1/health && exit 0
+            sleep 1
+          done
+          docker logs api
+          exit 1
 
   # Staging deploy is added once the hosting provider is chosen (OI-04).
